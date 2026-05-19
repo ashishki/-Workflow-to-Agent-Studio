@@ -4,7 +4,7 @@ Workflow-to-Agent Studio — это local-first инструмент для AI a
 
 Входом могут быть SOP, расшифровка Loom/созвона, заметки из discovery, описание формы, API/интеграций или вручную собранные операционные notes. Выходом должен стать evidence-linked automation brief: карта текущего процесса, болевые точки, кандидаты на автоматизацию, интеграции, human approval boundaries, риски, eval cases, observability needs и следующие implementation tasks.
 
-Статус: Phase 5 in progress. Local ingestion, text-only retrieval, workflow extraction, blueprint synthesis, validation, review versioning, and Markdown export are implemented.
+Статус: T01-T20 complete. Local ingestion, text-only retrieval, workflow extraction, blueprint synthesis, validation, review versioning, Markdown export, CLI workflow, operator docs, and pilot measurement template are implemented.
 
 ---
 
@@ -200,6 +200,7 @@ RAG/eval reference: `Dream_Motif_Interpreter` используется толь�
 - `docs/ARCHITECTURE.md`
 - `docs/spec.md`
 - `docs/tasks.md`
+- `docs/ai_product_development_phases.md`
 - `docs/retrieval_eval.md`
 - `docs/plan_eval.md`
 
@@ -207,9 +208,9 @@ RAG/eval reference: `Dream_Motif_Interpreter` используется толь�
 
 ## Current Project State
 
-- Implementation tasks T01-T18 are built
-- Latest deep review: Cycle 11 for T18 archived at `docs/archive/CYCLE11_T18_REVIEW.md`
-- Verified local baseline: 68 passing tests, 0 skipped, 0 failed
+- Implementation tasks T01-T20 are built
+- Latest deep review: Cycle 13 for CODE-2 archived at `docs/archive/CYCLE13_CODE2_FIX.md`
+- Verified local baseline: 78 passing tests, 0 skipped, 0 failed
 - CI workflow configured for Python 3.12, ruff lint, ruff format check, and pytest
 - Package skeleton, health command, settings, observability helpers, storage, ingestion, safety guards, text-only retrieval baseline, and initial v1 blueprint schema are implemented
 - `FIX-1` / `CODE-1` closed: `WorkflowStep` rejects steps without evidence or an assumption marker
@@ -218,8 +219,8 @@ RAG/eval reference: `Dream_Motif_Interpreter` используется толь�
 - RAG profile ON
 - Planning profile ON
 - Tool-Use / Agentic / Compliance profiles OFF for v1
-- Open P2: CODE-2 DB tracing spans
-- Next implementation task: `T19: Operator Documentation and Sample Corpus`
+- Open findings: none
+- Next implementation task: none; recommended next work is real pilot measurement and Phase 1 from `docs/ai_product_development_phases.md`
 
 To continue implementation, run Codex with:
 

@@ -50,3 +50,5 @@ Metrics updated in `docs/plan_eval.md`:
 - end-to-end draft blueprint expected-outcome pass rate
 
 The first pilot proof metric is recorded in [`docs/pilot_measurement.md`](pilot_measurement.md).
+
+The AI product development roadmap is documented in [`docs/ai_product_development_phases.md`](ai_product_development_phases.md).

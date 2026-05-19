@@ -31,6 +31,10 @@ V1 does not create GitHub issues, send Slack messages, send email, or publish to
 
 The tool produces local draft artifacts. Human review remains required for final scope, approval boundaries, security assumptions, and implementation decisions.
 
+## Product Development Roadmap
+
+The AI product development phases are documented in `docs/ai_product_development_phases.md`.
+
 ## Local Commands
 
 ```bash

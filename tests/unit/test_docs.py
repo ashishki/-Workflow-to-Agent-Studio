@@ -51,3 +51,23 @@ def test_evaluation_guide_links_pilot_measurement_artifact() -> None:
     guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
 
     assert "[`docs/pilot_measurement.md`](pilot_measurement.md)" in guide
+
+
+def test_ai_product_development_phases_cover_strategy_and_engineering() -> None:
+    roadmap = Path("docs/ai_product_development_phases.md").read_text(encoding="utf-8")
+
+    assert "Phase 1: Evidence Capture And Corpus Expansion" in roadmap
+    assert "Phase 4: Automation Readiness And Governance" in roadmap
+    assert "Phase 6: Vertical Blueprint Packs" in roadmap
+    assert "Phase 9: Learning System And Moat" in roadmap
+    assert "AI development scope" in roadmap
+    assert "Eval requirements" in roadmap
+    assert "Exit criteria" in roadmap
+    assert "Market proof" in roadmap
+
+
+def test_readme_links_ai_product_development_phases() -> None:
+    readme = Path("README.md").read_text(encoding="utf-8")
+
+    assert "docs/ai_product_development_phases.md" in readme
+    assert "Verified local baseline: 78 passing tests" in readme
