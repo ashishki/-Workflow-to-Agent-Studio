@@ -7,12 +7,17 @@ on:
     branches: ["main"]
 
 jobs:
-  docs:
-    name: Phase 1 Docs
+  test:
+    name: Python checks
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Check required planning docs
         run: |
@@ -33,3 +38,18 @@ jobs:
         run: |
           ! grep -RIn --include="*.md" --include="*.yml" --include="*.yaml" \
             "[[:blank:]]$" README.md PLAYBOOK.md docs .github ci prompts templates
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+          python -m pip install -e .
+
+      - name: Ruff check
+        run: ruff check workflow_agent_studio tests/
+
+      - name: Ruff format check
+        run: ruff format --check workflow_agent_studio tests/
+
+      - name: Pytest
+        run: python -m pytest tests/ -q

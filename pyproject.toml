@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "workflow-agent-studio"
+version = "0.1.0"
+description = "Local-first workflow discovery and automation blueprint studio."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["pydantic>=2.10"]
+
+[project.scripts]
+workflow-agent-studio = "workflow_agent_studio.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["workflow_agent_studio*"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
