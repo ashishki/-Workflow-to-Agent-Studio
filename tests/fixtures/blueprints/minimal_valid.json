@@ -1,0 +1,99 @@
+{
+  "schema_version": "v1",
+  "workflow_summary": {
+    "text": "Operators triage inbound requests and create follow-up tasks.",
+    "evidence_references": [{"source_id": "src-1", "chunk_id": "chk-1"}]
+  },
+  "actors": [{"name": "Operator", "role": "Reviews incoming requests"}],
+  "systems": [{"name": "Inbox", "purpose": "Receives requests"}],
+  "triggers": [
+    {
+      "text": "A new customer request starts the workflow.",
+      "evidence_references": [{"source_id": "src-1", "chunk_id": "chk-1"}]
+    }
+  ],
+  "inputs": [{"name": "request", "description": "Customer request text", "source": "Inbox"}],
+  "current_workflow_steps": [
+    {
+      "step_id": "step-1",
+      "description": "Review request and decide whether follow-up is needed.",
+      "actor": "Operator",
+      "system": "Inbox",
+      "evidence_references": [{"source_id": "src-1", "chunk_id": "chk-2"}]
+    }
+  ],
+  "decisions": [
+    {
+      "text": "The operator decides whether the request needs follow-up.",
+      "evidence_references": [{"source_id": "src-1", "chunk_id": "chk-2"}]
+    }
+  ],
+  "exceptions": [
+    {
+      "text": "Requests with missing details require manual clarification.",
+      "assumption": true
+    }
+  ],
+  "data_fields": [{"name": "request_id", "description": "Request identifier", "source": "Inbox"}],
+  "integration_map": [
+    {
+      "source_system": "Inbox",
+      "target_system": "Task Tracker",
+      "data_fields": ["request_id"]
+    }
+  ],
+  "pain_points": [
+    {
+      "text": "Manual follow-up creation slows the workflow.",
+      "evidence_references": [{"source_id": "src-1", "chunk_id": "chk-3"}]
+    }
+  ],
+  "automation_candidates": [
+    {
+      "name": "Draft follow-up task",
+      "implementation_boundary": "Draft task only; no automatic sending.",
+      "human_approval_boundary": "Operator approves before creating a real task.",
+      "risk_level": "medium",
+      "evidence_references": [{"source_id": "src-1", "chunk_id": "chk-3"}]
+    }
+  ],
+  "human_approval_boundaries": [
+    {
+      "decision": "Approve generated follow-up task",
+      "approver": "Operator",
+      "reason": "Task creation changes team expectations."
+    }
+  ],
+  "risks_and_assumptions": [
+    {
+      "description": "Request details may be incomplete.",
+      "kind": "risk",
+      "evidence_references": [{"source_id": "src-1", "chunk_id": "chk-4"}]
+    }
+  ],
+  "eval_cases": [
+    {
+      "name": "Request needing follow-up",
+      "input_condition": "A request includes enough details for a follow-up task.",
+      "expected_behavior": "The blueprint recommends a draft follow-up task.",
+      "verification_method": "Inspect generated automation candidates.",
+      "evidence_reference": {"source_id": "src-1", "chunk_id": "chk-3"}
+    }
+  ],
+  "observability_needs": [
+    {
+      "text": "Track draft task creation count and validation failures.",
+      "assumption": true
+    }
+  ],
+  "rough_effort_band": "small",
+  "next_implementation_tasks": [
+    {
+      "task_id": "impl-1",
+      "owner": "engineer",
+      "depends_on": [],
+      "acceptance_criteria": ["Draft task is generated from request fields."],
+      "tests_or_evals": ["Unit test for draft task mapping."]
+    }
+  ]
+}
