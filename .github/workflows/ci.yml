@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  docs:
+    name: Phase 1 Docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required planning docs
+        run: |
+          test -f README.md
+          test -f docs/spec.md
+          test -f docs/tasks.md
+          test -f docs/ARCHITECTURE.md
+          test -f docs/IMPLEMENTATION_CONTRACT.md
+          test -f docs/audit/PHASE1_AUDIT.md
+
+      - name: Check Phase 1 audit status
+        run: grep -q "^PHASE1_AUDIT: PASS$" docs/audit/PHASE1_AUDIT.md
+
+      - name: Check shell hooks syntax
+        run: bash -n hooks/*.sh
+
+      - name: Check trailing whitespace
+        run: |
+          ! grep -RIn --include="*.md" --include="*.yml" --include="*.yaml" \
+            "[[:blank:]]$" README.md PLAYBOOK.md docs .github ci prompts templates
