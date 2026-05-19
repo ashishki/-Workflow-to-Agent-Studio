@@ -46,7 +46,94 @@ Initial fixture set to implement in Phase 1 and Phase 4:
 
 ## Baseline
 
-Not yet measured. First baseline is established by T05.
+T05 established the initial schema-validation baseline with the minimal valid blueprint
+fixture set.
+
+T14 established the blueprint synthesis section-coverage baseline with the complete
+workflow fixture.
+
+T15 established the validation gate baseline with one valid blueprint fixture and
+three invalid fixture variants covering approval boundaries, evidence coverage, and
+eval cases.
+
+T16 established the review-state approval baseline with immutable edit versioning,
+approval blocking for invalid blueprints, and audit-backed approval recording.
+
+T18 established the end-to-end CLI workflow baseline with one generated draft, one
+blocking insufficient-evidence run, and one Markdown export.
+
+T20 established the pilot proof metric template coverage baseline without claiming
+pilot success before a real human-reviewed row is filled.
+
+- Date: 2026-05-19
+- Task: T05
+- Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
+- Metric: Schema validation pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Regression: No
+
+Blueprint synthesis baseline:
+
+- Date: 2026-05-19
+- Task: T14
+- Eval Source: pytest tests/integration/test_blueprint_synthesis.py tests/eval/test_plan_eval.py -q
+- Metric: Blueprint synthesis section coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Regression: No
+
+Validation gate baseline:
+
+- Date: 2026-05-19
+- Task: T15
+- Eval Source: pytest tests/unit/test_blueprint_validators.py tests/eval/test_plan_eval.py -q
+- Metric: Validation fixture expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Blocking findings: 3
+- Regression: No
+
+Review-state approval baseline:
+
+- Date: 2026-05-19
+- Task: T16
+- Eval Source: pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q
+- Metric: Review approval gate expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Approval blocked fixtures: 2
+- Approval recorded fixtures: 1
+- Regression: No
+
+End-to-end CLI baseline:
+
+- Date: 2026-05-19
+- Task: T18
+- Eval Source: pytest tests/integration/test_cli_workflow.py tests/eval/test_end_to_end_eval.py -q
+- Metric: End-to-end draft blueprint expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Draft generated fixtures: 1
+- Blocking run rejected fixtures: 1
+- Export written fixtures: 1
+- Regression: No
+
+Pilot proof metric template baseline:
+
+- Date: 2026-05-19
+- Task: T20
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q
+- Metric: Pilot proof metric template coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Regression: No
 
 ---
 
@@ -54,6 +141,13 @@ Not yet measured. First baseline is established by T05.
 
 | Date | Task | Plan Schema Version | Metric | Score | Baseline | Delta | Regression? | Eval Source |
 |------|------|---------------------|--------|-------|----------|-------|-------------|-------------|
+| 2026-05-19 | T05 | v1 | Schema validation pass rate | 100% | 100% | 0% | No | pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q |
+| 2026-05-19 | FIX-1 | v1 | Workflow-step evidence contract regression | 100% | 100% | 0% | No | pytest tests/unit/test_blueprint_schema.py::test_workflow_step_requires_evidence_or_assumption -q |
+| 2026-05-19 | T14 | v1 | Blueprint synthesis section coverage | 100% | 100% | 0% | No | pytest tests/integration/test_blueprint_synthesis.py tests/eval/test_plan_eval.py -q |
+| 2026-05-19 | T15 | v1 | Validation fixture expected-outcome pass rate; blocking findings | 100%; 3 blocking findings | 100%; 3 blocking findings | 0% | No | pytest tests/unit/test_blueprint_validators.py tests/eval/test_plan_eval.py -q |
+| 2026-05-19 | T16 | v1 | Review approval gate expected-outcome pass rate | 100%; 2 approvals blocked; 1 approval recorded | 100%; 2 approvals blocked; 1 approval recorded | 0% | No | pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q |
+| 2026-05-19 | T18 | v1 | End-to-end draft blueprint expected-outcome pass rate | 100%; 1 draft generated; 1 blocking run rejected; 1 export written | 100%; 1 draft generated; 1 blocking run rejected; 1 export written | 0% | No | pytest tests/integration/test_cli_workflow.py tests/eval/test_end_to_end_eval.py -q |
+| 2026-05-19 | T20 | v1 | Pilot proof metric template coverage | 100% | 100% | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 
 ---
 
@@ -65,4 +159,4 @@ none
 
 ## Regression Notes
 
-none
+No regressions. FIX-1 tightened schema validation for workflow steps without reducing the valid blueprint fixture pass rate.

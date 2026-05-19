@@ -11,7 +11,7 @@ This file is the authoritative implementation task graph. Each task follows the 
 
 Business goal: create a runnable Python project with CI, smoke tests, core configuration, and typed blueprint contracts.
 
-## T01: Project Skeleton
+## T01: Project Skeleton ✅
 
 Owner:      codex
 Phase:      1
@@ -49,7 +49,7 @@ Context-Refs:
 Notes: |
   Keep the skeleton CLI-only. Do not add FastAPI, a database dependency, or retrieval libraries until the relevant tasks require them.
 
-## T02: CI Setup
+## T02: CI Setup ✅
 
 Owner:      codex
 Phase:      1
@@ -80,7 +80,7 @@ Context-Refs:
 Notes: |
   Do not add service containers in v1 CI until code requires them.
 
-## T03: First Smoke Tests
+## T03: First Smoke Tests ✅
 
 Owner:      codex
 Phase:      1
@@ -113,7 +113,7 @@ Context-Refs:
 Notes: |
   Update `docs/CODEX_PROMPT.md` baseline after this task completes.
 
-## T04: Configuration and Observability Foundation
+## T04: Configuration and Observability Foundation ✅
 
 Owner:      codex
 Phase:      1
@@ -150,7 +150,7 @@ Context-Refs:
 Notes: |
   No real API keys or credentials may appear in tests.
 
-## T05: Domain and Blueprint Schemas
+## T05: Domain and Blueprint Schemas ✅
 
 Owner:      codex
 Phase:      1
@@ -193,13 +193,40 @@ Context-Refs:
 Notes: |
   This task creates the contract that later LLM outputs must satisfy. Keep fields explicit and avoid catch-all dict fields unless they are versioned.
 
+## FIX-1: Enforce Workflow Step Evidence Contract ✅
+
+Owner:      codex
+Phase:      1
+Type:       plan:schema
+Depends-On: T05
+
+Objective: |
+  Resolve CODE-1 by making `WorkflowStep` reject step records that lack both evidence references and an explicit assumption marker.
+
+Acceptance-Criteria:
+  - id: AC-1
+    description: "`WorkflowStep` validation fails when a step has neither evidence references nor `assumption=True`."
+    test: "tests/unit/test_blueprint_schema.py::test_workflow_step_requires_evidence_or_assumption"
+
+Files:
+  - workflow_agent_studio/domain/workflow.py
+  - tests/unit/test_blueprint_schema.py
+
+Context-Refs:
+  - docs/audit/REVIEW_REPORT.md#code-1-p1--workflow-steps-can-validate-without-evidence-or-assumption
+  - docs/spec.md#feature-area-workflow-extraction
+  - docs/IMPLEMENTATION_CONTRACT.md#profile-rules-planning
+
+Notes: |
+  Fix only CODE-1. Do not broaden the schema surface in this fix.
+
 ---
 
 ## Phase 2: Ingestion, Storage, and Safety
 
 Business goal: persist workflow runs, normalize source documents, and block unsafe source handling before any LLM synthesis.
 
-## T06: SQLite Storage and Audit Events
+## T06: SQLite Storage and Audit Events ✅
 
 Owner:      codex
 Phase:      2
@@ -234,11 +261,11 @@ Context-Refs:
 Notes: |
   Use parameterized SQL only. SQLite is single-workspace in v1.
 
-## T07: Source Ingestion and Fingerprinting
+## T07: Source Ingestion and Fingerprinting ✅
 
 Owner:      codex
 Phase:      2
-Type:       none
+Type:       rag:ingestion
 Depends-On: T05, T06
 
 Objective: |
@@ -270,7 +297,7 @@ Context-Refs:
 Notes: |
   External import adapters are deferred. Keep this task limited to local files and pasted text.
 
-## T08: Sensitive Data and Forbidden Claim Guards
+## T08: Sensitive Data and Forbidden Claim Guards ✅
 
 Owner:      codex
 Phase:      2
@@ -310,7 +337,7 @@ Notes: |
 
 Business goal: ground blueprint generation in source snippets and pattern-library examples with measurable retrieval behavior.
 
-## T09: Pattern Library and Chunking
+## T09: Pattern Library and Chunking ✅
 
 Owner:      codex
 Phase:      3
@@ -355,7 +382,7 @@ Evidence:
 Verifier-Focus: |
   Confirm ingestion and query-time retrieval remain separate and that chunk metadata supports citation traceability.
 
-## T10: Embedding and Index Schema
+## T10: Embedding and Index Schema ✅
 
 Owner:      codex
 Phase:      3
@@ -400,7 +427,7 @@ Evidence:
 Verifier-Focus: |
   Confirm schema changes cannot silently mix incompatible embeddings or chunks.
 
-## T11: Query-Time Retrieval and Insufficient Evidence
+## T11: Query-Time Retrieval and Insufficient Evidence ✅
 
 Owner:      codex
 Phase:      3
@@ -449,7 +476,7 @@ Verifier-Focus: |
 
 Business goal: produce validated, evidence-linked automation blueprints from ingested sources and retrieved patterns.
 
-## T12: Structured LLM Gateway
+## T12: Structured LLM Gateway ✅
 
 Owner:      codex
 Phase:      4
@@ -484,7 +511,7 @@ Context-Refs:
 Notes: |
   Tests must use fake providers only.
 
-## T13: Workflow Extraction Service
+## T13: Workflow Extraction Service ✅
 
 Owner:      codex
 Phase:      4
@@ -518,7 +545,7 @@ Context-Refs:
 Notes: |
   The extraction service may call the LLM gateway but must not approve or export blueprints.
 
-## T14: Blueprint Synthesis Service
+## T14: Blueprint Synthesis Service ✅
 
 Owner:      codex
 Phase:      4
@@ -557,7 +584,7 @@ Context-Refs:
 Notes: |
   Keep the blueprint as a typed draft until T15 validation passes.
 
-## T15: Blueprint Validation Gate
+## T15: Blueprint Validation Gate ✅
 
 Owner:      codex
 Phase:      4
@@ -605,7 +632,7 @@ Verifier-Focus: |
 
 Business goal: complete the operator workflow from source import to reviewable blueprint and local Markdown export.
 
-## T16: Review State and Blueprint Versioning
+## T16: Review State and Blueprint Versioning ✅
 
 Owner:      codex
 Phase:      5
@@ -638,7 +665,7 @@ Context-Refs:
 Notes: |
   Reviewer identity can be a local operator label in v1.
 
-## T17: Markdown Export
+## T17: Markdown Export ✅
 
 Owner:      codex
 Phase:      5
@@ -673,7 +700,7 @@ Context-Refs:
 Notes: |
   Do not add GitHub issue creation in this task.
 
-## T18: End-to-End CLI Workflow
+## T18: End-to-End CLI Workflow ✅
 
 Owner:      codex
 Phase:      5
@@ -720,7 +747,7 @@ Evidence:
 Verifier-Focus: |
   Confirm the full workflow remains bounded and review-first: no external side effects, no approved export without validation, and no fabricated evidence.
 
-## T19: Operator Documentation and Sample Corpus
+## T19: Operator Documentation and Sample Corpus ✅
 
 Owner:      codex
 Phase:      5
@@ -756,7 +783,7 @@ Context-Refs:
 Notes: |
   Keep documentation factual. Do not add pre-evidence claims that the system replaces discovery calls or builds production agents.
 
-## T20: Pilot Proof Metric Measurement
+## T20: Pilot Proof Metric Measurement ✅
 
 Owner:      codex
 Phase:      5

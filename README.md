@@ -4,7 +4,56 @@ Workflow-to-Agent Studio — это local-first инструмент для AI a
 
 Входом могут быть SOP, расшифровка Loom/созвона, заметки из discovery, описание формы, API/интеграций или вручную собранные операционные notes. Выходом должен стать evidence-linked automation brief: карта текущего процесса, болевые точки, кандидаты на автоматизацию, интеграции, human approval boundaries, риски, eval cases, observability needs и следующие implementation tasks.
 
-Статус: Phase 1 governance package готов, `PHASE1_AUDIT: PASS`. Реализация продукта еще не начата.
+Статус: Phase 5 in progress. Local ingestion, text-only retrieval, workflow extraction, blueprint synthesis, validation, review versioning, and Markdown export are implemented.
+
+---
+
+## Quickstart
+
+Setup commands:
+
+```bash
+python3.12 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+python -m pip install -e .
+python -m pytest tests/ -q
+```
+
+Required environment variables:
+
+- None for the deterministic local v1 workflow.
+
+Optional environment variables:
+
+- `WORKFLOW_STUDIO_STORAGE_PATH`: default `.data/workflow_studio.sqlite3`
+- `WORKFLOW_STUDIO_INDEX_DIR`: default `.data/index`
+- `WORKFLOW_STUDIO_PATTERN_DIR`: default `patterns`
+- `WORKFLOW_STUDIO_LLM_PROVIDER`: default `openai`
+- `WORKFLOW_STUDIO_LLM_MODEL`: default `gpt-5.4`
+- `WORKFLOW_STUDIO_EXTRACTION_MODEL`: default `gpt-5.4-mini`
+- `WORKFLOW_STUDIO_EMBEDDING_MODEL`: default `text-embedding-3-small`
+- `WORKFLOW_STUDIO_LOG_LEVEL`: default `INFO`
+
+Sample run command:
+
+```bash
+workflow-agent-studio run \
+  --database .data/workflow_studio.sqlite3 \
+  --run-id sample-sop \
+  --index-dir .data/index \
+  tests/fixtures/sources/sample_sop.md
+```
+
+Local export command:
+
+```bash
+workflow-agent-studio export \
+  --database .data/workflow_studio.sqlite3 \
+  --blueprint-version-id 1 \
+  --export-dir .data/exports \
+  --output sample-sop-blueprint.md
+```
 
 ---
 
@@ -158,13 +207,19 @@ RAG/eval reference: `Dream_Motif_Interpreter` используется толь�
 
 ## Current Project State
 
-- Phase 1 artifacts generated
-- Phase 1 validator passed
+- Implementation tasks T01-T18 are built
+- Latest deep review: Cycle 11 for T18 archived at `docs/archive/CYCLE11_T18_REVIEW.md`
+- Verified local baseline: 68 passing tests, 0 skipped, 0 failed
+- CI workflow configured for Python 3.12, ruff lint, ruff format check, and pytest
+- Package skeleton, health command, settings, observability helpers, storage, ingestion, safety guards, text-only retrieval baseline, and initial v1 blueprint schema are implemented
+- `FIX-1` / `CODE-1` closed: `WorkflowStep` rejects steps without evidence or an assumption marker
 - Codex-only orchestration selected
+- Development loop is nonstop: task -> review -> fix if needed -> docs/state update -> checkpoint -> next task or phase
 - RAG profile ON
 - Planning profile ON
 - Tool-Use / Agentic / Compliance profiles OFF for v1
-- Next implementation task: `T01: Project Skeleton`
+- Open P2: CODE-2 DB tracing spans
+- Next implementation task: `T19: Operator Documentation and Sample Corpus`
 
 To continue implementation, run Codex with:
 

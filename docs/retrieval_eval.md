@@ -1,6 +1,6 @@
 # Retrieval Evaluation - Workflow-to-Agent Studio
 
-Status: planned
+Status: active
 Profile: RAG ON
 Retrieval mode: text-only
 Date: 2026-05-19
@@ -69,7 +69,68 @@ Initial planned slices:
 
 ## Baseline
 
-Not yet measured. First baseline is established by T09-T11.
+T07 established the initial source ingestion corpus fixture baseline before chunking,
+embedding, or query-time retrieval exists.
+
+T09 established the v1 chunking corpus fixture baseline for one source fixture and two
+pattern-library templates.
+
+T10 established the first local vector index metadata baseline with deterministic fake
+embeddings and schema-versioned namespaces.
+
+T11 established the first query-time retrieval metrics baseline with hit@3,
+no-answer accuracy, citation precision, and `insufficient_evidence` behavior.
+
+T18 established the end-to-end sample SOP fixture retrieval baseline through the CLI
+workflow.
+
+- Date: 2026-05-19
+- Task: T07
+- Corpus Version: source-fixture-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/integration/test_ingestion.py tests/eval/test_retrieval_eval.py -q
+- Metric: Source ingestion fixture pass rate
+- Score: 100%
+- Regression: No
+
+Chunking baseline:
+
+- Date: 2026-05-19
+- Task: T09
+- Corpus Version: chunking-fixture-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/unit/test_chunking.py tests/unit/test_pattern_library.py tests/eval/test_retrieval_eval.py -q
+- Metric: Chunking corpus fixture count
+- Score: 3 documents / 4 chunks
+- Regression: No
+
+Index baseline:
+
+- Date: 2026-05-19
+- Task: T10
+- Corpus Version: index-fixture-v1
+- Index Schema: v1
+- Eval Source: pytest tests/unit/test_embeddings.py tests/integration/test_retrieval_index.py tests/eval/test_retrieval_eval.py -q
+- Metric: Index metadata and namespace versioning
+- Score: 100%
+- Retrieval latency placeholder: n/a until query-time retrieval
+- Regression: No
+
+Query baseline:
+
+- Date: 2026-05-19
+- Task: T11
+- Corpus Version: query-fixture-v1
+- Index Schema: v1
+- Eval Source: pytest tests/integration/test_retrieval_query.py tests/eval/test_retrieval_eval.py -q
+- hit@3: 1.00
+- hit@5: 1.00
+- MRR: 1.00
+- Citation precision: 1.00
+- No-answer accuracy: 1.00
+- p50 ms: 0.00
+- p95 ms: 0.00
+- Regression: No
 
 ---
 
@@ -77,6 +138,11 @@ Not yet measured. First baseline is established by T09-T11.
 
 | Date | Task | Corpus Version | Index Schema | Eval Source | hit@3 | hit@5 | MRR | Citation precision | No-answer acc. | p50 ms | p95 ms | Regression? |
 |------|------|----------------|--------------|-------------|-------|-------|-----|--------------------|----------------|--------|--------|-------------|
+| 2026-05-19 | T07 | source-fixture-v1 | n/a | pytest tests/integration/test_ingestion.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-19 | T09 | chunking-fixture-v1 | n/a | pytest tests/unit/test_chunking.py tests/unit/test_pattern_library.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-19 | T10 | index-fixture-v1 | v1 | pytest tests/unit/test_embeddings.py tests/integration/test_retrieval_index.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-19 | T11 | query-fixture-v1 | v1 | pytest tests/integration/test_retrieval_query.py tests/eval/test_retrieval_eval.py -q | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | No |
+| 2026-05-19 | T18 | e2e-sample-sop-v1 | v1 | pytest tests/integration/test_cli_workflow.py tests/eval/test_end_to_end_eval.py -q | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | No |
 
 ---
 

@@ -115,6 +115,27 @@ Violation: P1.
 
 ---
 
+## Nonstop Development Loop
+
+Development must proceed in a continuous Codex-only loop:
+
+`read state -> select next eligible item -> implement or fix -> test -> review -> update docs/state -> checkpoint -> loop`.
+
+Phase completion is not a stopping point. A phase boundary triggers the required strategy review, deep review, archive, documentation update, and phase report, then development continues into the next phase automatically.
+
+The only valid stop conditions are:
+
+- a task or fix is formally marked `[!]` because Codex cannot proceed safely
+- a P0 finding remains unresolved after the allowed repair attempts
+- required human input is needed for an architecture, product, security, or external-side-effect decision
+- provider/tool failure persists after the required retry
+- API rate limit or context budget forces a clean checkpoint
+- all tasks are complete
+
+Pausing between phases without one of these stop conditions is a process violation and must be surfaced as a P1 finding.
+
+---
+
 ## Forbidden Actions
 
 The following actions are never permitted without explicit documented exception:
@@ -133,6 +154,7 @@ The following actions are never permitted without explicit documented exception:
 | Expanding runtime tier or adding runtime mutation without ADR | Violates the declared T0 boundary and bypasses architecture approval. |
 | Exporting approved blueprints with blocking validation findings | Creates unsafe client-facing artifacts. |
 | Producing external side effects from v1 exports | V1 is local-only unless an ADR changes the boundary. |
+| Pausing between phases without a formal stop condition | The project must follow the nonstop Codex loop until blocked or complete. |
 
 If any forbidden action occurs, surface it as a P1 finding in the next review cycle.
 
