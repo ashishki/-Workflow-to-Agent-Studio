@@ -53,21 +53,35 @@ def test_evaluation_guide_links_pilot_measurement_artifact() -> None:
     assert "[`docs/pilot_measurement.md`](pilot_measurement.md)" in guide
 
 
-def test_ai_product_development_phases_cover_strategy_and_engineering() -> None:
-    roadmap = Path("docs/ai_product_development_phases.md").read_text(encoding="utf-8")
+def test_active_ai_roadmap_cover_strategy_and_engineering() -> None:
+    strategy = Path("docs/product_strategy.md").read_text(encoding="utf-8")
+    roadmap = Path("docs/tasks.md").read_text(encoding="utf-8")
 
+    assert "pre-production layer for AI automation" in strategy
     assert "Phase 1: Evidence Capture And Corpus Expansion" in roadmap
     assert "Phase 4: Automation Readiness And Governance" in roadmap
     assert "Phase 6: Vertical Blueprint Packs" in roadmap
     assert "Phase 9: Learning System And Moat" in roadmap
-    assert "AI development scope" in roadmap
-    assert "Eval requirements" in roadmap
+    assert "T21: Transcript Ingestion" in roadmap
+    assert "Type: rag:ingestion" in roadmap
     assert "Exit criteria" in roadmap
-    assert "Market proof" in roadmap
+    assert "docs/archive/TASK_GRAPH_V1_T01_T20.md" in roadmap
 
 
-def test_readme_links_ai_product_development_phases() -> None:
+def test_readme_links_active_product_strategy_and_task_graph() -> None:
     readme = Path("README.md").read_text(encoding="utf-8")
 
-    assert "docs/ai_product_development_phases.md" in readme
-    assert "Verified local baseline: 78 passing tests" in readme
+    assert "docs/product_strategy.md" in readme
+    assert "docs/tasks.md" in readme
+    assert "docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md" in readme
+    assert "Verified local baseline: 79 passing tests" in readme
+
+
+def test_prompts_stay_compact_and_archive_old_versions() -> None:
+    orchestrator = Path("docs/prompts/ORCHESTRATOR.md").read_text(encoding="utf-8")
+    codex_prompt = Path("docs/CODEX_PROMPT.md").read_text(encoding="utf-8")
+
+    assert "docs/archive/ORCHESTRATOR_V2_LONG.md" in codex_prompt
+    assert "Do not paste large roadmap or archive content into the prompt." in orchestrator
+    assert len(orchestrator.splitlines()) < 120
+    assert len(codex_prompt.splitlines()) < 140

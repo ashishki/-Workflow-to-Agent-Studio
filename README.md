@@ -199,8 +199,8 @@ RAG/eval reference: `Dream_Motif_Interpreter` используется толь�
 
 - `docs/ARCHITECTURE.md`
 - `docs/spec.md`
+- `docs/product_strategy.md`
 - `docs/tasks.md`
-- `docs/ai_product_development_phases.md`
 - `docs/retrieval_eval.md`
 - `docs/plan_eval.md`
 
@@ -208,9 +208,9 @@ RAG/eval reference: `Dream_Motif_Interpreter` используется толь�
 
 ## Current Project State
 
-- Implementation tasks T01-T20 are built
+- Phase 0 implementation tasks T01-T20 are built and archived at `docs/archive/TASK_GRAPH_V1_T01_T20.md`
 - Latest deep review: Cycle 13 for CODE-2 archived at `docs/archive/CYCLE13_CODE2_FIX.md`
-- Verified local baseline: 78 passing tests, 0 skipped, 0 failed
+- Verified local baseline: 79 passing tests, 0 skipped, 0 failed
 - CI workflow configured for Python 3.12, ruff lint, ruff format check, and pytest
 - Package skeleton, health command, settings, observability helpers, storage, ingestion, safety guards, text-only retrieval baseline, and initial v1 blueprint schema are implemented
 - `FIX-1` / `CODE-1` closed: `WorkflowStep` rejects steps without evidence or an assumption marker
@@ -220,7 +220,8 @@ RAG/eval reference: `Dream_Motif_Interpreter` используется толь�
 - Planning profile ON
 - Tool-Use / Agentic / Compliance profiles OFF for v1
 - Open findings: none
-- Next implementation task: none; recommended next work is real pilot measurement and Phase 1 from `docs/ai_product_development_phases.md`
+- Active task graph starts at Phase 1 / `T21: Transcript Ingestion`
+- Product strategy is summarized in `docs/product_strategy.md`; the original long phase draft is archived at `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
 
 To continue implementation, run Codex with:
 

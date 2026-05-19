@@ -365,6 +365,7 @@ tests/
 docs/
   ARCHITECTURE.md
   spec.md
+  product_strategy.md
   tasks.md
   CODEX_PROMPT.md
   IMPLEMENTATION_CONTRACT.md
@@ -373,6 +374,8 @@ docs/
   EVIDENCE_INDEX.md
   retrieval_eval.md
   plan_eval.md
+  prompts/
+  archive/
   audit/
   adr/
 .github/workflows/ci.yml
@@ -408,6 +411,7 @@ Canonical truth:
 
 - `docs/ARCHITECTURE.md`
 - `docs/spec.md`
+- `docs/product_strategy.md`
 - `docs/tasks.md`
 - `docs/IMPLEMENTATION_CONTRACT.md`
 - ADRs in `docs/adr/`

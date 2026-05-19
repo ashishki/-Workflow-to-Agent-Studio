@@ -51,4 +51,4 @@ Metrics updated in `docs/plan_eval.md`:
 
 The first pilot proof metric is recorded in [`docs/pilot_measurement.md`](pilot_measurement.md).
 
-The AI product development roadmap is documented in [`docs/ai_product_development_phases.md`](ai_product_development_phases.md).
+The active AI product development roadmap is documented in [`docs/tasks.md`](tasks.md), with strategy summarized in [`docs/product_strategy.md`](product_strategy.md).

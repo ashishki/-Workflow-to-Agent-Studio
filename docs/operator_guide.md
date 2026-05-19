@@ -33,7 +33,7 @@ The tool produces local draft artifacts. Human review remains required for final
 
 ## Product Development Roadmap
 
-The AI product development phases are documented in `docs/ai_product_development_phases.md`.
+The active development roadmap is `docs/tasks.md`. Product strategy is summarized in `docs/product_strategy.md`.
 
 ## Local Commands
 

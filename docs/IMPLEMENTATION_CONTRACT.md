@@ -199,6 +199,7 @@ The following documents are authoritative for implementation and review:
 
 - `docs/ARCHITECTURE.md`
 - `docs/spec.md`
+- `docs/product_strategy.md`
 - `docs/tasks.md`
 - `docs/IMPLEMENTATION_CONTRACT.md`
 - ADRs in `docs/adr/`
@@ -333,6 +334,7 @@ A task tagged `plan:schema` or `plan:validation` is not complete unless:
 |----------|------|
 | `docs/ARCHITECTURE.md` | System design, profiles, runtime, security, and data flow. |
 | `docs/spec.md` | Product feature specification and v1 acceptance criteria. |
+| `docs/product_strategy.md` | Product thesis, market lens, phase map, and engineering principles. |
 | `docs/tasks.md` | Authoritative implementation task graph. |
 | `docs/CODEX_PROMPT.md` | Current session state, baseline, next task, findings, and profile state. |
 | `docs/retrieval_eval.md` | RAG quality and regression evidence. |

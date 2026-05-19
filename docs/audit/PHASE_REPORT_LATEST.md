@@ -10,7 +10,7 @@ FIX-2 closed the final P2 observability gap by wrapping SQLite repository operat
 
 ## Test Delta
 
-- Final baseline: 76 passing tests, 0 skipped, 0 failed.
+- Current baseline: 79 passing tests, 0 skipped, 0 failed.
 - Ruff check: passing.
 - Ruff format check: passing.
 
@@ -24,12 +24,12 @@ OK. No P0/P1/P2 findings remain open.
 
 ## Next Step
 
-Granular commits and push to `main`.
+Continue with active Phase 1 / `T21: Transcript Ingestion` from `docs/tasks.md`.
 
 ## Notification Summary
 
 Workflow-to-Agent Studio DONE
 Built: T01-T20 plus CODE-2 fix
-Tests: 76 pass
+Tests: 79 pass
 Issues: P1:0 P2:0
 Health: OK
