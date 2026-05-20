@@ -34,6 +34,14 @@ A useful source includes:
 
 The fixture at `tests/fixtures/sources/sample_sop.md` is the canonical minimal sample.
 
+## Sanitization For Benchmarks
+
+Benchmark and future pilot artifacts must be sanitized before they are reused outside
+the local source context. The deterministic sanitizer redacts common emails, phone
+numbers, credential-like tokens, customer/account IDs, and street-address patterns
+while preserving headings, ordered steps, and section structure for eval usefulness.
+Sanitized or synthetic fixtures still do not count as real pilot evidence.
+
 ## Safety Boundaries
 
 V1 does not create agents.

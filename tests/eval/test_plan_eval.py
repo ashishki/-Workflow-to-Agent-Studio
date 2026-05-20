@@ -171,3 +171,16 @@ def test_plan_eval_records_feedback_taxonomy_metrics() -> None:
         "100%; 6 categories; raw feedback audit persistence no | "
         "100%; 6 categories; raw feedback audit persistence no | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_sanitization_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T42 established the deterministic sanitization baseline" in plan_eval
+    assert "Redaction classes: 6" in plan_eval
+    assert "Structure preservation: pass" in plan_eval
+    assert (
+        "| 2026-05-20 | T42 | v1 | Sanitization expected-outcome pass rate | "
+        "100%; 6 redaction classes; structure preservation pass | "
+        "100%; 6 redaction classes; structure preservation pass | 0% | No |" in plan_eval
+    )

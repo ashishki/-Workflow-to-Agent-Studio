@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 10 - Pre-Pilot Hardening
-- Next task: T42 - Redaction And Sanitization Pipeline
-- Verified baseline: 142 passing tests, 0 skipped, 0 failed
+- Next task: T43 - Pilot Intake Checklist
+- Verified baseline: 145 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; synthetic fixtures cannot satisfy pilot proof.
@@ -33,41 +33,41 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T42 - Redaction And Sanitization Pipeline
+Task: T43 - Pilot Intake Checklist
 
-Goal: add deterministic sanitization helpers for future benchmark fixtures and pilot artifacts.
+Goal: document and validate the exact evidence needed to convert a future real pilot into a measurement row.
 
 Acceptance summary:
 
-- common PII and credential-like tokens are redacted before benchmark export
-- sanitization preserves enough structure for eval usefulness
-- tests prove raw confidential strings are absent from sanitized output
+- checklist enumerates required source material, reviewer actions, thresholds, and missing-question rules
+- checklist distinguishes real pilot evidence from demo or synthetic fixtures
+- docs tests prevent pilot proof claims while checklist inputs are incomplete
 
 File scope:
 
-- `workflow_agent_studio/safety/`
-- `tests/unit/`
+- `docs/pilot_measurement.md`
+- `docs/evaluation_guide.md`
+- `tests/unit/test_docs.py`
 - `docs/operator_guide.md`
-- `docs/plan_eval.md`
 
 Required context:
 
-- `docs/tasks.md#t42-redaction-and-sanitization-pipeline`
-- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
-- `docs/plan_eval.md`
+- `docs/tasks.md#t43-pilot-intake-checklist`
+- `docs/pilot_measurement.md`
+- `docs/evaluation_guide.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: sanitization pipeline
+- Next work: pilot intake checklist
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: sanitization pipeline
+- Next work: pilot intake checklist
 - Open planning findings: none
 
 Tool-Use: OFF
