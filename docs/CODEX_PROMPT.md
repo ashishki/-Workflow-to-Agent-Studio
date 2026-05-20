@@ -14,10 +14,11 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 - Current phase: Phase 10 - Pre-Pilot Hardening
 - Next task: BLOCKED - Real pilot evidence required for T34/T40
-- Verified baseline: 156 passing tests, 0 skipped, 0 failed
+- Verified baseline: 158 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; synthetic fixtures cannot satisfy pilot proof.
+- Latest public-source experiment: `docs/experiments/public_source_netbox_issue_triage.md`; mechanics passed, domain-specific draft quality failed.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -42,6 +43,7 @@ Acceptance summary:
 - T34 needs real pilot evidence to identify the strongest wedge
 - T40 needs approved sanitized outcomes from a real pilot
 - demo, synthetic, dry-run, and sanitized-only fixtures cannot satisfy pilot proof
+- public-source workflow experiments can guide development but do not satisfy pilot proof
 
 File scope:
 
