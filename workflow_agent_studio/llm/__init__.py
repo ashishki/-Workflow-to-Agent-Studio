@@ -6,7 +6,11 @@ from workflow_agent_studio.llm.gateway import (
     StructuredOutputResult,
     request_structured_output,
 )
-from workflow_agent_studio.llm.providers import FakeStructuredOutputProvider, ProviderResponse
+from workflow_agent_studio.llm.providers import (
+    FakeStructuredOutputProvider,
+    ProviderResponse,
+    StructuredOutputProvider,
+)
 
 __all__ = [
     "FakeStructuredOutputProvider",
@@ -14,5 +18,6 @@ __all__ = [
     "ProviderResponse",
     "SchemaValidationError",
     "StructuredOutputResult",
+    "StructuredOutputProvider",
     "request_structured_output",
 ]

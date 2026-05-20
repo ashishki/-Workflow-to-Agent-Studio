@@ -3,9 +3,18 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Literal
 
+from pydantic import BaseModel, ConfigDict, Field
+
+from workflow_agent_studio.config import Settings, load_settings
 from workflow_agent_studio.domain.sources import SourceDocument
 from workflow_agent_studio.domain.workflow import EvidenceReference, WorkflowStep
+from workflow_agent_studio.llm import (
+    FakeStructuredOutputProvider,
+    StructuredOutputProvider,
+    request_structured_output,
+)
 from workflow_agent_studio.retrieval.evidence import EvidenceSnippet
 
 
@@ -27,6 +36,29 @@ class ExtractedWorkflowMap:
     data_fields: list[str]
     pain_points: list[str]
     missing_questions: list[MissingQuestion] = field(default_factory=list)
+
+
+class StructuredMissingQuestion(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    section: str = Field(min_length=1)
+    question: str = Field(min_length=1)
+    reason: str = Field(min_length=1)
+
+
+class StructuredWorkflowExtraction(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: Literal["v1"] = "v1"
+    actors: list[str] = Field(min_length=1)
+    systems: list[str] = Field(min_length=1)
+    triggers: list[str] = Field(min_length=1)
+    steps: list[WorkflowStep] = Field(min_length=1)
+    decisions: list[str] = Field(min_length=1)
+    exceptions: list[str] = Field(min_length=1)
+    data_fields: list[str] = Field(min_length=1)
+    pain_points: list[str] = Field(min_length=1)
+    missing_questions: list[StructuredMissingQuestion] = Field(default_factory=list)
 
 
 def extract_workflow_map(
@@ -76,8 +108,117 @@ def extract_workflow_map(
     )
 
 
+def extract_workflow_map_with_provider(
+    *,
+    source: SourceDocument,
+    evidence: list[EvidenceSnippet],
+    provider: StructuredOutputProvider,
+) -> ExtractedWorkflowMap:
+    result = request_structured_output(
+        provider=provider,
+        prompt=_provider_extraction_prompt(source=source, evidence=evidence),
+        output_model=StructuredWorkflowExtraction,
+    )
+    return _from_structured_output(result.output)
+
+
+def extract_workflow_map_provider_backed(
+    *,
+    source: SourceDocument,
+    evidence: list[EvidenceSnippet],
+    settings: Settings | None = None,
+    provider: StructuredOutputProvider | None = None,
+) -> ExtractedWorkflowMap:
+    active_settings = settings or load_settings()
+    active_provider = provider or _provider_from_settings(
+        settings=active_settings,
+        source=source,
+        evidence=evidence,
+    )
+    return extract_workflow_map_with_provider(
+        source=source,
+        evidence=evidence,
+        provider=active_provider,
+    )
+
+
+def extraction_provider_payload(
+    *,
+    source: SourceDocument,
+    evidence: list[EvidenceSnippet],
+) -> dict[str, object]:
+    workflow = extract_workflow_map(source=source, evidence=evidence)
+    return {
+        "schema_version": "v1",
+        "actors": workflow.actors,
+        "systems": workflow.systems,
+        "triggers": workflow.triggers,
+        "steps": [step.model_dump(mode="python") for step in workflow.steps],
+        "decisions": workflow.decisions,
+        "exceptions": workflow.exceptions,
+        "data_fields": workflow.data_fields,
+        "pain_points": workflow.pain_points,
+        "missing_questions": [
+            {
+                "section": question.section,
+                "question": question.question,
+                "reason": question.reason,
+            }
+            for question in workflow.missing_questions
+        ],
+    }
+
+
 def _first_reference(evidence: list[EvidenceSnippet]) -> EvidenceReference | None:
     if not evidence:
         return None
     first = evidence[0]
     return EvidenceReference(source_id=first.source_id, chunk_id=first.chunk_id)
+
+
+def _provider_extraction_prompt(
+    *,
+    source: SourceDocument,
+    evidence: list[EvidenceSnippet],
+) -> str:
+    evidence_ids = ", ".join(snippet.chunk_id for snippet in evidence)
+    return (
+        "Extract workflow facts as schema_version v1 JSON. "
+        f"Use only source_id={source.source_id} and evidence chunks: {evidence_ids}.\n\n"
+        f"{source.normalized_text}"
+    )
+
+
+def _provider_from_settings(
+    *,
+    settings: Settings,
+    source: SourceDocument,
+    evidence: list[EvidenceSnippet],
+) -> StructuredOutputProvider:
+    if settings.llm_provider != "fake":
+        raise ValueError("Provider-backed extraction requires an injected structured provider.")
+    return FakeStructuredOutputProvider(
+        payload=extraction_provider_payload(source=source, evidence=evidence),
+        model_name=settings.extraction_model,
+    )
+
+
+def _from_structured_output(output: StructuredWorkflowExtraction) -> ExtractedWorkflowMap:
+    return ExtractedWorkflowMap(
+        actors=output.actors,
+        systems=output.systems,
+        triggers=output.triggers,
+        steps=output.steps,
+        decisions=output.decisions,
+        exceptions=output.exceptions,
+        data_fields=output.data_fields,
+        pain_points=output.pain_points,
+        missing_questions=[
+            MissingQuestion(
+                section=question.section,
+                question=question.question,
+                reason=question.reason,
+            )
+            for question in output.missing_questions
+        ],
+    )

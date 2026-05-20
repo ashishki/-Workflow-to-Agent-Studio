@@ -71,6 +71,9 @@ missing extraction question, and six required-section evidence gaps.
 T24 established the real-world-style corpus planning baseline with required-section
 coverage and evidence-gap metrics.
 
+T27 established the provider-backed extraction schema baseline with fake-provider
+parity and schema-error observability.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -167,6 +170,19 @@ Real-world-style corpus planning baseline:
 - Evidence gaps: 2
 - Regression: No
 
+Provider-backed extraction baseline:
+
+- Date: 2026-05-20
+- Task: T27
+- Eval Source: pytest tests/integration/test_extraction.py tests/unit/test_llm_gateway.py tests/eval/test_plan_eval.py -q
+- Metric: Provider-backed extraction schema pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Fake/provider fixture parity: 100%
+- Provider credential path: optional
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -182,6 +198,7 @@ Real-world-style corpus planning baseline:
 | 2026-05-19 | T20 | v1 | Pilot proof metric template coverage | 100% | 100% | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T23 | v1 | Evidence gap report expected-outcome pass rate | 100%; 1 missing question; 6 evidence gaps | 100%; 1 missing question; 6 evidence gaps | 0% | No | pytest tests/integration/test_evidence_gap_report.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T24 | v1 | Corpus required-section evidence coverage | 100%; coverage 0.67; 2 evidence gaps | 100%; coverage 0.67; 2 evidence gaps | 0% | No | pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T27 | v1 | Provider-backed extraction schema pass rate | 100%; fake/provider parity 100%; provider credential path optional | 100%; fake/provider parity 100%; provider credential path optional | 0% | No | pytest tests/integration/test_extraction.py tests/unit/test_llm_gateway.py tests/eval/test_plan_eval.py -q |
 
 ---
 

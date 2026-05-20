@@ -68,3 +68,17 @@ def test_plan_eval_records_evidence_gap_report_metrics() -> None:
         "100%; 1 missing question; 6 evidence gaps | "
         "100%; 1 missing question; 6 evidence gaps | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_provider_backed_extraction_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T27 established the provider-backed extraction schema baseline" in plan_eval
+    assert "Fake/provider fixture parity: 100%" in plan_eval
+    assert "Provider credential path: optional" in plan_eval
+    assert (
+        "| 2026-05-20 | T27 | v1 | Provider-backed extraction schema pass rate | "
+        "100%; fake/provider parity 100%; provider credential path optional | "
+        "100%; fake/provider parity 100%; provider credential path optional | "
+        "0% | No |" in plan_eval
+    )

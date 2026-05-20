@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 3 - Structured LLM Extraction And Synthesis
-- Next task: T27 - Provider-Backed Structured Extraction
-- Verified baseline: 103 passing tests, 0 skipped, 0 failed
+- Next task: T28 - Prompt Registry And Versioned Prompt Evals
+- Verified baseline: 107 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,36 +33,34 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T27 - Provider-Backed Structured Extraction
+Task: T28 - Prompt Registry And Versioned Prompt Evals
 
-Goal: enable a real provider path for workflow extraction behind the existing structured-output gateway.
+Goal: make extraction and synthesis prompts versioned assets with regression checks.
 
 Acceptance summary:
 
-- provider selection remains environment-backed and defaults to fake provider in tests
-- model outputs are parsed into versioned schemas before storage
-- schema errors are observable without logging raw source text
-- extraction eval compares fake and provider-backed fixture behavior where provider credentials are available
+- prompt versions are recorded with blueprint generation attempts
+- prompt changes require fixture eval updates
+- prompts stay task-focused and do not embed full roadmap or architecture documents
 
 File scope:
 
 - `workflow_agent_studio/llm/`
-- `workflow_agent_studio/extraction/`
+- `workflow_agent_studio/blueprint/prompts.py`
 - `docs/plan_eval.md`
-- `tests/unit/`
-- `tests/integration/`
+- `tests/unit/test_docs.py`
 
 Required context:
 
-- `docs/IMPLEMENTATION_CONTRACT.md#model-output-boundary`
 - `docs/ARCHITECTURE.md#profile-planning`
+- `docs/plan_eval.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: provider-backed structured extraction
+- Next work: prompt registry and versioned prompt evals
 - Open retrieval findings: none
 
 Planning: ON
