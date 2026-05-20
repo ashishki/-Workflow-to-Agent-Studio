@@ -547,3 +547,142 @@ Files:
 - `docs/retrieval_eval.md`
 - `docs/plan_eval.md`
 - `docs/product_strategy.md`
+
+---
+
+## Phase 10: Pre-Pilot Hardening
+
+Business goal: keep improving engineering quality while real pilot evidence is unavailable, without treating synthetic fixtures as commercial proof.
+
+## T41: Synthetic Benchmark Harness
+
+Owner: codex
+Phase: 10
+Type: rag:ingestion plan:validation
+Depends-On: T39
+
+Objective: create a synthetic-only benchmark harness for regression testing without satisfying real-pilot evidence gates.
+
+Acceptance-Criteria:
+
+- synthetic benchmark fixtures are explicitly labeled as not pilot evidence
+- harness reports retrieval and planning fixture coverage deterministically
+- eval docs state synthetic results cannot satisfy T34 or commercial pilot proof
+
+Files:
+
+- `tests/fixtures/benchmarks/`
+- `workflow_agent_studio/eval/`
+- `tests/eval/`
+- `docs/retrieval_eval.md`
+- `docs/plan_eval.md`
+
+## T42: Redaction And Sanitization Pipeline
+
+Owner: codex
+Phase: 10
+Type: rag:ingestion plan:validation
+Depends-On: T39
+
+Objective: add deterministic sanitization helpers for future benchmark fixtures and pilot artifacts.
+
+Acceptance-Criteria:
+
+- common PII and credential-like tokens are redacted before benchmark export
+- sanitization preserves enough structure for eval usefulness
+- tests prove raw confidential strings are absent from sanitized output
+
+Files:
+
+- `workflow_agent_studio/safety/`
+- `tests/unit/`
+- `docs/operator_guide.md`
+- `docs/plan_eval.md`
+
+## T43: Pilot Intake Checklist
+
+Owner: codex
+Phase: 10
+Type: plan:validation
+Depends-On: T35, T39
+
+Objective: document and validate the exact evidence needed to convert a future real pilot into a measurement row.
+
+Acceptance-Criteria:
+
+- checklist enumerates required source material, reviewer actions, thresholds, and missing-question rules
+- checklist distinguishes real pilot evidence from demo or synthetic fixtures
+- docs tests prevent pilot proof claims while checklist inputs are incomplete
+
+Files:
+
+- `docs/pilot_measurement.md`
+- `docs/evaluation_guide.md`
+- `tests/unit/test_docs.py`
+
+## T44: Vertical Pack Dry-Run Evaluation
+
+Owner: codex
+Phase: 10
+Type: rag:ingestion plan:validation
+Depends-On: T33, T41
+
+Objective: evaluate vertical-pack mechanics on synthetic fixtures without claiming a real wedge.
+
+Acceptance-Criteria:
+
+- dry-run compares generic and vertical-pack expectations on synthetic fixtures
+- results are labeled not pilot evidence
+- T34 remains blocked until real pilot evidence exists
+
+Files:
+
+- `patterns/`
+- `tests/fixtures/benchmarks/`
+- `docs/retrieval_eval.md`
+- `docs/plan_eval.md`
+
+## T45: Review Feedback Analytics
+
+Owner: codex
+Phase: 10
+Type: plan:validation
+Depends-On: T39
+
+Objective: aggregate reviewer feedback categories without storing raw confidential review text.
+
+Acceptance-Criteria:
+
+- analytics report counts feedback categories by section and version
+- raw feedback text is not persisted in analytics output
+- plan eval records feedback analytics coverage
+
+Files:
+
+- `workflow_agent_studio/blueprint/review.py`
+- `workflow_agent_studio/domain/review.py`
+- `tests/integration/test_review_state.py`
+- `docs/plan_eval.md`
+
+## T46: Demo Dataset Boundary
+
+Owner: codex
+Phase: 10
+Type: rag:ingestion plan:validation
+Depends-On: T41
+
+Objective: make demo, synthetic, and real-pilot dataset boundaries explicit in docs and tests.
+
+Acceptance-Criteria:
+
+- docs define which datasets can and cannot support commercial claims
+- eval artifacts identify synthetic and demo baselines separately from real pilots
+- tests prevent synthetic fixtures from being counted as real pilot rows
+
+Files:
+
+- `docs/product_strategy.md`
+- `docs/pilot_measurement.md`
+- `docs/retrieval_eval.md`
+- `docs/plan_eval.md`
+- `tests/unit/test_docs.py`

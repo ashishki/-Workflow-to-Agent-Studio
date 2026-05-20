@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-20
-Phase: 9
+Phase: 10
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,12 +12,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 9 - Learning System And Moat
-- Next task: BLOCKED - T34/T40 dependency cycle
+- Current phase: Phase 10 - Pre-Pilot Hardening
+- Next task: T41 - Synthetic Benchmark Harness
 - Verified baseline: 139 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
-- Open findings: T34 depends on T40 and T40 depends on T34; human task-graph decision required.
+- Open findings: T34/T40 remain blocked until real pilot evidence exists; synthetic fixtures cannot satisfy pilot proof.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -33,38 +33,43 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: BLOCKED - T34/T40 dependency cycle
+Task: T41 - Synthetic Benchmark Harness
 
-Goal: unblock the remaining vertical-pack and learning-system tasks.
+Goal: create a synthetic-only benchmark harness for regression testing without satisfying real-pilot evidence gates.
 
 Acceptance summary:
 
-- T34 requires T40 before implementation
-- T40 requires T34 before implementation
-- no remaining task is eligible without changing the task graph or dependency interpretation
+- synthetic benchmark fixtures are explicitly labeled as not pilot evidence
+- harness reports retrieval and planning fixture coverage deterministically
+- eval docs state synthetic results cannot satisfy T34 or commercial pilot proof
 
 File scope:
 
-- `docs/tasks.md`
+- `tests/fixtures/benchmarks/`
+- `workflow_agent_studio/eval/`
+- `tests/eval/`
+- `docs/retrieval_eval.md`
+- `docs/plan_eval.md`
 
 Required context:
 
-- `docs/tasks.md#t34-first-vertical-pack-from-pilot-evidence`
-- `docs/tasks.md#t40-pattern-learning-and-benchmark-corpus`
-- `docs/IMPLEMENTATION_CONTRACT.md#nonstop-development-loop`
+- `docs/tasks.md#t41-synthetic-benchmark-harness`
+- `docs/pilot_measurement.md`
+- `docs/retrieval_eval.md`
+- `docs/plan_eval.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: blocked pending task-graph decision
+- Next work: synthetic benchmark harness
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: blocked pending task-graph decision
+- Next work: synthetic benchmark harness
 - Open planning findings: none
 
 Tool-Use: OFF
