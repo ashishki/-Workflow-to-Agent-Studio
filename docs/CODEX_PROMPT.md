@@ -13,12 +13,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 11 - Public-Source Demo Quality
-- Next task: T49 - Public Demo Pack
-- Verified baseline: 160 passing tests, 0 skipped, 0 failed
+- Next task: T50 - Prospect Data Request Gate
+- Verified baseline: 161 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; use public sources for demo-quality stabilization only.
-- Latest public-source experiment: `docs/experiments/public_source_netbox_issue_triage.md`; mechanics and domain-specific draft quality passed.
+- Latest public-source demo pack: `docs/experiments/public_demo_pack/netbox_issue_triage/`.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -34,28 +34,28 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T49 - Public Demo Pack
+Task: T50 - Prospect Data Request Gate
 
-Goal: create a reproducible public demo pack that can be shared before real prospect data is available.
+Goal: define when public-source quality is stable enough to ask potential customers for real workflow data.
 
 Acceptance summary:
 
-- demo pack includes source fixture, command transcript, generated blueprint, review workspace, and gap summary
-- generated artifacts are reproducible from committed fixtures
-- docs label the pack as public-source demo material, not customer proof
+- gate requires stable public-source evals before prospect data requests
+- request checklist states minimum safe source types and confidentiality boundary
+- T34/T40 remain blocked until prospect/customer data is reviewed as a real pilot
 
 File scope:
 
-- `docs/experiments/`
-- `tests/fixtures/public_sources/`
-- `docs/operator_guide.md`
-- `tests/eval/`
+- `docs/pilot_measurement.md`
+- `docs/product_strategy.md`
+- `docs/evaluation_guide.md`
+- `tests/unit/test_docs.py`
 
 Required context:
 
-- `docs/tasks.md#t49-public-demo-pack`
-- `docs/experiments/public_source_netbox_issue_triage.md`
-- `tests/fixtures/public_sources/netbox_issue_triage.notes.md`
+- `docs/tasks.md#t50-prospect-data-request-gate`
+- `docs/experiments/public_demo_pack/netbox_issue_triage/`
+- `docs/pilot_measurement.md`
 
 ## Profile State
 

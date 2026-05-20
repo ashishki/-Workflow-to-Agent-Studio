@@ -40,6 +40,9 @@ def test_operator_guide_documents_supported_source_kinds() -> None:
     assert "Keep source files local" in guide
     assert "## Sanitization For Benchmarks" in guide
     assert "Sanitized or synthetic fixtures still do not count as real pilot evidence." in guide
+    assert "## Public Demo Packs" in guide
+    assert "docs/experiments/public_demo_pack/netbox_issue_triage/" in guide
+    assert "not pilot evidence" in guide
 
 
 def test_evaluation_guide_lists_eval_commands_and_metrics() -> None:

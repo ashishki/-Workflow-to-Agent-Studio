@@ -34,6 +34,17 @@ A useful source includes:
 
 The fixture at `tests/fixtures/sources/sample_sop.md` is the canonical minimal sample.
 
+## Public Demo Packs
+
+Public demo packs use open workflow sources to demonstrate product mechanics and
+draft quality before prospect data is available. They are not pilot evidence and
+must not be used as customer proof.
+
+The current public demo pack is
+`docs/experiments/public_demo_pack/netbox_issue_triage/`. It includes the source
+fixture reference, command transcript, generated draft blueprint, review
+workspace, and gap summary.
+
 ## Sanitization For Benchmarks
 
 Benchmark and future pilot artifacts must be sanitized before they are reused outside
