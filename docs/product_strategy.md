@@ -90,6 +90,19 @@ Evidence status:
 - Any public sales claim must cite the pilot measurement row or remain labeled as
   an assumption.
 
+## Dataset Boundary
+
+| Dataset Kind | Purpose | Can Support Commercial Claims? |
+|--------------|---------|--------------------------------|
+| Demo fixtures | Show local product mechanics and deterministic tests. | No. Demo fixtures are not buyer proof. |
+| Synthetic benchmarks | Regression-test retrieval, planning, vertical-pack, and feedback behavior. | No. Synthetic results cannot satisfy pilot proof or T34. |
+| Sanitized artifacts | Remove confidential values before benchmark or public artifact reuse. | Only if the source is a reviewed real pilot and the measurement row cites it. |
+| Real pilot evidence | Measure value on a real workflow reviewed by a human operator. | Yes, only through `docs/pilot_measurement.md`. |
+
+Commercial claims must use real pilot evidence. Demo, synthetic, or unreviewed
+sanitized data can improve engineering quality, but they do not prove wedge
+strength, buyer value, or vertical-pack readiness.
+
 ## Engineering Principles
 
 - Keep safety-critical checks deterministic.

@@ -91,6 +91,8 @@ def test_pilot_measurement_includes_real_pilot_intake_checklist() -> None:
     assert "Any unresolved critical missing question forces `Fail`." in measurement
     assert "count accepted required blueprint sections" in measurement
     assert "confirm whether every critical missing question is resolved" in measurement
+    assert "Dataset boundary: demo fixtures, synthetic benchmarks" in measurement
+    assert "must not be counted as real pilot rows" in measurement
 
 
 def test_evaluation_guide_links_pilot_measurement_artifact() -> None:
@@ -141,6 +143,16 @@ def test_product_strategy_documents_commercial_pilot_package() -> None:
     assert "Success criteria:" in strategy
     assert "unresolved critical missing questions force a failed pilot result" in strategy
     assert "Any public sales claim must cite the pilot measurement row" in strategy
+
+
+def test_product_strategy_documents_dataset_boundaries() -> None:
+    strategy = Path("docs/product_strategy.md").read_text(encoding="utf-8")
+
+    assert "## Dataset Boundary" in strategy
+    assert "Demo fixtures are not buyer proof." in strategy
+    assert "Synthetic results cannot satisfy pilot proof or T34." in strategy
+    assert "Real pilot evidence" in strategy
+    assert "Commercial claims must use real pilot evidence." in strategy
 
 
 def test_prompts_stay_compact_and_archive_old_versions() -> None:

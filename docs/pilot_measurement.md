@@ -9,6 +9,10 @@ not mark the pilot as passed until the measurement row is filled after human rev
 No real pilot has been reviewed yet. Until that evidence exists, this artifact
 remains template-only and must not be cited as product validation.
 
+Dataset boundary: demo fixtures, synthetic benchmarks, and unreviewed sanitized
+artifacts must not be counted as real pilot rows. Only a human-reviewed real
+workflow source can replace the template row below.
+
 ## Pilot Intake Checklist
 
 All checklist rows must be complete before replacing the template pilot row with a

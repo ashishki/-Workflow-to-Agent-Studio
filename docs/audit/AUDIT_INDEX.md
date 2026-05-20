@@ -30,6 +30,7 @@ Append-only. One row per validation or review cycle.
 | 18 | Phase 5 | 2026-05-20 | Phase 5 review workspace boundary review | No | 0 | 0 | 0 |
 | 19 | Phase 7 | 2026-05-20 | Phase 7 pilot package boundary review | No | 0 | 0 | 1 |
 | 20 | Phase 8 | 2026-05-20 | Phase 8 integrations and handoff boundary review | No | 0 | 0 | 1 |
+| 21 | Phase 10 | 2026-05-20 | Phase 10 pre-pilot hardening boundary review | No | 0 | 0 | 1 |
 
 ---
 
@@ -59,6 +60,7 @@ Append-only. One row per validation or review cycle.
 | 18 | docs/archive/CYCLE18_PHASE5_REVIEW_WORKSPACE_REVIEW.md | Phase 5 | Green - no open findings |
 | 19 | docs/archive/CYCLE19_PHASE7_PILOT_PACKAGE_REVIEW.md | Phase 7 | Green - 1 P2 |
 | 20 | docs/archive/CYCLE20_PHASE8_INTEGRATIONS_HANDOFF_REVIEW.md | Phase 8 | Green - 1 P2 |
+| 21 | docs/archive/CYCLE21_PHASE10_PRE_PILOT_HARDENING_REVIEW.md | Phase 10 | Green - 1 P2 |
 
 ---
 

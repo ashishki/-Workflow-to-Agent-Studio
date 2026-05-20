@@ -30,6 +30,13 @@ Regression criteria:
 
 Reference pattern: `Dream_Motif_Interpreter/docs/retrieval_eval.md` separates retrieval quality from answer quality and requires exact Eval Source values. Use `docs/IMPLEMENTATION_REFERENCE_MAP.md` when implementing the eval script and tests.
 
+Dataset boundary:
+
+- demo fixtures validate mechanics only
+- synthetic benchmarks are regression tests only
+- sanitized artifacts are reusable only when their source class is recorded
+- real pilot evidence is tracked only in `docs/pilot_measurement.md`
+
 ---
 
 ## Evaluation Dataset
@@ -113,6 +120,9 @@ satisfy T34 or commercial pilot proof.
 T44 established the vertical-pack dry-run baseline by comparing generic and
 support-intake pack expectations on a synthetic fixture. T34 remains blocked
 until real pilot evidence exists.
+
+T46 established the demo/synthetic/real-pilot dataset boundary baseline for
+retrieval eval artifacts.
 
 - Date: 2026-05-19
 - Task: T07
@@ -271,6 +281,18 @@ Vertical-pack dry-run baseline:
 - Pilot evidence: no
 - Regression: No
 
+Dataset boundary baseline:
+
+- Date: 2026-05-20
+- Task: T46
+- Corpus Version: dataset-boundary-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q
+- Demo fixtures support claims: no
+- Synthetic benchmarks support claims: no
+- Real pilot evidence source: docs/pilot_measurement.md
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -291,6 +313,7 @@ Vertical-pack dry-run baseline:
 | 2026-05-20 | T37 | connector-import-fixture-v1 | n/a | pytest tests/integration/test_ingestion.py tests/unit/test_config.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-20 | T41 | synthetic-benchmark-v1 | n/a | pytest tests/eval/test_synthetic_benchmark_eval.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-20 | T44 | vertical-dry-run-synthetic-v1 | n/a | pytest tests/eval/test_vertical_pack_dry_run_eval.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-20 | T46 | dataset-boundary-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 
 ---
 

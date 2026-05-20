@@ -27,6 +27,13 @@ Regression criteria:
 - Any reduction in required-section coverage from baseline is a P1 unless documented and accepted.
 - Any task tagged `plan:schema` or `plan:validation` without a current eval row is incomplete.
 
+Dataset boundary:
+
+- demo fixtures validate product mechanics only
+- synthetic benchmarks validate regression behavior only
+- sanitized artifacts are not proof unless tied to a reviewed real pilot
+- real pilot proof is recorded only in `docs/pilot_measurement.md`
+
 ---
 
 ## Fixture Set
@@ -116,6 +123,9 @@ remains blocked until real pilot evidence exists.
 
 T45 established the review feedback analytics baseline with category, section,
 and blueprint-version counts that exclude raw confidential reviewer text.
+
+T46 established the demo/synthetic/real-pilot dataset boundary baseline for
+planning eval artifacts and pilot measurement docs.
 
 - Date: 2026-05-19
 - Task: T05
@@ -384,6 +394,19 @@ Review feedback analytics baseline:
 - Raw feedback text persisted: no
 - Regression: No
 
+Dataset boundary baseline:
+
+- Date: 2026-05-20
+- Task: T46
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q
+- Metric: Dataset boundary documentation coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Demo/synthetic proof status: excluded
+- Real pilot proof source: docs/pilot_measurement.md
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -412,6 +435,7 @@ Review feedback analytics baseline:
 | 2026-05-20 | T43 | v1 | Pilot intake checklist coverage | 100%; real-pilot gate explicit; demo/synthetic excluded | 100%; real-pilot gate explicit; demo/synthetic excluded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T44 | v1 | Vertical-pack dry-run expected-section coverage | 100%; generic sections 3; vertical sections 7; pilot evidence no | 100%; generic sections 3; vertical sections 7; pilot evidence no | 0% | No | pytest tests/eval/test_vertical_pack_dry_run_eval.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T45 | v1 | Feedback analytics expected-outcome pass rate | 100%; category/section/version counts; raw feedback persistence no | 100%; category/section/version counts; raw feedback persistence no | 0% | No | pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T46 | v1 | Dataset boundary documentation coverage | 100%; demo/synthetic proof excluded; real pilot source recorded | 100%; demo/synthetic proof excluded; real pilot source recorded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 
 ---
 

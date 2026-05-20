@@ -224,3 +224,16 @@ def test_plan_eval_records_feedback_analytics_metrics() -> None:
         "100%; category/section/version counts; raw feedback persistence no | 0% | No |"
         in plan_eval
     )
+
+
+def test_plan_eval_records_dataset_boundary_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T46 established the demo/synthetic/real-pilot dataset boundary baseline" in plan_eval
+    assert "demo fixtures validate product mechanics only" in plan_eval
+    assert "Demo/synthetic proof status: excluded" in plan_eval
+    assert (
+        "| 2026-05-20 | T46 | v1 | Dataset boundary documentation coverage | "
+        "100%; demo/synthetic proof excluded; real pilot source recorded | "
+        "100%; demo/synthetic proof excluded; real pilot source recorded | 0% | No |" in plan_eval
+    )
