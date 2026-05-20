@@ -4,7 +4,7 @@ Workflow-to-Agent Studio — это local-first инструмент для AI a
 
 Входом могут быть SOP, расшифровка Loom/созвона, заметки из discovery, описание формы, API/интеграций или вручную собранные операционные notes. Выходом должен стать evidence-linked automation brief: карта текущего процесса, болевые точки, кандидаты на автоматизацию, интеграции, human approval boundaries, риски, eval cases, observability needs и следующие implementation tasks.
 
-Статус: T01-T32 complete. Local ingestion, transcript/notes/form/integration source support, text-only retrieval, evidence gap reporting, evidence packs, retrieval quality controls, provider-backed extraction path, prompt registry, workflow extraction, blueprint synthesis, validation, readiness scoring, governance report export, review comments/diffs, local review workspace export, review versioning, Markdown export, CLI workflow, operator docs, corpus evals, and pilot measurement template are implemented.
+Статус: T01-T36 complete. Local ingestion, transcript/notes/form/integration source support, text-only retrieval, evidence gap reporting, evidence packs, retrieval quality controls, provider-backed extraction path, prompt registry, workflow extraction, blueprint synthesis, validation, readiness scoring, governance report export, review comments/diffs, local review workspace export, review versioning, Markdown export, CLI workflow, operator docs, corpus evals, vertical pack contract, pilot measurement template, and assumption-backed commercial pilot package are implemented.
 
 ---
 
@@ -219,6 +219,7 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retri
 - `docs/ARCHITECTURE.md`
 - `docs/spec.md`
 - `docs/product_strategy.md`
+- `docs/product_strategy.md#commercial-pilot-package`
 - `docs/tasks.md`
 - `docs/retrieval_eval.md`
 - `docs/plan_eval.md`
@@ -233,8 +234,10 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retri
 - Phase 3 implementation tasks T27-T28 are complete
 - Phase 4 implementation tasks T29-T30 are complete
 - Phase 5 implementation tasks T31-T32 are complete
+- Phase 6 task T33 is complete; T34 is blocked by the T34/T40 dependency cycle
+- Phase 7 implementation tasks T35-T36 are complete
 - Latest deep review: Cycle 13 for CODE-2 archived at `docs/archive/CYCLE13_CODE2_FIX.md`
-- Verified local baseline: 121 passing tests, 0 skipped, 0 failed
+- Verified local baseline: 127 passing tests, 0 skipped, 0 failed
 - CI workflow configured for Python 3.12, ruff lint, ruff format check, and pytest
 - Package skeleton, health command, settings, observability helpers, storage, ingestion, safety guards, text-only retrieval baseline, and initial v1 blueprint schema are implemented
 - `FIX-1` / `CODE-1` closed: `WorkflowStep` rejects steps without evidence or an assumption marker
@@ -243,8 +246,8 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retri
 - RAG profile ON
 - Planning profile ON
 - Tool-Use / Agentic / Compliance profiles OFF for v1
-- Open findings: none
-- Active task graph is ready for Phase 6 / `T33: Vertical Pack Contract`
+- Open findings: T34 and T40 currently form a dependency cycle
+- Active task graph is ready for Phase 8 / `T37: Controlled Import Connectors`
 - Product strategy is summarized in `docs/product_strategy.md`; the original long phase draft is archived at `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
 
 To continue implementation, run Codex with:

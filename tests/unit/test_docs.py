@@ -102,9 +102,23 @@ def test_readme_links_active_product_strategy_and_task_graph() -> None:
     readme = Path("README.md").read_text(encoding="utf-8")
 
     assert "docs/product_strategy.md" in readme
+    assert "docs/product_strategy.md#commercial-pilot-package" in readme
     assert "docs/tasks.md" in readme
     assert "docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md" in readme
-    assert "Verified local baseline: 121 passing tests" in readme
+    assert "Verified local baseline: 127 passing tests" in readme
+
+
+def test_product_strategy_documents_commercial_pilot_package() -> None:
+    strategy = Path("docs/product_strategy.md").read_text(encoding="utf-8")
+
+    assert "## Commercial Pilot Package" in strategy
+    assert "Status: assumption-backed" in strategy
+    assert "Buyer: AI automation consultants" in strategy
+    assert "Deliverables:" in strategy
+    assert "Non-goals:" in strategy
+    assert "Success criteria:" in strategy
+    assert "unresolved critical missing questions force a failed pilot result" in strategy
+    assert "Any public sales claim must cite the pilot measurement row" in strategy
 
 
 def test_prompts_stay_compact_and_archive_old_versions() -> None:

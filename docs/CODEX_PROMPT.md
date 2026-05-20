@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-20
-Phase: 6
+Phase: 8
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,12 +12,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 7 - Pilot Proof And Commercial Packaging
-- Next task: T36 - Commercial Pilot Package
+- Current phase: Phase 8 - Integrations And Controlled Handoff
+- Next task: T37 - Controlled Import Connectors
 - Verified baseline: 127 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
-- Open findings: T34 and T40 currently form a dependency cycle, so T35 is the next eligible task.
+- Open findings: T34 and T40 currently form a dependency cycle; tracked as Cycle 19 P2.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -33,39 +33,41 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T36 - Commercial Pilot Package
+Task: T37 - Controlled Import Connectors
 
-Goal: document the minimum sellable pilot package, buyer promise, boundaries, and proof metrics.
+Goal: add connector architecture for read-only imports while preserving local confidentiality and auditability.
 
 Acceptance summary:
 
-- package states buyer, use case, deliverables, non-goals, and success criteria
-- claims are tied to pilot evidence or marked as assumptions
-- README links the package without replacing operator docs
+- connector credentials are environment-backed and never persisted
+- imports are read-only and produce source records with connector metadata
+- connector failures do not corrupt existing runs
 
 File scope:
 
-- `docs/product_strategy.md`
-- `README.md`
-- `tests/unit/test_docs.py`
+- `workflow_agent_studio/ingestion/`
+- `workflow_agent_studio/config.py`
+- `docs/ARCHITECTURE.md`
+- `tests/integration/`
 
 Required context:
 
-- `docs/tasks.md#t36-commercial-pilot-package`
-- `docs/pilot_measurement.md`
+- `docs/tasks.md#t37-controlled-import-connectors`
+- `docs/IMPLEMENTATION_CONTRACT.md#credentials`
+- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: pilot package evidence boundaries and later vertical-pack validation
+- Next work: read-only connector imports with local corpus isolation
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: pilot package success criteria and evidence-backed validation
+- Next work: controlled handoff export after approved pilot gates
 - Open planning findings: none
 
 Tool-Use: OFF
@@ -80,3 +82,4 @@ Compliance: OFF
 - Completed V1 prompt state: `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`
 - Prior long orchestrator prompt: `docs/archive/ORCHESTRATOR_V2_LONG.md`
 - Original phase draft: `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
+- Latest phase review: `docs/archive/CYCLE19_PHASE7_PILOT_PACKAGE_REVIEW.md`

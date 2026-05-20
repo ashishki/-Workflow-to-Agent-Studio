@@ -46,6 +46,50 @@ Buyer pain:
 
 The first commercial proof should show that a reviewer can turn a real workflow source into a useful blueprint in under 30 minutes, with at least 80 percent required-section acceptance after human review.
 
+## Commercial Pilot Package
+
+Status: assumption-backed until `docs/pilot_measurement.md` contains a reviewed real pilot row.
+
+Buyer: AI automation consultants, freelance AI engineers, ops leads, solution
+architects, or technical founders who need to decide whether a workflow is ready
+for automation before implementation starts.
+
+Use case: turn one messy workflow source package into a reviewable,
+evidence-linked automation blueprint with explicit risks, approval boundaries,
+missing questions, and eval cases.
+
+Deliverables:
+
+- imported local source records and evidence coverage notes
+- reviewable automation blueprint draft
+- evidence gap report with critical missing questions
+- automation readiness and governance report
+- local review workspace export with comments and diffs
+- pilot measurement row update after human review
+
+Non-goals:
+
+- no production agent creation or deployment
+- no autonomous customer workflow execution
+- no external handoff publication or GitHub issue creation
+- no replacement for stakeholder interviews when evidence is missing
+- no success claim until a human-reviewed pilot row meets the measurement gate
+
+Success criteria:
+
+- time to reviewable blueprint is under 30 minutes
+- at least 80 percent of required blueprint sections are accepted after human review
+- reviewer edits and critical missing questions are recorded
+- unresolved critical missing questions force a failed pilot result
+
+Evidence status:
+
+- The package is commercially testable as a constrained pilot.
+- The buyer, workflow, deliverables, and threshold claims are assumptions until a
+  real pilot row is recorded in `docs/pilot_measurement.md`.
+- Any public sales claim must cite the pilot measurement row or remain labeled as
+  an assumption.
+
 ## Engineering Principles
 
 - Keep safety-critical checks deterministic.
