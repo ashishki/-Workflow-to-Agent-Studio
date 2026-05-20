@@ -106,6 +106,10 @@ T42 established the deterministic sanitization baseline for benchmark and future
 pilot artifacts, preserving eval structure while redacting common PII and
 credential-like values.
 
+T43 established the pilot intake checklist baseline with source-material,
+reviewer-action, threshold, and missing-question gates that distinguish real
+pilot evidence from demo or synthetic fixtures.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -333,6 +337,19 @@ Sanitization baseline:
 - Structure preservation: pass
 - Regression: No
 
+Pilot intake checklist baseline:
+
+- Date: 2026-05-20
+- Task: T43
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q
+- Metric: Pilot intake checklist coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Real-pilot gate: explicit
+- Demo/synthetic exclusion: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -358,6 +375,7 @@ Sanitization baseline:
 | 2026-05-20 | T39 | v1 | Feedback category coverage | 100%; 6 categories; raw feedback audit persistence no | 100%; 6 categories; raw feedback audit persistence no | 0% | No | pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T41 | v1 | Synthetic benchmark planning coverage | 100%; 2 fixtures; 7 sections; 6 feedback categories; pilot evidence no | 100%; 2 fixtures; 7 sections; 6 feedback categories; pilot evidence no | 0% | No | pytest tests/eval/test_synthetic_benchmark_eval.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T42 | v1 | Sanitization expected-outcome pass rate | 100%; 6 redaction classes; structure preservation pass | 100%; 6 redaction classes; structure preservation pass | 0% | No | pytest tests/unit/test_sanitization.py tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T43 | v1 | Pilot intake checklist coverage | 100%; real-pilot gate explicit; demo/synthetic excluded | 100%; real-pilot gate explicit; demo/synthetic excluded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 
 ---
 

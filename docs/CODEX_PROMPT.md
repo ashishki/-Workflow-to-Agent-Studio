@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 10 - Pre-Pilot Hardening
-- Next task: T43 - Pilot Intake Checklist
-- Verified baseline: 145 passing tests, 0 skipped, 0 failed
+- Next task: T44 - Vertical Pack Dry-Run Evaluation
+- Verified baseline: 147 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; synthetic fixtures cannot satisfy pilot proof.
@@ -33,41 +33,41 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T43 - Pilot Intake Checklist
+Task: T44 - Vertical Pack Dry-Run Evaluation
 
-Goal: document and validate the exact evidence needed to convert a future real pilot into a measurement row.
+Goal: evaluate vertical-pack mechanics on synthetic fixtures without claiming a real wedge.
 
 Acceptance summary:
 
-- checklist enumerates required source material, reviewer actions, thresholds, and missing-question rules
-- checklist distinguishes real pilot evidence from demo or synthetic fixtures
-- docs tests prevent pilot proof claims while checklist inputs are incomplete
+- dry-run compares generic and vertical-pack expectations on synthetic fixtures
+- results are labeled not pilot evidence
+- T34 remains blocked until real pilot evidence exists
 
 File scope:
 
-- `docs/pilot_measurement.md`
-- `docs/evaluation_guide.md`
-- `tests/unit/test_docs.py`
-- `docs/operator_guide.md`
+- `patterns/`
+- `tests/fixtures/benchmarks/`
+- `docs/retrieval_eval.md`
+- `docs/plan_eval.md`
 
 Required context:
 
-- `docs/tasks.md#t43-pilot-intake-checklist`
-- `docs/pilot_measurement.md`
-- `docs/evaluation_guide.md`
+- `docs/tasks.md#t44-vertical-pack-dry-run-evaluation`
+- `docs/tasks.md#t34-first-vertical-pack-from-pilot-evidence`
+- `tests/fixtures/benchmarks/`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: pilot intake checklist
+- Next work: vertical pack dry-run evaluation
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: pilot intake checklist
+- Next work: vertical pack dry-run evaluation
 - Open planning findings: none
 
 Tool-Use: OFF

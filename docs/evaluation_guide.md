@@ -54,6 +54,8 @@ It remains template-only until a human-reviewed pilot records both required
 threshold results, reviewer edits, and critical missing questions. Overall pass
 requires time-to-reviewable blueprint under 30 minutes, at least 80 percent
 required-section acceptance after human review, and no unresolved critical
-missing questions.
+missing questions. The pilot intake checklist in that file must be complete
+before any demo, synthetic, or sanitized artifact can be excluded from the
+real-pilot evidence gate.
 
 The active AI product development roadmap is documented in [`docs/tasks.md`](tasks.md), with strategy summarized in [`docs/product_strategy.md`](product_strategy.md).

@@ -9,6 +9,34 @@ not mark the pilot as passed until the measurement row is filled after human rev
 No real pilot has been reviewed yet. Until that evidence exists, this artifact
 remains template-only and must not be cited as product validation.
 
+## Pilot Intake Checklist
+
+All checklist rows must be complete before replacing the template pilot row with a
+real measurement row.
+
+| Requirement | Real Pilot Evidence | Demo/Synthetic Evidence |
+|-------------|---------------------|-------------------------|
+| workflow source | Real operator-provided SOP, transcript, notes, form, or integration excerpt. | Not accepted. Demo and synthetic fixtures can test mechanics only. |
+| source duration | Record minutes of real source material or discovery input. | Not accepted for proof metrics. |
+| reviewer action | Human reviewer inspects the generated blueprint and records accepted sections, edits, missing questions, and unsupported claims. | Not accepted unless the reviewer is evaluating a real workflow. |
+| thresholds | Record time-to-reviewable blueprint and required-section acceptance after review. | Not accepted for commercial proof. |
+| missing-question rule | Any unresolved critical missing question forces `Fail`. | Not accepted for pilot pass/fail. |
+| sanitized notes | Summaries may be sanitized, but the reviewer must confirm they came from a real workflow. | Synthetic or demo summaries remain non-pilot data. |
+
+Required source material:
+
+- real workflow source lasting roughly 10-20 minutes or equivalent written detail
+- source kind recorded as transcript, notes, form, integration excerpt, SOP, or mixed packet
+- sanitization status recorded before any benchmark or public artifact reuse
+
+Required reviewer actions:
+
+- count accepted required blueprint sections
+- count substantive reviewer edits
+- count critical missing questions
+- record unsupported claims, wrong boundaries, weak evals, wrong integrations, and unclear risks when present
+- confirm whether every critical missing question is resolved
+
 ## Required Fields
 
 | Field | Description | Value |

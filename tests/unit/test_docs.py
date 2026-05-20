@@ -80,6 +80,19 @@ def test_pilot_measurement_records_review_evidence_placeholders() -> None:
     assert "Template only - no reviewed pilot yet" in measurement
 
 
+def test_pilot_measurement_includes_real_pilot_intake_checklist() -> None:
+    measurement = Path("docs/pilot_measurement.md").read_text(encoding="utf-8")
+
+    assert "## Pilot Intake Checklist" in measurement
+    assert "Real operator-provided SOP, transcript, notes, form, or integration excerpt." in (
+        measurement
+    )
+    assert "Demo and synthetic fixtures can test mechanics only." in measurement
+    assert "Any unresolved critical missing question forces `Fail`." in measurement
+    assert "count accepted required blueprint sections" in measurement
+    assert "confirm whether every critical missing question is resolved" in measurement
+
+
 def test_evaluation_guide_links_pilot_measurement_artifact() -> None:
     guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
 
@@ -88,6 +101,8 @@ def test_evaluation_guide_links_pilot_measurement_artifact() -> None:
     assert "time-to-reviewable blueprint under 30 minutes" in guide
     assert "no unresolved critical" in guide
     assert "missing questions" in guide
+    assert "pilot intake checklist" in guide
+    assert "real-pilot evidence gate" in guide
 
 
 def test_active_ai_roadmap_cover_strategy_and_engineering() -> None:

@@ -184,3 +184,16 @@ def test_plan_eval_records_sanitization_metrics() -> None:
         "100%; 6 redaction classes; structure preservation pass | "
         "100%; 6 redaction classes; structure preservation pass | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_pilot_intake_checklist_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T43 established the pilot intake checklist baseline" in plan_eval
+    assert "Real-pilot gate: explicit" in plan_eval
+    assert "Demo/synthetic exclusion: pass" in plan_eval
+    assert (
+        "| 2026-05-20 | T43 | v1 | Pilot intake checklist coverage | "
+        "100%; real-pilot gate explicit; demo/synthetic excluded | "
+        "100%; real-pilot gate explicit; demo/synthetic excluded | 0% | No |" in plan_eval
+    )
