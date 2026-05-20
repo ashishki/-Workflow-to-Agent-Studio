@@ -18,6 +18,11 @@ from workflow_agent_studio.retrieval.index import (
     build_vector_index,
     load_index_metadata,
 )
+from workflow_agent_studio.retrieval.packs import (
+    EvidencePack,
+    EvidencePackBundle,
+    build_evidence_packs,
+)
 from workflow_agent_studio.retrieval.patterns import PatternTemplate, load_pattern_library
 from workflow_agent_studio.retrieval.query import retrieve_evidence
 
@@ -27,6 +32,8 @@ __all__ = [
     "EvidenceAnchor",
     "EvidenceGap",
     "EvidenceGapReport",
+    "EvidencePack",
+    "EvidencePackBundle",
     "EvidenceSnippet",
     "FakeEmbeddingProvider",
     "IndexMetadata",
@@ -37,6 +44,7 @@ __all__ = [
     "build_vector_index",
     "build_evidence_anchor_map",
     "build_evidence_gap_report",
+    "build_evidence_packs",
     "chunk_source_document",
     "load_index_metadata",
     "load_pattern_library",

@@ -93,6 +93,9 @@ with source-kind metadata and unsupported file rejection.
 T24 established the real-world-style corpus fixture baseline with transcript,
 notes, form, and integration source fixtures.
 
+T25 established the evidence pack citation precision baseline for blueprint
+sections and automation candidates.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -175,6 +178,19 @@ Real-world-style corpus baseline:
 - Citation support: 1.00
 - Regression: No
 
+Evidence pack baseline:
+
+- Date: 2026-05-20
+- Task: T25
+- Corpus Version: evidence-pack-fixture-v1
+- Index Schema: v1
+- Eval Source: pytest tests/integration/test_evidence_packs.py tests/eval/test_retrieval_eval.py -q
+- Section packs: 2
+- Automation candidate packs: 1
+- Unsupported sections returning insufficient_evidence: 1
+- Citation precision: 1.00
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -189,6 +205,7 @@ Real-world-style corpus baseline:
 | 2026-05-20 | T21 | transcript-fixture-v1 | n/a | pytest tests/integration/test_ingestion.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-20 | T22 | discovery-artifacts-fixture-v1 | n/a | pytest tests/integration/test_ingestion.py tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-20 | T24 | real-world-corpus-v1 | n/a | pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | 1.00 | n/a | n/a | n/a | No |
+| 2026-05-20 | T25 | evidence-pack-fixture-v1 | v1 | pytest tests/integration/test_evidence_packs.py tests/eval/test_retrieval_eval.py -q | 1.00 | 1.00 | n/a | 1.00 | 1.00 | n/a | n/a | No |
 
 ---
 

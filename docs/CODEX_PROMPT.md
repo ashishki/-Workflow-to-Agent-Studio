@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 2 - Retrieval And Evidence Engine
-- Next task: T25 - Evidence Pack Builder
-- Verified baseline: 96 passing tests, 0 skipped, 0 failed
+- Next task: T26 - Retrieval Quality Controls
+- Verified baseline: 99 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,21 +33,21 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T25 - Evidence Pack Builder
+Task: T26 - Retrieval Quality Controls
 
-Goal: build reusable evidence packs for workflow sections and automation candidates.
+Goal: add thresholds, reranking hooks, and no-answer behavior that improve evidence quality without fabricating support.
 
 Acceptance summary:
 
-- evidence packs group source snippets by blueprint section and candidate automation
-- unsupported sections produce `insufficient_evidence`
-- citation precision is measured in `docs/retrieval_eval.md`
+- threshold changes are configurable and tested
+- reranking is provider-neutral and can be faked deterministically
+- no-answer and low-confidence paths have explicit tests and eval rows
 
 File scope:
 
 - `workflow_agent_studio/retrieval/`
-- `workflow_agent_studio/blueprint/`
-- `tests/integration/test_evidence_packs.py`
+- `workflow_agent_studio/config.py`
+- `tests/unit/test_retrieval_query.py`
 - `docs/retrieval_eval.md`
 
 Required context:
@@ -60,7 +60,7 @@ Required context:
 RAG: ON
 
 - Current mode: text-only
-- Next work: evidence packs, retrieval quality controls, and citation precision
+- Next work: retrieval quality controls and citation precision
 - Open retrieval findings: none
 
 Planning: ON
