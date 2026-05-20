@@ -10,8 +10,10 @@ from workflow_agent_studio.blueprint.review import (
     diff_blueprints,
     edit_blueprint,
     record_blueprint_diff,
+    record_review_feedback,
 )
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
+from workflow_agent_studio.domain.review import REVIEW_FEEDBACK_CATEGORIES
 from workflow_agent_studio.domain.workflow import EvidenceReference
 from workflow_agent_studio.storage import (
     AuditEventRepository,
@@ -214,3 +216,47 @@ def test_blueprint_diff_tracks_review_relevant_sections_without_auditing_claim_t
         "approval_boundaries",
     ]
     assert "Changed confidential claim text" not in event["payload_json"]
+
+
+def test_review_feedback_taxonomy_covers_reusable_categories() -> None:
+    assert set(REVIEW_FEEDBACK_CATEGORIES) == {
+        "missing_evidence",
+        "wrong_boundary",
+        "weak_eval",
+        "wrong_integration",
+        "unclear_risk",
+        "unsupported_claim",
+    }
+
+
+def test_review_feedback_records_category_without_raw_confidential_text(connection) -> None:
+    WorkflowRunRepository(connection).create_run("run-1")
+    audit_events = AuditEventRepository(connection)
+    raw_summary = "Client said the private renewal workflow depends on account ACME-123."
+
+    feedback = record_review_feedback(
+        run_id="run-1",
+        blueprint_version_id=7,
+        category="missing_evidence",
+        section="integration_map",
+        reviewer_label="operator",
+        summary=raw_summary,
+        evidence_reference=EvidenceReference(source_id="src-1", chunk_id="chk-1"),
+        audit_events=audit_events,
+        recorded_at="2026-05-20T00:00:00+00:00",
+    )
+
+    assert feedback.category == "missing_evidence"
+    assert feedback.summary == raw_summary
+    event = audit_events.list_events("run-1")[0]
+    payload = json.loads(event["payload_json"])
+    assert event["event_type"] == "review_feedback_recorded"
+    assert payload == {
+        "blueprint_version_id": 7,
+        "category": "missing_evidence",
+        "evidence_reference": {"chunk_id": "chk-1", "source_id": "src-1"},
+        "reviewer_label": "operator",
+        "section": "integration_map",
+    }
+    assert raw_summary not in event["payload_json"]
+    assert "ACME-123" not in event["payload_json"]

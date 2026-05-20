@@ -95,6 +95,9 @@ T38 established the approved handoff export baseline with approval/version gates
 blocking-validation rejection, local path constraints, and local-only side-effect
 boundaries.
 
+T39 established the reviewer feedback taxonomy baseline with six reusable
+categories and audit storage that excludes raw confidential reviewer text.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -281,6 +284,19 @@ Approved handoff export baseline:
 - Local side effects only: pass
 - Regression: No
 
+Reviewer feedback taxonomy baseline:
+
+- Date: 2026-05-20
+- Task: T39
+- Eval Source: pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q
+- Metric: Feedback category coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Categories: 6
+- Raw feedback text persisted in audit: no
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -303,6 +319,7 @@ Approved handoff export baseline:
 | 2026-05-20 | T33 | v1 | Vertical pack schema pass rate | 100%; 1 pack loaded; metadata coverage 100% | 100%; 1 pack loaded; metadata coverage 100% | 0% | No | pytest tests/unit/test_pattern_library.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T35 | v1 | Pilot measurement evidence gate coverage | 100%; template-only; 0 reviewed pilot rows | 100%; template-only; 0 reviewed pilot rows | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T38 | v1 | Approved handoff export expected-outcome pass rate | 100%; approval gates pass; local side effects only | 100%; approval gates pass; local side effects only | 0% | No | pytest tests/integration/test_markdown_export.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T39 | v1 | Feedback category coverage | 100%; 6 categories; raw feedback audit persistence no | 100%; 6 categories; raw feedback audit persistence no | 0% | No | pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q |
 
 ---
 

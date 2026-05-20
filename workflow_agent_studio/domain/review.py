@@ -6,6 +6,24 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+ReviewFeedbackCategory = Literal[
+    "missing_evidence",
+    "wrong_boundary",
+    "weak_eval",
+    "wrong_integration",
+    "unclear_risk",
+    "unsupported_claim",
+]
+
+REVIEW_FEEDBACK_CATEGORIES: tuple[ReviewFeedbackCategory, ...] = (
+    "missing_evidence",
+    "wrong_boundary",
+    "weak_eval",
+    "wrong_integration",
+    "unclear_risk",
+    "unsupported_claim",
+)
+
 
 class ReviewFinding(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -22,3 +40,14 @@ class ReviewStatus(BaseModel):
 
     status: Literal["draft", "approved", "rejected"] = "draft"
     findings: list[ReviewFinding] = Field(default_factory=list)
+
+
+class ReviewFeedback(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    feedback_id: str = Field(min_length=1)
+    blueprint_version_id: int
+    category: ReviewFeedbackCategory
+    section: str = Field(min_length=1)
+    reviewer_label: str = Field(min_length=1)
+    summary: str = Field(min_length=1)

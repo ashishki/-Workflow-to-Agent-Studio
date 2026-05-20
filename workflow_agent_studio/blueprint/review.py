@@ -6,6 +6,7 @@ import json
 from dataclasses import dataclass
 
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
+from workflow_agent_studio.domain.review import ReviewFeedback, ReviewFeedbackCategory
 from workflow_agent_studio.domain.workflow import EvidenceReference
 from workflow_agent_studio.storage import (
     AuditEventRepository,
@@ -121,6 +122,47 @@ def add_review_comment(
         created_at=commented_at,
     )
     return comment
+
+
+def record_review_feedback(
+    *,
+    run_id: str,
+    blueprint_version_id: int,
+    category: ReviewFeedbackCategory,
+    section: str,
+    reviewer_label: str,
+    summary: str,
+    audit_events: AuditEventRepository,
+    evidence_reference: EvidenceReference | None = None,
+    recorded_at: str | None = None,
+) -> ReviewFeedback:
+    feedback = ReviewFeedback(
+        feedback_id=f"{run_id}:feedback:{blueprint_version_id}:{section}:{category}",
+        blueprint_version_id=blueprint_version_id,
+        category=category,
+        section=section,
+        reviewer_label=reviewer_label,
+        summary=summary,
+    )
+    payload = {
+        "blueprint_version_id": blueprint_version_id,
+        "category": category,
+        "section": section,
+        "reviewer_label": reviewer_label,
+    }
+    if evidence_reference is not None:
+        payload["evidence_reference"] = {
+            "source_id": evidence_reference.source_id,
+            "chunk_id": evidence_reference.chunk_id,
+        }
+    audit_events.add_event(
+        event_id=feedback.feedback_id,
+        run_id=run_id,
+        event_type="review_feedback_recorded",
+        payload=payload,
+        created_at=recorded_at,
+    )
+    return feedback
 
 
 def diff_blueprints(

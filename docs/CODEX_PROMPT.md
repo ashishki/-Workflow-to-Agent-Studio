@@ -13,11 +13,11 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 9 - Learning System And Moat
-- Next task: T39 - Reviewer Feedback Taxonomy
-- Verified baseline: 136 passing tests, 0 skipped, 0 failed
+- Next task: BLOCKED - T34/T40 dependency cycle
+- Verified baseline: 139 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
-- Open findings: T34 and T40 currently form a dependency cycle; tracked as Cycle 20 P2.
+- Open findings: T34 depends on T40 and T40 depends on T34; human task-graph decision required.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -33,41 +33,38 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T39 - Reviewer Feedback Taxonomy
+Task: BLOCKED - T34/T40 dependency cycle
 
-Goal: classify reviewer edits into reusable feedback categories.
+Goal: unblock the remaining vertical-pack and learning-system tasks.
 
 Acceptance summary:
 
-- taxonomy captures missing evidence, wrong boundary, weak eval, wrong integration, unclear risk, and unsupported claim
-- feedback is stored without raw confidential source text
-- plan eval records feedback category coverage
+- T34 requires T40 before implementation
+- T40 requires T34 before implementation
+- no remaining task is eligible without changing the task graph or dependency interpretation
 
 File scope:
 
-- `workflow_agent_studio/blueprint/review.py`
-- `workflow_agent_studio/domain/review.py`
-- `docs/plan_eval.md`
-- `tests/integration/test_review_state.py`
+- `docs/tasks.md`
 
 Required context:
 
-- `docs/tasks.md#t39-reviewer-feedback-taxonomy`
-- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
-- `docs/plan_eval.md`
+- `docs/tasks.md#t34-first-vertical-pack-from-pilot-evidence`
+- `docs/tasks.md#t40-pattern-learning-and-benchmark-corpus`
+- `docs/IMPLEMENTATION_CONTRACT.md#nonstop-development-loop`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: learning-system fixtures after feedback taxonomy
+- Next work: blocked pending task-graph decision
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: reviewer feedback taxonomy
+- Next work: blocked pending task-graph decision
 - Open planning findings: none
 
 Tool-Use: OFF

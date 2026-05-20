@@ -158,3 +158,16 @@ def test_plan_eval_records_approved_handoff_export_metrics() -> None:
         "100%; approval gates pass; local side effects only | "
         "100%; approval gates pass; local side effects only | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_feedback_taxonomy_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T39 established the reviewer feedback taxonomy baseline" in plan_eval
+    assert "Categories: 6" in plan_eval
+    assert "Raw feedback text persisted in audit: no" in plan_eval
+    assert (
+        "| 2026-05-20 | T39 | v1 | Feedback category coverage | "
+        "100%; 6 categories; raw feedback audit persistence no | "
+        "100%; 6 categories; raw feedback audit persistence no | 0% | No |" in plan_eval
+    )
