@@ -5,32 +5,57 @@ from __future__ import annotations
 import json
 import math
 import re
+from collections.abc import Sequence
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol
 
+from workflow_agent_studio.config import load_settings
 from workflow_agent_studio.retrieval.embeddings import EmbeddingProvider, FakeEmbeddingProvider
 from workflow_agent_studio.retrieval.evidence import EvidenceSnippet, RetrievalResult
 
 TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
 
 
+@dataclass(frozen=True)
+class ScoredEntry:
+    score: float
+    entry: dict[str, Any]
+
+
+class EvidenceReranker(Protocol):
+    def rerank(self, entries: Sequence[ScoredEntry]) -> list[ScoredEntry]: ...
+
+
 def retrieve_evidence(
     *,
     index_path: str | Path,
     query: str,
-    top_k: int = 3,
-    min_score: float = 0.1,
+    top_k: int | None = None,
+    min_score: float | None = None,
     embedding_provider: EmbeddingProvider | None = None,
+    reranker: EvidenceReranker | None = None,
 ) -> RetrievalResult:
+    settings = load_settings()
+    effective_top_k = top_k if top_k is not None else settings.retrieval_top_k
+    effective_min_score = min_score if min_score is not None else settings.retrieval_min_score
     entries = json.loads((Path(index_path) / "vectors.json").read_text(encoding="utf-8"))
     query_tokens = _tokens(query)
     provider = embedding_provider or FakeEmbeddingProvider()
     query_vector = provider.embed_texts([query])[0]
-    scored = [(_combined_score(query_tokens, query_vector, entry), entry) for entry in entries]
+    scored = [
+        ScoredEntry(score=_combined_score(query_tokens, query_vector, entry), entry=entry)
+        for entry in entries
+    ]
+    ordered = (
+        reranker.rerank(scored)
+        if reranker is not None
+        else sorted(scored, key=lambda item: item.score, reverse=True)
+    )
     evidence = [
-        _to_evidence(score, entry)
-        for score, entry in sorted(scored, key=lambda item: item[0], reverse=True)[:top_k]
-        if score >= min_score
+        _to_evidence(scored_entry.score, scored_entry.entry)
+        for scored_entry in ordered[:effective_top_k]
+        if scored_entry.score >= effective_min_score
     ]
     if not evidence:
         return RetrievalResult(status="insufficient_evidence", evidence=[], answer_text=None)

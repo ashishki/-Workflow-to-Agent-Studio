@@ -14,6 +14,8 @@ def test_load_settings_reads_env_and_defaults() -> None:
             "WORKFLOW_STUDIO_EXTRACTION_MODEL": "fake-extraction",
             "WORKFLOW_STUDIO_EMBEDDING_MODEL": "fake-embedding",
             "WORKFLOW_STUDIO_LOG_LEVEL": "debug",
+            "WORKFLOW_STUDIO_RETRIEVAL_MIN_SCORE": "0.35",
+            "WORKFLOW_STUDIO_RETRIEVAL_TOP_K": "5",
         }
     )
 
@@ -25,6 +27,8 @@ def test_load_settings_reads_env_and_defaults() -> None:
     assert settings.extraction_model == "fake-extraction"
     assert settings.embedding_model == "fake-embedding"
     assert settings.log_level == "DEBUG"
+    assert settings.retrieval_min_score == 0.35
+    assert settings.retrieval_top_k == 5
 
     defaults = load_settings({})
     assert defaults.storage_path == Path(".data/workflow_studio.sqlite3")
@@ -35,3 +39,5 @@ def test_load_settings_reads_env_and_defaults() -> None:
     assert defaults.extraction_model == "gpt-5.4-mini"
     assert defaults.embedding_model == "text-embedding-3-small"
     assert defaults.log_level == "INFO"
+    assert defaults.retrieval_min_score == 0.1
+    assert defaults.retrieval_top_k == 3

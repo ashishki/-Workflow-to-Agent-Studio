@@ -17,6 +17,8 @@ class Settings:
     extraction_model: str
     embedding_model: str
     log_level: str
+    retrieval_min_score: float
+    retrieval_top_k: int
 
 
 def load_settings(environ: dict[str, str] | None = None) -> Settings:
@@ -30,4 +32,6 @@ def load_settings(environ: dict[str, str] | None = None) -> Settings:
         extraction_model=env.get("WORKFLOW_STUDIO_EXTRACTION_MODEL", "gpt-5.4-mini"),
         embedding_model=env.get("WORKFLOW_STUDIO_EMBEDDING_MODEL", "text-embedding-3-small"),
         log_level=env.get("WORKFLOW_STUDIO_LOG_LEVEL", "INFO").upper(),
+        retrieval_min_score=float(env.get("WORKFLOW_STUDIO_RETRIEVAL_MIN_SCORE", "0.1")),
+        retrieval_top_k=int(env.get("WORKFLOW_STUDIO_RETRIEVAL_TOP_K", "3")),
     )

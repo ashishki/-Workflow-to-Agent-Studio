@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-20
-Phase: 2
+Phase: 3
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,9 +12,9 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 2 - Retrieval And Evidence Engine
-- Next task: T26 - Retrieval Quality Controls
-- Verified baseline: 99 passing tests, 0 skipped, 0 failed
+- Current phase: Phase 3 - Structured LLM Extraction And Synthesis
+- Next task: T27 - Provider-Backed Structured Extraction
+- Verified baseline: 103 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,34 +33,36 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T26 - Retrieval Quality Controls
+Task: T27 - Provider-Backed Structured Extraction
 
-Goal: add thresholds, reranking hooks, and no-answer behavior that improve evidence quality without fabricating support.
+Goal: enable a real provider path for workflow extraction behind the existing structured-output gateway.
 
 Acceptance summary:
 
-- threshold changes are configurable and tested
-- reranking is provider-neutral and can be faked deterministically
-- no-answer and low-confidence paths have explicit tests and eval rows
+- provider selection remains environment-backed and defaults to fake provider in tests
+- model outputs are parsed into versioned schemas before storage
+- schema errors are observable without logging raw source text
+- extraction eval compares fake and provider-backed fixture behavior where provider credentials are available
 
 File scope:
 
-- `workflow_agent_studio/retrieval/`
-- `workflow_agent_studio/config.py`
-- `tests/unit/test_retrieval_query.py`
-- `docs/retrieval_eval.md`
+- `workflow_agent_studio/llm/`
+- `workflow_agent_studio/extraction/`
+- `docs/plan_eval.md`
+- `tests/unit/`
+- `tests/integration/`
 
 Required context:
 
-- `docs/ARCHITECTURE.md#profile-rag`
-- `docs/retrieval_eval.md`
+- `docs/IMPLEMENTATION_CONTRACT.md#model-output-boundary`
+- `docs/ARCHITECTURE.md#profile-planning`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: retrieval quality controls and citation precision
+- Next work: provider-backed structured extraction
 - Open retrieval findings: none
 
 Planning: ON

@@ -47,6 +47,17 @@ def test_retrieval_eval_records_evidence_pack_metrics() -> None:
     )
 
 
+def test_retrieval_eval_records_quality_control_metrics() -> None:
+    retrieval_eval = Path("docs/retrieval_eval.md").read_text(encoding="utf-8")
+
+    assert "T26 established the retrieval quality-control baseline" in retrieval_eval
+    assert (
+        "| 2026-05-20 | T26 | retrieval-quality-fixture-v1 | v1 | "
+        "pytest tests/unit/test_retrieval_quality.py tests/eval/test_retrieval_eval.py -q | "
+        "1.00 | 1.00 | n/a | n/a | 1.00 | n/a | n/a | No |" in retrieval_eval
+    )
+
+
 def test_retrieval_eval_records_chunking_baseline() -> None:
     retrieval_eval = Path("docs/retrieval_eval.md").read_text(encoding="utf-8")
 

@@ -4,7 +4,7 @@ Workflow-to-Agent Studio — это local-first инструмент для AI a
 
 Входом могут быть SOP, расшифровка Loom/созвона, заметки из discovery, описание формы, API/интеграций или вручную собранные операционные notes. Выходом должен стать evidence-linked automation brief: карта текущего процесса, болевые точки, кандидаты на автоматизацию, интеграции, human approval boundaries, риски, eval cases, observability needs и следующие implementation tasks.
 
-Статус: T01-T24 complete. Local ingestion, transcript/notes/form/integration source support, text-only retrieval, evidence gap reporting, workflow extraction, blueprint synthesis, validation, review versioning, Markdown export, CLI workflow, operator docs, corpus evals, and pilot measurement template are implemented.
+Статус: T01-T26 complete. Local ingestion, transcript/notes/form/integration source support, text-only retrieval, evidence gap reporting, evidence packs, retrieval quality controls, workflow extraction, blueprint synthesis, validation, review versioning, Markdown export, CLI workflow, operator docs, corpus evals, and pilot measurement template are implemented.
 
 ---
 
@@ -229,8 +229,9 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retri
 
 - Phase 0 implementation tasks T01-T20 are built and archived at `docs/archive/TASK_GRAPH_V1_T01_T20.md`
 - Phase 1 implementation tasks T21-T24 are complete
+- Phase 2 implementation tasks T25-T26 are complete
 - Latest deep review: Cycle 13 for CODE-2 archived at `docs/archive/CYCLE13_CODE2_FIX.md`
-- Verified local baseline: 96 passing tests, 0 skipped, 0 failed
+- Verified local baseline: 103 passing tests, 0 skipped, 0 failed
 - CI workflow configured for Python 3.12, ruff lint, ruff format check, and pytest
 - Package skeleton, health command, settings, observability helpers, storage, ingestion, safety guards, text-only retrieval baseline, and initial v1 blueprint schema are implemented
 - `FIX-1` / `CODE-1` closed: `WorkflowStep` rejects steps without evidence or an assumption marker
@@ -240,7 +241,7 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retri
 - Planning profile ON
 - Tool-Use / Agentic / Compliance profiles OFF for v1
 - Open findings: none
-- Active task graph is ready for Phase 2 / `T25: Evidence Pack Builder`
+- Active task graph is ready for Phase 3 / `T27: Provider-Backed Structured Extraction`
 - Product strategy is summarized in `docs/product_strategy.md`; the original long phase draft is archived at `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
 
 To continue implementation, run Codex with:

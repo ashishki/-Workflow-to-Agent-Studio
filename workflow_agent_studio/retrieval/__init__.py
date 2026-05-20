@@ -24,7 +24,7 @@ from workflow_agent_studio.retrieval.packs import (
     build_evidence_packs,
 )
 from workflow_agent_studio.retrieval.patterns import PatternTemplate, load_pattern_library
-from workflow_agent_studio.retrieval.query import retrieve_evidence
+from workflow_agent_studio.retrieval.query import EvidenceReranker, ScoredEntry, retrieve_evidence
 
 __all__ = [
     "INDEX_SCHEMA_VERSION",
@@ -34,11 +34,13 @@ __all__ = [
     "EvidenceGapReport",
     "EvidencePack",
     "EvidencePackBundle",
+    "EvidenceReranker",
     "EvidenceSnippet",
     "FakeEmbeddingProvider",
     "IndexMetadata",
     "PatternTemplate",
     "RetrievalResult",
+    "ScoredEntry",
     "SourceChunk",
     "VectorIndex",
     "build_vector_index",
