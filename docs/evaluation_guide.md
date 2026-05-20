@@ -58,4 +58,17 @@ missing questions. The pilot intake checklist in that file must be complete
 before any demo, synthetic, or sanitized artifact can be excluded from the
 real-pilot evidence gate.
 
+## Prospect Data Request Gate
+
+Before asking a potential customer for real workflow data, run the full test
+suite and confirm that public-source evals cover pipeline mechanics,
+domain-specific fact preservation, public-vs-pilot boundary labeling, and
+demo-pack reproducibility. The current public demo pack is
+`docs/experiments/public_demo_pack/netbox_issue_triage/`.
+
+Passing this gate authorizes a controlled source request only. It does not create
+a pilot measurement row, does not satisfy T34/T40, and does not support
+commercial claims until the prospect source is reviewed by a human reviewer and
+recorded in `docs/pilot_measurement.md`.
+
 The active AI product development roadmap is documented in [`docs/tasks.md`](tasks.md), with strategy summarized in [`docs/product_strategy.md`](product_strategy.md).

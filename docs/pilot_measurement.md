@@ -41,6 +41,38 @@ Required reviewer actions:
 - record unsupported claims, wrong boundaries, weak evals, wrong integrations, and unclear risks when present
 - confirm whether every critical missing question is resolved
 
+## Prospect Data Request Gate
+
+Public-source work must meet the gate below before asking potential customers for
+real workflow data. Passing this gate only authorizes a data request; it does not
+create a pilot row or satisfy T34/T40.
+
+Gate requirements:
+
+- at least one committed public demo pack exists with source fixture reference,
+  command transcript, generated blueprint, review workspace, and gap summary
+- public-source evals pass for pipeline mechanics, domain-specific fact
+  preservation, public-vs-pilot boundary labeling, and demo-pack reproducibility
+- `docs/experiments/public_demo_pack/netbox_issue_triage/` remains labeled as
+  public-source demo material, not customer proof
+- no commercial claim cites public-source, demo, synthetic, or unreviewed
+  sanitized artifacts as buyer validation
+
+Minimum safe source request for potential customers:
+
+- one real SOP, transcript, pasted notes file, form description, integration
+  excerpt, or mixed packet describing a single workflow
+- permission to process the source locally for blueprint generation and human
+  review
+- confirmation whether the source may be sanitized later for benchmark reuse
+- no secrets, credentials, production tokens, private keys, regulated personal
+  data, or production database exports
+- named reviewer who can accept sections, record edits, resolve critical missing
+  questions, and approve or reject the pilot result
+
+The first real pilot row can be created only after the requested source is
+reviewed by that human reviewer and the required fields below are measured.
+
 ## Required Fields
 
 | Field | Description | Value |

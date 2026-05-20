@@ -13,12 +13,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 11 - Public-Source Demo Quality
-- Next task: T50 - Prospect Data Request Gate
-- Verified baseline: 161 passing tests, 0 skipped, 0 failed
+- Next task: BLOCKED - Real prospect/customer workflow data required
+- Verified baseline: 162 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; use public sources for demo-quality stabilization only.
-- Latest public-source demo pack: `docs/experiments/public_demo_pack/netbox_issue_triage/`.
+- Latest prospect data request gate: `docs/pilot_measurement.md#prospect-data-request-gate`.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -34,27 +34,23 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T50 - Prospect Data Request Gate
+Task: BLOCKED - Real prospect/customer workflow data required
 
-Goal: define when public-source quality is stable enough to ask potential customers for real workflow data.
+Goal: resume pilot proof work after a potential customer supplies a real workflow source and reviewer.
 
 Acceptance summary:
 
-- gate requires stable public-source evals before prospect data requests
-- request checklist states minimum safe source types and confidentiality boundary
+- public-source demo pack and prospect data request gate are complete
 - T34/T40 remain blocked until prospect/customer data is reviewed as a real pilot
+- first real pilot row requires a named reviewer, measured thresholds, edits, and critical missing-question count
 
 File scope:
 
 - `docs/pilot_measurement.md`
-- `docs/product_strategy.md`
-- `docs/evaluation_guide.md`
-- `tests/unit/test_docs.py`
 
 Required context:
 
-- `docs/tasks.md#t50-prospect-data-request-gate`
-- `docs/experiments/public_demo_pack/netbox_issue_triage/`
+- `docs/pilot_measurement.md#prospect-data-request-gate`
 - `docs/pilot_measurement.md`
 
 ## Profile State

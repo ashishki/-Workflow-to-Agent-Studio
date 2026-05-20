@@ -32,6 +32,7 @@ The mature product produces useful pre-build artifacts:
 | 7 | Pilot Proof And Commercial Packaging | Prove value with real pilots and package the offer. |
 | 8 | Integrations And Controlled Handoff | Import from real systems and export controlled implementation handoffs. |
 | 9 | Learning System And Moat | Turn reviewed outcomes into better patterns, evals, and benchmarks. |
+| 11 | Public-Source Demo Quality | Stabilize draft quality on public workflow sources before requesting prospect data. |
 
 ## Market Lens
 
@@ -102,6 +103,29 @@ Evidence status:
 Commercial claims must use real pilot evidence. Demo, synthetic, or unreviewed
 sanitized data can improve engineering quality, but they do not prove wedge
 strength, buyer value, or vertical-pack readiness.
+
+## Prospect Data Request Strategy
+
+Public-source demo quality is the precondition for asking potential customers for
+real workflow data. The current request gate is defined in
+`docs/pilot_measurement.md#prospect-data-request-gate`.
+
+Ask for prospect data only after:
+
+- public-source evals pass for mechanics, domain-specific fact preservation, and
+  demo-pack reproducibility
+- at least one public demo pack can be shown without claiming buyer proof
+- the requested workflow source is narrow enough to review in one pilot session
+- the prospect agrees to local processing, human review, and optional sanitized
+  benchmark reuse
+
+The request should ask for one real workflow packet, not broad system access:
+SOP, transcript, notes, form description, integration excerpt, or a small mixed
+packet. Exclude secrets, credentials, private keys, regulated personal data, and
+production database exports.
+
+T34 and T40 remain blocked until this request yields a human-reviewed real pilot
+row in `docs/pilot_measurement.md`.
 
 ## Engineering Principles
 

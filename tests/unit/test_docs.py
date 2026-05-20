@@ -98,6 +98,20 @@ def test_pilot_measurement_includes_real_pilot_intake_checklist() -> None:
     assert "must not be counted as real pilot rows" in measurement
 
 
+def test_pilot_measurement_defines_prospect_data_request_gate() -> None:
+    measurement = Path("docs/pilot_measurement.md").read_text(encoding="utf-8")
+    normalized = " ".join(measurement.split())
+
+    assert "## Prospect Data Request Gate" in measurement
+    assert "Passing this gate only authorizes a data request" in measurement
+    assert "does not create a pilot row or satisfy T34/T40" in normalized
+    assert "docs/experiments/public_demo_pack/netbox_issue_triage/" in measurement
+    assert "public-source evals pass for pipeline mechanics" in measurement
+    assert "one real SOP, transcript, pasted notes file" in measurement
+    assert "no secrets, credentials, production tokens" in measurement
+    assert "named reviewer who can accept sections" in measurement
+
+
 def test_evaluation_guide_links_pilot_measurement_artifact() -> None:
     guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
 
@@ -108,6 +122,8 @@ def test_evaluation_guide_links_pilot_measurement_artifact() -> None:
     assert "missing questions" in guide
     assert "pilot intake checklist" in guide
     assert "real-pilot evidence gate" in guide
+    assert "## Prospect Data Request Gate" in guide
+    assert "does not satisfy T34/T40" in guide
 
 
 def test_active_ai_roadmap_cover_strategy_and_engineering() -> None:
@@ -151,12 +167,18 @@ def test_product_strategy_documents_commercial_pilot_package() -> None:
 
 def test_product_strategy_documents_dataset_boundaries() -> None:
     strategy = Path("docs/product_strategy.md").read_text(encoding="utf-8")
+    normalized = " ".join(strategy.split())
 
     assert "## Dataset Boundary" in strategy
     assert "Demo fixtures are not buyer proof." in strategy
     assert "Synthetic results cannot satisfy pilot proof or T34." in strategy
     assert "Real pilot evidence" in strategy
     assert "Commercial claims must use real pilot evidence." in strategy
+    assert "## Prospect Data Request Strategy" in strategy
+    assert "precondition for asking potential customers for real workflow data" in normalized
+    assert "docs/pilot_measurement.md#prospect-data-request-gate" in strategy
+    assert "Exclude secrets, credentials, private keys" in strategy
+    assert "T34 and T40 remain blocked" in strategy
 
 
 def test_task_graph_defines_public_source_demo_quality_gate() -> None:
