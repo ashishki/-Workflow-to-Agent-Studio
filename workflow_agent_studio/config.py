@@ -6,6 +6,9 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
+CONNECTOR_TOKEN_PREFIX = "WORKFLOW_STUDIO_CONNECTOR_"
+CONNECTOR_TOKEN_SUFFIX = "_TOKEN"
+
 
 @dataclass(frozen=True)
 class Settings:
@@ -19,6 +22,7 @@ class Settings:
     log_level: str
     retrieval_min_score: float
     retrieval_top_k: int
+    connector_token_env_vars: tuple[str, ...]
 
 
 def load_settings(environ: dict[str, str] | None = None) -> Settings:
@@ -34,4 +38,26 @@ def load_settings(environ: dict[str, str] | None = None) -> Settings:
         log_level=env.get("WORKFLOW_STUDIO_LOG_LEVEL", "INFO").upper(),
         retrieval_min_score=float(env.get("WORKFLOW_STUDIO_RETRIEVAL_MIN_SCORE", "0.1")),
         retrieval_top_k=int(env.get("WORKFLOW_STUDIO_RETRIEVAL_TOP_K", "3")),
+        connector_token_env_vars=tuple(sorted(_connector_token_env_vars(env))),
     )
+
+
+def connector_token_env_var(connector_id: str) -> str:
+    normalized = connector_id.upper().replace("-", "_")
+    return f"{CONNECTOR_TOKEN_PREFIX}{normalized}{CONNECTOR_TOKEN_SUFFIX}"
+
+
+def get_connector_token(
+    connector_id: str,
+    environ: dict[str, str] | None = None,
+) -> str | None:
+    env = os.environ if environ is None else environ
+    return env.get(connector_token_env_var(connector_id))
+
+
+def _connector_token_env_vars(environ: dict[str, str]) -> list[str]:
+    return [
+        key
+        for key in environ
+        if key.startswith(CONNECTOR_TOKEN_PREFIX) and key.endswith(CONNECTOR_TOKEN_SUFFIX)
+    ]

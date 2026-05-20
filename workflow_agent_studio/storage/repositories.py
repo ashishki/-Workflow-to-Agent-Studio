@@ -54,6 +54,7 @@ class SourceDocumentRecord:
     fingerprint: str
     normalized_text: str
     created_at: str
+    metadata: dict[str, Any]
 
 
 class WorkflowRunRepository:
@@ -100,6 +101,15 @@ class WorkflowRunRepository:
         return WorkflowRunRecord(**dict(row))
 
 
+def _source_document_record_from_row(row: sqlite3.Row) -> SourceDocumentRecord:
+    data = dict(row)
+    metadata_json = data.pop("metadata_json", "{}")
+    return SourceDocumentRecord(
+        **data,
+        metadata=json.loads(metadata_json),
+    )
+
+
 class SourceDocumentRepository:
     def __init__(self, connection: sqlite3.Connection) -> None:
         self._connection = connection
@@ -113,18 +123,21 @@ class SourceDocumentRepository:
         title: str,
         fingerprint: str,
         normalized_text: str,
+        metadata: dict[str, Any] | None = None,
         created_at: str | None = None,
     ) -> SourceDocumentRecord:
         timestamp = created_at or _now()
+        metadata_payload = metadata or {}
         with _repository_span("source_documents.add_source"):
             self._connection.execute(
                 """
                 INSERT INTO source_documents (
-                    source_id, run_id, source_type, title, fingerprint, normalized_text, created_at
+                    source_id, run_id, source_type, title, fingerprint, normalized_text,
+                    metadata_json, created_at
                 )
                 VALUES (
                     :source_id, :run_id, :source_type, :title, :fingerprint, :normalized_text,
-                    :created_at
+                    :metadata_json, :created_at
                 )
                 """,
                 {
@@ -134,6 +147,7 @@ class SourceDocumentRepository:
                     "title": title,
                     "fingerprint": fingerprint,
                     "normalized_text": normalized_text,
+                    "metadata_json": json.dumps(metadata_payload, sort_keys=True),
                     "created_at": timestamp,
                 },
             )
@@ -146,6 +160,7 @@ class SourceDocumentRepository:
             fingerprint=fingerprint,
             normalized_text=normalized_text,
             created_at=timestamp,
+            metadata=metadata_payload,
         )
 
     def get_by_fingerprint(self, *, run_id: str, fingerprint: str) -> SourceDocumentRecord | None:
@@ -153,7 +168,8 @@ class SourceDocumentRepository:
             row = self._connection.execute(
                 """
                 SELECT
-                    source_id, run_id, source_type, title, fingerprint, normalized_text, created_at
+                    source_id, run_id, source_type, title, fingerprint, normalized_text,
+                    metadata_json, created_at
                 FROM source_documents
                 WHERE run_id = :run_id AND fingerprint = :fingerprint
                 """,
@@ -161,21 +177,22 @@ class SourceDocumentRepository:
             ).fetchone()
         if row is None:
             return None
-        return SourceDocumentRecord(**dict(row))
+        return _source_document_record_from_row(row)
 
     def list_by_run(self, run_id: str) -> list[SourceDocumentRecord]:
         with _repository_span("source_documents.list_by_run"):
             rows = self._connection.execute(
                 """
                 SELECT
-                    source_id, run_id, source_type, title, fingerprint, normalized_text, created_at
+                    source_id, run_id, source_type, title, fingerprint, normalized_text,
+                    metadata_json, created_at
                 FROM source_documents
                 WHERE run_id = :run_id
                 ORDER BY created_at, source_id
                 """,
                 {"run_id": run_id},
             ).fetchall()
-        return [SourceDocumentRecord(**dict(row)) for row in rows]
+        return [_source_document_record_from_row(row) for row in rows]
 
 
 class BlueprintVersionRepository:

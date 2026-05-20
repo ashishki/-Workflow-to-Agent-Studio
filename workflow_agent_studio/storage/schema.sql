@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS source_documents (
     title TEXT NOT NULL,
     fingerprint TEXT NOT NULL,
     normalized_text TEXT NOT NULL,
+    metadata_json TEXT NOT NULL DEFAULT '{}',
     created_at TEXT NOT NULL,
     FOREIGN KEY (run_id) REFERENCES workflow_runs(run_id),
     UNIQUE (run_id, fingerprint)

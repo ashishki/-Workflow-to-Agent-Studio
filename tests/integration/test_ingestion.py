@@ -4,10 +4,14 @@ import sys
 from pathlib import Path
 
 from workflow_agent_studio.ingestion import (
+    ConnectorImportError,
+    ConnectorSource,
     fingerprint_text,
+    ingest_connector_sources,
     ingest_source_paths,
     normalize_text,
     normalize_transcript_text,
+    require_connector_token,
 )
 from workflow_agent_studio.observability import tracing
 from workflow_agent_studio.storage import (
@@ -23,6 +27,33 @@ TRANSCRIPT_SOURCE = Path("tests/fixtures/sources/discovery_call.transcript.txt")
 NOTES_SOURCE = Path("tests/fixtures/sources/discovery_notes.notes.txt")
 FORM_SOURCE = Path("tests/fixtures/sources/intake_form.form.md")
 INTEGRATION_SOURCE = Path("tests/fixtures/sources/crm_integration.integration.txt")
+
+
+class CredentialedConnector:
+    connector_id = "support_portal"
+
+    def __init__(self, environ: dict[str, str]) -> None:
+        self._environ = environ
+
+    def fetch_sources(self) -> list[ConnectorSource]:
+        require_connector_token(self.connector_id, self._environ)
+        return [
+            ConnectorSource(
+                connector_id=self.connector_id,
+                external_id="ticket-123",
+                source_type="notes",
+                title="Support ticket export",
+                text="Customer asks for SSO. Coordinator checks plan and opens review.",
+                metadata={"connector_record_type": "ticket"},
+            )
+        ]
+
+
+class FailingConnector:
+    connector_id = "support_portal"
+
+    def fetch_sources(self) -> list[ConnectorSource]:
+        raise ConnectorImportError("read-only connector fetch failed")
 
 
 def _connection(tmp_path):
@@ -198,6 +229,61 @@ def test_ingestion_audit_event_excludes_raw_source_text(tmp_path) -> None:
     payload = json.loads(events[0]["payload_json"])
     assert payload == {"duplicate_count": 0, "run_id": "run-1", "source_count": 1}
     assert "Operator reviews each inbound support request" not in events[0]["payload_json"]
+
+
+def test_read_only_connector_import_stores_metadata_without_credentials(tmp_path) -> None:
+    connection = _connection(tmp_path)
+    try:
+        result = ingest_connector_sources(
+            connection,
+            run_id="run-1",
+            connector=CredentialedConnector(
+                {"WORKFLOW_STUDIO_CONNECTOR_SUPPORT_PORTAL_TOKEN": "secret-token"}
+            ),
+        )
+        sources = SourceDocumentRepository(connection).list_by_run("run-1")
+        events = AuditEventRepository(connection).list_events("run-1")
+    finally:
+        connection.close()
+
+    assert result.source_count == 1
+    assert len(sources) == 1
+    assert sources[0].source_type == "notes"
+    assert sources[0].metadata == {
+        "origin": "connector",
+        "connector_id": "support_portal",
+        "external_id": "ticket-123",
+        "read_only": True,
+        "connector_record_type": "ticket",
+    }
+    assert "secret-token" not in json.dumps(sources[0].metadata)
+    assert events[-1]["event_type"] == "connector_sources_imported"
+    assert "secret-token" not in events[-1]["payload_json"]
+
+
+def test_connector_failure_does_not_corrupt_existing_run(tmp_path) -> None:
+    connection = _connection(tmp_path)
+    try:
+        ingest_source_paths(connection, run_id="run-1", paths=[SAMPLE_SOURCE])
+        before_sources = SourceDocumentRepository(connection).list_by_run("run-1")
+        before_events = AuditEventRepository(connection).list_events("run-1")
+
+        try:
+            ingest_connector_sources(
+                connection,
+                run_id="run-1",
+                connector=FailingConnector(),
+            )
+        except ConnectorImportError:
+            pass
+
+        after_sources = SourceDocumentRepository(connection).list_by_run("run-1")
+        after_events = AuditEventRepository(connection).list_events("run-1")
+    finally:
+        connection.close()
+
+    assert after_sources == before_sources
+    assert after_events == before_events
 
 
 def test_transcript_ingestion_observability_excludes_raw_transcript_text(

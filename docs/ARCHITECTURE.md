@@ -266,7 +266,7 @@ Invalid plans stay in draft status. The system returns validator findings, missi
 | CLI entry point | `workflow_agent_studio/cli.py` | Accept source paths or pasted text, run workflows, export Markdown. |
 | Configuration | `workflow_agent_studio/config.py` | Load environment settings, model names, storage paths, and feature flags. |
 | Domain schemas | `workflow_agent_studio/domain/` | Pydantic models for sources, workflow maps, blueprint schema, eval cases, and review state. |
-| Source ingestion | `workflow_agent_studio/ingestion/` | Load text/transcript/Markdown inputs, fingerprint sources, normalize documents. |
+| Source ingestion | `workflow_agent_studio/ingestion/` | Load text/transcript/Markdown inputs and read-only connector imports, fingerprint sources, normalize documents, and attach source metadata. |
 | Retrieval ingestion | `workflow_agent_studio/retrieval/ingest.py` | Chunk, embed, and index normalized source documents and pattern templates. |
 | Retrieval query | `workflow_agent_studio/retrieval/query.py` | Retrieve evidence snippets with corpus filters and no-answer behavior. |
 | LLM gateway | `workflow_agent_studio/llm/` | Structured-output model calls, retries, budget tracking, and schema repair. |
@@ -282,7 +282,7 @@ Invalid plans stay in draft status. The system returns validator findings, missi
 
 ## Data Flow
 
-1. Operator provides source text or file paths through the CLI.
+1. Operator provides source text, file paths, or read-only connector import requests.
 2. Ingestion normalizes each source into a `SourceDocument` with fingerprint and metadata.
 3. Sensitive-data scanner flags likely secrets, credentials, and PII before logs or exports.
 4. Retrieval ingestion chunks and indexes source documents and local pattern templates.
@@ -331,9 +331,10 @@ Invalid plans stay in draft status. The system returns validator findings, missi
 |-------------|-----------|-----|
 | LLM provider APIs | Required | Structured extraction and blueprint synthesis. |
 | Embedding provider | Required when retrieval tasks are implemented | Text-only vector embeddings. |
-| Google Drive / Docs | Deferred | Future source import adapter. |
-| Notion | Deferred | Future source import adapter. |
-| Loom transcript export | Deferred | Future transcript import adapter. |
+| Read-only import connectors | Architecture available | Deterministic adapters fetch sources only, read credentials from environment variables, and persist source metadata without credentials. |
+| Google Drive / Docs | Deferred | Future read-only source import adapter. |
+| Notion | Deferred | Future read-only source import adapter. |
+| Loom transcript export | Deferred | Future read-only transcript import adapter. |
 | Slack | Deferred | Future intake channel. |
 | GitHub Issues | Deferred and human-gated | Future export target for approved implementation tasks. |
 | Airtable / Sheets | Deferred | Future source and export adapter. |
@@ -398,6 +399,7 @@ requirements-dev.txt
 | `WORKFLOW_STUDIO_EXTRACTION_MODEL` | Lower-cost extraction model. | `gpt-5.4-mini` |
 | `WORKFLOW_STUDIO_EMBEDDING_MODEL` | Text embedding model name. | `text-embedding-3-small` |
 | `OPENAI_API_KEY` | Provider API key when using OpenAI. | `sk-test-placeholder` |
+| `WORKFLOW_STUDIO_CONNECTOR_<CONNECTOR_ID>_TOKEN` | Optional read-only import connector token, with connector ID uppercased and hyphens replaced by underscores. | `placeholder-token` |
 | `WORKFLOW_STUDIO_MAX_LLM_COST_USD` | Optional per-run budget ceiling. | `5.00` |
 | `WORKFLOW_STUDIO_LOG_LEVEL` | Logging verbosity. | `INFO` |
 

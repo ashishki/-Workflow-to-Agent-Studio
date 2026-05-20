@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
 
@@ -39,6 +39,7 @@ class RawSource:
     source_type: SourceType
     title: str
     text: str
+    metadata: dict[str, object] = field(default_factory=dict)
 
 
 def read_source_path(path: str | Path) -> RawSource:

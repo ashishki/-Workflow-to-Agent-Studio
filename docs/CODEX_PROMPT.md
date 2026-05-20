@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 8 - Integrations And Controlled Handoff
-- Next task: T37 - Controlled Import Connectors
-- Verified baseline: 127 passing tests, 0 skipped, 0 failed
+- Next task: T38 - Approved Handoff Export
+- Verified baseline: 132 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34 and T40 currently form a dependency cycle; tracked as Cycle 19 P2.
@@ -33,41 +33,41 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T37 - Controlled Import Connectors
+Task: T38 - Approved Handoff Export
 
-Goal: add connector architecture for read-only imports while preserving local confidentiality and auditability.
+Goal: export implementation handoff artifacts only after human approval.
 
 Acceptance summary:
 
-- connector credentials are environment-backed and never persisted
-- imports are read-only and produce source records with connector metadata
-- connector failures do not corrupt existing runs
+- handoff includes tasks, eval cases, boundaries, assumptions, and evidence appendix
+- unapproved or blocked blueprints cannot produce approved handoff exports
+- external side effects remain disabled unless an ADR explicitly changes the boundary
 
 File scope:
 
-- `workflow_agent_studio/ingestion/`
-- `workflow_agent_studio/config.py`
-- `docs/ARCHITECTURE.md`
+- `workflow_agent_studio/export/`
+- `docs/IMPLEMENTATION_CONTRACT.md`
+- `docs/operator_guide.md`
 - `tests/integration/`
 
 Required context:
 
-- `docs/tasks.md#t37-controlled-import-connectors`
-- `docs/IMPLEMENTATION_CONTRACT.md#credentials`
-- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
+- `docs/tasks.md#t38-approved-handoff-export`
+- `docs/IMPLEMENTATION_CONTRACT.md#local-export-boundary`
+- `docs/IMPLEMENTATION_CONTRACT.md#plan-validation-gate`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: read-only connector imports with local corpus isolation
+- Next work: connector imports and later retrieval quality from imported sources
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: controlled handoff export after approved pilot gates
+- Next work: approved handoff export gating
 - Open planning findings: none
 
 Tool-Use: OFF

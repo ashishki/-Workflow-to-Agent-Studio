@@ -102,6 +102,10 @@ thresholds, deterministic reranking, and no-answer behavior.
 T33 established the vertical pack ingestion baseline with a locally loadable
 support-intake pack contract.
 
+T37 established the controlled connector ingestion baseline with read-only
+connector imports, environment-backed credential references, source metadata,
+and failed-import isolation.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -221,6 +225,18 @@ Vertical pack ingestion baseline:
 - Pack source examples: 2
 - Regression: No
 
+Controlled connector ingestion baseline:
+
+- Date: 2026-05-20
+- Task: T37
+- Corpus Version: connector-import-fixture-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/integration/test_ingestion.py tests/unit/test_config.py tests/eval/test_retrieval_eval.py -q
+- Connector imports: read-only
+- Credential persistence: none
+- Failed import isolation: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -238,6 +254,7 @@ Vertical pack ingestion baseline:
 | 2026-05-20 | T25 | evidence-pack-fixture-v1 | v1 | pytest tests/integration/test_evidence_packs.py tests/eval/test_retrieval_eval.py -q | 1.00 | 1.00 | n/a | 1.00 | 1.00 | n/a | n/a | No |
 | 2026-05-20 | T26 | retrieval-quality-fixture-v1 | v1 | pytest tests/unit/test_retrieval_quality.py tests/eval/test_retrieval_eval.py -q | 1.00 | 1.00 | n/a | n/a | 1.00 | n/a | n/a | No |
 | 2026-05-20 | T33 | vertical-pack-v1 | n/a | pytest tests/unit/test_pattern_library.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-20 | T37 | connector-import-fixture-v1 | n/a | pytest tests/integration/test_ingestion.py tests/unit/test_config.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 
 ---
 
