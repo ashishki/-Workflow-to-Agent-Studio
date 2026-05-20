@@ -43,6 +43,11 @@ V1 does not create GitHub issues, send Slack messages, send email, or publish to
 
 The tool produces local draft artifacts. Human review remains required for final scope, approval boundaries, security assumptions, and implementation decisions.
 
+Governance reports are local Markdown exports for reviewer handoff. They summarize
+evidence coverage, assumptions, approval boundaries, readiness, risks, and unresolved
+validation findings. Approved governance exports remain blocked when validation has
+blocking findings, and output paths stay constrained to the selected export directory.
+
 ## Product Development Roadmap
 
 The active development roadmap is `docs/tasks.md`. Product strategy is summarized in `docs/product_strategy.md`.

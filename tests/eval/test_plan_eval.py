@@ -107,3 +107,16 @@ def test_plan_eval_records_readiness_metrics() -> None:
         "100%; ready score 80; blocked score 0 | "
         "100%; ready score 80; blocked score 0 | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_governance_export_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T30 established the governance report export baseline" in plan_eval
+    assert "Approved governance blocks: 1" in plan_eval
+    assert (
+        "| 2026-05-20 | T30 | v1 | Governance report export expected-outcome pass rate | "
+        "100%; 1 approved governance block; path constraints pass | "
+        "100%; 1 approved governance block; path constraints pass | "
+        "0% | No |" in plan_eval
+    )

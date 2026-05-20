@@ -18,7 +18,9 @@ from workflow_agent_studio.domain.workflow import EvidenceReference, WorkflowSte
 from workflow_agent_studio.export.paths import resolve_export_path
 from workflow_agent_studio.storage import BlueprintApprovalRecord, BlueprintVersionRecord
 from workflow_agent_studio.validators import (
+    AutomationReadinessResult,
     BlueprintValidationFinding,
+    compute_automation_readiness,
     validate_blueprint_for_approval,
 )
 
@@ -87,6 +89,49 @@ def export_approved_blueprint(
             status="Approved",
             version=version,
             findings=[],
+            approval=approval,
+        ),
+        encoding="utf-8",
+    )
+    return target
+
+
+def export_governance_report(
+    *,
+    blueprint: AutomationBlueprint,
+    export_dir: Path,
+    output_path: Path,
+    version: BlueprintVersionRecord | None = None,
+    approval: BlueprintApprovalRecord | None = None,
+) -> Path:
+    validation = validate_blueprint_for_approval(blueprint)
+    if approval is not None and not validation.can_approve:
+        raise ApprovedExportBlockedError(validation.findings)
+    if approval is not None and version is not None:
+        if approval.blueprint_version_id != version.blueprint_version_id:
+            raise ApprovedExportBlockedError(
+                [
+                    BlueprintValidationFinding(
+                        rule_id="EXPORT-APPROVAL-VERSION-MISMATCH",
+                        severity="blocking",
+                        section="approval",
+                        message="Approval record does not match the governance report version.",
+                        repair_hint="Export the approved version attached to the approval record.",
+                    )
+                ]
+            )
+        mismatch = _version_mismatch_finding(blueprint=blueprint, version=version)
+        if mismatch is not None:
+            raise ApprovedExportBlockedError([mismatch])
+
+    target = resolve_export_path(export_dir=export_dir, output_path=output_path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(
+        _render_governance_report(
+            blueprint=blueprint,
+            readiness=compute_automation_readiness(blueprint, validation=validation),
+            findings=validation.findings,
+            version=version,
             approval=approval,
         ),
         encoding="utf-8",
@@ -199,6 +244,57 @@ def _render_blueprint(
     if status == "Draft":
         lines.extend(["## Unresolved Findings", *_bullet_findings(findings), ""])
     lines.extend(["## Evidence Appendix", *_bullet_evidence(_collect_evidence(blueprint)), ""])
+    return "\n".join(lines)
+
+
+def _render_governance_report(
+    *,
+    blueprint: AutomationBlueprint,
+    readiness: AutomationReadinessResult,
+    findings: list[BlueprintValidationFinding],
+    version: BlueprintVersionRecord | None,
+    approval: BlueprintApprovalRecord | None,
+) -> str:
+    evidence = _collect_evidence(blueprint)
+    lines = [
+        "# Governance Report",
+        "",
+        f"Status: {'Approved' if approval else 'Draft'}",
+    ]
+    if version is not None:
+        lines.append(f"Blueprint Version ID: {version.blueprint_version_id}")
+    if approval is not None:
+        lines.extend(
+            [f"Reviewer: {approval.reviewer_label}", f"Approved At: {approval.approved_at}"]
+        )
+    lines.extend(
+        [
+            "",
+            "## Readiness Result",
+            f"Status: {readiness.status}",
+            f"Score: {readiness.score}",
+            "",
+            "## Evidence Coverage",
+            f"Evidence references: {len(evidence)}",
+            *_bullet_evidence(evidence),
+            "",
+            "## Assumptions And Next Questions",
+            *_bullet(readiness.next_questions),
+            "",
+            "## Approval Boundaries",
+            *_bullet(
+                f"{boundary.decision}: {boundary.approver} - {boundary.reason}"
+                for boundary in blueprint.human_approval_boundaries
+            ),
+            "",
+            "## Risks",
+            *_bullet(readiness.risks),
+            "",
+            "## Unresolved Findings",
+            *_bullet_findings(findings),
+            "",
+        ]
+    )
     return "\n".join(lines)
 
 

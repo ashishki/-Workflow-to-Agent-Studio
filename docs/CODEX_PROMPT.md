@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-20
-Phase: 4
+Phase: 5
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,9 +12,9 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 4 - Automation Readiness And Governance
-- Next task: T30 - Governance Report Export
-- Verified baseline: 113 passing tests, 0 skipped, 0 failed
+- Current phase: Phase 5 - Review Workspace And Human Editing
+- Next task: T31 - Review Diff And Comment Model
+- Verified baseline: 117 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,21 +33,21 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T30 - Governance Report Export
+Task: T31 - Review Diff And Comment Model
 
-Goal: export a governance-focused report for reviewer approval and implementation handoff.
+Goal: add structured reviewer comments and version-to-version diffs for blueprint sections.
 
 Acceptance summary:
 
-- report includes evidence coverage, assumptions, approval boundaries, readiness result, and unresolved findings
-- approved governance export is blocked when validation has blocking findings
-- local export path constraints remain enforced
+- comments attach to blueprint sections and evidence anchors
+- diffs show changed claims, assumptions, findings, and approval boundaries
+- audit events record comment and diff actions without raw confidential source text
 
 File scope:
 
-- `workflow_agent_studio/export/`
-- `tests/integration/test_markdown_export.py`
-- `docs/operator_guide.md`
+- `workflow_agent_studio/blueprint/review.py`
+- `workflow_agent_studio/storage/repositories.py`
+- `tests/integration/test_review_state.py`
 
 Required context:
 
@@ -59,7 +59,7 @@ Required context:
 RAG: ON
 
 - Current mode: text-only
-- Next work: automation readiness and governance export
+- Next work: review comments, diffs, and local review interface
 - Open retrieval findings: none
 
 Planning: ON

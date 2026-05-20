@@ -7,11 +7,14 @@ from workflow_agent_studio.blueprint.review import approve_blueprint
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
 from workflow_agent_studio.export import (
     ApprovedExportBlockedError,
+    ExportPathError,
     export_approved_blueprint,
     export_draft_blueprint,
+    export_governance_report,
 )
 from workflow_agent_studio.storage import (
     AuditEventRepository,
+    BlueprintApprovalRecord,
     BlueprintApprovalRepository,
     BlueprintVersionRepository,
     WorkflowRunRepository,
@@ -120,3 +123,53 @@ def test_approved_export_rejects_version_payload_mismatch(tmp_path) -> None:
 
     assert any(finding.rule_id == "EXPORT-VERSION-MISMATCH" for finding in error.value.findings)
     assert not (tmp_path / "exports" / "approved.md").exists()
+
+
+def test_governance_report_includes_readiness_evidence_and_findings(tmp_path) -> None:
+    blueprint = _valid_blueprint()
+
+    output = export_governance_report(
+        blueprint=blueprint,
+        export_dir=tmp_path,
+        output_path=Path("governance.md"),
+    )
+
+    markdown = output.read_text(encoding="utf-8")
+    assert "# Governance Report" in markdown
+    assert "## Readiness Result" in markdown
+    assert "Score: 80" in markdown
+    assert "## Evidence Coverage" in markdown
+    assert "## Assumptions And Next Questions" in markdown
+    assert "## Approval Boundaries" in markdown
+    assert "## Unresolved Findings" in markdown
+
+
+def test_approved_governance_report_rejects_blocking_validation_findings(tmp_path) -> None:
+    invalid = _valid_blueprint().model_copy(update={"eval_cases": []})
+    approval = BlueprintApprovalRecord(
+        blueprint_version_id=1,
+        run_id="run-1",
+        reviewer_label="operator",
+        approved_at="2026-05-20T00:00:00+00:00",
+        status="approved",
+    )
+
+    with pytest.raises(ApprovedExportBlockedError) as error:
+        export_governance_report(
+            blueprint=invalid,
+            approval=approval,
+            export_dir=tmp_path,
+            output_path=Path("governance.md"),
+        )
+
+    assert any(finding.section == "eval_cases" for finding in error.value.findings)
+    assert not (tmp_path / "governance.md").exists()
+
+
+def test_governance_report_uses_local_export_path_constraints(tmp_path) -> None:
+    with pytest.raises(ExportPathError):
+        export_governance_report(
+            blueprint=_valid_blueprint(),
+            export_dir=tmp_path / "exports",
+            output_path=Path("../governance.md"),
+        )
