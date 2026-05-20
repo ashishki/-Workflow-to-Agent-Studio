@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 1 - Evidence Capture And Corpus Expansion
-- Next task: T22 - Notes, Forms, And Integration Snippet Ingestion
-- Verified baseline: 83 passing tests, 0 skipped, 0 failed
+- Next task: T23 - Evidence Anchor Map And Gap Report
+- Verified baseline: 87 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,36 +33,36 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T22 - Notes, Forms, And Integration Snippet Ingestion
+Task: T23 - Evidence Anchor Map And Gap Report
 
-Goal: support common discovery artifacts beyond transcripts: pasted notes, form descriptions, and API or integration excerpts.
+Goal: create a source-level evidence map and missing-evidence report before blueprint synthesis.
 
 Acceptance summary:
 
-- each supported source kind is represented in source metadata
-- unsupported file types fail with a clear nonzero CLI error and no partial persisted source
-- fixtures cover notes, form descriptions, and integration snippets
-- ingestion docs explain supported source kinds and local-only boundaries
+- evidence anchors connect source IDs, chunk IDs, headings or speaker labels, and normalized snippets
+- missing evidence is reported for actors, systems, decisions, exceptions, data fields, and approval boundaries
+- synthesis receives structured evidence gaps instead of silently filling missing fields
+- planning eval records missing-question and evidence-gap counts
 
 File scope:
 
-- `workflow_agent_studio/ingestion/`
-- `workflow_agent_studio/cli.py`
-- `docs/operator_guide.md`
-- `tests/integration/test_ingestion.py`
-- `tests/unit/test_docs.py`
+- `workflow_agent_studio/retrieval/`
+- `workflow_agent_studio/blueprint/service.py`
+- `workflow_agent_studio/validators/blueprint.py`
+- `tests/integration/test_evidence_gap_report.py`
+- `docs/plan_eval.md`
 
 Required context:
 
-- `docs/spec.md#feature-area-source-ingestion`
-- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
+- `docs/ARCHITECTURE.md#profile-rag`
+- `docs/ARCHITECTURE.md#profile-planning`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: notes/forms/integration snippet ingestion, evidence anchors, and corpus baseline
+- Next work: evidence anchors, evidence gaps, and corpus baseline
 - Open retrieval findings: none
 
 Planning: ON

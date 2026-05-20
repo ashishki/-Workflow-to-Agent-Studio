@@ -1,0 +1,5 @@
+Operator notes:
+
+- Intake requests arrive in the shared support inbox.
+- The coordinator checks CRM status before assigning follow-up work.
+- Escalations wait for engineering review before customer follow-up.

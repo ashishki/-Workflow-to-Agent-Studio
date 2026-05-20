@@ -1,0 +1,10 @@
+Integration excerpt:
+
+GET /accounts/{account_id}
+
+Response fields:
+- account_status
+- support_tier
+- assigned_owner
+
+The coordinator reads account status before creating an engineering review task.

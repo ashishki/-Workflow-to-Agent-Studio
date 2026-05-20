@@ -6,7 +6,31 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
-SourceType = Literal["text", "markdown", "transcript"]
+SourceType = Literal["text", "markdown", "transcript", "notes", "form", "integration"]
+
+SUPPORTED_SOURCE_PATTERNS = (
+    ".txt",
+    ".md",
+    ".markdown",
+    ".transcript",
+    ".transcript.txt",
+    ".transcript.md",
+    ".notes",
+    ".notes.txt",
+    ".notes.md",
+    ".form",
+    ".form.txt",
+    ".form.md",
+    ".integration",
+    ".integration.txt",
+    ".integration.md",
+)
+
+
+class UnsupportedSourceType(ValueError):
+    def __init__(self, _path: Path) -> None:
+        supported = ", ".join(SUPPORTED_SOURCE_PATTERNS)
+        super().__init__(f"Unsupported source file type. Supported patterns: {supported}")
 
 
 @dataclass(frozen=True)
@@ -19,8 +43,11 @@ class RawSource:
 
 def read_source_path(path: str | Path) -> RawSource:
     source_path = Path(path)
+    source_type = _source_type_from_filename(source_path)
+    if source_type is None and source_path.suffix.lower() not in {".txt"}:
+        raise UnsupportedSourceType(source_path)
     text = source_path.read_text(encoding="utf-8")
-    source_type = _source_type_for_path(source_path, text)
+    source_type = source_type or ("transcript" if _looks_like_transcript(text) else "text")
     return RawSource(
         path=source_path,
         source_type=source_type,
@@ -38,15 +65,19 @@ def _title_from_text(path: Path, text: str, source_type: SourceType) -> str:
     return path.stem
 
 
-def _source_type_for_path(path: Path, text: str) -> SourceType:
+def _source_type_from_filename(path: Path) -> SourceType | None:
     filename = path.name.lower()
     if filename.endswith((".transcript", ".transcript.txt", ".transcript.md")):
         return "transcript"
+    if filename.endswith((".notes", ".notes.txt", ".notes.md")):
+        return "notes"
+    if filename.endswith((".form", ".form.txt", ".form.md")):
+        return "form"
+    if filename.endswith((".integration", ".integration.txt", ".integration.md")):
+        return "integration"
     if path.suffix.lower() in {".md", ".markdown"}:
         return "markdown"
-    if _looks_like_transcript(text):
-        return "transcript"
-    return "text"
+    return None
 
 
 def _looks_like_transcript(text: str) -> bool:

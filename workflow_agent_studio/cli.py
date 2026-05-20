@@ -4,13 +4,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 from workflow_agent_studio import __version__
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
 from workflow_agent_studio.export import export_draft_blueprint
 from workflow_agent_studio.health import get_health_status
-from workflow_agent_studio.ingestion import ingest_source_paths
+from workflow_agent_studio.ingestion import UnsupportedSourceType, ingest_source_paths
 from workflow_agent_studio.pipeline import run_draft_pipeline
 from workflow_agent_studio.storage import (
     BlueprintVersionRepository,
@@ -57,7 +58,11 @@ def main(argv: list[str] | None = None) -> int:
             run_repository = WorkflowRunRepository(connection)
             if run_repository.get_run(args.run_id) is None:
                 run_repository.create_run(args.run_id)
-            result = ingest_source_paths(connection, run_id=args.run_id, paths=args.paths)
+            try:
+                result = ingest_source_paths(connection, run_id=args.run_id, paths=args.paths)
+            except UnsupportedSourceType as exc:
+                print(json.dumps({"error": str(exc)}, sort_keys=True), file=sys.stderr)
+                return 2
             print(json.dumps(result.__dict__, sort_keys=True))
         finally:
             connection.close()
@@ -65,12 +70,16 @@ def main(argv: list[str] | None = None) -> int:
         connection = connect_database(Path(args.database))
         try:
             initialize_database(connection)
-            result = run_draft_pipeline(
-                connection,
-                run_id=args.run_id,
-                source_paths=args.paths,
-                index_dir=Path(args.index_dir),
-            )
+            try:
+                result = run_draft_pipeline(
+                    connection,
+                    run_id=args.run_id,
+                    source_paths=args.paths,
+                    index_dir=Path(args.index_dir),
+                )
+            except UnsupportedSourceType as exc:
+                print(json.dumps({"error": str(exc)}, sort_keys=True), file=sys.stderr)
+                return 2
             print(json.dumps(result.to_json_dict(), sort_keys=True))
             return result.exit_code
         finally:

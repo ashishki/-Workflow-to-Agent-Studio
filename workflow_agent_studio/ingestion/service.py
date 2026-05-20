@@ -36,9 +36,9 @@ def ingest_source_paths(
     source_repository = SourceDocumentRepository(connection)
     duplicate_fingerprints: list[str] = []
     stored_count = 0
+    raw_sources = [read_source_path(path) for path in paths]
 
-    for path in paths:
-        raw_source = read_source_path(path)
+    for raw_source in raw_sources:
         normalized_text = _normalize_source_text(raw_source)
         fingerprint = fingerprint_text(normalized_text)
         existing = source_repository.get_by_fingerprint(run_id=run_id, fingerprint=fingerprint)

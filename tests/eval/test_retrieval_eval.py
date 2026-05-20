@@ -23,6 +23,19 @@ def test_retrieval_eval_records_transcript_ingestion_fixture() -> None:
     )
 
 
+def test_retrieval_eval_records_discovery_artifact_ingestion_fixture() -> None:
+    retrieval_eval = Path("docs/retrieval_eval.md").read_text(encoding="utf-8")
+
+    assert "T22 established the notes, forms, and integration ingestion fixture baseline" in (
+        retrieval_eval
+    )
+    assert (
+        "| 2026-05-20 | T22 | discovery-artifacts-fixture-v1 | n/a | "
+        "pytest tests/integration/test_ingestion.py tests/unit/test_docs.py "
+        "tests/eval/test_retrieval_eval.py -q |" in retrieval_eval
+    )
+
+
 def test_retrieval_eval_records_chunking_baseline() -> None:
     retrieval_eval = Path("docs/retrieval_eval.md").read_text(encoding="utf-8")
 

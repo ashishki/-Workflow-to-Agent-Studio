@@ -20,6 +20,9 @@ from workflow_agent_studio.storage import (
 
 SAMPLE_SOURCE = Path("tests/fixtures/sources/sample_sop.md")
 TRANSCRIPT_SOURCE = Path("tests/fixtures/sources/discovery_call.transcript.txt")
+NOTES_SOURCE = Path("tests/fixtures/sources/discovery_notes.notes.txt")
+FORM_SOURCE = Path("tests/fixtures/sources/intake_form.form.md")
+INTEGRATION_SOURCE = Path("tests/fixtures/sources/crm_integration.integration.txt")
 
 
 def _connection(tmp_path):
@@ -64,6 +67,27 @@ def test_transcript_ingestion_stores_normalized_source_record(tmp_path) -> None:
     assert "Consultant: Walk me through the intake process." in sources[0].normalized_text
 
 
+def test_common_discovery_artifacts_store_source_kind_metadata(tmp_path) -> None:
+    connection = _connection(tmp_path)
+    try:
+        result = ingest_source_paths(
+            connection,
+            run_id="run-1",
+            paths=[NOTES_SOURCE, FORM_SOURCE, INTEGRATION_SOURCE],
+        )
+        sources = SourceDocumentRepository(connection).list_by_run("run-1")
+    finally:
+        connection.close()
+
+    assert result.source_count == 3
+    assert {source.source_type for source in sources} == {"notes", "form", "integration"}
+    assert {source.title for source in sources} == {
+        "crm_integration.integration",
+        "discovery_notes.notes",
+        "intake_form.form",
+    }
+
+
 def test_transcript_fingerprint_ignores_whitespace_only_changes(tmp_path) -> None:
     first = tmp_path / "first.transcript.txt"
     second = tmp_path / "second.transcript.txt"
@@ -105,6 +129,41 @@ def test_duplicate_source_fingerprint_not_stored_twice(tmp_path) -> None:
     assert result.duplicate_count == 1
     assert len(result.duplicate_fingerprints) == 1
     assert len(sources) == 1
+
+
+def test_unsupported_source_file_fails_without_partial_persisted_source(tmp_path) -> None:
+    database_path = tmp_path / "workflow_studio.sqlite3"
+    unsupported_source = tmp_path / "source.pdf"
+    unsupported_source.write_text("Raw unsupported discovery source text", encoding="utf-8")
+    command = Path(sys.executable).with_name("workflow-agent-studio")
+
+    result = subprocess.run(
+        [
+            command,
+            "ingest",
+            "--database",
+            str(database_path),
+            "--run-id",
+            "run-1",
+            str(SAMPLE_SOURCE),
+            str(unsupported_source),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 2
+    assert "Unsupported source file type" in result.stderr
+    assert "Raw unsupported discovery source text" not in result.stderr
+
+    connection = connect_database(database_path)
+    try:
+        sources = SourceDocumentRepository(connection).list_by_run("run-1")
+    finally:
+        connection.close()
+
+    assert sources == []
 
 
 def test_ingestion_audit_event_excludes_raw_source_text(tmp_path) -> None:

@@ -19,6 +19,17 @@ def test_operator_guide_states_v1_non_goals() -> None:
     assert "V1 does not mutate production systems." in guide
 
 
+def test_operator_guide_documents_supported_source_kinds() -> None:
+    guide = Path("docs/operator_guide.md").read_text(encoding="utf-8")
+
+    assert "transcripts: `.transcript`, `.transcript.txt`, `.transcript.md`" in guide
+    assert "pasted notes: `.notes`, `.notes.txt`, `.notes.md`" in guide
+    assert "form descriptions: `.form`, `.form.txt`, `.form.md`" in guide
+    assert "integration snippets: `.integration`, `.integration.txt`, `.integration.md`" in guide
+    assert "Unsupported file types fail before source records are persisted." in guide
+    assert "Keep source files local" in guide
+
+
 def test_evaluation_guide_lists_eval_commands_and_metrics() -> None:
     guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
 

@@ -2,7 +2,7 @@
 
 ## V1 Workflow
 
-1. Prepare local text or Markdown workflow sources.
+1. Prepare local workflow sources.
 2. Run the local CLI pipeline with `workflow-agent-studio run`.
 3. Review the generated draft blueprint version ID and validation finding IDs.
 4. Export a draft Markdown brief with `workflow-agent-studio export`.
@@ -10,7 +10,19 @@
 
 ## Sample Source Format
 
-Use plain text or Markdown. A useful source includes:
+Supported local source kinds:
+
+- plain text: `.txt`
+- Markdown: `.md`, `.markdown`
+- transcripts: `.transcript`, `.transcript.txt`, `.transcript.md`
+- pasted notes: `.notes`, `.notes.txt`, `.notes.md`
+- form descriptions: `.form`, `.form.txt`, `.form.md`
+- integration snippets: `.integration`, `.integration.txt`, `.integration.md`
+
+Unsupported file types fail before source records are persisted. Keep source files local;
+V1 does not import from SaaS tools, external APIs, cloud drives, audio, video, or images.
+
+A useful source includes:
 
 - actors and systems
 - workflow trigger
