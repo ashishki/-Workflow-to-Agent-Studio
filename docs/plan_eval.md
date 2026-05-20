@@ -68,6 +68,9 @@ pilot success before a real human-reviewed row is filled.
 T23 established the evidence gap report baseline with source anchors, one
 missing extraction question, and six required-section evidence gaps.
 
+T24 established the real-world-style corpus planning baseline with required-section
+coverage and evidence-gap metrics.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -151,6 +154,19 @@ Evidence gap report baseline:
 - Evidence gaps: 6
 - Regression: No
 
+Real-world-style corpus planning baseline:
+
+- Date: 2026-05-20
+- Task: T24
+- Eval Source: pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_plan_eval.py -q
+- Metric: Corpus required-section evidence coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Required-section coverage: 0.67
+- Evidence gaps: 2
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -165,6 +181,7 @@ Evidence gap report baseline:
 | 2026-05-19 | T18 | v1 | End-to-end draft blueprint expected-outcome pass rate | 100%; 1 draft generated; 1 blocking run rejected; 1 export written | 100%; 1 draft generated; 1 blocking run rejected; 1 export written | 0% | No | pytest tests/integration/test_cli_workflow.py tests/eval/test_end_to_end_eval.py -q |
 | 2026-05-19 | T20 | v1 | Pilot proof metric template coverage | 100% | 100% | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T23 | v1 | Evidence gap report expected-outcome pass rate | 100%; 1 missing question; 6 evidence gaps | 100%; 1 missing question; 6 evidence gaps | 0% | No | pytest tests/integration/test_evidence_gap_report.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T24 | v1 | Corpus required-section evidence coverage | 100%; coverage 0.67; 2 evidence gaps | 100%; coverage 0.67; 2 evidence gaps | 0% | No | pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_plan_eval.py -q |
 
 ---
 

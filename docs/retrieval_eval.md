@@ -90,6 +90,9 @@ normalization and whitespace-stable source fingerprints.
 T22 established the notes, forms, and integration ingestion fixture baseline
 with source-kind metadata and unsupported file rejection.
 
+T24 established the real-world-style corpus fixture baseline with transcript,
+notes, form, and integration source fixtures.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -160,6 +163,18 @@ Discovery artifact ingestion baseline:
 - Score: 100%
 - Regression: No
 
+Real-world-style corpus baseline:
+
+- Date: 2026-05-20
+- Task: T24
+- Corpus Version: real-world-corpus-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retrieval_eval.py -q
+- Corpus count: 4
+- Chunk count: 10
+- Citation support: 1.00
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -173,6 +188,7 @@ Discovery artifact ingestion baseline:
 | 2026-05-19 | T18 | e2e-sample-sop-v1 | v1 | pytest tests/integration/test_cli_workflow.py tests/eval/test_end_to_end_eval.py -q | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | No |
 | 2026-05-20 | T21 | transcript-fixture-v1 | n/a | pytest tests/integration/test_ingestion.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-20 | T22 | discovery-artifacts-fixture-v1 | n/a | pytest tests/integration/test_ingestion.py tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-20 | T24 | real-world-corpus-v1 | n/a | pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | 1.00 | n/a | n/a | n/a | No |
 
 ---
 

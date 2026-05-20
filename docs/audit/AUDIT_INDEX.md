@@ -23,6 +23,7 @@ Append-only. One row per validation or review cycle.
 | 11 | Phase 5 | 2026-05-19 | T18 RAG and plan validation deep review | No | 0 | 0 | 1 |
 | 12 | Phase 5 | 2026-05-19 | Phase 5 boundary / T20 plan validation deep review | No | 0 | 0 | 1 |
 | 13 | Post Phase 5 | 2026-05-19 | CODE-2 tracing fix verification | No | 0 | 0 | 0 |
+| 14 | Phase 1 | 2026-05-20 | Phase 1 corpus expansion boundary review | No | 0 | 0 | 0 |
 
 ---
 
@@ -45,6 +46,7 @@ Append-only. One row per validation or review cycle.
 | 11 | docs/archive/CYCLE11_T18_REVIEW.md | Phase 5 / T18 | Green - 1 P2 |
 | 12 | docs/archive/PHASE5_REVIEW.md | Phase 5 | Green - 1 P2 |
 | 13 | docs/archive/CYCLE13_CODE2_FIX.md | Post Phase 5 | Green - no open findings |
+| 14 | docs/archive/CYCLE14_PHASE1_CORPUS_REVIEW.md | Phase 1 | Green - no open findings |
 
 ---
 

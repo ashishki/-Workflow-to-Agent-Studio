@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-20
-Phase: 1
+Phase: 2
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,9 +12,9 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 1 - Evidence Capture And Corpus Expansion
-- Next task: T24 - Real-World Corpus Fixture Baseline
-- Verified baseline: 91 passing tests, 0 skipped, 0 failed
+- Current phase: Phase 2 - Retrieval And Evidence Engine
+- Next task: T25 - Evidence Pack Builder
+- Verified baseline: 96 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,36 +33,34 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T24 - Real-World Corpus Fixture Baseline
+Task: T25 - Evidence Pack Builder
 
-Goal: add a small realistic corpus pack and baseline metrics for source coverage, evidence gaps, and generated blueprint usefulness.
+Goal: build reusable evidence packs for workflow sections and automation candidates.
 
 Acceptance summary:
 
-- corpus fixtures include at least one transcript, one notes file, one form description, and one integration excerpt
-- retrieval eval records corpus count, chunk count, and citation support metrics
-- plan eval records required-section coverage and evidence-gap metrics
-- README points next contributors to the corpus and eval commands
+- evidence packs group source snippets by blueprint section and candidate automation
+- unsupported sections produce `insufficient_evidence`
+- citation precision is measured in `docs/retrieval_eval.md`
 
 File scope:
 
-- `tests/fixtures/sources/`
+- `workflow_agent_studio/retrieval/`
+- `workflow_agent_studio/blueprint/`
+- `tests/integration/test_evidence_packs.py`
 - `docs/retrieval_eval.md`
-- `docs/plan_eval.md`
-- `README.md`
-- `tests/eval/`
 
 Required context:
 
-- `docs/product_strategy.md#market-lens`
-- `docs/evaluation_guide.md`
+- `docs/ARCHITECTURE.md#profile-rag`
+- `docs/retrieval_eval.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: real-world corpus baseline
+- Next work: evidence packs, retrieval quality controls, and citation precision
 - Open retrieval findings: none
 
 Planning: ON
