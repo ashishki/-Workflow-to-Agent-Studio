@@ -6,7 +6,11 @@ import json
 from dataclasses import dataclass
 
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
-from workflow_agent_studio.domain.review import ReviewFeedback, ReviewFeedbackCategory
+from workflow_agent_studio.domain.review import (
+    ReviewFeedback,
+    ReviewFeedbackAnalytics,
+    ReviewFeedbackCategory,
+)
 from workflow_agent_studio.domain.workflow import EvidenceReference
 from workflow_agent_studio.storage import (
     AuditEventRepository,
@@ -163,6 +167,24 @@ def record_review_feedback(
         created_at=recorded_at,
     )
     return feedback
+
+
+def summarize_review_feedback(feedback: list[ReviewFeedback]) -> ReviewFeedbackAnalytics:
+    by_category: dict[ReviewFeedbackCategory, int] = {}
+    by_section: dict[str, int] = {}
+    by_blueprint_version_id: dict[int, int] = {}
+    for item in feedback:
+        by_category[item.category] = by_category.get(item.category, 0) + 1
+        by_section[item.section] = by_section.get(item.section, 0) + 1
+        by_blueprint_version_id[item.blueprint_version_id] = (
+            by_blueprint_version_id.get(item.blueprint_version_id, 0) + 1
+        )
+    return ReviewFeedbackAnalytics(
+        total_count=len(feedback),
+        by_category=by_category,
+        by_section=by_section,
+        by_blueprint_version_id=by_blueprint_version_id,
+    )
 
 
 def diff_blueprints(

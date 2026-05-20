@@ -210,3 +210,17 @@ def test_plan_eval_records_vertical_pack_dry_run_metrics() -> None:
         "100%; generic sections 3; vertical sections 7; pilot evidence no | "
         "100%; generic sections 3; vertical sections 7; pilot evidence no | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_feedback_analytics_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T45 established the review feedback analytics baseline" in plan_eval
+    assert "Analytics dimensions: category, section, blueprint_version_id" in plan_eval
+    assert "Raw feedback text persisted: no" in plan_eval
+    assert (
+        "| 2026-05-20 | T45 | v1 | Feedback analytics expected-outcome pass rate | "
+        "100%; category/section/version counts; raw feedback persistence no | "
+        "100%; category/section/version counts; raw feedback persistence no | 0% | No |"
+        in plan_eval
+    )

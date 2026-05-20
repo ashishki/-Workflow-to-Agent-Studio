@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 10 - Pre-Pilot Hardening
-- Next task: T45 - Review Feedback Analytics
-- Verified baseline: 151 passing tests, 0 skipped, 0 failed
+- Next task: T46 - Demo Dataset Boundary
+- Verified baseline: 153 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; synthetic fixtures cannot satisfy pilot proof.
@@ -33,27 +33,29 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T45 - Review Feedback Analytics
+Task: T46 - Demo Dataset Boundary
 
-Goal: aggregate reviewer feedback categories without storing raw confidential review text.
+Goal: make demo, synthetic, and real-pilot dataset boundaries explicit in docs and tests.
 
 Acceptance summary:
 
-- analytics report counts feedback categories by section and version
-- raw feedback text is not persisted in analytics output
-- plan eval records feedback analytics coverage
+- docs define which datasets can and cannot support commercial claims
+- eval artifacts identify synthetic and demo baselines separately from real pilots
+- tests prevent synthetic fixtures from being counted as real pilot rows
 
 File scope:
 
-- `workflow_agent_studio/blueprint/review.py`
-- `workflow_agent_studio/domain/review.py`
-- `tests/integration/test_review_state.py`
+- `docs/product_strategy.md`
+- `docs/pilot_measurement.md`
+- `docs/retrieval_eval.md`
 - `docs/plan_eval.md`
+- `tests/unit/test_docs.py`
 
 Required context:
 
-- `docs/tasks.md#t45-review-feedback-analytics`
-- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
+- `docs/tasks.md#t46-demo-dataset-boundary`
+- `docs/product_strategy.md`
+- `docs/pilot_measurement.md`
 - `docs/plan_eval.md`
 
 ## Profile State
@@ -61,13 +63,13 @@ Required context:
 RAG: ON
 
 - Current mode: text-only
-- Next work: review feedback analytics
+- Next work: demo dataset boundary
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: review feedback analytics
+- Next work: demo dataset boundary
 - Open planning findings: none
 
 Tool-Use: OFF

@@ -11,9 +11,10 @@ from workflow_agent_studio.blueprint.review import (
     edit_blueprint,
     record_blueprint_diff,
     record_review_feedback,
+    summarize_review_feedback,
 )
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
-from workflow_agent_studio.domain.review import REVIEW_FEEDBACK_CATEGORIES
+from workflow_agent_studio.domain.review import REVIEW_FEEDBACK_CATEGORIES, ReviewFeedback
 from workflow_agent_studio.domain.workflow import EvidenceReference
 from workflow_agent_studio.storage import (
     AuditEventRepository,
@@ -260,3 +261,45 @@ def test_review_feedback_records_category_without_raw_confidential_text(connecti
     }
     assert raw_summary not in event["payload_json"]
     assert "ACME-123" not in event["payload_json"]
+
+
+def test_review_feedback_analytics_excludes_raw_review_text() -> None:
+    raw_summary = "Private account ACME-123 needs extra evidence from Jane."
+    feedback = [
+        ReviewFeedback(
+            feedback_id="fb-1",
+            blueprint_version_id=1,
+            category="missing_evidence",
+            section="integration_map",
+            reviewer_label="operator",
+            summary=raw_summary,
+        ),
+        ReviewFeedback(
+            feedback_id="fb-2",
+            blueprint_version_id=1,
+            category="weak_eval",
+            section="eval_cases",
+            reviewer_label="operator",
+            summary="Expected behavior is not measurable.",
+        ),
+        ReviewFeedback(
+            feedback_id="fb-3",
+            blueprint_version_id=2,
+            category="missing_evidence",
+            section="integration_map",
+            reviewer_label="operator",
+            summary="Another confidential reviewer note.",
+        ),
+    ]
+
+    analytics = summarize_review_feedback(feedback)
+    payload = analytics.model_dump(mode="json")
+
+    assert payload == {
+        "total_count": 3,
+        "by_category": {"missing_evidence": 2, "weak_eval": 1},
+        "by_section": {"eval_cases": 1, "integration_map": 2},
+        "by_blueprint_version_id": {"1": 2, "2": 1},
+    }
+    assert raw_summary not in json.dumps(payload)
+    assert "ACME-123" not in json.dumps(payload)

@@ -114,6 +114,9 @@ T44 established the vertical-pack dry-run planning baseline by comparing generic
 and support-intake pack required-section expectations on synthetic fixtures. T34
 remains blocked until real pilot evidence exists.
 
+T45 established the review feedback analytics baseline with category, section,
+and blueprint-version counts that exclude raw confidential reviewer text.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -368,6 +371,19 @@ Vertical-pack dry-run planning baseline:
 - Pilot evidence: no
 - Regression: No
 
+Review feedback analytics baseline:
+
+- Date: 2026-05-20
+- Task: T45
+- Eval Source: pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q
+- Metric: Feedback analytics expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Analytics dimensions: category, section, blueprint_version_id
+- Raw feedback text persisted: no
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -395,6 +411,7 @@ Vertical-pack dry-run planning baseline:
 | 2026-05-20 | T42 | v1 | Sanitization expected-outcome pass rate | 100%; 6 redaction classes; structure preservation pass | 100%; 6 redaction classes; structure preservation pass | 0% | No | pytest tests/unit/test_sanitization.py tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T43 | v1 | Pilot intake checklist coverage | 100%; real-pilot gate explicit; demo/synthetic excluded | 100%; real-pilot gate explicit; demo/synthetic excluded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T44 | v1 | Vertical-pack dry-run expected-section coverage | 100%; generic sections 3; vertical sections 7; pilot evidence no | 100%; generic sections 3; vertical sections 7; pilot evidence no | 0% | No | pytest tests/eval/test_vertical_pack_dry_run_eval.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T45 | v1 | Feedback analytics expected-outcome pass rate | 100%; category/section/version counts; raw feedback persistence no | 100%; category/section/version counts; raw feedback persistence no | 0% | No | pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q |
 
 ---
 

@@ -51,3 +51,12 @@ class ReviewFeedback(BaseModel):
     section: str = Field(min_length=1)
     reviewer_label: str = Field(min_length=1)
     summary: str = Field(min_length=1)
+
+
+class ReviewFeedbackAnalytics(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    total_count: int
+    by_category: dict[ReviewFeedbackCategory, int] = Field(default_factory=dict)
+    by_section: dict[str, int] = Field(default_factory=dict)
+    by_blueprint_version_id: dict[int, int] = Field(default_factory=dict)
