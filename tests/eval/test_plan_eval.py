@@ -132,3 +132,16 @@ def test_plan_eval_records_vertical_pack_schema_metrics() -> None:
         "100%; 1 pack loaded; metadata coverage 100% | "
         "100%; 1 pack loaded; metadata coverage 100% | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_pilot_measurement_evidence_gate() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T35 established the real pilot measurement baseline as template-only" in plan_eval
+    assert "Pilot status: template-only" in plan_eval
+    assert "Reviewed pilot rows: 0" in plan_eval
+    assert (
+        "| 2026-05-20 | T35 | v1 | Pilot measurement evidence gate coverage | "
+        "100%; template-only; 0 reviewed pilot rows | "
+        "100%; template-only; 0 reviewed pilot rows | 0% | No |" in plan_eval
+    )

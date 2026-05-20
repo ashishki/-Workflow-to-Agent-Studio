@@ -61,12 +61,26 @@ def test_pilot_measurement_includes_v1_thresholds() -> None:
     assert "Pass if under 30 minutes." in measurement
     assert "Pass if at least 80 percent after human review." in measurement
     assert "template only" in measurement
+    assert "No real pilot has been reviewed yet." in measurement
+    assert "Any unresolved critical missing question forces `Fail`" in measurement
+
+
+def test_pilot_measurement_records_review_evidence_placeholders() -> None:
+    measurement = Path("docs/pilot_measurement.md").read_text(encoding="utf-8")
+
+    assert "reviewer_edit_summary" in measurement
+    assert "critical_missing_questions" in measurement
+    assert "Template only - no reviewed pilot yet" in measurement
 
 
 def test_evaluation_guide_links_pilot_measurement_artifact() -> None:
     guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
 
     assert "[`docs/pilot_measurement.md`](pilot_measurement.md)" in guide
+    assert "Overall pass" in guide
+    assert "time-to-reviewable blueprint under 30 minutes" in guide
+    assert "no unresolved critical" in guide
+    assert "missing questions" in guide
 
 
 def test_active_ai_roadmap_cover_strategy_and_engineering() -> None:

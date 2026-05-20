@@ -86,6 +86,11 @@ approved-export blocking, and local path constraints.
 T33 established the vertical pack schema baseline with deterministic pack loading
 and generation-attempt metadata coverage.
 
+T35 established the real pilot measurement baseline as template-only because no
+human-reviewed pilot evidence exists yet. The measurement gate requires timing,
+required-section acceptance, reviewer edits, and critical missing questions
+before any pass claim can be made.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -246,6 +251,19 @@ Vertical pack schema baseline:
 - Pack metadata generation coverage: 100%
 - Regression: No
 
+Real pilot measurement baseline:
+
+- Date: 2026-05-20
+- Task: T35
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q
+- Metric: Pilot measurement evidence gate coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Pilot status: template-only
+- Reviewed pilot rows: 0
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -266,6 +284,7 @@ Vertical pack schema baseline:
 | 2026-05-20 | T29 | v1 | Automation readiness expected-outcome pass rate | 100%; ready score 80; blocked score 0 | 100%; ready score 80; blocked score 0 | 0% | No | pytest tests/unit/test_blueprint_validators.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T30 | v1 | Governance report export expected-outcome pass rate | 100%; 1 approved governance block; path constraints pass | 100%; 1 approved governance block; path constraints pass | 0% | No | pytest tests/integration/test_markdown_export.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T33 | v1 | Vertical pack schema pass rate | 100%; 1 pack loaded; metadata coverage 100% | 100%; 1 pack loaded; metadata coverage 100% | 0% | No | pytest tests/unit/test_pattern_library.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T35 | v1 | Pilot measurement evidence gate coverage | 100%; template-only; 0 reviewed pilot rows | 100%; template-only; 0 reviewed pilot rows | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 
 ---
 

@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 7 - Pilot Proof And Commercial Packaging
-- Next task: T35 - Real Pilot Measurement Row
-- Verified baseline: 125 passing tests, 0 skipped, 0 failed
+- Next task: T36 - Commercial Pilot Package
+- Verified baseline: 127 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34 and T40 currently form a dependency cycle, so T35 is the next eligible task.
@@ -33,39 +33,39 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T35 - Real Pilot Measurement Row
+Task: T36 - Commercial Pilot Package
 
-Goal: record the first real pilot measurement without overstating product maturity.
+Goal: document the minimum sellable pilot package, buyer promise, boundaries, and proof metrics.
 
 Acceptance summary:
 
-- `docs/pilot_measurement.md` contains one reviewed real pilot row or explicitly remains template-only
-- pass/fail result is based on time-to-blueprint and required-section acceptance thresholds
-- reviewer edits and critical missing questions are recorded
+- package states buyer, use case, deliverables, non-goals, and success criteria
+- claims are tied to pilot evidence or marked as assumptions
+- README links the package without replacing operator docs
 
 File scope:
 
-- `docs/pilot_measurement.md`
-- `docs/evaluation_guide.md`
+- `docs/product_strategy.md`
+- `README.md`
 - `tests/unit/test_docs.py`
 
 Required context:
 
-- `docs/tasks.md#t35-real-pilot-measurement-row`
-- `docs/evaluation_guide.md`
+- `docs/tasks.md#t36-commercial-pilot-package`
+- `docs/pilot_measurement.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: pilot evidence and later vertical-pack validation
+- Next work: pilot package evidence boundaries and later vertical-pack validation
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: pilot measurement thresholds and evidence-backed validation
+- Next work: pilot package success criteria and evidence-backed validation
 - Open planning findings: none
 
 Tool-Use: OFF
