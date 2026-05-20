@@ -197,3 +197,16 @@ def test_plan_eval_records_pilot_intake_checklist_metrics() -> None:
         "100%; real-pilot gate explicit; demo/synthetic excluded | "
         "100%; real-pilot gate explicit; demo/synthetic excluded | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_vertical_pack_dry_run_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T44 established the vertical-pack dry-run planning baseline" in plan_eval
+    assert "Generic expected sections: 3" in plan_eval
+    assert "Vertical expected sections: 7" in plan_eval
+    assert (
+        "| 2026-05-20 | T44 | v1 | Vertical-pack dry-run expected-section coverage | "
+        "100%; generic sections 3; vertical sections 7; pilot evidence no | "
+        "100%; generic sections 3; vertical sections 7; pilot evidence no | 0% | No |" in plan_eval
+    )

@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 10 - Pre-Pilot Hardening
-- Next task: T44 - Vertical Pack Dry-Run Evaluation
-- Verified baseline: 147 passing tests, 0 skipped, 0 failed
+- Next task: T45 - Review Feedback Analytics
+- Verified baseline: 151 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; synthetic fixtures cannot satisfy pilot proof.
@@ -33,41 +33,41 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T44 - Vertical Pack Dry-Run Evaluation
+Task: T45 - Review Feedback Analytics
 
-Goal: evaluate vertical-pack mechanics on synthetic fixtures without claiming a real wedge.
+Goal: aggregate reviewer feedback categories without storing raw confidential review text.
 
 Acceptance summary:
 
-- dry-run compares generic and vertical-pack expectations on synthetic fixtures
-- results are labeled not pilot evidence
-- T34 remains blocked until real pilot evidence exists
+- analytics report counts feedback categories by section and version
+- raw feedback text is not persisted in analytics output
+- plan eval records feedback analytics coverage
 
 File scope:
 
-- `patterns/`
-- `tests/fixtures/benchmarks/`
-- `docs/retrieval_eval.md`
+- `workflow_agent_studio/blueprint/review.py`
+- `workflow_agent_studio/domain/review.py`
+- `tests/integration/test_review_state.py`
 - `docs/plan_eval.md`
 
 Required context:
 
-- `docs/tasks.md#t44-vertical-pack-dry-run-evaluation`
-- `docs/tasks.md#t34-first-vertical-pack-from-pilot-evidence`
-- `tests/fixtures/benchmarks/`
+- `docs/tasks.md#t45-review-feedback-analytics`
+- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
+- `docs/plan_eval.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: vertical pack dry-run evaluation
+- Next work: review feedback analytics
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: vertical pack dry-run evaluation
+- Next work: review feedback analytics
 - Open planning findings: none
 
 Tool-Use: OFF

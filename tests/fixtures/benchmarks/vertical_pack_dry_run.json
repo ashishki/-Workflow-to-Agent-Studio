@@ -1,0 +1,23 @@
+{
+  "schema_version": "vertical_pack_dry_run:v1",
+  "dry_run_id": "support_intake_synthetic_dry_run",
+  "dataset_kind": "synthetic",
+  "not_pilot_evidence": true,
+  "benchmark_id": "synthetic_support_intake",
+  "vertical_pack_id": "support_intake",
+  "generic_expected_sections": [
+    "workflow_summary",
+    "current_workflow_steps",
+    "eval_cases"
+  ],
+  "vertical_expected_sections": [
+    "workflow_summary",
+    "actors",
+    "systems",
+    "current_workflow_steps",
+    "automation_candidates",
+    "human_approval_boundaries",
+    "eval_cases"
+  ],
+  "result_label": "dry-run only - not pilot evidence"
+}
