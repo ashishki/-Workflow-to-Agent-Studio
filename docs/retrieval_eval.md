@@ -99,6 +99,9 @@ sections and automation candidates.
 T26 established the retrieval quality-control baseline for configurable
 thresholds, deterministic reranking, and no-answer behavior.
 
+T33 established the vertical pack ingestion baseline with a locally loadable
+support-intake pack contract.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -207,6 +210,17 @@ Retrieval quality-control baseline:
 - Unsupported no-answer accuracy: 1.00
 - Regression: No
 
+Vertical pack ingestion baseline:
+
+- Date: 2026-05-20
+- Task: T33
+- Corpus Version: vertical-pack-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/unit/test_pattern_library.py tests/eval/test_retrieval_eval.py -q
+- Pack count: 1
+- Pack source examples: 2
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -223,6 +237,7 @@ Retrieval quality-control baseline:
 | 2026-05-20 | T24 | real-world-corpus-v1 | n/a | pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | 1.00 | n/a | n/a | n/a | No |
 | 2026-05-20 | T25 | evidence-pack-fixture-v1 | v1 | pytest tests/integration/test_evidence_packs.py tests/eval/test_retrieval_eval.py -q | 1.00 | 1.00 | n/a | 1.00 | 1.00 | n/a | n/a | No |
 | 2026-05-20 | T26 | retrieval-quality-fixture-v1 | v1 | pytest tests/unit/test_retrieval_quality.py tests/eval/test_retrieval_eval.py -q | 1.00 | 1.00 | n/a | n/a | 1.00 | n/a | n/a | No |
+| 2026-05-20 | T33 | vertical-pack-v1 | n/a | pytest tests/unit/test_pattern_library.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 
 ---
 

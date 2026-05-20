@@ -120,3 +120,15 @@ def test_plan_eval_records_governance_export_metrics() -> None:
         "100%; 1 approved governance block; path constraints pass | "
         "0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_vertical_pack_schema_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T33 established the vertical pack schema baseline" in plan_eval
+    assert "Pack metadata generation coverage: 100%" in plan_eval
+    assert (
+        "| 2026-05-20 | T33 | v1 | Vertical pack schema pass rate | "
+        "100%; 1 pack loaded; metadata coverage 100% | "
+        "100%; 1 pack loaded; metadata coverage 100% | 0% | No |" in plan_eval
+    )

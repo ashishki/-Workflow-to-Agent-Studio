@@ -1,0 +1,30 @@
+{
+  "schema_version": "vertical_pack:v1",
+  "pack_id": "support_intake",
+  "domain": "Support intake",
+  "source_examples": [
+    "tests/fixtures/sources/sample_sop.md",
+    "tests/fixtures/sources/discovery_call.transcript.txt"
+  ],
+  "extraction_hints": [
+    "Identify inbox triage actors and CRM/account-status checks.",
+    "Capture follow-up task creation and engineering-review conditions."
+  ],
+  "required_blueprint_sections": [
+    "workflow_summary",
+    "actors",
+    "systems",
+    "current_workflow_steps",
+    "automation_candidates",
+    "human_approval_boundaries",
+    "eval_cases"
+  ],
+  "risks": [
+    "Missing request details can block automation.",
+    "Approval boundaries must be explicit before task creation."
+  ],
+  "eval_fixtures": [
+    "tests/eval/test_real_world_corpus_eval.py",
+    "tests/integration/test_blueprint_synthesis.py"
+  ]
+}

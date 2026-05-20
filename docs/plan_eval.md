@@ -83,6 +83,9 @@ next-question, and blocking-validation outcomes.
 T30 established the governance report export baseline with readiness reporting,
 approved-export blocking, and local path constraints.
 
+T33 established the vertical pack schema baseline with deterministic pack loading
+and generation-attempt metadata coverage.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -231,6 +234,18 @@ Governance report export baseline:
 - Local path constraints: pass
 - Regression: No
 
+Vertical pack schema baseline:
+
+- Date: 2026-05-20
+- Task: T33
+- Eval Source: pytest tests/unit/test_pattern_library.py tests/eval/test_plan_eval.py -q
+- Metric: Vertical pack schema pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Pack metadata generation coverage: 100%
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -250,6 +265,7 @@ Governance report export baseline:
 | 2026-05-20 | T28 | v1 | Prompt registry version coverage | 100%; 2 prompt versions recorded | 100%; 2 prompt versions recorded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T29 | v1 | Automation readiness expected-outcome pass rate | 100%; ready score 80; blocked score 0 | 100%; ready score 80; blocked score 0 | 0% | No | pytest tests/unit/test_blueprint_validators.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T30 | v1 | Governance report export expected-outcome pass rate | 100%; 1 approved governance block; path constraints pass | 100%; 1 approved governance block; path constraints pass | 0% | No | pytest tests/integration/test_markdown_export.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T33 | v1 | Vertical pack schema pass rate | 100%; 1 pack loaded; metadata coverage 100% | 100%; 1 pack loaded; metadata coverage 100% | 0% | No | pytest tests/unit/test_pattern_library.py tests/eval/test_plan_eval.py -q |
 
 ---
 

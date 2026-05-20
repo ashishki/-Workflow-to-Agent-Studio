@@ -12,12 +12,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 6 - Vertical Blueprint Packs
-- Next task: T33 - Vertical Pack Contract
-- Verified baseline: 121 passing tests, 0 skipped, 0 failed
+- Current phase: Phase 7 - Pilot Proof And Commercial Packaging
+- Next task: T35 - Real Pilot Measurement Row
+- Verified baseline: 125 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
-- Open findings: none
+- Open findings: T34 and T40 currently form a dependency cycle, so T35 is the next eligible task.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -33,41 +33,39 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T33 - Vertical Pack Contract
+Task: T35 - Real Pilot Measurement Row
 
-Goal: define a versioned contract for vertical workflow packs.
+Goal: record the first real pilot measurement without overstating product maturity.
 
 Acceptance summary:
 
-- packs declare domain, source examples, extraction hints, required blueprint sections, risks, and eval fixtures
-- pack loading is deterministic and locally testable
-- pack metadata appears in generation attempts and eval artifacts
+- `docs/pilot_measurement.md` contains one reviewed real pilot row or explicitly remains template-only
+- pass/fail result is based on time-to-blueprint and required-section acceptance thresholds
+- reviewer edits and critical missing questions are recorded
 
 File scope:
 
-- `patterns/`
-- `workflow_agent_studio/patterns/`
-- `tests/unit/test_pattern_library.py`
-- `docs/retrieval_eval.md`
-- `docs/plan_eval.md`
+- `docs/pilot_measurement.md`
+- `docs/evaluation_guide.md`
+- `tests/unit/test_docs.py`
 
 Required context:
 
-- `docs/ARCHITECTURE.md#profile-planning`
-- `docs/plan_eval.md`
+- `docs/tasks.md#t35-real-pilot-measurement-row`
+- `docs/evaluation_guide.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: vertical pack contract
+- Next work: pilot evidence and later vertical-pack validation
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: evidence gaps and readiness validation in later phases
+- Next work: pilot measurement thresholds and evidence-backed validation
 - Open planning findings: none
 
 Tool-Use: OFF
