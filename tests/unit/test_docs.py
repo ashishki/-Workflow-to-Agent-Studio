@@ -90,7 +90,7 @@ def test_readme_links_active_product_strategy_and_task_graph() -> None:
     assert "docs/product_strategy.md" in readme
     assert "docs/tasks.md" in readme
     assert "docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md" in readme
-    assert "Verified local baseline: 117 passing tests" in readme
+    assert "Verified local baseline: 121 passing tests" in readme
 
 
 def test_prompts_stay_compact_and_archive_old_versions() -> None:

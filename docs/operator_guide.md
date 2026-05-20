@@ -69,3 +69,17 @@ workflow-agent-studio export \
   --export-dir .data/exports \
   --output sample-sop-blueprint.md
 ```
+
+```bash
+workflow-agent-studio review \
+  --database .data/workflow_studio.sqlite3 \
+  --run-id sample-sop \
+  --blueprint-version-id 1 \
+  --export-dir .data/exports \
+  --output sample-sop-review.md
+```
+
+Use `workflow-agent-studio review --set-rough-effort-band medium` when a reviewer needs
+to create an edited draft version while exporting the local review workspace. The review
+workspace is a local Markdown file for inspecting findings, evidence, comment metadata,
+and version history; it does not deploy or execute automation.

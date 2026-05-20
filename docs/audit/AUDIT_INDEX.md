@@ -27,6 +27,7 @@ Append-only. One row per validation or review cycle.
 | 15 | Phase 2 | 2026-05-20 | Phase 2 retrieval engine boundary review | No | 0 | 0 | 0 |
 | 16 | Phase 3 | 2026-05-20 | Phase 3 structured LLM boundary review | No | 0 | 0 | 0 |
 | 17 | Phase 4 | 2026-05-20 | Phase 4 governance boundary review | No | 0 | 0 | 0 |
+| 18 | Phase 5 | 2026-05-20 | Phase 5 review workspace boundary review | No | 0 | 0 | 0 |
 
 ---
 
@@ -53,6 +54,7 @@ Append-only. One row per validation or review cycle.
 | 15 | docs/archive/CYCLE15_PHASE2_RETRIEVAL_REVIEW.md | Phase 2 | Green - no open findings |
 | 16 | docs/archive/CYCLE16_PHASE3_STRUCTURED_LLM_REVIEW.md | Phase 3 | Green - no open findings |
 | 17 | docs/archive/CYCLE17_PHASE4_GOVERNANCE_REVIEW.md | Phase 4 | Green - no open findings |
+| 18 | docs/archive/CYCLE18_PHASE5_REVIEW_WORKSPACE_REVIEW.md | Phase 5 | Green - no open findings |
 
 ---
 

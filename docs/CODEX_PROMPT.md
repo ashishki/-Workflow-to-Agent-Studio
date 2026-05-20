@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-20
-Phase: 5
+Phase: 6
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,9 +12,9 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 5 - Review Workspace And Human Editing
-- Next task: T32 - Review Workspace Interface
-- Verified baseline: 119 passing tests, 0 skipped, 0 failed
+- Current phase: Phase 6 - Vertical Blueprint Packs
+- Next task: T33 - Vertical Pack Contract
+- Verified baseline: 121 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,21 +33,23 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T32 - Review Workspace Interface
+Task: T33 - Vertical Pack Contract
 
-Goal: provide the smallest useful local review interface, CLI or UI, for editing and approving blueprint sections.
+Goal: define a versioned contract for vertical workflow packs.
 
 Acceptance summary:
 
-- reviewer can inspect findings, evidence, comments, and version history
-- reviewer can create an edited draft and export it locally
-- interface documentation stays operator-focused and does not claim autonomous deployment
+- packs declare domain, source examples, extraction hints, required blueprint sections, risks, and eval fixtures
+- pack loading is deterministic and locally testable
+- pack metadata appears in generation attempts and eval artifacts
 
 File scope:
 
-- `workflow_agent_studio/cli.py`
-- `docs/operator_guide.md`
-- `tests/integration/`
+- `patterns/`
+- `workflow_agent_studio/patterns/`
+- `tests/unit/test_pattern_library.py`
+- `docs/retrieval_eval.md`
+- `docs/plan_eval.md`
 
 Required context:
 
@@ -59,7 +61,7 @@ Required context:
 RAG: ON
 
 - Current mode: text-only
-- Next work: review comments, diffs, and local review interface
+- Next work: vertical pack contract
 - Open retrieval findings: none
 
 Planning: ON
