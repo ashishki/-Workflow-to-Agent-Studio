@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 10 - Pre-Pilot Hardening
-- Next task: T41 - Synthetic Benchmark Harness
-- Verified baseline: 139 passing tests, 0 skipped, 0 failed
+- Next task: T42 - Redaction And Sanitization Pipeline
+- Verified baseline: 142 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; synthetic fixtures cannot satisfy pilot proof.
@@ -33,29 +33,27 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T41 - Synthetic Benchmark Harness
+Task: T42 - Redaction And Sanitization Pipeline
 
-Goal: create a synthetic-only benchmark harness for regression testing without satisfying real-pilot evidence gates.
+Goal: add deterministic sanitization helpers for future benchmark fixtures and pilot artifacts.
 
 Acceptance summary:
 
-- synthetic benchmark fixtures are explicitly labeled as not pilot evidence
-- harness reports retrieval and planning fixture coverage deterministically
-- eval docs state synthetic results cannot satisfy T34 or commercial pilot proof
+- common PII and credential-like tokens are redacted before benchmark export
+- sanitization preserves enough structure for eval usefulness
+- tests prove raw confidential strings are absent from sanitized output
 
 File scope:
 
-- `tests/fixtures/benchmarks/`
-- `workflow_agent_studio/eval/`
-- `tests/eval/`
-- `docs/retrieval_eval.md`
+- `workflow_agent_studio/safety/`
+- `tests/unit/`
+- `docs/operator_guide.md`
 - `docs/plan_eval.md`
 
 Required context:
 
-- `docs/tasks.md#t41-synthetic-benchmark-harness`
-- `docs/pilot_measurement.md`
-- `docs/retrieval_eval.md`
+- `docs/tasks.md#t42-redaction-and-sanitization-pipeline`
+- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
 - `docs/plan_eval.md`
 
 ## Profile State
@@ -63,13 +61,13 @@ Required context:
 RAG: ON
 
 - Current mode: text-only
-- Next work: synthetic benchmark harness
+- Next work: sanitization pipeline
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: synthetic benchmark harness
+- Next work: sanitization pipeline
 - Open planning findings: none
 
 Tool-Use: OFF

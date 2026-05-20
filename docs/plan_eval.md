@@ -98,6 +98,10 @@ boundaries.
 T39 established the reviewer feedback taxonomy baseline with six reusable
 categories and audit storage that excludes raw confidential reviewer text.
 
+T41 established the synthetic benchmark planning baseline with deterministic
+required-section and feedback-category coverage. Synthetic results cannot
+satisfy T34 or commercial pilot proof.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -297,6 +301,21 @@ Reviewer feedback taxonomy baseline:
 - Raw feedback text persisted in audit: no
 - Regression: No
 
+Synthetic benchmark planning baseline:
+
+- Date: 2026-05-20
+- Task: T41
+- Eval Source: pytest tests/eval/test_synthetic_benchmark_eval.py tests/eval/test_plan_eval.py -q
+- Metric: Synthetic benchmark planning coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Fixtures: 2
+- Required sections covered: 7
+- Feedback categories covered: 6
+- Pilot evidence: no
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -320,6 +339,7 @@ Reviewer feedback taxonomy baseline:
 | 2026-05-20 | T35 | v1 | Pilot measurement evidence gate coverage | 100%; template-only; 0 reviewed pilot rows | 100%; template-only; 0 reviewed pilot rows | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T38 | v1 | Approved handoff export expected-outcome pass rate | 100%; approval gates pass; local side effects only | 100%; approval gates pass; local side effects only | 0% | No | pytest tests/integration/test_markdown_export.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T39 | v1 | Feedback category coverage | 100%; 6 categories; raw feedback audit persistence no | 100%; 6 categories; raw feedback audit persistence no | 0% | No | pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T41 | v1 | Synthetic benchmark planning coverage | 100%; 2 fixtures; 7 sections; 6 feedback categories; pilot evidence no | 100%; 2 fixtures; 7 sections; 6 feedback categories; pilot evidence no | 0% | No | pytest tests/eval/test_synthetic_benchmark_eval.py tests/eval/test_plan_eval.py -q |
 
 ---
 

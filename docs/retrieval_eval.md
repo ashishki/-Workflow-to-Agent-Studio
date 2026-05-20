@@ -106,6 +106,10 @@ T37 established the controlled connector ingestion baseline with read-only
 connector imports, environment-backed credential references, source metadata,
 and failed-import isolation.
 
+T41 established the synthetic benchmark harness baseline with two synthetic-only
+fixtures and deterministic retrieval-query coverage. Synthetic results cannot
+satisfy T34 or commercial pilot proof.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -237,6 +241,19 @@ Controlled connector ingestion baseline:
 - Failed import isolation: pass
 - Regression: No
 
+Synthetic benchmark harness baseline:
+
+- Date: 2026-05-20
+- Task: T41
+- Corpus Version: synthetic-benchmark-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/eval/test_synthetic_benchmark_eval.py tests/eval/test_retrieval_eval.py -q
+- Fixture count: 2
+- Retrieval queries: 6
+- Dataset kind: synthetic
+- Pilot evidence: no
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -255,6 +272,7 @@ Controlled connector ingestion baseline:
 | 2026-05-20 | T26 | retrieval-quality-fixture-v1 | v1 | pytest tests/unit/test_retrieval_quality.py tests/eval/test_retrieval_eval.py -q | 1.00 | 1.00 | n/a | n/a | 1.00 | n/a | n/a | No |
 | 2026-05-20 | T33 | vertical-pack-v1 | n/a | pytest tests/unit/test_pattern_library.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-20 | T37 | connector-import-fixture-v1 | n/a | pytest tests/integration/test_ingestion.py tests/unit/test_config.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-20 | T41 | synthetic-benchmark-v1 | n/a | pytest tests/eval/test_synthetic_benchmark_eval.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 
 ---
 

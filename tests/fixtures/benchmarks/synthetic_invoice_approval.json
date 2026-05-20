@@ -1,0 +1,25 @@
+{
+  "schema_version": "synthetic_benchmark:v1",
+  "benchmark_id": "synthetic_invoice_approval",
+  "dataset_kind": "synthetic",
+  "not_pilot_evidence": true,
+  "domain": "Invoice approval",
+  "source_summary": "Synthetic invoice review workflow with purchase-order matching, finance approval, and exception handling.",
+  "retrieval_queries": [
+    "invoice purchase order matching",
+    "finance approval exception handling",
+    "payment release human approval boundary"
+  ],
+  "required_blueprint_sections": [
+    "workflow_summary",
+    "current_workflow_steps",
+    "integration_map",
+    "risks_and_assumptions",
+    "eval_cases"
+  ],
+  "expected_feedback_categories": [
+    "wrong_integration",
+    "unclear_risk",
+    "unsupported_claim"
+  ]
+}

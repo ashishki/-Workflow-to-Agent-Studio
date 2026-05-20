@@ -1,0 +1,25 @@
+{
+  "schema_version": "synthetic_benchmark:v1",
+  "benchmark_id": "synthetic_support_intake",
+  "dataset_kind": "synthetic",
+  "not_pilot_evidence": true,
+  "domain": "Support intake",
+  "source_summary": "Synthetic support request triage workflow with CRM lookup, approval boundary, and engineering escalation.",
+  "retrieval_queries": [
+    "support request triage CRM lookup",
+    "engineering escalation approval boundary",
+    "follow-up task expected behavior"
+  ],
+  "required_blueprint_sections": [
+    "workflow_summary",
+    "current_workflow_steps",
+    "automation_candidates",
+    "human_approval_boundaries",
+    "eval_cases"
+  ],
+  "expected_feedback_categories": [
+    "missing_evidence",
+    "wrong_boundary",
+    "weak_eval"
+  ]
+}
