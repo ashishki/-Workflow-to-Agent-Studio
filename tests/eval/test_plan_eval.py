@@ -94,3 +94,16 @@ def test_plan_eval_records_prompt_registry_metrics() -> None:
         "100%; 2 prompt versions recorded | 100%; 2 prompt versions recorded | "
         "0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_readiness_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T29 established the automation readiness baseline" in plan_eval
+    assert "Ready fixture score: 80" in plan_eval
+    assert "Blocked fixture score: 0" in plan_eval
+    assert (
+        "| 2026-05-20 | T29 | v1 | Automation readiness expected-outcome pass rate | "
+        "100%; ready score 80; blocked score 0 | "
+        "100%; ready score 80; blocked score 0 | 0% | No |" in plan_eval
+    )

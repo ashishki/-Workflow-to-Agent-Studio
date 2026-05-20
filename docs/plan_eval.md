@@ -77,6 +77,9 @@ parity and schema-error observability.
 T28 established the prompt registry version baseline with two task-focused prompt
 assets and generation-attempt version records.
 
+T29 established the automation readiness baseline with deterministic risk,
+next-question, and blocking-validation outcomes.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -199,6 +202,19 @@ Prompt registry baseline:
 - Prompt versions recorded per generation attempt: 2
 - Regression: No
 
+Automation readiness baseline:
+
+- Date: 2026-05-20
+- Task: T29
+- Eval Source: pytest tests/unit/test_blueprint_validators.py tests/eval/test_plan_eval.py -q
+- Metric: Automation readiness expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Ready fixture score: 80
+- Blocked fixture score: 0
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -216,6 +232,7 @@ Prompt registry baseline:
 | 2026-05-20 | T24 | v1 | Corpus required-section evidence coverage | 100%; coverage 0.67; 2 evidence gaps | 100%; coverage 0.67; 2 evidence gaps | 0% | No | pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T27 | v1 | Provider-backed extraction schema pass rate | 100%; fake/provider parity 100%; provider credential path optional | 100%; fake/provider parity 100%; provider credential path optional | 0% | No | pytest tests/integration/test_extraction.py tests/unit/test_llm_gateway.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T28 | v1 | Prompt registry version coverage | 100%; 2 prompt versions recorded | 100%; 2 prompt versions recorded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T29 | v1 | Automation readiness expected-outcome pass rate | 100%; ready score 80; blocked score 0 | 100%; ready score 80; blocked score 0 | 0% | No | pytest tests/unit/test_blueprint_validators.py tests/eval/test_plan_eval.py -q |
 
 ---
 

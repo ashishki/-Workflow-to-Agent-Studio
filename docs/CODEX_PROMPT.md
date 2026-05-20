@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 4 - Automation Readiness And Governance
-- Next task: T29 - Automation Readiness Score
-- Verified baseline: 110 passing tests, 0 skipped, 0 failed
+- Next task: T30 - Governance Report Export
+- Verified baseline: 113 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,22 +33,21 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T29 - Automation Readiness Score
+Task: T30 - Governance Report Export
 
-Goal: compute deterministic readiness signals from evidence coverage, risk, integration clarity, eval quality, and approval boundaries.
+Goal: export a governance-focused report for reviewer approval and implementation handoff.
 
 Acceptance summary:
 
-- readiness output explains blockers, risks, and next questions
-- scores cannot override blocking validation findings
-- plan eval records readiness fixture outcomes
+- report includes evidence coverage, assumptions, approval boundaries, readiness result, and unresolved findings
+- approved governance export is blocked when validation has blocking findings
+- local export path constraints remain enforced
 
 File scope:
 
-- `workflow_agent_studio/validators/`
-- `workflow_agent_studio/domain/blueprint.py`
-- `tests/unit/test_blueprint_validators.py`
-- `docs/plan_eval.md`
+- `workflow_agent_studio/export/`
+- `tests/integration/test_markdown_export.py`
+- `docs/operator_guide.md`
 
 Required context:
 

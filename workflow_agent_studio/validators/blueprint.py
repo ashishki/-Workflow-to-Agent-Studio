@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Literal
 
 from workflow_agent_studio.domain.blueprint import (
     AutomationBlueprint,
@@ -41,6 +41,15 @@ class BlueprintValidationResult:
         return self.blocking_count == 0
 
 
+@dataclass(frozen=True)
+class AutomationReadinessResult:
+    score: int
+    status: Literal["ready", "needs_review", "blocked"]
+    blockers: list[str]
+    risks: list[str]
+    next_questions: list[str]
+
+
 def validate_blueprint_for_approval(
     blueprint: AutomationBlueprint,
 ) -> BlueprintValidationResult:
@@ -66,6 +75,39 @@ def validate_evidence_gap_report(report: EvidenceGapReport) -> BlueprintValidati
             )
             for gap in report.gaps
         ]
+    )
+
+
+def compute_automation_readiness(
+    blueprint: AutomationBlueprint,
+    *,
+    validation: BlueprintValidationResult | None = None,
+) -> AutomationReadinessResult:
+    validation_result = validation or validate_blueprint_for_approval(blueprint)
+    blockers = [
+        finding.message for finding in validation_result.findings if finding.severity == "blocking"
+    ]
+    risks = _readiness_risks(blueprint)
+    next_questions = _readiness_next_questions(blueprint)
+    if blockers:
+        return AutomationReadinessResult(
+            score=0,
+            status="blocked",
+            blockers=blockers,
+            risks=risks,
+            next_questions=next_questions,
+        )
+
+    score = 100
+    score -= min(len(risks) * 5, 25)
+    score -= min(len(next_questions) * 5, 25)
+    status: Literal["ready", "needs_review"] = "ready" if score >= 90 else "needs_review"
+    return AutomationReadinessResult(
+        score=score,
+        status=status,
+        blockers=[],
+        risks=risks,
+        next_questions=next_questions,
     )
 
 
@@ -228,6 +270,39 @@ def _validate_candidate_boundaries(
                 )
             )
     return findings
+
+
+def _readiness_risks(blueprint: AutomationBlueprint) -> list[str]:
+    risks = [
+        f"{candidate.risk_level.title()}-risk automation candidate: {candidate.name}"
+        for candidate in blueprint.automation_candidates
+        if candidate.risk_level in {"medium", "high"}
+    ]
+    risks.extend(
+        item.description for item in blueprint.risks_and_assumptions if item.kind == "risk"
+    )
+    return risks
+
+
+def _readiness_next_questions(blueprint: AutomationBlueprint) -> list[str]:
+    questions = [
+        f"Confirm assumption: {item.description}"
+        for item in blueprint.risks_and_assumptions
+        if item.kind == "assumption"
+    ]
+    questions.extend(
+        f"Confirm assumption: {claim.text}"
+        for claim in [
+            blueprint.workflow_summary,
+            *blueprint.triggers,
+            *blueprint.decisions,
+            *blueprint.exceptions,
+            *blueprint.pain_points,
+            *blueprint.observability_needs,
+        ]
+        if isinstance(claim, Claim) and claim.assumption
+    )
+    return questions
 
 
 def _evidence_finding(path: str) -> BlueprintValidationFinding:

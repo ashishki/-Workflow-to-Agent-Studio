@@ -2,7 +2,10 @@ import json
 from pathlib import Path
 
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
-from workflow_agent_studio.validators import validate_blueprint_for_approval
+from workflow_agent_studio.validators import (
+    compute_automation_readiness,
+    validate_blueprint_for_approval,
+)
 
 
 def _valid_blueprint() -> AutomationBlueprint:
@@ -77,3 +80,23 @@ def test_forbidden_claim_blocks_approval() -> None:
         and finding.rule_id == "FORBID-AUTONOMY-CLAIM"
         for finding in result.findings
     )
+
+
+def test_readiness_explains_risks_and_next_questions() -> None:
+    readiness = compute_automation_readiness(_valid_blueprint())
+
+    assert readiness.status == "needs_review"
+    assert readiness.score == 80
+    assert readiness.blockers == []
+    assert any("Medium-risk automation candidate" in risk for risk in readiness.risks)
+    assert any("Confirm assumption" in question for question in readiness.next_questions)
+
+
+def test_readiness_score_cannot_override_blocking_validation_findings() -> None:
+    blueprint = _valid_blueprint().model_copy(update={"eval_cases": []})
+
+    readiness = compute_automation_readiness(blueprint)
+
+    assert readiness.status == "blocked"
+    assert readiness.score == 0
+    assert any("eval_cases" in blocker for blocker in readiness.blockers)
