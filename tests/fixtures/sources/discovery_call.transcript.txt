@@ -1,0 +1,6 @@
+Consultant: Walk me through the intake process.
+
+Client: A coordinator reviews each request in the shared inbox.
+Client: They check the CRM for account status and support tier.
+Consultant: What happens when the request needs engineering?
+Client: The coordinator creates a follow-up task and waits for engineering review.

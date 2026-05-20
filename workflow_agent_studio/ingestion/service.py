@@ -7,8 +7,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from uuid import uuid4
 
-from workflow_agent_studio.ingestion.normalizer import fingerprint_text, normalize_text
-from workflow_agent_studio.ingestion.readers import read_source_path
+from workflow_agent_studio.ingestion.normalizer import (
+    fingerprint_text,
+    normalize_text,
+    normalize_transcript_text,
+)
+from workflow_agent_studio.ingestion.readers import RawSource, read_source_path
 from workflow_agent_studio.storage.repositories import (
     AuditEventRepository,
     SourceDocumentRepository,
@@ -35,7 +39,7 @@ def ingest_source_paths(
 
     for path in paths:
         raw_source = read_source_path(path)
-        normalized_text = normalize_text(raw_source.text)
+        normalized_text = _normalize_source_text(raw_source)
         fingerprint = fingerprint_text(normalized_text)
         existing = source_repository.get_by_fingerprint(run_id=run_id, fingerprint=fingerprint)
         if existing is not None:
@@ -68,3 +72,9 @@ def ingest_source_paths(
         },
     )
     return result
+
+
+def _normalize_source_text(raw_source: RawSource) -> str:
+    if raw_source.source_type == "transcript":
+        return normalize_transcript_text(raw_source.text)
+    return normalize_text(raw_source.text)

@@ -84,6 +84,9 @@ no-answer accuracy, citation precision, and `insufficient_evidence` behavior.
 T18 established the end-to-end sample SOP fixture retrieval baseline through the CLI
 workflow.
 
+T21 established the transcript ingestion fixture baseline with speaker-label
+normalization and whitespace-stable source fingerprints.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -132,6 +135,17 @@ Query baseline:
 - p95 ms: 0.00
 - Regression: No
 
+Transcript ingestion baseline:
+
+- Date: 2026-05-20
+- Task: T21
+- Corpus Version: transcript-fixture-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/integration/test_ingestion.py tests/eval/test_retrieval_eval.py -q
+- Metric: Transcript ingestion fixture pass rate
+- Score: 100%
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -143,6 +157,7 @@ Query baseline:
 | 2026-05-19 | T10 | index-fixture-v1 | v1 | pytest tests/unit/test_embeddings.py tests/integration/test_retrieval_index.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-19 | T11 | query-fixture-v1 | v1 | pytest tests/integration/test_retrieval_query.py tests/eval/test_retrieval_eval.py -q | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | No |
 | 2026-05-19 | T18 | e2e-sample-sop-v1 | v1 | pytest tests/integration/test_cli_workflow.py tests/eval/test_end_to_end_eval.py -q | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.00 | 0.00 | No |
+| 2026-05-20 | T21 | transcript-fixture-v1 | n/a | pytest tests/integration/test_ingestion.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 
 ---
 

@@ -1,7 +1,7 @@
 # CODEX_PROMPT.md
 
 Version: 2.0
-Date: 2026-05-19
+Date: 2026-05-20
 Phase: 1
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
@@ -13,10 +13,10 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 1 - Evidence Capture And Corpus Expansion
-- Next task: T21 - Transcript Ingestion
-- Verified baseline: 79 passing tests, 0 skipped, 0 failed
+- Next task: T22 - Notes, Forms, And Integration Snippet Ingestion
+- Verified baseline: 83 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
-- Last updated: 2026-05-19
+- Last updated: 2026-05-20
 - Open findings: none
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
@@ -33,37 +33,36 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T21 - Transcript Ingestion
+Task: T22 - Notes, Forms, And Integration Snippet Ingestion
 
-Goal: add local transcript ingestion for discovery call exports while preserving source confidentiality.
+Goal: support common discovery artifacts beyond transcripts: pasted notes, form descriptions, and API or integration excerpts.
 
 Acceptance summary:
 
-- transcript fixtures with speaker labels ingest into normalized source records
-- source fingerprints remain deterministic across whitespace-only transcript changes
-- raw transcript text does not appear in logs, spans, or audit labels
-- `docs/retrieval_eval.md` records the transcript ingestion fixture result
+- each supported source kind is represented in source metadata
+- unsupported file types fail with a clear nonzero CLI error and no partial persisted source
+- fixtures cover notes, form descriptions, and integration snippets
+- ingestion docs explain supported source kinds and local-only boundaries
 
 File scope:
 
 - `workflow_agent_studio/ingestion/`
-- `workflow_agent_studio/domain/sources.py`
+- `workflow_agent_studio/cli.py`
+- `docs/operator_guide.md`
 - `tests/integration/test_ingestion.py`
-- `tests/eval/test_retrieval_eval.py`
-- `docs/retrieval_eval.md`
+- `tests/unit/test_docs.py`
 
 Required context:
 
-- `docs/IMPLEMENTATION_CONTRACT.md#profile-rules-rag`
-- `docs/product_strategy.md#development-phases`
-- `docs/tasks.md#t21-transcript-ingestion`
+- `docs/spec.md#feature-area-source-ingestion`
+- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: broader source ingestion, evidence anchors, and corpus baseline
+- Next work: notes/forms/integration snippet ingestion, evidence anchors, and corpus baseline
 - Open retrieval findings: none
 
 Planning: ON
