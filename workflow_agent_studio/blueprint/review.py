@@ -6,6 +6,7 @@ import json
 from dataclasses import dataclass
 
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
+from workflow_agent_studio.domain.workflow import EvidenceReference
 from workflow_agent_studio.storage import (
     AuditEventRepository,
     BlueprintApprovalRecord,
@@ -29,6 +30,30 @@ class ApprovalBlockedError(Exception):
 class ApprovedBlueprint:
     approval: BlueprintApprovalRecord
     version: BlueprintVersionRecord
+
+
+@dataclass(frozen=True)
+class ReviewComment:
+    comment_id: str
+    blueprint_version_id: int
+    section: str
+    reviewer_label: str
+    comment_text: str
+    evidence_reference: EvidenceReference | None = None
+
+
+@dataclass(frozen=True)
+class BlueprintDiffEntry:
+    section: str
+    previous: str
+    current: str
+
+
+@dataclass(frozen=True)
+class BlueprintDiff:
+    previous_version_id: int
+    current_version_id: int
+    entries: list[BlueprintDiffEntry]
 
 
 def edit_blueprint(
@@ -57,6 +82,105 @@ def edit_blueprint(
         created_at=edited_at,
     )
     return version
+
+
+def add_review_comment(
+    *,
+    run_id: str,
+    blueprint_version_id: int,
+    section: str,
+    reviewer_label: str,
+    comment_text: str,
+    audit_events: AuditEventRepository,
+    evidence_reference: EvidenceReference | None = None,
+    commented_at: str | None = None,
+) -> ReviewComment:
+    comment = ReviewComment(
+        comment_id=f"{run_id}:comment:{blueprint_version_id}:{section}",
+        blueprint_version_id=blueprint_version_id,
+        section=section,
+        reviewer_label=reviewer_label,
+        comment_text=comment_text,
+        evidence_reference=evidence_reference,
+    )
+    payload = {
+        "blueprint_version_id": blueprint_version_id,
+        "section": section,
+        "reviewer_label": reviewer_label,
+    }
+    if evidence_reference is not None:
+        payload["evidence_reference"] = {
+            "source_id": evidence_reference.source_id,
+            "chunk_id": evidence_reference.chunk_id,
+        }
+    audit_events.add_event(
+        event_id=comment.comment_id,
+        run_id=run_id,
+        event_type="review_comment_added",
+        payload=payload,
+        created_at=commented_at,
+    )
+    return comment
+
+
+def diff_blueprints(
+    *,
+    previous: AutomationBlueprint,
+    current: AutomationBlueprint,
+    previous_version_id: int,
+    current_version_id: int,
+) -> BlueprintDiff:
+    entries: list[BlueprintDiffEntry] = []
+    _append_if_changed(
+        entries,
+        section="workflow_summary",
+        previous=previous.workflow_summary.text,
+        current=current.workflow_summary.text,
+    )
+    _append_if_changed(
+        entries,
+        section="assumptions",
+        previous=_assumption_signature(previous),
+        current=_assumption_signature(current),
+    )
+    _append_if_changed(
+        entries,
+        section="findings",
+        previous=_finding_signature(previous),
+        current=_finding_signature(current),
+    )
+    _append_if_changed(
+        entries,
+        section="approval_boundaries",
+        previous=_approval_boundary_signature(previous),
+        current=_approval_boundary_signature(current),
+    )
+    return BlueprintDiff(
+        previous_version_id=previous_version_id,
+        current_version_id=current_version_id,
+        entries=entries,
+    )
+
+
+def record_blueprint_diff(
+    *,
+    run_id: str,
+    diff: BlueprintDiff,
+    audit_events: AuditEventRepository,
+    recorded_at: str | None = None,
+) -> None:
+    audit_events.add_event(
+        event_id=f"{run_id}:blueprint_diff:{diff.previous_version_id}:{diff.current_version_id}",
+        run_id=run_id,
+        event_type="blueprint_diff_recorded",
+        payload={
+            "previous_version_id": diff.previous_version_id,
+            "current_version_id": diff.current_version_id,
+            "changed_sections": [entry.section for entry in diff.entries],
+            "change_count": len(diff.entries),
+        },
+        created_at=recorded_at,
+    )
 
 
 def approve_blueprint(
@@ -112,4 +236,48 @@ def _version_mismatch_finding(
         section="blueprint_version",
         message="Approval blueprint does not match the immutable stored version.",
         repair_hint="Load the exact stored version payload before approval.",
+    )
+
+
+def _append_if_changed(
+    entries: list[BlueprintDiffEntry],
+    *,
+    section: str,
+    previous: str,
+    current: str,
+) -> None:
+    if previous != current:
+        entries.append(BlueprintDiffEntry(section=section, previous=previous, current=current))
+
+
+def _assumption_signature(blueprint: AutomationBlueprint) -> str:
+    return json.dumps(
+        [
+            item.model_dump(mode="json")
+            for item in blueprint.risks_and_assumptions
+            if item.kind == "assumption"
+        ],
+        sort_keys=True,
+    )
+
+
+def _finding_signature(blueprint: AutomationBlueprint) -> str:
+    validation = validate_blueprint_for_approval(blueprint)
+    return json.dumps(
+        [
+            {
+                "rule_id": finding.rule_id,
+                "section": finding.section,
+                "severity": finding.severity,
+            }
+            for finding in validation.findings
+        ],
+        sort_keys=True,
+    )
+
+
+def _approval_boundary_signature(blueprint: AutomationBlueprint) -> str:
+    return json.dumps(
+        [boundary.model_dump(mode="json") for boundary in blueprint.human_approval_boundaries],
+        sort_keys=True,
     )

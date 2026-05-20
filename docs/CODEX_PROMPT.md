@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 5 - Review Workspace And Human Editing
-- Next task: T31 - Review Diff And Comment Model
-- Verified baseline: 117 passing tests, 0 skipped, 0 failed
+- Next task: T32 - Review Workspace Interface
+- Verified baseline: 119 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,21 +33,21 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T31 - Review Diff And Comment Model
+Task: T32 - Review Workspace Interface
 
-Goal: add structured reviewer comments and version-to-version diffs for blueprint sections.
+Goal: provide the smallest useful local review interface, CLI or UI, for editing and approving blueprint sections.
 
 Acceptance summary:
 
-- comments attach to blueprint sections and evidence anchors
-- diffs show changed claims, assumptions, findings, and approval boundaries
-- audit events record comment and diff actions without raw confidential source text
+- reviewer can inspect findings, evidence, comments, and version history
+- reviewer can create an edited draft and export it locally
+- interface documentation stays operator-focused and does not claim autonomous deployment
 
 File scope:
 
-- `workflow_agent_studio/blueprint/review.py`
-- `workflow_agent_studio/storage/repositories.py`
-- `tests/integration/test_review_state.py`
+- `workflow_agent_studio/cli.py`
+- `docs/operator_guide.md`
+- `tests/integration/`
 
 Required context:
 

@@ -5,10 +5,14 @@ import pytest
 
 from workflow_agent_studio.blueprint.review import (
     ApprovalBlockedError,
+    add_review_comment,
     approve_blueprint,
+    diff_blueprints,
     edit_blueprint,
+    record_blueprint_diff,
 )
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
+from workflow_agent_studio.domain.workflow import EvidenceReference
 from workflow_agent_studio.storage import (
     AuditEventRepository,
     BlueprintApprovalRepository,
@@ -144,3 +148,69 @@ def test_valid_blueprint_approval_records_audit_event(connection) -> None:
     assert event["event_type"] == "blueprint_approved"
     assert payload["blueprint_version_id"] == version.blueprint_version_id
     assert payload["reviewer_label"] == "operator"
+
+
+def test_review_comment_attaches_to_section_and_evidence_without_auditing_text(
+    connection,
+) -> None:
+    WorkflowRunRepository(connection).create_run("run-1")
+    audit_events = AuditEventRepository(connection)
+    comment = add_review_comment(
+        run_id="run-1",
+        blueprint_version_id=1,
+        section="workflow_summary",
+        reviewer_label="operator",
+        comment_text="Raw confidential source text should not be audited.",
+        evidence_reference=EvidenceReference(source_id="src-1", chunk_id="chk-1"),
+        audit_events=audit_events,
+        commented_at="2026-05-20T00:00:00+00:00",
+    )
+
+    assert comment.section == "workflow_summary"
+    assert comment.evidence_reference == EvidenceReference(source_id="src-1", chunk_id="chk-1")
+
+    event = audit_events.list_events("run-1")[0]
+    payload = json.loads(event["payload_json"])
+    assert event["event_type"] == "review_comment_added"
+    assert payload["section"] == "workflow_summary"
+    assert payload["evidence_reference"] == {"chunk_id": "chk-1", "source_id": "src-1"}
+    assert "Raw confidential source text" not in event["payload_json"]
+
+
+def test_blueprint_diff_tracks_review_relevant_sections_without_auditing_claim_text(
+    connection,
+) -> None:
+    WorkflowRunRepository(connection).create_run("run-1")
+    audit_events = AuditEventRepository(connection)
+    previous = _valid_blueprint()
+    current = previous.model_copy(
+        update={
+            "workflow_summary": previous.workflow_summary.model_copy(
+                update={"text": "Changed confidential claim text."}
+            ),
+            "human_approval_boundaries": [],
+        }
+    )
+
+    diff = diff_blueprints(
+        previous=previous,
+        current=current,
+        previous_version_id=1,
+        current_version_id=2,
+    )
+    record_blueprint_diff(run_id="run-1", diff=diff, audit_events=audit_events)
+
+    assert {entry.section for entry in diff.entries} == {
+        "workflow_summary",
+        "findings",
+        "approval_boundaries",
+    }
+    event = audit_events.list_events("run-1")[0]
+    payload = json.loads(event["payload_json"])
+    assert event["event_type"] == "blueprint_diff_recorded"
+    assert payload["changed_sections"] == [
+        "workflow_summary",
+        "findings",
+        "approval_boundaries",
+    ]
+    assert "Changed confidential claim text" not in event["payload_json"]
