@@ -145,3 +145,16 @@ def test_plan_eval_records_pilot_measurement_evidence_gate() -> None:
         "100%; template-only; 0 reviewed pilot rows | "
         "100%; template-only; 0 reviewed pilot rows | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_approved_handoff_export_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T38 established the approved handoff export baseline" in plan_eval
+    assert "Approval gates: pass" in plan_eval
+    assert "Local side effects only: pass" in plan_eval
+    assert (
+        "| 2026-05-20 | T38 | v1 | Approved handoff export expected-outcome pass rate | "
+        "100%; approval gates pass; local side effects only | "
+        "100%; approval gates pass; local side effects only | 0% | No |" in plan_eval
+    )

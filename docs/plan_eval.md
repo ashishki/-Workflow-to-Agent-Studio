@@ -91,6 +91,10 @@ human-reviewed pilot evidence exists yet. The measurement gate requires timing,
 required-section acceptance, reviewer edits, and critical missing questions
 before any pass claim can be made.
 
+T38 established the approved handoff export baseline with approval/version gates,
+blocking-validation rejection, local path constraints, and local-only side-effect
+boundaries.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -264,6 +268,19 @@ Real pilot measurement baseline:
 - Reviewed pilot rows: 0
 - Regression: No
 
+Approved handoff export baseline:
+
+- Date: 2026-05-20
+- Task: T38
+- Eval Source: pytest tests/integration/test_markdown_export.py tests/eval/test_plan_eval.py -q
+- Metric: Approved handoff export expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Approval gates: pass
+- Local side effects only: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -285,6 +302,7 @@ Real pilot measurement baseline:
 | 2026-05-20 | T30 | v1 | Governance report export expected-outcome pass rate | 100%; 1 approved governance block; path constraints pass | 100%; 1 approved governance block; path constraints pass | 0% | No | pytest tests/integration/test_markdown_export.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T33 | v1 | Vertical pack schema pass rate | 100%; 1 pack loaded; metadata coverage 100% | 100%; 1 pack loaded; metadata coverage 100% | 0% | No | pytest tests/unit/test_pattern_library.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T35 | v1 | Pilot measurement evidence gate coverage | 100%; template-only; 0 reviewed pilot rows | 100%; template-only; 0 reviewed pilot rows | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T38 | v1 | Approved handoff export expected-outcome pass rate | 100%; approval gates pass; local side effects only | 100%; approval gates pass; local side effects only | 0% | No | pytest tests/integration/test_markdown_export.py tests/eval/test_plan_eval.py -q |
 
 ---
 

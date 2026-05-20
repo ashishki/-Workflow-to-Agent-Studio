@@ -22,6 +22,11 @@ def test_operator_guide_states_v1_non_goals() -> None:
     assert "V1 does not create agents." in guide
     assert "V1 does not deploy automations." in guide
     assert "V1 does not mutate production systems." in guide
+    assert "Approved implementation handoffs are local Markdown exports only." in guide
+    assert (
+        "Unapproved or validation-blocked blueprints cannot produce approved handoff exports."
+        in guide
+    )
 
 
 def test_operator_guide_documents_supported_source_kinds() -> None:

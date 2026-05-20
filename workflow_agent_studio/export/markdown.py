@@ -96,6 +96,35 @@ def export_approved_blueprint(
     return target
 
 
+def export_approved_handoff(
+    *,
+    blueprint: AutomationBlueprint,
+    version: BlueprintVersionRecord,
+    approval: BlueprintApprovalRecord | None,
+    export_dir: Path,
+    output_path: Path,
+) -> Path:
+    findings = _approved_handoff_blockers(
+        blueprint=blueprint,
+        version=version,
+        approval=approval,
+    )
+    if findings:
+        raise ApprovedExportBlockedError(findings)
+
+    target = resolve_export_path(export_dir=export_dir, output_path=output_path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(
+        _render_approved_handoff(
+            blueprint=blueprint,
+            version=version,
+            approval=approval,
+        ),
+        encoding="utf-8",
+    )
+    return target
+
+
 def export_governance_report(
     *,
     blueprint: AutomationBlueprint,
@@ -137,6 +166,40 @@ def export_governance_report(
         encoding="utf-8",
     )
     return target
+
+
+def _approved_handoff_blockers(
+    *,
+    blueprint: AutomationBlueprint,
+    version: BlueprintVersionRecord,
+    approval: BlueprintApprovalRecord | None,
+) -> list[BlueprintValidationFinding]:
+    if approval is None or approval.status != "approved":
+        return [
+            BlueprintValidationFinding(
+                rule_id="HANDOFF-APPROVAL-REQUIRED",
+                severity="blocking",
+                section="approval",
+                message="Approved handoff export requires an approved blueprint record.",
+                repair_hint="Approve the exact blueprint version before exporting a handoff.",
+            )
+        ]
+
+    validation = validate_blueprint_for_approval(blueprint)
+    if not validation.can_approve:
+        return validation.findings
+    if approval.blueprint_version_id != version.blueprint_version_id:
+        return [
+            BlueprintValidationFinding(
+                rule_id="HANDOFF-APPROVAL-VERSION-MISMATCH",
+                severity="blocking",
+                section="approval",
+                message="Approval record does not match the handoff blueprint version.",
+                repair_hint="Export the approved version attached to the approval record.",
+            )
+        ]
+    mismatch = _version_mismatch_finding(blueprint=blueprint, version=version)
+    return [mismatch] if mismatch is not None else []
 
 
 def _version_mismatch_finding(
@@ -244,6 +307,62 @@ def _render_blueprint(
     if status == "Draft":
         lines.extend(["## Unresolved Findings", *_bullet_findings(findings), ""])
     lines.extend(["## Evidence Appendix", *_bullet_evidence(_collect_evidence(blueprint)), ""])
+    return "\n".join(lines)
+
+
+def _render_approved_handoff(
+    *,
+    blueprint: AutomationBlueprint,
+    version: BlueprintVersionRecord,
+    approval: BlueprintApprovalRecord | None,
+) -> str:
+    lines = [
+        "# Implementation Handoff",
+        "",
+        "Status: Approved",
+        f"Blueprint Version ID: {version.blueprint_version_id}",
+        f"Reviewer: {approval.reviewer_label if approval else 'unknown'}",
+        f"Approved At: {approval.approved_at if approval else 'unknown'}",
+        "",
+        "## Implementation Tasks",
+        *_bullet(
+            f"{task.task_id}: owner={task.owner}; "
+            f"depends_on={', '.join(task.depends_on) or 'none'}; "
+            f"AC: {', '.join(task.acceptance_criteria)}; Tests: {', '.join(task.tests_or_evals)}"
+            for task in blueprint.next_implementation_tasks
+        ),
+        "",
+        "## Eval Cases",
+        *_bullet_eval_cases(blueprint.eval_cases),
+        "",
+        "## Automation Boundaries",
+        *_bullet_candidates(blueprint.automation_candidates),
+        "",
+        "## Human Approval Boundaries",
+        *_bullet(
+            f"{boundary.decision}: {boundary.approver} - {boundary.reason}"
+            for boundary in blueprint.human_approval_boundaries
+        ),
+        "",
+        "## Assumptions",
+        *_bullet(
+            item.description
+            for item in blueprint.risks_and_assumptions
+            if item.kind == "assumption"
+        ),
+        "",
+        "## Risks",
+        *_bullet(
+            item.description for item in blueprint.risks_and_assumptions if item.kind == "risk"
+        ),
+        "",
+        "## External Side Effects",
+        "- Disabled. This handoff is a local Markdown artifact only.",
+        "",
+        "## Evidence Appendix",
+        *_bullet_evidence(_collect_evidence(blueprint)),
+        "",
+    ]
     return "\n".join(lines)
 
 

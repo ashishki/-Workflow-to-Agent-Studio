@@ -48,6 +48,13 @@ evidence coverage, assumptions, approval boundaries, readiness, risks, and unres
 validation findings. Approved governance exports remain blocked when validation has
 blocking findings, and output paths stay constrained to the selected export directory.
 
+Approved implementation handoffs are local Markdown exports only. They require an
+approved blueprint version and include implementation tasks, eval cases, automation
+boundaries, human approval boundaries, assumptions, risks, and an evidence appendix.
+Unapproved or validation-blocked blueprints cannot produce approved handoff exports.
+External side effects such as issue creation, Slack messages, email, or portal
+publication remain disabled unless a future ADR changes the boundary.
+
 ## Product Development Roadmap
 
 The active development roadmap is `docs/tasks.md`. Product strategy is summarized in `docs/product_strategy.md`.

@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-20
-Phase: 8
+Phase: 9
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,12 +12,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 8 - Integrations And Controlled Handoff
-- Next task: T38 - Approved Handoff Export
-- Verified baseline: 132 passing tests, 0 skipped, 0 failed
+- Current phase: Phase 9 - Learning System And Moat
+- Next task: T39 - Reviewer Feedback Taxonomy
+- Verified baseline: 136 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
-- Open findings: T34 and T40 currently form a dependency cycle; tracked as Cycle 19 P2.
+- Open findings: T34 and T40 currently form a dependency cycle; tracked as Cycle 20 P2.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -33,41 +33,41 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T38 - Approved Handoff Export
+Task: T39 - Reviewer Feedback Taxonomy
 
-Goal: export implementation handoff artifacts only after human approval.
+Goal: classify reviewer edits into reusable feedback categories.
 
 Acceptance summary:
 
-- handoff includes tasks, eval cases, boundaries, assumptions, and evidence appendix
-- unapproved or blocked blueprints cannot produce approved handoff exports
-- external side effects remain disabled unless an ADR explicitly changes the boundary
+- taxonomy captures missing evidence, wrong boundary, weak eval, wrong integration, unclear risk, and unsupported claim
+- feedback is stored without raw confidential source text
+- plan eval records feedback category coverage
 
 File scope:
 
-- `workflow_agent_studio/export/`
-- `docs/IMPLEMENTATION_CONTRACT.md`
-- `docs/operator_guide.md`
-- `tests/integration/`
+- `workflow_agent_studio/blueprint/review.py`
+- `workflow_agent_studio/domain/review.py`
+- `docs/plan_eval.md`
+- `tests/integration/test_review_state.py`
 
 Required context:
 
-- `docs/tasks.md#t38-approved-handoff-export`
-- `docs/IMPLEMENTATION_CONTRACT.md#local-export-boundary`
-- `docs/IMPLEMENTATION_CONTRACT.md#plan-validation-gate`
+- `docs/tasks.md#t39-reviewer-feedback-taxonomy`
+- `docs/IMPLEMENTATION_CONTRACT.md#source-confidentiality`
+- `docs/plan_eval.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: connector imports and later retrieval quality from imported sources
+- Next work: learning-system fixtures after feedback taxonomy
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: approved handoff export gating
+- Next work: reviewer feedback taxonomy
 - Open planning findings: none
 
 Tool-Use: OFF
@@ -82,4 +82,4 @@ Compliance: OFF
 - Completed V1 prompt state: `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`
 - Prior long orchestrator prompt: `docs/archive/ORCHESTRATOR_V2_LONG.md`
 - Original phase draft: `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
-- Latest phase review: `docs/archive/CYCLE19_PHASE7_PILOT_PACKAGE_REVIEW.md`
+- Latest phase review: `docs/archive/CYCLE20_PHASE8_INTEGRATIONS_HANDOFF_REVIEW.md`

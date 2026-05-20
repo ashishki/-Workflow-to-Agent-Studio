@@ -9,6 +9,7 @@ from workflow_agent_studio.export import (
     ApprovedExportBlockedError,
     ExportPathError,
     export_approved_blueprint,
+    export_approved_handoff,
     export_draft_blueprint,
     export_governance_report,
 )
@@ -16,6 +17,7 @@ from workflow_agent_studio.storage import (
     AuditEventRepository,
     BlueprintApprovalRecord,
     BlueprintApprovalRepository,
+    BlueprintVersionRecord,
     BlueprintVersionRepository,
     WorkflowRunRepository,
     connect_database,
@@ -144,6 +146,93 @@ def test_governance_report_includes_readiness_evidence_and_findings(tmp_path) ->
     assert "## Unresolved Findings" in markdown
 
 
+def test_approved_handoff_includes_tasks_eval_boundaries_and_evidence(tmp_path) -> None:
+    database = connect_database(tmp_path / "workflow_studio.sqlite3")
+    initialize_database(database)
+    try:
+        WorkflowRunRepository(database).create_run("run-1")
+        blueprint = _valid_blueprint()
+        version = BlueprintVersionRepository(database).add_version(
+            run_id="run-1",
+            blueprint=blueprint.model_dump(mode="json"),
+        )
+        approved = approve_blueprint(
+            blueprint=blueprint,
+            version=version,
+            reviewer_label="operator",
+            approvals=BlueprintApprovalRepository(database),
+            audit_events=AuditEventRepository(database),
+            approved_at="2026-05-20T00:00:00+00:00",
+        )
+
+        output = export_approved_handoff(
+            blueprint=blueprint,
+            version=version,
+            approval=approved.approval,
+            export_dir=tmp_path / "exports",
+            output_path=Path("handoff.md"),
+        )
+    finally:
+        database.close()
+
+    markdown = output.read_text(encoding="utf-8")
+    assert "# Implementation Handoff" in markdown
+    assert "Status: Approved" in markdown
+    assert "## Implementation Tasks" in markdown
+    assert "## Eval Cases" in markdown
+    assert "## Automation Boundaries" in markdown
+    assert "## Human Approval Boundaries" in markdown
+    assert "## Assumptions" in markdown
+    assert "## Evidence Appendix" in markdown
+    assert "Disabled. This handoff is a local Markdown artifact only." in markdown
+
+
+def test_handoff_rejects_unapproved_or_blocked_blueprints(tmp_path) -> None:
+    blueprint = _valid_blueprint()
+    version = BlueprintVersionRecord(
+        blueprint_version_id=1,
+        run_id="run-1",
+        version_number=1,
+        blueprint_json=json.dumps(blueprint.model_dump(mode="json"), sort_keys=True),
+        created_at="2026-05-20T00:00:00+00:00",
+    )
+
+    with pytest.raises(ApprovedExportBlockedError) as missing_approval:
+        export_approved_handoff(
+            blueprint=blueprint,
+            version=version,
+            approval=None,
+            export_dir=tmp_path,
+            output_path=Path("handoff.md"),
+        )
+
+    assert any(
+        finding.rule_id == "HANDOFF-APPROVAL-REQUIRED"
+        for finding in missing_approval.value.findings
+    )
+
+    invalid = blueprint.model_copy(update={"eval_cases": []})
+    approval = BlueprintApprovalRecord(
+        blueprint_version_id=1,
+        run_id="run-1",
+        reviewer_label="operator",
+        approved_at="2026-05-20T00:00:00+00:00",
+        status="approved",
+    )
+
+    with pytest.raises(ApprovedExportBlockedError) as blocked:
+        export_approved_handoff(
+            blueprint=invalid,
+            version=version,
+            approval=approval,
+            export_dir=tmp_path,
+            output_path=Path("handoff.md"),
+        )
+
+    assert any(finding.section == "eval_cases" for finding in blocked.value.findings)
+    assert not (tmp_path / "handoff.md").exists()
+
+
 def test_approved_governance_report_rejects_blocking_validation_findings(tmp_path) -> None:
     invalid = _valid_blueprint().model_copy(update={"eval_cases": []})
     approval = BlueprintApprovalRecord(
@@ -172,4 +261,31 @@ def test_governance_report_uses_local_export_path_constraints(tmp_path) -> None:
             blueprint=_valid_blueprint(),
             export_dir=tmp_path / "exports",
             output_path=Path("../governance.md"),
+        )
+
+
+def test_handoff_uses_local_export_path_constraints(tmp_path) -> None:
+    blueprint = _valid_blueprint()
+    version = BlueprintVersionRecord(
+        blueprint_version_id=1,
+        run_id="run-1",
+        version_number=1,
+        blueprint_json=json.dumps(blueprint.model_dump(mode="json"), sort_keys=True),
+        created_at="2026-05-20T00:00:00+00:00",
+    )
+    approval = BlueprintApprovalRecord(
+        blueprint_version_id=1,
+        run_id="run-1",
+        reviewer_label="operator",
+        approved_at="2026-05-20T00:00:00+00:00",
+        status="approved",
+    )
+
+    with pytest.raises(ExportPathError):
+        export_approved_handoff(
+            blueprint=blueprint,
+            version=version,
+            approval=approval,
+            export_dir=tmp_path / "exports",
+            output_path=Path("../handoff.md"),
         )
