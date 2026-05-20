@@ -686,3 +686,121 @@ Files:
 - `docs/retrieval_eval.md`
 - `docs/plan_eval.md`
 - `tests/unit/test_docs.py`
+
+---
+
+## Phase 11: Public-Source Demo Quality
+
+Business goal: use public workflow sources to improve draft quality until the
+system produces stable, source-grounded demo outputs, then request real workflow
+data from potential customers for pilot proof.
+
+Boundary:
+
+- public-source experiments can improve mechanics and demo quality
+- public-source experiments do not satisfy T34/T40 or commercial pilot proof
+- the transition to prospect/customer data happens only after stable public demo
+  results are documented
+
+Exit criteria:
+
+- at least one public-source workflow fixture produces a domain-specific
+  blueprint instead of a generic support-intake draft
+- public-source evals cover source fact preservation, review exports, and pilot
+  boundary enforcement
+- demo artifacts can be shown as public-source demos without claiming buyer
+  acceptance
+
+## T47: Public-Source Workflow Fact Eval
+
+Owner: codex
+Phase: 11
+Type: rag:ingestion plan:validation
+Depends-On: T46
+
+Objective: create a regression eval that proves public-source workflow facts
+survive ingestion, retrieval, synthesis, and export.
+
+Acceptance-Criteria:
+
+- NetBox issue triage fixture checks domain-specific facts in generated output
+- eval fails if the draft collapses back to generic support-intake language only
+- report keeps the public-source vs real-pilot boundary explicit
+
+Files:
+
+- `tests/fixtures/public_sources/`
+- `tests/eval/test_public_source_experiment.py`
+- `docs/experiments/public_source_netbox_issue_triage.md`
+
+## T48: Source-Grounded Extraction Upgrade
+
+Owner: codex
+Phase: 11
+Type: plan:schema
+Depends-On: T47
+
+Objective: improve deterministic extraction and synthesis so public workflow
+fixtures preserve source-specific actors, systems, decisions, exceptions, and
+approval boundaries.
+
+Acceptance-Criteria:
+
+- NetBox fixture produces GitHub Issues, issue templates, maintainers, reporters,
+  stale handling, duplicate handling, and reproducibility checks in the blueprint
+- existing support-intake fixtures continue to pass
+- generated eval cases and automation candidates remain evidence-linked
+
+Files:
+
+- `workflow_agent_studio/extraction/`
+- `workflow_agent_studio/blueprint/`
+- `tests/integration/`
+- `tests/eval/test_public_source_experiment.py`
+
+## T49: Public Demo Pack
+
+Owner: codex
+Phase: 11
+Type: rag:ingestion plan:validation
+Depends-On: T48
+
+Objective: create a reproducible public demo pack that can be shared before real
+prospect data is available.
+
+Acceptance-Criteria:
+
+- demo pack includes source fixture, command transcript, generated blueprint,
+  review workspace, and gap summary
+- generated artifacts are reproducible from committed fixtures
+- docs label the pack as public-source demo material, not customer proof
+
+Files:
+
+- `docs/experiments/`
+- `tests/fixtures/public_sources/`
+- `docs/operator_guide.md`
+- `tests/eval/`
+
+## T50: Prospect Data Request Gate
+
+Owner: codex
+Phase: 11
+Type: plan:validation
+Depends-On: T49
+
+Objective: define when public-source quality is stable enough to ask potential
+customers for real workflow data.
+
+Acceptance-Criteria:
+
+- gate requires stable public-source evals before prospect data requests
+- request checklist states minimum safe source types and confidentiality boundary
+- T34/T40 remain blocked until prospect/customer data is reviewed as a real pilot
+
+Files:
+
+- `docs/pilot_measurement.md`
+- `docs/product_strategy.md`
+- `docs/evaluation_guide.md`
+- `tests/unit/test_docs.py`

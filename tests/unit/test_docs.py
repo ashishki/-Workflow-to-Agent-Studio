@@ -116,6 +116,7 @@ def test_active_ai_roadmap_cover_strategy_and_engineering() -> None:
     assert "Phase 4: Automation Readiness And Governance" in roadmap
     assert "Phase 6: Vertical Blueprint Packs" in roadmap
     assert "Phase 9: Learning System And Moat" in roadmap
+    assert "Phase 11: Public-Source Demo Quality" in roadmap
     assert "T21: Transcript Ingestion" in roadmap
     assert "Type: rag:ingestion" in roadmap
     assert "Exit criteria" in roadmap
@@ -153,6 +154,19 @@ def test_product_strategy_documents_dataset_boundaries() -> None:
     assert "Synthetic results cannot satisfy pilot proof or T34." in strategy
     assert "Real pilot evidence" in strategy
     assert "Commercial claims must use real pilot evidence." in strategy
+
+
+def test_task_graph_defines_public_source_demo_quality_gate() -> None:
+    roadmap = Path("docs/tasks.md").read_text(encoding="utf-8")
+
+    assert "Business goal: use public workflow sources to improve draft quality" in roadmap
+    assert "public-source experiments do not satisfy T34/T40 or commercial pilot proof" in roadmap
+    assert "T47: Public-Source Workflow Fact Eval" in roadmap
+    assert "T48: Source-Grounded Extraction Upgrade" in roadmap
+    assert "T49: Public Demo Pack" in roadmap
+    assert "T50: Prospect Data Request Gate" in roadmap
+    assert "then request real workflow" in roadmap
+    assert "data from potential customers for pilot proof" in roadmap
 
 
 def test_prompts_stay_compact_and_archive_old_versions() -> None:

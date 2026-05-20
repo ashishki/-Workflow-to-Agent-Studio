@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-20
-Phase: 10
+Phase: 11
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,12 +12,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 10 - Pre-Pilot Hardening
-- Next task: BLOCKED - Real pilot evidence required for T34/T40
+- Current phase: Phase 11 - Public-Source Demo Quality
+- Next task: T47 - Public-Source Workflow Fact Eval
 - Verified baseline: 158 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
-- Open findings: T34/T40 remain blocked until real pilot evidence exists; synthetic fixtures cannot satisfy pilot proof.
+- Open findings: T34/T40 remain blocked until real pilot evidence exists; use public sources for demo-quality stabilization only.
 - Latest public-source experiment: `docs/experiments/public_source_netbox_issue_triage.md`; mechanics passed, domain-specific draft quality failed.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
@@ -34,39 +34,40 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: BLOCKED - Real pilot evidence required for T34/T40
+Task: T47 - Public-Source Workflow Fact Eval
 
-Goal: complete remaining vertical-pack and learning-system tasks when real pilot evidence exists.
+Goal: prove public-source workflow facts survive ingestion, retrieval, synthesis, and export before requesting prospect data.
 
 Acceptance summary:
 
-- T34 needs real pilot evidence to identify the strongest wedge
-- T40 needs approved sanitized outcomes from a real pilot
-- demo, synthetic, dry-run, and sanitized-only fixtures cannot satisfy pilot proof
-- public-source workflow experiments can guide development but do not satisfy pilot proof
+- NetBox issue triage fixture checks domain-specific facts in generated output
+- eval fails if the draft collapses back to generic support-intake language only
+- report keeps the public-source vs real-pilot boundary explicit
 
 File scope:
 
-- `docs/pilot_measurement.md`
+- `tests/fixtures/public_sources/`
+- `tests/eval/test_public_source_experiment.py`
+- `docs/experiments/public_source_netbox_issue_triage.md`
 
 Required context:
 
-- `docs/tasks.md#t34-first-vertical-pack-from-pilot-evidence`
-- `docs/tasks.md#t40-pattern-learning-and-benchmark-corpus`
-- `docs/pilot_measurement.md`
+- `docs/tasks.md#t47-public-source-workflow-fact-eval`
+- `docs/experiments/public_source_netbox_issue_triage.md`
+- `tests/fixtures/public_sources/netbox_issue_triage.notes.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: blocked pending real pilot evidence or a new task graph extension
+- Next work: public-source workflow fact preservation evals
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: blocked pending real pilot evidence or a new task graph extension
+- Next work: public-source workflow fact preservation evals
 - Open planning findings: none
 
 Tool-Use: OFF
