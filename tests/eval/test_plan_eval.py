@@ -55,3 +55,16 @@ def test_plan_eval_records_pilot_measurement_template() -> None:
         "| 2026-05-19 | T20 | v1 | Pilot proof metric template coverage | "
         "100% | 100% | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_evidence_gap_report_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T23 established the evidence gap report baseline" in plan_eval
+    assert "Missing questions: 1" in plan_eval
+    assert "Evidence gaps: 6" in plan_eval
+    assert (
+        "| 2026-05-20 | T23 | v1 | Evidence gap report expected-outcome pass rate | "
+        "100%; 1 missing question; 6 evidence gaps | "
+        "100%; 1 missing question; 6 evidence gaps | 0% | No |" in plan_eval
+    )

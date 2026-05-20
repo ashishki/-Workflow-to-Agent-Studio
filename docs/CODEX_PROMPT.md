@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 1 - Evidence Capture And Corpus Expansion
-- Next task: T23 - Evidence Anchor Map And Gap Report
-- Verified baseline: 87 passing tests, 0 skipped, 0 failed
+- Next task: T24 - Real-World Corpus Fixture Baseline
+- Verified baseline: 91 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,36 +33,36 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T23 - Evidence Anchor Map And Gap Report
+Task: T24 - Real-World Corpus Fixture Baseline
 
-Goal: create a source-level evidence map and missing-evidence report before blueprint synthesis.
+Goal: add a small realistic corpus pack and baseline metrics for source coverage, evidence gaps, and generated blueprint usefulness.
 
 Acceptance summary:
 
-- evidence anchors connect source IDs, chunk IDs, headings or speaker labels, and normalized snippets
-- missing evidence is reported for actors, systems, decisions, exceptions, data fields, and approval boundaries
-- synthesis receives structured evidence gaps instead of silently filling missing fields
-- planning eval records missing-question and evidence-gap counts
+- corpus fixtures include at least one transcript, one notes file, one form description, and one integration excerpt
+- retrieval eval records corpus count, chunk count, and citation support metrics
+- plan eval records required-section coverage and evidence-gap metrics
+- README points next contributors to the corpus and eval commands
 
 File scope:
 
-- `workflow_agent_studio/retrieval/`
-- `workflow_agent_studio/blueprint/service.py`
-- `workflow_agent_studio/validators/blueprint.py`
-- `tests/integration/test_evidence_gap_report.py`
+- `tests/fixtures/sources/`
+- `docs/retrieval_eval.md`
 - `docs/plan_eval.md`
+- `README.md`
+- `tests/eval/`
 
 Required context:
 
-- `docs/ARCHITECTURE.md#profile-rag`
-- `docs/ARCHITECTURE.md#profile-planning`
+- `docs/product_strategy.md#market-lens`
+- `docs/evaluation_guide.md`
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: evidence anchors, evidence gaps, and corpus baseline
+- Next work: real-world corpus baseline
 - Open retrieval findings: none
 
 Planning: ON

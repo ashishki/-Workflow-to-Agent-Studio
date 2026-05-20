@@ -65,6 +65,9 @@ blocking insufficient-evidence run, and one Markdown export.
 T20 established the pilot proof metric template coverage baseline without claiming
 pilot success before a real human-reviewed row is filled.
 
+T23 established the evidence gap report baseline with source anchors, one
+missing extraction question, and six required-section evidence gaps.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -135,6 +138,19 @@ Pilot proof metric template baseline:
 - Delta: 0%
 - Regression: No
 
+Evidence gap report baseline:
+
+- Date: 2026-05-20
+- Task: T23
+- Eval Source: pytest tests/integration/test_evidence_gap_report.py tests/eval/test_plan_eval.py -q
+- Metric: Evidence gap report expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Missing questions: 1
+- Evidence gaps: 6
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -148,6 +164,7 @@ Pilot proof metric template baseline:
 | 2026-05-19 | T16 | v1 | Review approval gate expected-outcome pass rate | 100%; 2 approvals blocked; 1 approval recorded | 100%; 2 approvals blocked; 1 approval recorded | 0% | No | pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q |
 | 2026-05-19 | T18 | v1 | End-to-end draft blueprint expected-outcome pass rate | 100%; 1 draft generated; 1 blocking run rejected; 1 export written | 100%; 1 draft generated; 1 blocking run rejected; 1 export written | 0% | No | pytest tests/integration/test_cli_workflow.py tests/eval/test_end_to_end_eval.py -q |
 | 2026-05-19 | T20 | v1 | Pilot proof metric template coverage | 100% | 100% | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T23 | v1 | Evidence gap report expected-outcome pass rate | 100%; 1 missing question; 6 evidence gaps | 100%; 1 missing question; 6 evidence gaps | 0% | No | pytest tests/integration/test_evidence_gap_report.py tests/eval/test_plan_eval.py -q |
 
 ---
 

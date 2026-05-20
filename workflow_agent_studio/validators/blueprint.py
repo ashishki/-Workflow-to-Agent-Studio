@@ -13,6 +13,7 @@ from workflow_agent_studio.domain.blueprint import (
     ImplementationTaskPlan,
 )
 from workflow_agent_studio.domain.workflow import WorkflowStep
+from workflow_agent_studio.retrieval import EvidenceGapReport
 from workflow_agent_studio.validators.forbidden_claims import (
     scan_blueprint_text_for_forbidden_claims,
 )
@@ -51,6 +52,21 @@ def validate_blueprint_for_approval(
     findings.extend(_validate_implementation_tasks(blueprint.next_implementation_tasks))
     findings.extend(_validate_candidate_boundaries(blueprint.automation_candidates))
     return BlueprintValidationResult(findings=findings)
+
+
+def validate_evidence_gap_report(report: EvidenceGapReport) -> BlueprintValidationResult:
+    return BlueprintValidationResult(
+        findings=[
+            BlueprintValidationFinding(
+                rule_id="PLAN-EVIDENCE-GAP",
+                severity="blocking",
+                section=gap.section,
+                message=gap.question,
+                repair_hint=gap.reason,
+            )
+            for gap in report.gaps
+        ]
+    )
 
 
 def _validate_required_sections(

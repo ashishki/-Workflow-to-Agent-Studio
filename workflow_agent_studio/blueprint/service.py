@@ -16,14 +16,15 @@ from workflow_agent_studio.domain.blueprint import (
     SystemRef,
 )
 from workflow_agent_studio.domain.workflow import EvidenceReference
-from workflow_agent_studio.extraction import ExtractedWorkflowMap
-from workflow_agent_studio.retrieval import EvidenceSnippet
+from workflow_agent_studio.extraction import ExtractedWorkflowMap, MissingQuestion
+from workflow_agent_studio.retrieval import EvidenceGapReport, EvidenceSnippet
 
 
 def synthesize_blueprint(
     *,
     workflow: ExtractedWorkflowMap,
     evidence: list[EvidenceSnippet],
+    evidence_gaps: EvidenceGapReport | None = None,
 ) -> AutomationBlueprint:
     """Build a typed v1 automation blueprint from extracted workflow facts."""
     reference = _first_reference(evidence)
@@ -35,9 +36,13 @@ def synthesize_blueprint(
         )
     ]
     risks_and_assumptions.extend(
-        RiskOrAssumption(description=question.question, kind="assumption")
-        for question in workflow.missing_questions
+        _missing_question_to_assumption(question) for question in workflow.missing_questions
     )
+    if evidence_gaps is not None:
+        risks_and_assumptions.extend(
+            RiskOrAssumption(description=gap.question, kind="assumption")
+            for gap in evidence_gaps.gaps
+        )
 
     return AutomationBlueprint(
         workflow_summary=Claim(
@@ -134,3 +139,7 @@ def _first_reference(evidence: list[EvidenceSnippet]) -> EvidenceReference:
         raise ValueError("blueprint synthesis requires at least one evidence snippet")
     first = evidence[0]
     return EvidenceReference(source_id=first.source_id, chunk_id=first.chunk_id)
+
+
+def _missing_question_to_assumption(question: MissingQuestion) -> RiskOrAssumption:
+    return RiskOrAssumption(description=question.question, kind="assumption")
