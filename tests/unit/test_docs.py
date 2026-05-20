@@ -1,5 +1,10 @@
 from pathlib import Path
 
+from workflow_agent_studio.blueprint.prompts import (
+    PROMPT_REGISTRY,
+    prompt_versions_for_generation,
+)
+
 
 def test_readme_contains_setup_and_sample_commands() -> None:
     readme = Path("README.md").read_text(encoding="utf-8")
@@ -85,7 +90,7 @@ def test_readme_links_active_product_strategy_and_task_graph() -> None:
     assert "docs/product_strategy.md" in readme
     assert "docs/tasks.md" in readme
     assert "docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md" in readme
-    assert "Verified local baseline: 103 passing tests" in readme
+    assert "Verified local baseline: 110 passing tests" in readme
 
 
 def test_prompts_stay_compact_and_archive_old_versions() -> None:
@@ -96,3 +101,23 @@ def test_prompts_stay_compact_and_archive_old_versions() -> None:
     assert "Do not paste large roadmap or archive content into the prompt." in orchestrator
     assert len(orchestrator.splitlines()) < 120
     assert len(codex_prompt.splitlines()) < 140
+
+
+def test_prompt_registry_records_versions_for_generation_attempts() -> None:
+    record = prompt_versions_for_generation(attempt_id="attempt-1")
+
+    assert record.attempt_id == "attempt-1"
+    assert record.prompt_versions == {
+        "workflow_extraction": "workflow_extraction:v1",
+        "blueprint_synthesis": "blueprint_synthesis:v1",
+    }
+
+
+def test_prompt_assets_stay_task_focused() -> None:
+    forbidden_context = ("docs/tasks.md", "docs/ARCHITECTURE.md", "roadmap", "archive")
+
+    assert set(PROMPT_REGISTRY) == {"workflow_extraction", "blueprint_synthesis"}
+    for prompt in PROMPT_REGISTRY.values():
+        assert prompt.version.endswith(":v1")
+        assert len(prompt.template.split()) < 40
+        assert not any(term in prompt.template for term in forbidden_context)

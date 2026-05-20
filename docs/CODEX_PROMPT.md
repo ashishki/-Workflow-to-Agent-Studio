@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-20
-Phase: 3
+Phase: 4
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,9 +12,9 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 3 - Structured LLM Extraction And Synthesis
-- Next task: T28 - Prompt Registry And Versioned Prompt Evals
-- Verified baseline: 107 passing tests, 0 skipped, 0 failed
+- Current phase: Phase 4 - Automation Readiness And Governance
+- Next task: T29 - Automation Readiness Score
+- Verified baseline: 110 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: none
@@ -33,22 +33,22 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T28 - Prompt Registry And Versioned Prompt Evals
+Task: T29 - Automation Readiness Score
 
-Goal: make extraction and synthesis prompts versioned assets with regression checks.
+Goal: compute deterministic readiness signals from evidence coverage, risk, integration clarity, eval quality, and approval boundaries.
 
 Acceptance summary:
 
-- prompt versions are recorded with blueprint generation attempts
-- prompt changes require fixture eval updates
-- prompts stay task-focused and do not embed full roadmap or architecture documents
+- readiness output explains blockers, risks, and next questions
+- scores cannot override blocking validation findings
+- plan eval records readiness fixture outcomes
 
 File scope:
 
-- `workflow_agent_studio/llm/`
-- `workflow_agent_studio/blueprint/prompts.py`
+- `workflow_agent_studio/validators/`
+- `workflow_agent_studio/domain/blueprint.py`
+- `tests/unit/test_blueprint_validators.py`
 - `docs/plan_eval.md`
-- `tests/unit/test_docs.py`
 
 Required context:
 
@@ -60,7 +60,7 @@ Required context:
 RAG: ON
 
 - Current mode: text-only
-- Next work: prompt registry and versioned prompt evals
+- Next work: automation readiness and governance export
 - Open retrieval findings: none
 
 Planning: ON

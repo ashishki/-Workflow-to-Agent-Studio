@@ -82,3 +82,15 @@ def test_plan_eval_records_provider_backed_extraction_metrics() -> None:
         "100%; fake/provider parity 100%; provider credential path optional | "
         "0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_prompt_registry_metrics() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T28 established the prompt registry version baseline" in plan_eval
+    assert "Prompt registry size: 2" in plan_eval
+    assert (
+        "| 2026-05-20 | T28 | v1 | Prompt registry version coverage | "
+        "100%; 2 prompt versions recorded | 100%; 2 prompt versions recorded | "
+        "0% | No |" in plan_eval
+    )

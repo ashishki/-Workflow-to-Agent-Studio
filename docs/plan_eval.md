@@ -74,6 +74,9 @@ coverage and evidence-gap metrics.
 T27 established the provider-backed extraction schema baseline with fake-provider
 parity and schema-error observability.
 
+T28 established the prompt registry version baseline with two task-focused prompt
+assets and generation-attempt version records.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -183,6 +186,19 @@ Provider-backed extraction baseline:
 - Provider credential path: optional
 - Regression: No
 
+Prompt registry baseline:
+
+- Date: 2026-05-20
+- Task: T28
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q
+- Metric: Prompt registry version coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Prompt registry size: 2
+- Prompt versions recorded per generation attempt: 2
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -199,6 +215,7 @@ Provider-backed extraction baseline:
 | 2026-05-20 | T23 | v1 | Evidence gap report expected-outcome pass rate | 100%; 1 missing question; 6 evidence gaps | 100%; 1 missing question; 6 evidence gaps | 0% | No | pytest tests/integration/test_evidence_gap_report.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T24 | v1 | Corpus required-section evidence coverage | 100%; coverage 0.67; 2 evidence gaps | 100%; coverage 0.67; 2 evidence gaps | 0% | No | pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T27 | v1 | Provider-backed extraction schema pass rate | 100%; fake/provider parity 100%; provider credential path optional | 100%; fake/provider parity 100%; provider credential path optional | 0% | No | pytest tests/integration/test_extraction.py tests/unit/test_llm_gateway.py tests/eval/test_plan_eval.py -q |
+| 2026-05-20 | T28 | v1 | Prompt registry version coverage | 100%; 2 prompt versions recorded | 100%; 2 prompt versions recorded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 
 ---
 
