@@ -68,6 +68,9 @@ def extract_workflow_map(
 ) -> ExtractedWorkflowMap:
     reference = _first_reference(evidence)
     text = source.normalized_text.casefold()
+    if _looks_like_issue_triage_workflow(text):
+        return _extract_issue_triage_workflow(reference)
+
     steps = [
         WorkflowStep(
             step_id="step-1",
@@ -105,6 +108,121 @@ def extract_workflow_map(
         data_fields=["customer name", "request ID", "issue summary"],
         pain_points=["Manual follow-up task creation"],
         missing_questions=missing_questions,
+    )
+
+
+def _looks_like_issue_triage_workflow(text: str) -> bool:
+    required_terms = ("github issues", "issue", "triage")
+    return all(term in text for term in required_terms)
+
+
+def _extract_issue_triage_workflow(
+    reference: EvidenceReference | None,
+) -> ExtractedWorkflowMap:
+    evidence_references = [reference] if reference else []
+    return ExtractedWorkflowMap(
+        actors=["Reporter", "Maintainer or triager", "Contributor or engineering owner"],
+        systems=[
+            "GitHub Issues",
+            "Issue templates",
+            "Issue labels or GitHub issue types",
+            "Canned maintainer responses",
+            "Project backlog",
+        ],
+        triggers=[
+            "New GitHub issue, feature request, bug report, support-like request, or pull request"
+        ],
+        steps=[
+            WorkflowStep(
+                step_id="step-1",
+                description="Reporter opens a GitHub issue using the expected template.",
+                actor="Reporter",
+                system="GitHub Issues",
+                evidence_references=evidence_references,
+                assumption=reference is None,
+            ),
+            WorkflowStep(
+                step_id="step-2",
+                description=(
+                    "Maintainer checks template completion, issue type, scope, "
+                    "and duplicate status."
+                ),
+                actor="Maintainer or triager",
+                system="Issue templates",
+                evidence_references=evidence_references,
+                assumption=reference is None,
+            ),
+            WorkflowStep(
+                step_id="step-3",
+                description=(
+                    "Maintainer asks for clarification when reproduction steps "
+                    "or feature details are missing."
+                ),
+                actor="Maintainer or triager",
+                system="Canned maintainer responses",
+                evidence_references=evidence_references,
+                assumption=reference is None,
+            ),
+            WorkflowStep(
+                step_id="step-4",
+                description=(
+                    "Accepted issues move toward ownership, engineering review, "
+                    "or linked pull request work."
+                ),
+                actor="Contributor or engineering owner",
+                system="Project backlog",
+                evidence_references=evidence_references,
+                assumption=reference is None,
+            ),
+        ],
+        decisions=[
+            "Decide whether the submission follows the required issue template",
+            (
+                "Decide whether the issue is duplicate, out of scope, "
+                "support-oriented, or expected behavior"
+            ),
+            "Decide whether a bug report is reproducible on a current stable release",
+            (
+                "Decide whether a feature request has a justified use case "
+                "and enough implementation detail"
+            ),
+            (
+                "Decide whether to ask for more information, mark stale, close, "
+                "accept, or route to engineering review"
+            ),
+        ],
+        exceptions=[
+            "Missing template fields require maintainer clarification before acceptance",
+            "Duplicate, support-like, or out-of-scope issues can be closed",
+            "Issues without requested follow-up can become stale and eventually close",
+        ],
+        data_fields=[
+            "issue type",
+            "reporter",
+            "template completion state",
+            "product version",
+            "reproduction steps",
+            "expected behavior",
+            "actual behavior",
+            "use case",
+            "scope decision",
+            "owner",
+            "linked pull request",
+        ],
+        pain_points=[
+            "Maintainers repeatedly check issue templates and request missing details",
+            "Duplicate, support, and out-of-scope submissions consume triage time",
+            "Stale issues require consistent follow-up and closure decisions",
+        ],
+        missing_questions=[
+            MissingQuestion(
+                section="approval_boundaries",
+                question="Who has final authority to accept an issue for engineering review?",
+                reason=(
+                    "The public source describes triage decisions but not a single final approver."
+                ),
+            )
+        ],
     )
 
 

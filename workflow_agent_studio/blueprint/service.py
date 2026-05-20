@@ -28,9 +28,12 @@ def synthesize_blueprint(
 ) -> AutomationBlueprint:
     """Build a typed v1 automation blueprint from extracted workflow facts."""
     reference = _first_reference(evidence)
+    workflow_kind = _workflow_kind(workflow)
+    source_system = workflow.systems[0]
+    target_system = workflow.systems[-1]
     risks_and_assumptions = [
         RiskOrAssumption(
-            description="Missing request details can block automation.",
+            description=_primary_risk(workflow_kind),
             kind="risk",
             evidence_references=[reference],
         )
@@ -46,7 +49,7 @@ def synthesize_blueprint(
 
     return AutomationBlueprint(
         workflow_summary=Claim(
-            text="Support intake workflow routes customer requests to follow-up tasks.",
+            text=_workflow_summary(workflow, workflow_kind),
             evidence_references=[reference],
         ),
         actors=[Actor(name=actor, role="Workflow participant") for actor in workflow.actors],
@@ -58,7 +61,7 @@ def synthesize_blueprint(
             DataField(
                 name=field,
                 description=f"Input field: {field}",
-                source="Support intake source",
+                source=source_system,
             )
             for field in workflow.data_fields
         ],
@@ -74,14 +77,14 @@ def synthesize_blueprint(
             DataField(
                 name=field,
                 description=f"Workflow data field: {field}",
-                source="Source SOP",
+                source=source_system,
             )
             for field in workflow.data_fields
         ],
         integration_map=[
             Integration(
-                source_system="Inbox",
-                target_system="Task Tracker",
+                source_system=source_system,
+                target_system=target_system,
                 data_fields=workflow.data_fields,
             )
         ],
@@ -91,33 +94,33 @@ def synthesize_blueprint(
         ],
         automation_candidates=[
             AutomationCandidate(
-                name="Draft follow-up task",
-                implementation_boundary=("Draft task only; do not create external commitments."),
-                human_approval_boundary="Operator approves before task creation.",
-                risk_level="medium",
+                name=_automation_candidate_name(workflow_kind),
+                implementation_boundary=_automation_candidate_boundary(workflow_kind),
+                human_approval_boundary=_human_approval_boundary(workflow_kind),
+                risk_level=_risk_level(workflow_kind),
                 evidence_references=[reference],
             )
         ],
         human_approval_boundaries=[
             ApprovalBoundary(
-                decision="Approve follow-up task",
-                approver="Operator",
-                reason="Task creation changes team expectations.",
+                decision=_approval_decision(workflow_kind),
+                approver=_approval_actor(workflow),
+                reason=_approval_reason(workflow_kind),
             )
         ],
         risks_and_assumptions=risks_and_assumptions,
         eval_cases=[
             EvalCase(
-                name="Follow-up task candidate",
-                input_condition="Request includes enough details for engineering review.",
-                expected_behavior="Blueprint recommends a draft follow-up task.",
+                name=_eval_case_name(workflow_kind),
+                input_condition=_eval_input_condition(workflow_kind),
+                expected_behavior=_eval_expected_behavior(workflow_kind),
                 verification_method="Inspect automation candidate and evidence link.",
                 evidence_reference=reference,
             )
         ],
         observability_needs=[
             Claim(
-                text="Track generated draft task count and validation failures.",
+                text=_observability_need(workflow_kind),
                 assumption=True,
             )
         ],
@@ -127,7 +130,7 @@ def synthesize_blueprint(
                 task_id="impl-1",
                 owner="engineer",
                 depends_on=[],
-                acceptance_criteria=["Draft task candidate is generated from source evidence."],
+                acceptance_criteria=[_implementation_acceptance_criteria(workflow_kind)],
                 tests_or_evals=["Blueprint synthesis integration test."],
             )
         ],
@@ -143,3 +146,111 @@ def _first_reference(evidence: list[EvidenceSnippet]) -> EvidenceReference:
 
 def _missing_question_to_assumption(question: MissingQuestion) -> RiskOrAssumption:
     return RiskOrAssumption(description=question.question, kind="assumption")
+
+
+def _workflow_kind(workflow: ExtractedWorkflowMap) -> str:
+    systems = " ".join(workflow.systems).casefold()
+    decisions = " ".join(workflow.decisions).casefold()
+    if "github issues" in systems and "duplicate" in decisions:
+        return "issue_triage"
+    return "support_intake"
+
+
+def _workflow_summary(workflow: ExtractedWorkflowMap, workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return (
+            "GitHub Issues triage workflow routes public issue submissions through "
+            "template checks, duplicate and scope review, reproducibility checks, "
+            "stale handling, and engineering ownership decisions."
+        )
+    return "Support intake workflow routes customer requests to follow-up tasks."
+
+
+def _primary_risk(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return "Missing issue details can lead to incorrect closure or delayed engineering review."
+    return "Missing request details can block automation."
+
+
+def _automation_candidate_name(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return "Draft issue triage recommendation"
+    return "Draft follow-up task"
+
+
+def _automation_candidate_boundary(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return (
+            "Draft triage recommendation only; do not close, label, or route issues automatically."
+        )
+    return "Draft task only; do not create external commitments."
+
+
+def _human_approval_boundary(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return (
+            "Maintainer approves before issue status, labels, closure, "
+            "or engineering routing change."
+        )
+    return "Operator approves before task creation."
+
+
+def _risk_level(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return "high"
+    return "medium"
+
+
+def _approval_decision(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return "Approve issue triage recommendation"
+    return "Approve follow-up task"
+
+
+def _approval_actor(workflow: ExtractedWorkflowMap) -> str:
+    for actor in workflow.actors:
+        if "maintainer" in actor.casefold():
+            return actor
+    return workflow.actors[0]
+
+
+def _approval_reason(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return "Triage changes can close public issues or create engineering commitments."
+    return "Task creation changes team expectations."
+
+
+def _eval_case_name(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return "Issue triage recommendation"
+    return "Follow-up task candidate"
+
+
+def _eval_input_condition(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return "Issue includes template fields, version, reproduction details, and scope context."
+    return "Request includes enough details for engineering review."
+
+
+def _eval_expected_behavior(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return (
+            "Blueprint recommends a maintainer-reviewed triage action without mutating "
+            "GitHub issue state automatically."
+        )
+    return "Blueprint recommends a draft follow-up task."
+
+
+def _observability_need(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return (
+            "Track draft triage recommendations, maintainer overrides, "
+            "stale decisions, and blocked cases."
+        )
+    return "Track generated draft task count and validation failures."
+
+
+def _implementation_acceptance_criteria(workflow_kind: str) -> str:
+    if workflow_kind == "issue_triage":
+        return "Draft triage recommendation is generated from source evidence."
+    return "Draft task candidate is generated from source evidence."

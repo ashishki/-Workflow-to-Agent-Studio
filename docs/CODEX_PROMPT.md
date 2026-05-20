@@ -13,12 +13,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 11 - Public-Source Demo Quality
-- Next task: T47 - Public-Source Workflow Fact Eval
-- Verified baseline: 158 passing tests, 0 skipped, 0 failed
+- Next task: T49 - Public Demo Pack
+- Verified baseline: 160 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; use public sources for demo-quality stabilization only.
-- Latest public-source experiment: `docs/experiments/public_source_netbox_issue_triage.md`; mechanics passed, domain-specific draft quality failed.
+- Latest public-source experiment: `docs/experiments/public_source_netbox_issue_triage.md`; mechanics and domain-specific draft quality passed.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -34,25 +34,26 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T47 - Public-Source Workflow Fact Eval
+Task: T49 - Public Demo Pack
 
-Goal: prove public-source workflow facts survive ingestion, retrieval, synthesis, and export before requesting prospect data.
+Goal: create a reproducible public demo pack that can be shared before real prospect data is available.
 
 Acceptance summary:
 
-- NetBox issue triage fixture checks domain-specific facts in generated output
-- eval fails if the draft collapses back to generic support-intake language only
-- report keeps the public-source vs real-pilot boundary explicit
+- demo pack includes source fixture, command transcript, generated blueprint, review workspace, and gap summary
+- generated artifacts are reproducible from committed fixtures
+- docs label the pack as public-source demo material, not customer proof
 
 File scope:
 
+- `docs/experiments/`
 - `tests/fixtures/public_sources/`
-- `tests/eval/test_public_source_experiment.py`
-- `docs/experiments/public_source_netbox_issue_triage.md`
+- `docs/operator_guide.md`
+- `tests/eval/`
 
 Required context:
 
-- `docs/tasks.md#t47-public-source-workflow-fact-eval`
+- `docs/tasks.md#t49-public-demo-pack`
 - `docs/experiments/public_source_netbox_issue_triage.md`
 - `tests/fixtures/public_sources/netbox_issue_triage.notes.md`
 

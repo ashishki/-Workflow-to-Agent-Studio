@@ -35,9 +35,9 @@ Command:
 ```bash
 mkdir -p .data/public_source_experiments
 .venv/bin/workflow-agent-studio run \
-  --database .data/public_source_experiments/netbox_issue_triage.sqlite3 \
-  --run-id public-netbox-issue-triage \
-  --index-dir .data/public_source_experiments/netbox_index \
+  --database .data/public_source_experiments/netbox_issue_triage_v2.sqlite3 \
+  --run-id public-netbox-issue-triage-v2 \
+  --index-dir .data/public_source_experiments/netbox_index_v2 \
   tests/fixtures/public_sources/netbox_issue_triage.notes.md
 ```
 
@@ -49,8 +49,8 @@ Observed output:
   "chunk_count": 19,
   "exit_code": 0,
   "finding_ids": [],
-  "index_namespace": "v1-public-netbox-issue-triage-e2e",
-  "run_id": "public-netbox-issue-triage",
+  "index_namespace": "v1-public-netbox-issue-triage-v2-e2e",
+  "run_id": "public-netbox-issue-triage-v2",
   "source_count": 1
 }
 ```
@@ -59,16 +59,16 @@ Follow-up exports:
 
 ```bash
 .venv/bin/workflow-agent-studio export \
-  --database .data/public_source_experiments/netbox_issue_triage.sqlite3 \
+  --database .data/public_source_experiments/netbox_issue_triage_v2.sqlite3 \
   --blueprint-version-id 1 \
-  --export-dir .data/public_source_experiments/exports \
+  --export-dir .data/public_source_experiments/exports_v2 \
   --output netbox_blueprint.md
 
 .venv/bin/workflow-agent-studio review \
-  --database .data/public_source_experiments/netbox_issue_triage.sqlite3 \
-  --run-id public-netbox-issue-triage \
+  --database .data/public_source_experiments/netbox_issue_triage_v2.sqlite3 \
+  --run-id public-netbox-issue-triage-v2 \
   --blueprint-version-id 1 \
-  --export-dir .data/public_source_experiments/exports \
+  --export-dir .data/public_source_experiments/exports_v2 \
   --output netbox_review.md
 ```
 
@@ -78,27 +78,27 @@ The pipeline successfully ingested the public-source fixture, built a local
 retrieval index, generated a draft blueprint version, and exported both the
 blueprint and review workspace.
 
-The result also exposed a product gap: the current deterministic extraction and
-synthesis path is template-shaped. It returns a generic support-intake blueprint
-instead of preserving NetBox-specific facts such as issue templates, stale issue
-handling, duplicate triage, reproducibility checks, feature request scope checks,
-and maintainer canned responses.
+The initial result exposed a product gap: deterministic extraction and synthesis
+were template-shaped and returned a generic support-intake blueprint instead of
+preserving NetBox-specific facts.
 
-This is acceptable for a mechanics experiment, but it is not acceptable as a
-public demo outcome or pilot substitute. Before using public workflows for a
-credible demo, extraction and synthesis need to preserve domain-specific actors,
-systems, decisions, exceptions, and approval boundaries from the source.
+The current result preserves NetBox-specific actors, systems, decisions,
+exceptions, data fields, automation boundary, and approval boundary. The exported
+draft includes GitHub Issues, issue templates, reporter and maintainer roles,
+duplicate handling, stale handling, reproducibility checks, and maintainer
+approval before issue state changes.
+
+This is acceptable as a public-source demo quality signal, but it is still not a
+pilot substitute.
 
 ## Result
 
-Experiment result: pass for pipeline mechanics, fail for domain-specific draft
-quality.
+Experiment result: pass for pipeline mechanics, pass for domain-specific draft
+quality, still blocked for real-pilot proof.
 
 Recommended next development loop:
 
-- add a provider-backed or rule-backed extraction fixture for public workflow
-  documents;
-- add an eval that checks whether NetBox-specific workflow facts survive into
-  the blueprint;
+- package the public-source demo output into a reproducible demo pack;
+- add at least one more public workflow source to test stability across domains;
 - keep the real-pilot gate closed until a human operator reviews a real workflow
   source and records acceptance metrics in `docs/pilot_measurement.md`.
