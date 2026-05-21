@@ -1,3 +1,4 @@
+from workflow_agent_studio.domain.workflow import WorkflowKind
 from workflow_agent_studio.extraction.public_workflows import (
     PUBLIC_WORKFLOW_EXTRACTION_PROFILES,
     public_workflow_profile_for_text,
@@ -17,6 +18,8 @@ def test_public_workflow_extraction_profiles_cover_public_corpus() -> None:
     assert {profile.workflow_kind for profile in PUBLIC_WORKFLOW_EXTRACTION_PROFILES} <= set(
         BLUEPRINT_PROFILES
     )
+    workflow_kind: WorkflowKind = PUBLIC_WORKFLOW_EXTRACTION_PROFILES[0].workflow_kind
+    assert workflow_kind == "kubernetes_issue_triage"
 
 
 def test_public_workflow_profile_detection_prefers_specific_profiles() -> None:

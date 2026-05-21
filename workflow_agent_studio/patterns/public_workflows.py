@@ -5,13 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
-WorkflowKind = Literal[
-    "support_intake",
-    "issue_triage",
-    "kubernetes_issue_triage",
-    "bug_triage",
-    "incident_response",
-]
+from workflow_agent_studio.domain.workflow import WorkflowKind
 
 
 @dataclass(frozen=True)

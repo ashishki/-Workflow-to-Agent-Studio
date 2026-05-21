@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from workflow_agent_studio.patterns.public_workflows import WorkflowKind
+from workflow_agent_studio.domain.workflow import WorkflowKind
 
 
 @dataclass(frozen=True)

@@ -9,7 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from workflow_agent_studio.config import Settings, load_settings
 from workflow_agent_studio.domain.sources import SourceDocument
-from workflow_agent_studio.domain.workflow import EvidenceReference, WorkflowStep
+from workflow_agent_studio.domain.workflow import EvidenceReference, WorkflowKind, WorkflowStep
 from workflow_agent_studio.extraction.public_workflows import (
     PublicWorkflowExtractionProfile,
     public_workflow_profile_for_text,
@@ -19,7 +19,6 @@ from workflow_agent_studio.llm import (
     StructuredOutputProvider,
     request_structured_output,
 )
-from workflow_agent_studio.patterns.public_workflows import WorkflowKind
 from workflow_agent_studio.retrieval.evidence import EvidenceSnippet
 
 

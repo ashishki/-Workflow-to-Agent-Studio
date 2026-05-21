@@ -2,7 +2,17 @@
 
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+WorkflowKind = Literal[
+    "support_intake",
+    "issue_triage",
+    "kubernetes_issue_triage",
+    "bug_triage",
+    "incident_response",
+]
 
 
 class EvidenceReference(BaseModel):

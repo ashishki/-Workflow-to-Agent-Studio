@@ -18,7 +18,7 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-21
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; use public sources for demo-quality stabilization only.
-- Latest profile link: extraction profiles now carry `workflow_kind` into blueprint synthesis.
+- Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
