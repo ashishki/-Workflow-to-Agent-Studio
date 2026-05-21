@@ -14,11 +14,11 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 - Current phase: Phase 11 - Public-Source Demo Quality
 - Next task: BLOCKED - Real prospect/customer workflow data required
-- Verified baseline: 162 passing tests, 0 skipped, 0 failed
+- Verified baseline: 166 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-20
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; use public sources for demo-quality stabilization only.
-- Latest prospect data request gate: `docs/pilot_measurement.md#prospect-data-request-gate`.
+- Latest public-source corpus: `docs/experiments/public_source_workflow_candidates.md`.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References
@@ -40,6 +40,7 @@ Goal: resume pilot proof work after a potential customer supplies a real workflo
 
 Acceptance summary:
 
+- public-source corpus now covers NetBox, Kubernetes, OpenStack, and GitLab workflows
 - public-source demo pack and prospect data request gate are complete
 - T34/T40 remain blocked until prospect/customer data is reviewed as a real pilot
 - first real pilot row requires a named reviewer, measured thresholds, edits, and critical missing-question count

@@ -29,7 +29,9 @@ from workflow_agent_studio.validators import (
     validate_blueprint_for_approval,
 )
 
-DEFAULT_RETRIEVAL_QUERY = "support request follow-up task engineering review"
+DEFAULT_RETRIEVAL_QUERY = (
+    "workflow triage review support request follow-up task engineering bug issue incident"
+)
 
 
 @dataclass(frozen=True)

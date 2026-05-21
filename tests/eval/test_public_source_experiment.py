@@ -3,6 +3,50 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
+PUBLIC_WORKFLOW_CASES = (
+    pytest.param(
+        "kubernetes-issue-triage",
+        "tests/fixtures/public_sources/kubernetes_issue_triage.notes.md",
+        (
+            "Kubernetes",
+            "GitHub Issues",
+            "SIG",
+            "triage/needs-information",
+            "lifecycle/stale",
+            "priority",
+        ),
+        id="kubernetes",
+    ),
+    pytest.param(
+        "openstack-bug-triage",
+        "tests/fixtures/public_sources/openstack_bug_triage.notes.md",
+        (
+            "OpenStack",
+            "Launchpad",
+            "Bug supervisor",
+            "Incomplete",
+            "Confirmed",
+            "Critical",
+        ),
+        id="openstack",
+    ),
+    pytest.param(
+        "gitlab-incident-workflow",
+        "tests/fixtures/public_sources/gitlab_incident_workflow.notes.md",
+        (
+            "GitLab",
+            "Incident.io",
+            "PagerDuty",
+            "Slack",
+            "Engineer on call",
+            "Google Docs",
+        ),
+        id="gitlab",
+    ),
+)
+
 
 def test_netbox_public_source_fixture_runs_draft_pipeline(tmp_path) -> None:
     result = subprocess.run(
@@ -128,3 +172,79 @@ def test_netbox_public_demo_pack_contains_reproducible_artifacts() -> None:
     assert "## Findings\n- none" in review
     assert "Approval authority remains unresolved" in gap_summary
     assert "must not be counted in" in gap_summary
+
+
+@pytest.mark.parametrize(
+    ("run_slug", "fixture_path", "expected_markers"),
+    PUBLIC_WORKFLOW_CASES,
+)
+def test_public_source_workflow_candidates_preserve_domain_facts(
+    tmp_path,
+    run_slug: str,
+    fixture_path: str,
+    expected_markers: tuple[str, ...],
+) -> None:
+    database = tmp_path / "workflow.sqlite3"
+    run_id = f"public-{run_slug}"
+    run_result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "workflow_agent_studio.cli",
+            "run",
+            "--database",
+            str(database),
+            "--run-id",
+            run_id,
+            "--index-dir",
+            str(tmp_path / "index"),
+            fixture_path,
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    run_payload = json.loads(run_result.stdout)
+    assert run_result.returncode == 0
+    assert run_payload["source_count"] == 1
+    assert run_payload["chunk_count"] >= 10
+    assert run_payload["finding_ids"] == []
+
+    export_result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "workflow_agent_studio.cli",
+            "export",
+            "--database",
+            str(database),
+            "--blueprint-version-id",
+            str(run_payload["blueprint_version_id"]),
+            "--export-dir",
+            str(tmp_path / "exports"),
+            "--output",
+            f"{run_slug}.md",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    export_payload = json.loads(export_result.stdout)
+    markdown = Path(export_payload["path"]).read_text(encoding="utf-8")
+
+    assert export_result.returncode == 0
+    assert "Support intake workflow routes customer requests" not in markdown
+    for marker in expected_markers:
+        assert marker in markdown
+
+
+def test_public_source_workflow_candidate_catalog_keeps_boundaries() -> None:
+    catalog = Path("docs/experiments/public_source_workflow_candidates.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "public-source candidate catalog; not customer proof" in catalog
+    assert "kubernetes_issue_triage.notes.md" in catalog
+    assert "openstack_bug_triage.notes.md" in catalog
+    assert "gitlab_incident_workflow.notes.md" in catalog
+    assert "must not be counted in `docs/pilot_measurement.md`" in catalog
