@@ -19,6 +19,7 @@ from workflow_agent_studio.llm import (
     StructuredOutputProvider,
     request_structured_output,
 )
+from workflow_agent_studio.patterns.public_workflows import WorkflowKind
 from workflow_agent_studio.retrieval.evidence import EvidenceSnippet
 
 
@@ -40,6 +41,7 @@ class ExtractedWorkflowMap:
     data_fields: list[str]
     pain_points: list[str]
     missing_questions: list[MissingQuestion] = field(default_factory=list)
+    workflow_kind: WorkflowKind = "support_intake"
 
 
 class StructuredMissingQuestion(BaseModel):
@@ -54,6 +56,7 @@ class StructuredWorkflowExtraction(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     schema_version: Literal["v1"] = "v1"
+    workflow_kind: WorkflowKind = "support_intake"
     actors: list[str] = Field(min_length=1)
     systems: list[str] = Field(min_length=1)
     triggers: list[str] = Field(min_length=1)
@@ -121,6 +124,7 @@ def _extract_support_intake_workflow(
         data_fields=["customer name", "request ID", "issue summary"],
         pain_points=["Manual follow-up task creation"],
         missing_questions=missing_questions,
+        workflow_kind="support_intake",
     )
 
 
@@ -156,6 +160,7 @@ def _extract_public_workflow_profile(
             )
             for question in profile.missing_questions
         ],
+        workflow_kind=profile.workflow_kind,
     )
 
 
@@ -205,6 +210,7 @@ def extraction_provider_payload(
     workflow = extract_workflow_map(source=source, evidence=evidence)
     return {
         "schema_version": "v1",
+        "workflow_kind": workflow.workflow_kind,
         "actors": workflow.actors,
         "systems": workflow.systems,
         "triggers": workflow.triggers,
@@ -261,6 +267,7 @@ def _provider_from_settings(
 def _from_structured_output(output: StructuredWorkflowExtraction) -> ExtractedWorkflowMap:
     return ExtractedWorkflowMap(
         actors=output.actors,
+        workflow_kind=output.workflow_kind,
         systems=output.systems,
         triggers=output.triggers,
         steps=output.steps,

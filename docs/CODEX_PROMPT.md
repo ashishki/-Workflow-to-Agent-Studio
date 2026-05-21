@@ -14,11 +14,11 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 - Current phase: Phase 11 - Public-Source Demo Quality
 - Next task: BLOCKED - Real prospect/customer workflow data required
-- Verified baseline: 170 passing tests, 0 skipped, 0 failed
+- Verified baseline: 171 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-21
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; use public sources for demo-quality stabilization only.
-- Latest public extraction profile registry: `workflow_agent_studio/extraction/public_workflows.py`.
+- Latest profile link: extraction profiles now carry `workflow_kind` into blueprint synthesis.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
 ## Active References

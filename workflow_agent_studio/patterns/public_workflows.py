@@ -238,3 +238,7 @@ def profile_for_workflow_signals(
     if "github issues" in systems_text and "duplicate" in decisions_text:
         return ISSUE_TRIAGE_PROFILE
     return SUPPORT_INTAKE_PROFILE
+
+
+def profile_for_workflow_kind(kind: WorkflowKind) -> BlueprintProfile:
+    return BLUEPRINT_PROFILES[kind]

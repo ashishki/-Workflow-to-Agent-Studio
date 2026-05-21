@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from workflow_agent_studio.patterns.public_workflows import WorkflowKind
+
 
 @dataclass(frozen=True)
 class StepTemplate:
@@ -23,6 +25,7 @@ class MissingQuestionTemplate:
 @dataclass(frozen=True)
 class PublicWorkflowExtractionProfile:
     profile_id: str
+    workflow_kind: WorkflowKind
     required_terms: tuple[str, ...]
     actors: tuple[str, ...]
     systems: tuple[str, ...]
@@ -41,6 +44,7 @@ class PublicWorkflowExtractionProfile:
 
 NETBOX_ISSUE_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
     profile_id="netbox_issue_triage",
+    workflow_kind="issue_triage",
     required_terms=("github issues", "issue", "triage"),
     actors=("Reporter", "Maintainer or triager", "Contributor or engineering owner"),
     systems=(
@@ -137,6 +141,7 @@ NETBOX_ISSUE_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
 
 KUBERNETES_ISSUE_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
     profile_id="kubernetes_issue_triage",
+    workflow_kind="kubernetes_issue_triage",
     required_terms=("kubernetes", "github issues", "issue", "triage"),
     actors=(
         "Issue reporter",
@@ -236,6 +241,7 @@ KUBERNETES_ISSUE_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
 
 OPENSTACK_BUG_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
     profile_id="openstack_bug_triage",
+    workflow_kind="bug_triage",
     required_terms=("openstack", "bug triage", "launchpad"),
     actors=(
         "Bug reporter",
@@ -337,6 +343,7 @@ OPENSTACK_BUG_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
 
 GITLAB_INCIDENT_WORKFLOW_PROFILE = PublicWorkflowExtractionProfile(
     profile_id="gitlab_incident_workflow",
+    workflow_kind="incident_response",
     required_terms=("gitlab", "incident.io", "pagerduty"),
     actors=(
         "Engineer on call",

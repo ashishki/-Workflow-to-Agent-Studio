@@ -17,7 +17,7 @@ from workflow_agent_studio.domain.blueprint import (
 )
 from workflow_agent_studio.domain.workflow import EvidenceReference
 from workflow_agent_studio.extraction import ExtractedWorkflowMap, MissingQuestion
-from workflow_agent_studio.patterns import BlueprintProfile, profile_for_workflow_signals
+from workflow_agent_studio.patterns import BlueprintProfile, profile_for_workflow_kind
 from workflow_agent_studio.retrieval import EvidenceGapReport, EvidenceSnippet
 
 
@@ -29,7 +29,7 @@ def synthesize_blueprint(
 ) -> AutomationBlueprint:
     """Build a typed v1 automation blueprint from extracted workflow facts."""
     reference = _first_reference(evidence)
-    profile = profile_for_workflow_signals(systems=workflow.systems, decisions=workflow.decisions)
+    profile = profile_for_workflow_kind(workflow.workflow_kind)
     source_system = workflow.systems[0]
     target_system = workflow.systems[-1]
     risks_and_assumptions = [

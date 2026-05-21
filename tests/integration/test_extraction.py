@@ -42,6 +42,7 @@ def _evidence() -> list[EvidenceSnippet]:
 def test_extraction_returns_required_workflow_fields() -> None:
     workflow = extract_workflow_map(source=_source(), evidence=_evidence())
 
+    assert workflow.workflow_kind == "support_intake"
     assert workflow.actors == ["Operator"]
     assert workflow.systems == ["Inbox", "CRM", "Task Tracker"]
     assert workflow.triggers == ["Inbound support request"]
@@ -81,6 +82,7 @@ def test_provider_backed_extraction_parses_versioned_schema() -> None:
     )
 
     assert workflow.actors == ["Operator"]
+    assert workflow.workflow_kind == "support_intake"
     assert workflow.steps[0].evidence_references[0].source_id == "src-sop"
     assert workflow.missing_questions[0].section == "approval_boundaries"
 

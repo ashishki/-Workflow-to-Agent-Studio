@@ -3,6 +3,7 @@ from workflow_agent_studio.patterns import (
     load_vertical_pack,
     load_vertical_packs,
     pack_metadata_for_generation,
+    profile_for_workflow_kind,
     profile_for_workflow_signals,
 )
 from workflow_agent_studio.retrieval import load_pattern_library
@@ -80,3 +81,8 @@ def test_public_workflow_profile_detection_uses_workflow_signals() -> None:
         ).kind
         == "incident_response"
     )
+
+
+def test_public_workflow_profile_can_load_by_kind() -> None:
+    assert profile_for_workflow_kind("issue_triage").kind == "issue_triage"
+    assert profile_for_workflow_kind("incident_response").risk_level == "high"
