@@ -83,6 +83,88 @@ ISSUE_TRIAGE_PROFILE = BlueprintProfile(
     ),
 )
 
+APACHE_AIRFLOW_ISSUE_TRIAGE_PROFILE = BlueprintProfile(
+    kind="apache_airflow_issue_triage",
+    summary=(
+        "Apache Airflow issue triage workflow routes GitHub issues, discussions, "
+        "and pull requests through template checks, discussion conversion, labels, "
+        "priority, assignment, and committer escalation."
+    ),
+    primary_risk=(
+        "Confusing triage authority with committer authority can create unsafe "
+        "merge or closure expectations."
+    ),
+    automation_candidate_name="Draft Apache Airflow issue triage recommendation",
+    implementation_boundary=(
+        "Draft triage recommendation only; do not close, convert, label, assign, "
+        "or merge Airflow issues or pull requests automatically."
+    ),
+    human_approval_boundary=(
+        "Issue triage team member or committer approves before issue state, "
+        "discussion conversion, assignment, or merge-related escalation changes."
+    ),
+    risk_level="high",
+    approval_decision="Approve Apache Airflow issue triage recommendation",
+    approval_actor_terms=("triage team", "committer"),
+    approval_reason=(
+        "Airflow triage decisions can close public issues or escalate work to committers."
+    ),
+    eval_case_name="Apache Airflow issue triage recommendation",
+    eval_input_condition=(
+        "Report includes issue type, template, reproducible steps, discussion status, "
+        "labels, milestone, priority, and linked pull request context."
+    ),
+    eval_expected_behavior=(
+        "Blueprint recommends a human-reviewed Airflow triage action without mutating "
+        "GitHub state or implying merge authority."
+    ),
+    observability_need=(
+        "Track draft Airflow triage recommendations, discussion conversions, "
+        "label decisions, committer escalations, and reviewer overrides."
+    ),
+    implementation_acceptance_criteria=(
+        "Draft Apache Airflow issue triage recommendation is generated from source evidence."
+    ),
+)
+
+DJANGO_TICKET_TRIAGE_PROFILE = BlueprintProfile(
+    kind="django_ticket_triage",
+    summary=(
+        "Django ticket triage workflow routes Trac tickets and pull requests "
+        "through stage review, flag correction, patch readiness checks, and "
+        "final merger review."
+    ),
+    primary_risk="Incorrect ticket flags can hide missing tests, documentation, or review needs.",
+    automation_candidate_name="Draft Django ticket triage recommendation",
+    implementation_boundary=(
+        "Draft triage recommendation only; do not change Trac flags, close tickets, "
+        "or mark work ready for checkin automatically."
+    ),
+    human_approval_boundary=(
+        "Triager, reviewer, or merger approves before ticket stage, flags, closure, "
+        "or check-in status changes."
+    ),
+    risk_level="high",
+    approval_decision="Approve Django ticket triage recommendation",
+    approval_actor_terms=("merger", "reviewer", "triager"),
+    approval_reason="Ticket state and check-in decisions affect public contribution flow.",
+    eval_case_name="Django ticket triage recommendation",
+    eval_input_condition=(
+        "Ticket includes stage, type, component, severity, patch flags, and reviewer context."
+    ),
+    eval_expected_behavior=(
+        "Blueprint recommends a human-reviewed ticket triage action without mutating "
+        "Trac or GitHub state."
+    ),
+    observability_need=(
+        "Track draft Django triage recommendations, flag changes, needsinfo outcomes, "
+        "and reviewer overrides."
+    ),
+    implementation_acceptance_criteria=(
+        "Draft Django ticket triage recommendation is generated from source evidence."
+    ),
+)
+
 KUBERNETES_ISSUE_TRIAGE_PROFILE = BlueprintProfile(
     kind="kubernetes_issue_triage",
     summary=(
@@ -160,6 +242,50 @@ BUG_TRIAGE_PROFILE = BlueprintProfile(
     ),
     implementation_acceptance_criteria=(
         "Draft bug triage recommendation is generated from source evidence."
+    ),
+)
+
+MOZILLA_BUGZILLA_TRIAGE_PROFILE = BlueprintProfile(
+    kind="mozilla_bugzilla_triage",
+    summary=(
+        "Mozilla Bugzilla triage workflow routes component bugs through saved-query "
+        "review, whiteboard outcomes, needinfo follow-up, priority, release flag, "
+        "dependency, and assignment decisions."
+    ),
+    primary_risk=(
+        "Incorrect bug state, whiteboard tags, or priority can hide urgent work "
+        "or route bugs to the wrong component."
+    ),
+    automation_candidate_name="Draft Mozilla Bugzilla triage recommendation",
+    implementation_boundary=(
+        "Draft triage recommendation only; do not change Bugzilla status, "
+        "whiteboard tags, needinfo, release flags, dependencies, or assignment automatically."
+    ),
+    human_approval_boundary=(
+        "Component triager or release owner approves before Bugzilla state, priority, "
+        "release flag, dependency, or assignment changes."
+    ),
+    risk_level="high",
+    approval_decision="Approve Mozilla Bugzilla triage recommendation",
+    approval_actor_terms=("triager", "release", "priority owner"),
+    approval_reason=(
+        "Bugzilla changes can alter component ownership, release priority, and sensitive follow-up."
+    ),
+    eval_case_name="Mozilla Bugzilla triage recommendation",
+    eval_input_condition=(
+        "Bug includes component, status, keywords, whiteboard tags, needinfo, "
+        "priority, release flags, and dependency context."
+    ),
+    eval_expected_behavior=(
+        "Blueprint recommends a human-reviewed Bugzilla triage action without mutating "
+        "Bugzilla state."
+    ),
+    observability_need=(
+        "Track draft Bugzilla triage recommendations, needinfo decisions, release-flag "
+        "changes, component moves, and owner overrides."
+    ),
+    implementation_acceptance_criteria=(
+        "Draft Mozilla Bugzilla triage recommendation is generated from source evidence."
     ),
 )
 
@@ -250,8 +376,11 @@ BLUEPRINT_PROFILES: dict[WorkflowKind, BlueprintProfile] = {
     for profile in (
         SUPPORT_INTAKE_PROFILE,
         ISSUE_TRIAGE_PROFILE,
+        APACHE_AIRFLOW_ISSUE_TRIAGE_PROFILE,
+        DJANGO_TICKET_TRIAGE_PROFILE,
         KUBERNETES_ISSUE_TRIAGE_PROFILE,
         BUG_TRIAGE_PROFILE,
+        MOZILLA_BUGZILLA_TRIAGE_PROFILE,
         INCIDENT_RESPONSE_PROFILE,
         HVAC_LEAD_INTAKE_PROFILE,
     )

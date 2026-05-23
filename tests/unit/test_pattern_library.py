@@ -51,12 +51,18 @@ def test_public_workflow_blueprint_profiles_cover_public_corpus() -> None:
     assert set(BLUEPRINT_PROFILES) == {
         "support_intake",
         "issue_triage",
+        "apache_airflow_issue_triage",
+        "django_ticket_triage",
         "kubernetes_issue_triage",
         "bug_triage",
+        "mozilla_bugzilla_triage",
         "incident_response",
         "hvac_lead_intake",
     }
+    assert "Apache Airflow" in BLUEPRINT_PROFILES["apache_airflow_issue_triage"].summary
+    assert "Django ticket triage" in BLUEPRINT_PROFILES["django_ticket_triage"].summary
     assert BLUEPRINT_PROFILES["kubernetes_issue_triage"].risk_level == "high"
+    assert "Mozilla Bugzilla" in BLUEPRINT_PROFILES["mozilla_bugzilla_triage"].summary
     assert "Incident.io" in BLUEPRINT_PROFILES["incident_response"].summary
     assert "service-area checks" in BLUEPRINT_PROFILES["hvac_lead_intake"].summary
 

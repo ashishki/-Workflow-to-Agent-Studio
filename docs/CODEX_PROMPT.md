@@ -14,12 +14,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 - Current phase: Phase 12 - Solo Public Workflow Showcase
 - Next task: BLOCKED - real prospect/customer workflow data required
-- Verified baseline: 193 passing tests, 0 skipped, 0 failed
+- Verified baseline: 199 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-23
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: Phase 0 / local evidence-linked MVP
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP
 
 ## Active References
 
@@ -60,10 +60,10 @@ Required context:
 
 Last Evaluation:
 
-- Task: PUBLIC-TEST-1
+- Task: PUBLIC-PROOF-1
 - Date: 2026-05-23
 - Eval Source: pytest -q; ruff check; ruff format --check
-- Result: internet workflow fixtures recorded as public-source tests only
+- Result: public-data working product proof recorded; customer proof still blocked
 
 ## Profile State
 

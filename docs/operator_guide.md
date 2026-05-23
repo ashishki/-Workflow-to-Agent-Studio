@@ -50,6 +50,10 @@ The current public demo pack is
 fixture reference, command transcript, generated draft blueprint, review
 workspace, and gap summary.
 
+The public-data working product proof is recorded in
+`docs/audit/PUBLIC_DATA_PRODUCT_PROOF.md`. It supports technical demo claims
+only and does not replace a real pilot row.
+
 ## Sanitization For Benchmarks
 
 Benchmark and future pilot artifacts must be sanitized before they are reused outside

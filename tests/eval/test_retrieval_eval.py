@@ -154,6 +154,21 @@ def test_retrieval_eval_records_internet_workflow_examples() -> None:
     )
 
 
+def test_retrieval_eval_records_public_data_product_proof() -> None:
+    retrieval_eval = Path("docs/retrieval_eval.md").read_text(encoding="utf-8")
+
+    assert "PUBLIC-PROOF-1 established the public-data working product proof" in (retrieval_eval)
+    assert "Public workflow fixtures: 8" in retrieval_eval
+    assert "Internet E2E fixtures: 3" in retrieval_eval
+    assert "Generic fallback rejected: pass" in retrieval_eval
+    assert "Customer proof: no" in retrieval_eval
+    assert (
+        "| 2026-05-23 | PUBLIC-PROOF-1 | public-data-product-proof-v1 | n/a | "
+        "pytest tests/eval/test_public_source_experiment.py tests/eval/test_retrieval_eval.py -q | "
+        "n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |" in retrieval_eval
+    )
+
+
 def test_retrieval_eval_records_chunking_baseline() -> None:
     retrieval_eval = Path("docs/retrieval_eval.md").read_text(encoding="utf-8")
 

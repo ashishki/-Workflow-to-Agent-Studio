@@ -835,3 +835,34 @@ Next action:
 
 - Human/operator requests real prospect workflow data using
   `docs/prospect_data_request_pack.md`.
+
+---
+
+## 2026-05-23 - PUBLIC-PROOF-1 Public Data Working Product Proof
+
+Task: PUBLIC-PROOF-1
+
+Summary:
+
+- Added `docs/audit/PUBLIC_DATA_PRODUCT_PROOF.md` to state what is proven on
+  open data: local ingestion, indexing, extraction, blueprint generation,
+  validation, export, and public-vs-customer proof boundaries.
+- Added domain-specific extraction and blueprint profiles for Django ticket
+  triage, Mozilla Bugzilla triage, and Apache Airflow issue triage.
+- Added E2E tests that run and export the three internet examples, require
+  `finding_ids=[]`, reject the generic support-intake fallback, and preserve
+  domain-specific blueprint markers.
+- Recorded retrieval and planning eval baselines for 8 public workflow fixtures,
+  3 internet E2E fixtures, and 3 showcase-ready public demo packs.
+
+Validation:
+
+- Pre-task baseline: 193 passed.
+- `.venv/bin/python -m pytest -q`: 199 passed.
+- `.venv/bin/python -m ruff check workflow_agent_studio tests/`: passed.
+- `.venv/bin/python -m ruff format --check workflow_agent_studio tests/`: passed.
+
+Next action:
+
+- Use `docs/audit/PUBLIC_DATA_PRODUCT_PROOF.md` for technical demo claims on
+  open data; real customer proof remains blocked until prospect data is reviewed.

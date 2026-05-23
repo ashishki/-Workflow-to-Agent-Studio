@@ -139,6 +139,207 @@ NETBOX_ISSUE_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
     ),
 )
 
+APACHE_AIRFLOW_ISSUE_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
+    profile_id="apache_airflow_issue_triage",
+    workflow_kind="apache_airflow_issue_triage",
+    required_terms=("apache airflow", "github discussions", "issue triage team"),
+    actors=(
+        "Issue reporter",
+        "Issue triage team member",
+        "Airflow committer",
+        "Community helper",
+        "Pull request author",
+    ),
+    systems=(
+        "GitHub Issues",
+        "GitHub Discussions",
+        "GitHub issue templates",
+        "Labels",
+        "Milestones",
+        "Priorities",
+        "Pull requests",
+    ),
+    triggers=(
+        "New Airflow issue, discussion, or pull request needs response, label, "
+        "conversion, closure, assignment, or escalation",
+    ),
+    steps=(
+        StepTemplate(
+            step_id="step-1",
+            description=(
+                "Issue reporter submits an Airflow bug or small feature request "
+                "through GitHub templates."
+            ),
+            actor="Issue reporter",
+            system="GitHub issue templates",
+        ),
+        StepTemplate(
+            step_id="step-2",
+            description=(
+                "Issue triage team member checks whether the report is actionable, "
+                "needs more information, or belongs in GitHub Discussions."
+            ),
+            actor="Issue triage team member",
+            system="GitHub Issues",
+        ),
+        StepTemplate(
+            step_id="step-3",
+            description=(
+                "Triage team member labels, prioritizes, assigns, closes, or converts "
+                "the issue when human authority allows it."
+            ),
+            actor="Issue triage team member",
+            system="Labels",
+        ),
+        StepTemplate(
+            step_id="step-4",
+            description=(
+                "Committer or knowledgeable community member is involved when code "
+                "ownership or merge authority is required."
+            ),
+            actor="Airflow committer",
+            system="Pull requests",
+        ),
+    ),
+    decisions=(
+        (
+            "Decide whether the report is a bug, feature request, troubleshooting "
+            "discussion, duplicate, invalid report, or clear actionable issue"
+        ),
+        "Decide whether the issue should be converted to a GitHub Discussion",
+        "Decide whether additional information is needed from the reporter",
+        "Decide which labels, milestone, or priority should apply",
+        "Decide whether to mention a committer or knowledgeable community member",
+    ),
+    exceptions=(
+        "Troubleshooting or unclear reports may be converted to GitHub Discussions",
+        "Triage team members cannot merge code by that role alone",
+        "Issues without enough information require reporter follow-up",
+    ),
+    data_fields=(
+        "issue type",
+        "template type",
+        "reproducible steps",
+        "discussion status",
+        "labels",
+        "milestone",
+        "priority",
+        "pending response status",
+        "assignee",
+        "linked pull request",
+    ),
+    pain_points=(
+        "Maintainers need quick responses so reporters do not feel ignored",
+        "Unclear troubleshooting reports need discussion conversion",
+        "Triage authority differs from committer and merge authority",
+    ),
+    missing_questions=(
+        MissingQuestionTemplate(
+            section="approval_boundaries",
+            question="Which Airflow committer approves merge-related escalation?",
+            reason="The public source distinguishes triage and committer roles.",
+        ),
+    ),
+)
+
+DJANGO_TICKET_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
+    profile_id="django_ticket_triage",
+    workflow_kind="django_ticket_triage",
+    required_terms=("django", "trac", "ticket triage"),
+    actors=(
+        "Ticket reporter",
+        "Triager",
+        "Bug fixer",
+        "Reviewer",
+        "Merger",
+    ),
+    systems=(
+        "Django Trac",
+        "GitHub pull requests",
+        "Trac flags",
+        "Review queue",
+        "Django Forum",
+    ),
+    triggers=(
+        "New or updated Django ticket or pull request needs triage, review, "
+        "flag correction, or final check-in decision",
+    ),
+    steps=(
+        StepTemplate(
+            step_id="step-1",
+            description=(
+                "Triager reviews unreviewed Django tickets and determines whether "
+                "they are actionable."
+            ),
+            actor="Triager",
+            system="Django Trac",
+        ),
+        StepTemplate(
+            step_id="step-2",
+            description=(
+                "Triager sets ticket stage, type, component, severity, and flags "
+                "such as needs tests or needs documentation."
+            ),
+            actor="Triager",
+            system="Trac flags",
+        ),
+        StepTemplate(
+            step_id="step-3",
+            description=(
+                "Reviewer checks patch or pull request readiness and requests "
+                "improvements when needed."
+            ),
+            actor="Reviewer",
+            system="GitHub pull requests",
+        ),
+        StepTemplate(
+            step_id="step-4",
+            description=(
+                "Merger gives final review before a ready-for-checkin change is committed."
+            ),
+            actor="Merger",
+            system="Review queue",
+        ),
+    ),
+    decisions=(
+        "Decide whether the ticket is unreviewed, accepted, ready for checkin, or closed",
+        "Decide whether the ticket describes a valid and actionable issue",
+        "Decide whether a patch needs tests, documentation, or improvement",
+        "Decide whether the ticket is a bug, new feature, or cleanup",
+        "Decide whether merger final review is required before commit",
+    ),
+    exceptions=(
+        "Sparse tickets can be closed as needsinfo",
+        "Patch-ready tickets still require final merger review",
+        "Tickets may wait for author changes, tests, documentation, or review",
+    ),
+    data_fields=(
+        "ticket stage",
+        "ticket type",
+        "component",
+        "severity",
+        "version",
+        "has patch flag",
+        "needs tests flag",
+        "needs documentation flag",
+        "patch needs improvement flag",
+        "easy pickings flag",
+        "reviewer comment",
+    ),
+    pain_points=(
+        "Triagers repeatedly correct incomplete ticket metadata and flags",
+        "Patch readiness depends on tests, documentation, and reviewer comments",
+        "Final merger review remains a required human decision",
+    ),
+    missing_questions=(
+        MissingQuestionTemplate(
+            section="approval_boundaries",
+            question="Which merger has final authority for this ticket or pull request?",
+            reason="The public source describes the role but not a named approver.",
+        ),
+    ),
+)
+
 KUBERNETES_ISSUE_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
     profile_id="kubernetes_issue_triage",
     workflow_kind="kubernetes_issue_triage",
@@ -336,6 +537,108 @@ OPENSTACK_BUG_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
         MissingQuestionTemplate(
             section="approval_boundaries",
             question="Which bug supervisor or project driver approves release-blocking priority?",
+            reason="The public source describes roles but not a named approver.",
+        ),
+    ),
+)
+
+MOZILLA_BUGZILLA_TRIAGE_PROFILE = PublicWorkflowExtractionProfile(
+    profile_id="mozilla_bugzilla_triage",
+    workflow_kind="mozilla_bugzilla_triage",
+    required_terms=("mozilla", "bugzilla", "whiteboard tags"),
+    actors=(
+        "Bug reporter",
+        "Component triager",
+        "Engineer or volunteer",
+        "Component team",
+        "Release or priority owner",
+    ),
+    systems=(
+        "Bugzilla",
+        "Saved bug queries",
+        "Component fields",
+        "Whiteboard tags",
+        "Needinfo flag",
+        "Dependency bugs",
+        "Release flags",
+    ),
+    triggers=(
+        "New open Bugzilla bug in a component needs categorization, priority, "
+        "closure, follow-up, or assignment",
+    ),
+    steps=(
+        StepTemplate(
+            step_id="step-1",
+            description=(
+                "Component triager reviews untriaged Bugzilla queries for assigned components."
+            ),
+            actor="Component triager",
+            system="Saved bug queries",
+        ),
+        StepTemplate(
+            step_id="step-2",
+            description=(
+                "Triager checks crash, regression, security, component, and priority signals."
+            ),
+            actor="Component triager",
+            system="Bugzilla",
+        ),
+        StepTemplate(
+            step_id="step-3",
+            description=(
+                "Triager applies whiteboard outcomes such as fix now, active, "
+                "fix later, backlog, needs component, or follow-up."
+            ),
+            actor="Component triager",
+            system="Whiteboard tags",
+        ),
+        StepTemplate(
+            step_id="step-4",
+            description=(
+                "Release or priority owner reviews priority, release flags, dependency, "
+                "or assignment updates when needed."
+            ),
+            actor="Release or priority owner",
+            system="Release flags",
+        ),
+    ),
+    decisions=(
+        "Decide whether the bug is already triaged or still untriaged",
+        "Decide whether the issue is a critical crash, regression, or security-sensitive item",
+        (
+            "Decide whether to fix now, keep active, fix later, backlog, "
+            "move components, close, or follow up"
+        ),
+        "Decide whether needinfo is required before a decision can be made",
+        "Decide whether release flags, priority, dependency, or assignment should change",
+    ),
+    exceptions=(
+        "Security-sensitive bugs require restricted handling",
+        "Bugs needing more information require needinfo or dependency tracking",
+        "Component ownership changes can move the bug to another team",
+    ),
+    data_fields=(
+        "component",
+        "bug status",
+        "resolution",
+        "creation date",
+        "keywords",
+        "whiteboard tags",
+        "needinfo flag",
+        "crash/regression/security markers",
+        "priority",
+        "release flags",
+        "dependency bug",
+    ),
+    pain_points=(
+        "Triagers must repeatedly scan saved queries for untriaged bugs",
+        "Priority and release decisions depend on crash, regression, and security signals",
+        "Follow-up cases need consistent needinfo or dependency tracking",
+    ),
+    missing_questions=(
+        MissingQuestionTemplate(
+            section="approval_boundaries",
+            question="Which release or priority owner approves high-impact state changes?",
             reason="The public source describes roles but not a named approver.",
         ),
     ),
@@ -557,8 +860,11 @@ HVAC_LEAD_INTAKE_PROFILE = PublicWorkflowExtractionProfile(
 )
 
 PUBLIC_WORKFLOW_EXTRACTION_PROFILES: tuple[PublicWorkflowExtractionProfile, ...] = (
+    APACHE_AIRFLOW_ISSUE_TRIAGE_PROFILE,
+    DJANGO_TICKET_TRIAGE_PROFILE,
     KUBERNETES_ISSUE_TRIAGE_PROFILE,
     OPENSTACK_BUG_TRIAGE_PROFILE,
+    MOZILLA_BUGZILLA_TRIAGE_PROFILE,
     GITLAB_INCIDENT_WORKFLOW_PROFILE,
     HVAC_LEAD_INTAKE_PROFILE,
     NETBOX_ISSUE_TRIAGE_PROFILE,

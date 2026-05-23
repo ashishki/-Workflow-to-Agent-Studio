@@ -9,8 +9,11 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 WorkflowKind = Literal[
     "support_intake",
     "issue_triage",
+    "apache_airflow_issue_triage",
+    "django_ticket_triage",
     "kubernetes_issue_triage",
     "bug_triage",
+    "mozilla_bugzilla_triage",
     "incident_response",
     "hvac_lead_intake",
 ]

@@ -75,6 +75,10 @@ Phase 12 showcase packs live under `docs/experiments/public_demo_pack/`:
 Each pack must include a source register or fixture pointer, command transcript,
 generated blueprint, review workspace, gap summary, and boundary label.
 
+The public-data working product proof is recorded in
+`docs/audit/PUBLIC_DATA_PRODUCT_PROOF.md`. It supports technical demo claims
+only and keeps customer proof blocked until real prospect data is reviewed.
+
 ## Public Blueprint Quality Review Rubric
 
 Use this rubric before showing a public-source blueprint pack to a prospect.

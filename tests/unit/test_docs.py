@@ -42,6 +42,7 @@ def test_operator_guide_documents_supported_source_kinds() -> None:
     assert "Sanitized or synthetic fixtures still do not count as real pilot evidence." in guide
     assert "## Public Demo Packs" in guide
     assert "docs/experiments/public_demo_pack/netbox_issue_triage/" in guide
+    assert "docs/audit/PUBLIC_DATA_PRODUCT_PROOF.md" in guide
     assert "not pilot evidence" in guide
 
 

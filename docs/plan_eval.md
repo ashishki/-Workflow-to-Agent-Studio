@@ -145,6 +145,10 @@ PUBLIC-TEST-1 established three internet workflow examples as public-source test
 fixtures with actors, systems, decisions, data fields, and unsafe-answer
 boundaries.
 
+PUBLIC-PROOF-1 established public-data working product proof: 8 public workflow
+fixtures, 3 internet workflow E2E fixtures, domain-specific blueprint markers,
+and customer-proof boundary language.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -494,6 +498,22 @@ Internet workflow test examples baseline:
 - Public-test-only boundary: pass
 - Regression: No
 
+Public-data working product proof baseline:
+
+- Date: 2026-05-23
+- Task: PUBLIC-PROOF-1
+- Eval Source: pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q
+- Metric: Public-data working product proof coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Public workflow fixtures: 8
+- Internet E2E fixtures: 3
+- Showcase-ready packs: 3
+- Domain-specific blueprint markers: pass
+- Customer proof: no
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -528,6 +548,7 @@ Internet workflow test examples baseline:
 | 2026-05-23 | T53 | v1 | Public showcase pack completeness | 100%; packs 3; required artifacts per pack 6; public-vs-pilot boundary pass | 100%; packs 3; required artifacts per pack 6; public-vs-pilot boundary pass | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
 | 2026-05-23 | T54 | v1 | Public blueprint quality rubric coverage | 100%; rubric dimensions 7; showcase-ready pack results 3; critical blocker pass | 100%; rubric dimensions 7; showcase-ready pack results 3; critical blocker pass | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
 | 2026-05-23 | PUBLIC-TEST-1 | v1 | Internet workflow example fixture coverage | 100%; fixtures 3; required fact groups 5; public-test-only boundary pass | 100%; fixtures 3; required fact groups 5; public-test-only boundary pass | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
+| 2026-05-23 | PUBLIC-PROOF-1 | v1 | Public-data working product proof coverage | 100%; public fixtures 8; internet E2E fixtures 3; showcase-ready packs 3; customer proof no | 100%; public fixtures 8; internet E2E fixtures 3; showcase-ready packs 3; customer proof no | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
 
 ---
 

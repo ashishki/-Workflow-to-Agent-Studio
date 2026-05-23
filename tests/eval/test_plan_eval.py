@@ -312,3 +312,21 @@ def test_plan_eval_records_internet_workflow_examples() -> None:
         "0% | No | pytest tests/eval/test_public_source_experiment.py "
         "tests/eval/test_plan_eval.py -q |" in plan_eval
     )
+
+
+def test_plan_eval_records_public_data_product_proof() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "PUBLIC-PROOF-1 established public-data working product proof" in plan_eval
+    assert "Public workflow fixtures: 8" in plan_eval
+    assert "Internet E2E fixtures: 3" in plan_eval
+    assert "Showcase-ready packs: 3" in plan_eval
+    assert "Customer proof: no" in plan_eval
+    assert (
+        "| 2026-05-23 | PUBLIC-PROOF-1 | v1 | Public-data working product proof coverage | "
+        "100%; public fixtures 8; internet E2E fixtures 3; showcase-ready packs 3; "
+        "customer proof no | 100%; public fixtures 8; internet E2E fixtures 3; "
+        "showcase-ready packs 3; customer proof no | 0% | No | "
+        "pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |"
+        in plan_eval
+    )

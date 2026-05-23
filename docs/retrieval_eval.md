@@ -136,6 +136,10 @@ Django ticket triage, Mozilla Bugzilla triage, and Apache Airflow issue triage.
 These fixtures are public-source test examples only and do not satisfy pilot
 evidence.
 
+PUBLIC-PROOF-1 established the public-data working product proof baseline with
+8 public workflow fixtures, three internet examples running end to end, and
+generic fallback rejection for domain-specific workflows.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -342,6 +346,19 @@ Internet workflow test examples baseline:
 - Public-test-only boundary: pass
 - Regression: No
 
+Public-data working product proof baseline:
+
+- Date: 2026-05-23
+- Task: PUBLIC-PROOF-1
+- Corpus Version: public-data-product-proof-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/eval/test_public_source_experiment.py tests/eval/test_retrieval_eval.py -q
+- Public workflow fixtures: 8
+- Internet E2E fixtures: 3
+- Generic fallback rejected: pass
+- Customer proof: no
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -366,6 +383,7 @@ Internet workflow test examples baseline:
 | 2026-05-23 | T51 | public-workflow-research-protocol-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-23 | T52 | hvac-lead-intake-public-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-23 | PUBLIC-TEST-1 | internet-workflow-examples-v1 | n/a | pytest tests/eval/test_public_source_experiment.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-23 | PUBLIC-PROOF-1 | public-data-product-proof-v1 | n/a | pytest tests/eval/test_public_source_experiment.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 
 ---
 

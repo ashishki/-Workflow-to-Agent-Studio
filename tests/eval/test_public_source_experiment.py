@@ -86,6 +86,45 @@ INTERNET_WORKFLOW_TEST_EXAMPLES = (
     ),
 )
 
+INTERNET_WORKFLOW_E2E_EXAMPLES = (
+    pytest.param(
+        "django-ticket-triage",
+        "tests/fixtures/public_sources/django_ticket_triage.notes.md",
+        (
+            "Django ticket triage workflow",
+            "Django Trac",
+            "GitHub pull requests",
+            "Merger",
+            "Draft Django ticket triage recommendation",
+        ),
+        id="django-ticket-triage-e2e",
+    ),
+    pytest.param(
+        "mozilla-bugzilla-triage",
+        "tests/fixtures/public_sources/mozilla_bugzilla_triage.notes.md",
+        (
+            "Mozilla Bugzilla triage workflow",
+            "Bugzilla",
+            "Whiteboard tags",
+            "Needinfo flag",
+            "Draft Mozilla Bugzilla triage recommendation",
+        ),
+        id="mozilla-bugzilla-triage-e2e",
+    ),
+    pytest.param(
+        "apache-airflow-issue-triage",
+        "tests/fixtures/public_sources/apache_airflow_issue_triage.notes.md",
+        (
+            "Apache Airflow issue triage workflow",
+            "GitHub Issues",
+            "GitHub Discussions",
+            "Issue triage team member",
+            "Draft Apache Airflow issue triage recommendation",
+        ),
+        id="apache-airflow-issue-triage-e2e",
+    ),
+)
+
 
 def test_netbox_public_source_fixture_runs_draft_pipeline(tmp_path) -> None:
     result = subprocess.run(
@@ -346,6 +385,70 @@ def test_internet_workflow_examples_are_public_test_fixtures(
 
 @pytest.mark.parametrize(
     ("run_slug", "fixture_path", "expected_markers"),
+    INTERNET_WORKFLOW_E2E_EXAMPLES,
+)
+def test_internet_workflow_examples_run_end_to_end_as_public_data_proof(
+    tmp_path,
+    run_slug: str,
+    fixture_path: str,
+    expected_markers: tuple[str, ...],
+) -> None:
+    database = tmp_path / "workflow.sqlite3"
+    run_result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "workflow_agent_studio.cli",
+            "run",
+            "--database",
+            str(database),
+            "--run-id",
+            f"public-{run_slug}",
+            "--index-dir",
+            str(tmp_path / "index"),
+            fixture_path,
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    run_payload = json.loads(run_result.stdout)
+
+    assert run_result.returncode == 0
+    assert run_payload["source_count"] == 1
+    assert run_payload["chunk_count"] >= 10
+    assert run_payload["finding_ids"] == []
+
+    export_result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "workflow_agent_studio.cli",
+            "export",
+            "--database",
+            str(database),
+            "--blueprint-version-id",
+            str(run_payload["blueprint_version_id"]),
+            "--export-dir",
+            str(tmp_path / "exports"),
+            "--output",
+            f"{run_slug}.md",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    export_payload = json.loads(export_result.stdout)
+    markdown = Path(export_payload["path"]).read_text(encoding="utf-8")
+
+    assert export_result.returncode == 0
+    assert "Support intake workflow routes customer requests" not in markdown
+    for marker in expected_markers:
+        assert marker in markdown
+
+
+@pytest.mark.parametrize(
+    ("run_slug", "fixture_path", "expected_markers"),
     PUBLIC_WORKFLOW_CASES,
 )
 def test_public_source_workflow_candidates_preserve_domain_facts(
@@ -418,3 +521,20 @@ def test_public_source_workflow_candidate_catalog_keeps_boundaries() -> None:
     assert "openstack_bug_triage.notes.md" in catalog
     assert "gitlab_incident_workflow.notes.md" in catalog
     assert "must not be counted in `docs/pilot_measurement.md`" in catalog
+
+
+def test_public_data_product_proof_report_states_working_product_boundary() -> None:
+    report = Path("docs/audit/PUBLIC_DATA_PRODUCT_PROOF.md").read_text(encoding="utf-8")
+    normalized = " ".join(report.split())
+
+    assert "Status: public_data_working_product_proof" in report
+    assert "Public-data proof means technical workflow proof, not customer proof." in report
+    assert "8 public workflow fixtures" in report
+    assert "3 showcase-ready public demo packs" in report
+    assert "Django ticket triage" in report
+    assert "Mozilla Bugzilla triage" in report
+    assert "Apache Airflow issue triage" in report
+    assert "finding_ids=[]" in report
+    assert "Support intake generic fallback rejected" in report
+    assert "T34 and T40 remain blocked" in report
+    assert "This is enough to say the product works on public workflow data" in normalized
