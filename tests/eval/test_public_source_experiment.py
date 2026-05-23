@@ -271,6 +271,26 @@ def test_public_blueprint_quality_rubric_blocks_critical_missing_questions() -> 
     assert "no unresolved critical missing question remains" in normalized
 
 
+def test_lead_response_sla_agent_handoff_is_source_bounded() -> None:
+    handoff = Path("docs/handoffs/lead_response_sla_agent.md").read_text(encoding="utf-8")
+    normalized = " ".join(handoff.split())
+
+    assert "Status: public-source demo handoff; not customer proof" in handoff
+    assert "docs/experiments/public_demo_pack/hvac_lead_intake/" in handoff
+    assert "tests/fixtures/public_sources/hvac_lead_intake.notes.md" in handoff
+    assert "## Workflow Map" in handoff
+    assert "## Qualification Fields" in handoff
+    assert "## Safe Reply Boundaries" in handoff
+    assert "## Handoff Reasons" in handoff
+    assert "## Knowledge-Pack Requirements" in handoff
+    assert "## Eval Cases" in handoff
+    assert "## Missing Data Requests" in handoff
+    assert "do not confirm arrival" in handoff
+    assert "do not promise coverage" in handoff
+    assert "public_demo_only=true" in handoff
+    assert "Does not satisfy T34, T40" in normalized
+
+
 @pytest.mark.parametrize(
     ("run_slug", "fixture_path", "expected_markers"),
     PUBLIC_WORKFLOW_CASES,

@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 12 - Solo Public Workflow Showcase
-- Next task: T55 Lead Agent Handoff Blueprint
-- Verified baseline: 185 passing tests, 0 skipped, 0 failed
+- Next task: T56 Solo Prospect Data Request Pack
+- Verified baseline: 186 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-23
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
@@ -34,52 +34,51 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T55 Lead Agent Handoff Blueprint
+Task: T56 Solo Prospect Data Request Pack
 
-Goal: convert the lead-intake public blueprint into a focused handoff pack for
-Lead Response SLA Agent.
+Goal: create a lightweight request pack a solo operator can send manually to
+prospects, asking for one narrow workflow packet without broad system access.
 
 Acceptance summary:
 
-- handoff pack includes workflow map, qualification fields, safe reply
-  boundaries, handoff reasons, knowledge-pack requirements, eval cases, and
-  missing data requests
-- handoff pack cites only public source evidence or marks assumptions
-- Lead Response SLA Agent can start its demo corpus work from this handoff
-  without reading every source
+- request asks for one SOP, transcript, notes file, form description,
+  integration excerpt, or mixed packet
+- request explains local processing, confidentiality boundaries, human review,
+  and optional sanitized benchmark reuse
+- request includes the public demo pack as demo material, not proof
 
 File scope:
 
-- `docs/handoffs/lead_response_sla_agent.md`
-- `docs/experiments/public_demo_pack/`
+- `docs/prospect_data_request_pack.md`
+- `docs/pilot_measurement.md`
 
 Required context:
 
 - `docs/tasks.md#phase-12-solo-public-workflow-showcase`
-- `docs/open_source_research_protocol.md`
 - `docs/experiments/public_demo_pack/hvac_lead_intake/`
+- `docs/pilot_measurement.md#prospect-data-request-gate`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T54
+- Task: T55
 - Date: 2026-05-23
-- Eval Source: pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q
-- Result: public blueprint quality rubric and showcase-ready results recorded in planning eval
+- Eval Source: pytest tests/eval/test_public_source_experiment.py -q
+- Result: Lead Response SLA Agent handoff is source-bounded and safe-reply scoped
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: lead-intake handoff pack
+- Next work: solo prospect data request pack
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: lead-intake handoff pack
+- Next work: solo prospect data request pack
 - Open planning findings: none
 
 Tool-Use: OFF
