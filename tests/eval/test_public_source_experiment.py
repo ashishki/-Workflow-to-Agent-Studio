@@ -60,6 +60,32 @@ PUBLIC_WORKFLOW_CASES = (
     ),
 )
 
+INTERNET_WORKFLOW_TEST_EXAMPLES = (
+    pytest.param(
+        "django-ticket-triage",
+        "tests/fixtures/public_sources/django_ticket_triage.notes.md",
+        "https://docs.djangoproject.com/en/dev/internals/contributing/triaging-tickets/",
+        ("Django Trac", "GitHub pull requests", "Triager", "Ready for checkin"),
+        id="django-ticket-triage",
+    ),
+    pytest.param(
+        "mozilla-bugzilla-triage",
+        "tests/fixtures/public_sources/mozilla_bugzilla_triage.notes.md",
+        "https://wiki.mozilla.org/Bug_Triage/Projects/Bug_Handling/Triage_Rules",
+        ("Bugzilla", "Whiteboard tags", "Needinfo flag", "Release flags"),
+        id="mozilla-bugzilla-triage",
+    ),
+    pytest.param(
+        "apache-airflow-issue-triage",
+        "tests/fixtures/public_sources/apache_airflow_issue_triage.notes.md",
+        (
+            "https://apache.googlesource.com/airflow/+/7ab6dc2ecf362916cde19f2c761cb3103dbc824b/ISSUE_TRIAGE_PROCESS.rst"
+        ),
+        ("GitHub Issues", "GitHub Discussions", "Issue triage team member", "Labels"),
+        id="apache-airflow-issue-triage",
+    ),
+)
+
 
 def test_netbox_public_source_fixture_runs_draft_pipeline(tmp_path) -> None:
     result = subprocess.run(
@@ -289,6 +315,33 @@ def test_lead_response_sla_agent_handoff_is_source_bounded() -> None:
     assert "do not promise coverage" in handoff
     assert "public_demo_only=true" in handoff
     assert "Does not satisfy T34, T40" in normalized
+
+
+@pytest.mark.parametrize(
+    ("slug", "fixture_path", "source_url", "expected_markers"),
+    INTERNET_WORKFLOW_TEST_EXAMPLES,
+)
+def test_internet_workflow_examples_are_public_test_fixtures(
+    slug: str,
+    fixture_path: str,
+    source_url: str,
+    expected_markers: tuple[str, ...],
+) -> None:
+    fixture = Path(fixture_path).read_text(encoding="utf-8")
+    normalized = " ".join(fixture.split())
+
+    assert slug
+    assert source_url in fixture
+    assert "Dataset kind: public-source test example only" in fixture
+    assert "not customer proof or pilot evidence" in fixture
+    assert "Actors:" in fixture
+    assert "Systems:" in fixture
+    assert "Decisions:" in fixture
+    assert "Data fields:" in fixture
+    assert "Unsafe-answer boundaries:" in fixture
+    assert "Do not treat public-source test examples as T34, T40, or pilot evidence." in (fixture)
+    for marker in expected_markers:
+        assert marker in normalized
 
 
 @pytest.mark.parametrize(
