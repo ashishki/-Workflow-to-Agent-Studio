@@ -16,9 +16,11 @@ claims.
 ## Contents
 
 - `command_transcript.md`: reproducible commands and observed CLI outputs.
+- `source_register.md`: source-register row for the public source fixture.
 - `generated_blueprint.md`: draft blueprint exported from the committed source fixture.
 - `review_workspace.md`: local review workspace exported for the generated blueprint.
 - `gap_summary.md`: remaining gaps and public-source boundary notes.
+- `boundary_label.md`: public-demo-only label for the pack.
 
 ## Reproduction
 

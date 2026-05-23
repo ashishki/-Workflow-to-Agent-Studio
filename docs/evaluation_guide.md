@@ -66,6 +66,15 @@ domain-specific fact preservation, public-vs-pilot boundary labeling, and
 demo-pack reproducibility. The current public demo pack is
 `docs/experiments/public_demo_pack/netbox_issue_triage/`.
 
+Phase 12 showcase packs live under `docs/experiments/public_demo_pack/`:
+
+- `hvac_lead_intake/`
+- `netbox_issue_triage/`
+- `gitlab_incident_response/`
+
+Each pack must include a source register or fixture pointer, command transcript,
+generated blueprint, review workspace, gap summary, and boundary label.
+
 Passing this gate authorizes a controlled source request only. It does not create
 a pilot measurement row, does not satisfy T34/T40, and does not support
 commercial claims until the prospect source is reviewed by a human reviewer and

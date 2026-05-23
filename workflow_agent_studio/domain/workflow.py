@@ -12,6 +12,7 @@ WorkflowKind = Literal[
     "kubernetes_issue_triage",
     "bug_triage",
     "incident_response",
+    "hvac_lead_intake",
 ]
 
 

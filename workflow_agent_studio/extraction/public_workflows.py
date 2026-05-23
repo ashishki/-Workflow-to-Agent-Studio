@@ -448,10 +448,119 @@ GITLAB_INCIDENT_WORKFLOW_PROFILE = PublicWorkflowExtractionProfile(
     ),
 )
 
+HVAC_LEAD_INTAKE_PROFILE = PublicWorkflowExtractionProfile(
+    profile_id="hvac_lead_intake",
+    workflow_kind="hvac_lead_intake",
+    required_terms=("hvac", "service-area", "appointment"),
+    actors=(
+        "Customer",
+        "Homeowner or property contact",
+        "Commercial property contact",
+        "Intake representative",
+        "Scheduling coordinator",
+        "Dispatcher",
+        "Technician or estimator",
+        "Service manager",
+    ),
+    systems=(
+        "Website appointment form",
+        "Phone intake line",
+        "Service-area checker",
+        "Email notification path",
+        "Dispatch calendar",
+        "Technician schedule",
+        "CRM or service-management system",
+    ),
+    triggers=(
+        "Customer calls, submits an appointment form, requests service online, "
+        "or checks service-area coverage",
+    ),
+    steps=(
+        StepTemplate(
+            step_id="step-1",
+            description=(
+                "Customer submits HVAC service details through a form, phone call, "
+                "or service-area checker."
+            ),
+            actor="Customer",
+            system="Website appointment form",
+        ),
+        StepTemplate(
+            step_id="step-2",
+            description=(
+                "Intake representative checks contact details, location fit, "
+                "service type, system type, and urgency."
+            ),
+            actor="Intake representative",
+            system="Service-area checker",
+        ),
+        StepTemplate(
+            step_id="step-3",
+            description=(
+                "Scheduling coordinator routes emergency requests to phone or urgent "
+                "handling and ordinary requests to appointment follow-up."
+            ),
+            actor="Scheduling coordinator",
+            system="Dispatch calendar",
+        ),
+        StepTemplate(
+            step_id="step-4",
+            description=(
+                "Dispatcher prepares the technician or estimator handoff after "
+                "required fields and manual confirmations are complete."
+            ),
+            actor="Dispatcher",
+            system="Technician schedule",
+        ),
+    ),
+    decisions=(
+        "Decide whether the address or ZIP code is inside the service area",
+        "Decide whether the request is urgent, emergency, or standard follow-up",
+        (
+            "Decide whether the request is repair, maintenance, installation, "
+            "replacement, estimate, or consultation"
+        ),
+        "Decide whether the customer is residential, commercial, or industrial",
+        "Decide whether more details are needed before dispatch",
+    ),
+    exceptions=(
+        "Emergency no-cooling or no-heat requests route to phone or urgent handling",
+        "Outside-service-area requests require rejection or manual review",
+        "Incomplete contact details block scheduling confirmation",
+        "Commercial or industrial requests may need specialist routing",
+    ),
+    data_fields=(
+        "name",
+        "phone",
+        "email",
+        "service address or ZIP code",
+        "residential or commercial request type",
+        "service type",
+        "system type",
+        "preferred service date",
+        "issue description",
+        "referral source",
+    ),
+    pain_points=(
+        "Public forms can collect incomplete details before scheduling",
+        "Emergency requests need faster routing than ordinary form follow-up",
+        "Service-area fit must be checked before appointment confirmation",
+        "Commercial or industrial jobs may require different routing",
+    ),
+    missing_questions=(
+        MissingQuestionTemplate(
+            section="approval_boundaries",
+            question="Who confirms the appointment window before a technician is dispatched?",
+            reason="The public sources describe intake fields but not final dispatch approval.",
+        ),
+    ),
+)
+
 PUBLIC_WORKFLOW_EXTRACTION_PROFILES: tuple[PublicWorkflowExtractionProfile, ...] = (
     KUBERNETES_ISSUE_TRIAGE_PROFILE,
     OPENSTACK_BUG_TRIAGE_PROFILE,
     GITLAB_INCIDENT_WORKFLOW_PROFILE,
+    HVAC_LEAD_INTAKE_PROFILE,
     NETBOX_ISSUE_TRIAGE_PROFILE,
 )
 

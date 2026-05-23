@@ -45,6 +45,19 @@ PUBLIC_WORKFLOW_CASES = (
         ),
         id="gitlab",
     ),
+    pytest.param(
+        "hvac-lead-intake",
+        "tests/fixtures/public_sources/hvac_lead_intake.notes.md",
+        (
+            "HVAC",
+            "Service-area checker",
+            "Scheduling coordinator",
+            "emergency",
+            "service address",
+            "appointment",
+        ),
+        id="hvac-lead-intake",
+    ),
 )
 
 
@@ -160,9 +173,13 @@ def test_netbox_public_demo_pack_contains_reproducible_artifacts() -> None:
     blueprint = (pack_dir / "generated_blueprint.md").read_text(encoding="utf-8")
     review = (pack_dir / "review_workspace.md").read_text(encoding="utf-8")
     gap_summary = (pack_dir / "gap_summary.md").read_text(encoding="utf-8")
+    boundary_label = (pack_dir / "boundary_label.md").read_text(encoding="utf-8")
+    source_register = (pack_dir / "source_register.md").read_text(encoding="utf-8")
 
     assert "tests/fixtures/public_sources/netbox_issue_triage.notes.md" in readme
     assert "public-source demo material; not customer proof" in readme
+    assert "source_register.md" in readme
+    assert "boundary_label.md" in readme
     assert "workflow-agent-studio run" in transcript
     assert "workflow-agent-studio export" in transcript
     assert "workflow-agent-studio review" in transcript
@@ -172,6 +189,64 @@ def test_netbox_public_demo_pack_contains_reproducible_artifacts() -> None:
     assert "## Findings\n- none" in review
     assert "Approval authority remains unresolved" in gap_summary
     assert "must not be counted in" in gap_summary
+    assert "public_demo_only" in source_register
+    assert "true" in source_register
+    assert "not customer proof" in boundary_label
+
+
+def test_phase_12_public_showcase_packs_are_complete() -> None:
+    packs = {
+        "hvac_lead_intake": (
+            "HVAC lead intake workflow",
+            "tests/fixtures/public_sources/hvac_lead_intake.notes.md",
+            "service-area checks",
+        ),
+        "netbox_issue_triage": (
+            "GitHub Issues triage workflow",
+            "tests/fixtures/public_sources/netbox_issue_triage.notes.md",
+            "template checks",
+        ),
+        "gitlab_incident_response": (
+            "GitLab incident workflow",
+            "tests/fixtures/public_sources/gitlab_incident_workflow.notes.md",
+            "PagerDuty notification",
+        ),
+    }
+
+    for pack_name, (blueprint_marker, fixture_marker, workflow_marker) in packs.items():
+        pack_dir = Path("docs/experiments/public_demo_pack") / pack_name
+        readme = (pack_dir / "README.md").read_text(encoding="utf-8")
+        source_register = (pack_dir / "source_register.md").read_text(encoding="utf-8")
+        transcript = (pack_dir / "command_transcript.md").read_text(encoding="utf-8")
+        blueprint = (pack_dir / "generated_blueprint.md").read_text(encoding="utf-8")
+        review = (pack_dir / "review_workspace.md").read_text(encoding="utf-8")
+        gap_summary = (pack_dir / "gap_summary.md").read_text(encoding="utf-8")
+        boundary = (pack_dir / "boundary_label.md").read_text(encoding="utf-8")
+        normalized_blueprint = " ".join(blueprint.split())
+
+        assert fixture_marker in readme or fixture_marker in source_register
+        assert "public-source demo material" in readme
+        assert "public_demo_only" in source_register
+        assert "| true |" in source_register
+        assert "workflow-agent-studio run" in transcript
+        assert "workflow-agent-studio export" in transcript
+        assert "workflow-agent-studio review" in transcript
+        assert blueprint_marker in normalized_blueprint
+        assert workflow_marker in normalized_blueprint
+        assert "## Findings\n- none" in review
+        assert "not real pilot review" in gap_summary
+        assert "not customer proof" in boundary
+
+
+def test_evaluation_guide_lists_phase_12_showcase_packs() -> None:
+    guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
+
+    assert "Phase 12 showcase packs" in guide
+    assert "hvac_lead_intake/" in guide
+    assert "netbox_issue_triage/" in guide
+    assert "gitlab_incident_response/" in guide
+    assert "source register or fixture pointer" in guide
+    assert "boundary label" in guide
 
 
 @pytest.mark.parametrize(

@@ -204,6 +204,47 @@ INCIDENT_RESPONSE_PROFILE = BlueprintProfile(
     ),
 )
 
+HVAC_LEAD_INTAKE_PROFILE = BlueprintProfile(
+    kind="hvac_lead_intake",
+    summary=(
+        "HVAC lead intake workflow routes public service requests through service-area "
+        "checks, contact capture, urgency triage, appointment follow-up, and technician "
+        "or estimator handoff."
+    ),
+    primary_risk=(
+        "Incomplete intake details or unsupported service-area requests can lead to "
+        "bad dispatch decisions."
+    ),
+    automation_candidate_name="Draft HVAC lead intake summary",
+    implementation_boundary=(
+        "Draft intake summary only; do not confirm appointments, prices, arrival windows, "
+        "or technician dispatch automatically."
+    ),
+    human_approval_boundary=(
+        "Dispatcher approves before appointment confirmation or technician handoff."
+    ),
+    risk_level="medium",
+    approval_decision="Approve HVAC intake follow-up",
+    approval_actor_terms=("dispatcher",),
+    approval_reason="Appointment confirmation and dispatch create customer commitments.",
+    eval_case_name="HVAC intake routing recommendation",
+    eval_input_condition=(
+        "Request includes contact details, service area, service type, urgency, and "
+        "issue description."
+    ),
+    eval_expected_behavior=(
+        "Blueprint recommends a dispatcher-reviewed intake route without diagnosing "
+        "equipment or confirming an appointment automatically."
+    ),
+    observability_need=(
+        "Track missing intake fields, service-area rejects, emergency routing, "
+        "and dispatcher overrides."
+    ),
+    implementation_acceptance_criteria=(
+        "Draft HVAC intake summary is generated from public source evidence."
+    ),
+)
+
 BLUEPRINT_PROFILES: dict[WorkflowKind, BlueprintProfile] = {
     profile.kind: profile
     for profile in (
@@ -212,6 +253,7 @@ BLUEPRINT_PROFILES: dict[WorkflowKind, BlueprintProfile] = {
         KUBERNETES_ISSUE_TRIAGE_PROFILE,
         BUG_TRIAGE_PROFILE,
         INCIDENT_RESPONSE_PROFILE,
+        HVAC_LEAD_INTAKE_PROFILE,
     )
 }
 
@@ -231,6 +273,8 @@ def profile_for_workflow_signals(
         return KUBERNETES_ISSUE_TRIAGE_PROFILE
     if "github issues" in systems_text and "duplicate" in decisions_text:
         return ISSUE_TRIAGE_PROFILE
+    if "service-area checker" in systems_text and "emergency" in decisions_text:
+        return HVAC_LEAD_INTAKE_PROFILE
     return SUPPORT_INTAKE_PROFILE
 
 

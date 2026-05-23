@@ -135,6 +135,9 @@ T52 established the lead-intake public corpus planning baseline with extracted
 actors, systems, customer inputs, qualification fields, escalation points, and
 unsafe-answer boundaries.
 
+T53 established the three-pack public blueprint showcase baseline with lead
+intake, issue triage, and incident response packs.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -442,6 +445,20 @@ Lead-intake public corpus baseline:
 - Public-vs-pilot boundary: pass
 - Regression: No
 
+Three-pack public showcase baseline:
+
+- Date: 2026-05-23
+- Task: T53
+- Eval Source: pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q
+- Metric: Public showcase pack completeness
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Packs: 3
+- Required artifacts per pack: 6
+- Public-vs-pilot boundary: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -473,6 +490,7 @@ Lead-intake public corpus baseline:
 | 2026-05-20 | T46 | v1 | Dataset boundary documentation coverage | 100%; demo/synthetic proof excluded; real pilot source recorded | 100%; demo/synthetic proof excluded; real pilot source recorded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-23 | T51 | v1 | Public workflow research protocol coverage | 100%; source register pass; public-vs-pilot boundary pass | 100%; source register pass; public-vs-pilot boundary pass | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-23 | T52 | v1 | Lead-intake public corpus coverage | 100%; source rows 21; workflow fact groups 6; public-vs-pilot boundary pass | 100%; source rows 21; workflow fact groups 6; public-vs-pilot boundary pass | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
+| 2026-05-23 | T53 | v1 | Public showcase pack completeness | 100%; packs 3; required artifacts per pack 6; public-vs-pilot boundary pass | 100%; packs 3; required artifacts per pack 6; public-vs-pilot boundary pass | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
 
 ---
 

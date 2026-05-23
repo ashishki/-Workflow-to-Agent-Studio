@@ -11,6 +11,7 @@ def test_public_workflow_extraction_profiles_cover_public_corpus() -> None:
         "kubernetes_issue_triage",
         "openstack_bug_triage",
         "gitlab_incident_workflow",
+        "hvac_lead_intake",
         "netbox_issue_triage",
     ]
     assert PUBLIC_WORKFLOW_EXTRACTION_PROFILES[0].steps
@@ -32,6 +33,9 @@ def test_public_workflow_profile_detection_prefers_specific_profiles() -> None:
     gitlab = public_workflow_profile_for_text(
         "GitLab incident workflow uses Incident.io and PagerDuty."
     )
+    hvac = public_workflow_profile_for_text(
+        "HVAC service-area appointment workflow captures service type and urgency."
+    )
     netbox = public_workflow_profile_for_text(
         "GitHub Issues issue triage uses templates and maintainer review."
     )
@@ -45,6 +49,9 @@ def test_public_workflow_profile_detection_prefers_specific_profiles() -> None:
     assert gitlab is not None
     assert gitlab.profile_id == "gitlab_incident_workflow"
     assert gitlab.workflow_kind == "incident_response"
+    assert hvac is not None
+    assert hvac.profile_id == "hvac_lead_intake"
+    assert hvac.workflow_kind == "hvac_lead_intake"
     assert netbox is not None
     assert netbox.profile_id == "netbox_issue_triage"
     assert netbox.workflow_kind == "issue_triage"

@@ -54,9 +54,11 @@ def test_public_workflow_blueprint_profiles_cover_public_corpus() -> None:
         "kubernetes_issue_triage",
         "bug_triage",
         "incident_response",
+        "hvac_lead_intake",
     }
     assert BLUEPRINT_PROFILES["kubernetes_issue_triage"].risk_level == "high"
     assert "Incident.io" in BLUEPRINT_PROFILES["incident_response"].summary
+    assert "service-area checks" in BLUEPRINT_PROFILES["hvac_lead_intake"].summary
 
 
 def test_public_workflow_profile_detection_uses_workflow_signals() -> None:
@@ -81,8 +83,16 @@ def test_public_workflow_profile_detection_uses_workflow_signals() -> None:
         ).kind
         == "incident_response"
     )
+    assert (
+        profile_for_workflow_signals(
+            systems=["Service-area checker", "Dispatch calendar"],
+            decisions=["Decide whether the request is urgent or emergency"],
+        ).kind
+        == "hvac_lead_intake"
+    )
 
 
 def test_public_workflow_profile_can_load_by_kind() -> None:
     assert profile_for_workflow_kind("issue_triage").kind == "issue_triage"
     assert profile_for_workflow_kind("incident_response").risk_level == "high"
+    assert profile_for_workflow_kind("hvac_lead_intake").risk_level == "medium"

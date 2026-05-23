@@ -265,3 +265,18 @@ def test_plan_eval_records_lead_intake_public_corpus() -> None:
         "100%; source rows 21; workflow fact groups 6; public-vs-pilot boundary pass | "
         "0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |" in plan_eval
     )
+
+
+def test_plan_eval_records_three_pack_public_showcase() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T53 established the three-pack public blueprint showcase baseline" in plan_eval
+    assert "Packs: 3" in plan_eval
+    assert "Required artifacts per pack: 6" in plan_eval
+    assert (
+        "| 2026-05-23 | T53 | v1 | Public showcase pack completeness | "
+        "100%; packs 3; required artifacts per pack 6; public-vs-pilot boundary pass | "
+        "100%; packs 3; required artifacts per pack 6; public-vs-pilot boundary pass | "
+        "0% | No | pytest tests/eval/test_public_source_experiment.py "
+        "tests/eval/test_plan_eval.py -q |" in plan_eval
+    )
