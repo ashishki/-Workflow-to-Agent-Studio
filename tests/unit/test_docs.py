@@ -71,6 +71,43 @@ def test_operator_guide_links_open_source_research_protocol() -> None:
     assert "public-demo-only claim boundary" in guide
 
 
+def test_lead_intake_public_source_register_has_required_protocol_fields() -> None:
+    register = Path("docs/experiments/public_sources/lead_intake/source_register.md").read_text(
+        encoding="utf-8"
+    )
+    rows = [line for line in register.splitlines() if line.startswith("| HVAC-")]
+
+    assert len(rows) >= 20
+    assert "source_url_or_locator" in register
+    assert "captured_at" in register
+    assert "source_type" in register
+    assert "workflow_kind" in register
+    assert "extracted_workflow_facts" in register
+    assert "limitations" in register
+    assert "public_demo_only" in register
+    assert all(row.rstrip().endswith("| true |") for row in rows)
+    assert "Pricing, conversion, buyer readiness, and commercial pilot claims are out" in (register)
+
+
+def test_hvac_lead_intake_fixture_extracts_required_workflow_facts() -> None:
+    fixture = Path("tests/fixtures/public_sources/hvac_lead_intake.notes.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "Dataset kind: public-source demo only; not customer proof or pilot evidence." in (
+        fixture
+    )
+    assert "Actors:" in fixture
+    assert "Systems:" in fixture
+    assert "Customer inputs:" in fixture
+    assert "Qualification fields:" in fixture
+    assert "Escalation points:" in fixture
+    assert "Unsafe-answer boundaries:" in fixture
+    assert "service-area fit" in fixture
+    assert "urgent or emergency status" in fixture
+    assert "no pricing, conversion, buyer-readiness, or pilot-success claim" in fixture
+
+
 def test_evaluation_guide_lists_eval_commands_and_metrics() -> None:
     guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
 

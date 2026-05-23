@@ -651,3 +651,29 @@ Validation:
 Next action:
 
 - Continue with `T52: Lead Intake Public Workflow Corpus`.
+
+---
+
+## 2026-05-23 - T52 Lead Intake Public Workflow Corpus
+
+Task: T52
+
+Summary:
+
+- Added an HVAC lead-intake public source corpus with 21 public source-register
+  rows across appointment forms, FAQs, service-area pages, and contact flows.
+- Added sanitized source notes and a fixture that extracts actors, systems,
+  customer inputs, qualification fields, escalation points, and unsafe-answer
+  boundaries.
+- Updated retrieval and planning eval artifacts with the T52 corpus baseline.
+
+Validation:
+
+- Pre-task baseline: 175 passed.
+- `.venv/bin/python -m pytest -q`: 179 passed.
+- `.venv/bin/python -m ruff check workflow_agent_studio tests/`: passed.
+- `.venv/bin/python -m ruff format --check workflow_agent_studio tests/`: passed.
+
+Next action:
+
+- Continue with `T53: Three Public Blueprint Showcase Packs`.

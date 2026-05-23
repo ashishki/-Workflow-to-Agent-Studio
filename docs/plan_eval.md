@@ -131,6 +131,10 @@ T51 established the public workflow research protocol planning baseline for
 source-register completeness, public-vs-pilot boundary language, and operator
 handoff instructions.
 
+T52 established the lead-intake public corpus planning baseline with extracted
+actors, systems, customer inputs, qualification fields, escalation points, and
+unsafe-answer boundaries.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -424,6 +428,20 @@ Public workflow research protocol baseline:
 - Public-vs-pilot boundary: pass
 - Regression: No
 
+Lead-intake public corpus baseline:
+
+- Date: 2026-05-23
+- Task: T52
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q
+- Metric: Lead-intake public corpus coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Source rows: 21
+- Required workflow fact groups: 6
+- Public-vs-pilot boundary: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -454,6 +472,7 @@ Public workflow research protocol baseline:
 | 2026-05-20 | T45 | v1 | Feedback analytics expected-outcome pass rate | 100%; category/section/version counts; raw feedback persistence no | 100%; category/section/version counts; raw feedback persistence no | 0% | No | pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T46 | v1 | Dataset boundary documentation coverage | 100%; demo/synthetic proof excluded; real pilot source recorded | 100%; demo/synthetic proof excluded; real pilot source recorded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-23 | T51 | v1 | Public workflow research protocol coverage | 100%; source register pass; public-vs-pilot boundary pass | 100%; source register pass; public-vs-pilot boundary pass | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
+| 2026-05-23 | T52 | v1 | Lead-intake public corpus coverage | 100%; source rows 21; workflow fact groups 6; public-vs-pilot boundary pass | 100%; source rows 21; workflow fact groups 6; public-vs-pilot boundary pass | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 
 ---
 

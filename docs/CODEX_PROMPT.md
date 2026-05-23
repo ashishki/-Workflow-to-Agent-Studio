@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 12 - Solo Public Workflow Showcase
-- Next task: T52 Lead Intake Public Workflow Corpus
-- Verified baseline: 175 passing tests, 0 skipped, 0 failed
+- Next task: T53 Three Public Blueprint Showcase Packs
+- Verified baseline: 179 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-23
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
@@ -34,54 +34,53 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T52 Lead Intake Public Workflow Corpus
+Task: T53 Three Public Blueprint Showcase Packs
 
-Goal: collect a small public workflow corpus for local-service lead intake using
-public business pages, FAQs, booking forms, service-area pages, and
-support/contact instructions.
+Goal: produce three reproducible public-source demo packs that show the product
+can turn public workflow evidence into useful automation blueprints.
 
 Acceptance summary:
 
-- source register contains at least 20 public sources across one selected local
-  service vertical
-- source notes extract actors, systems, customer inputs, qualification fields,
-  escalation points, and unsafe-answer boundaries
-- committed fixtures are sanitized and public-demo labeled
-- no pricing, conversion, or buyer-readiness claim is made without explicit
-  evidence
+- one pack covers lead intake
+- one pack covers public issue/support triage
+- one pack covers an operations workflow such as onboarding, invoice approval,
+  or incident response
+- each pack includes source fixture/register, command transcript, generated
+  blueprint, review workspace, gap summary, and boundary label
 
 File scope:
 
-- `docs/experiments/public_sources/lead_intake/`
+- `docs/experiments/public_demo_pack/`
 - `tests/fixtures/public_sources/`
-- `docs/open_source_research_protocol.md`
+- `docs/evaluation_guide.md`
 
 Required context:
 
 - `docs/tasks.md#phase-12-solo-public-workflow-showcase`
 - `docs/open_source_research_protocol.md`
+- `docs/experiments/public_sources/lead_intake/source_register.md`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T51
+- Task: T52
 - Date: 2026-05-23
 - Eval Source: pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py tests/eval/test_plan_eval.py -q
-- Result: public workflow research protocol coverage recorded in retrieval and planning evals
+- Result: HVAC lead-intake public corpus coverage recorded in retrieval and planning evals
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: lead-intake public source corpus
+- Next work: three public blueprint showcase packs
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: lead-intake public source corpus
+- Next work: three public blueprint showcase packs
 - Open planning findings: none
 
 Tool-Use: OFF

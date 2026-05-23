@@ -128,6 +128,9 @@ T51 established the public workflow research protocol baseline for public-source
 source-register fields, allowed and forbidden source boundaries, and
 public-demo-only claim handling.
 
+T52 established the lead-intake public workflow corpus baseline with 21 HVAC
+public sources, a sanitized fixture, and public-demo-only source boundaries.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -310,6 +313,18 @@ Public workflow research protocol baseline:
 - Public-demo-only boundary: pass
 - Regression: No
 
+Lead-intake public corpus baseline:
+
+- Date: 2026-05-23
+- Task: T52
+- Corpus Version: hvac-lead-intake-public-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q
+- Public source rows: 21
+- Selected vertical: HVAC service intake
+- Public-demo-only boundary: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -332,6 +347,7 @@ Public workflow research protocol baseline:
 | 2026-05-20 | T44 | vertical-dry-run-synthetic-v1 | n/a | pytest tests/eval/test_vertical_pack_dry_run_eval.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-20 | T46 | dataset-boundary-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-23 | T51 | public-workflow-research-protocol-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-23 | T52 | hvac-lead-intake-public-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 
 ---
 

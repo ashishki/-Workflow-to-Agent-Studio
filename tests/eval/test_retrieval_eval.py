@@ -125,6 +125,19 @@ def test_retrieval_eval_records_public_workflow_research_protocol() -> None:
     )
 
 
+def test_retrieval_eval_records_lead_intake_public_corpus() -> None:
+    retrieval_eval = Path("docs/retrieval_eval.md").read_text(encoding="utf-8")
+
+    assert "T52 established the lead-intake public workflow corpus baseline" in (retrieval_eval)
+    assert "Public source rows: 21" in retrieval_eval
+    assert "Selected vertical: HVAC service intake" in retrieval_eval
+    assert (
+        "| 2026-05-23 | T52 | hvac-lead-intake-public-v1 | n/a | "
+        "pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | "
+        "n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |" in retrieval_eval
+    )
+
+
 def test_retrieval_eval_records_chunking_baseline() -> None:
     retrieval_eval = Path("docs/retrieval_eval.md").read_text(encoding="utf-8")
 

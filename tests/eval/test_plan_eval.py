@@ -251,3 +251,17 @@ def test_plan_eval_records_public_workflow_research_protocol() -> None:
         "100%; source register pass; public-vs-pilot boundary pass | 0% | No | "
         "pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |" in plan_eval
     )
+
+
+def test_plan_eval_records_lead_intake_public_corpus() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T52 established the lead-intake public corpus planning baseline" in plan_eval
+    assert "Source rows: 21" in plan_eval
+    assert "Required workflow fact groups: 6" in plan_eval
+    assert (
+        "| 2026-05-23 | T52 | v1 | Lead-intake public corpus coverage | "
+        "100%; source rows 21; workflow fact groups 6; public-vs-pilot boundary pass | "
+        "100%; source rows 21; workflow fact groups 6; public-vs-pilot boundary pass | "
+        "0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |" in plan_eval
+    )
