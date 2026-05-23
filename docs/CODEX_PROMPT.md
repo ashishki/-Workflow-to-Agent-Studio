@@ -14,7 +14,7 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 - Current phase: Phase 12 - Solo Public Workflow Showcase
 - Next task: BLOCKED - real prospect/customer workflow data required
-- Verified baseline: 188 passing tests, 0 skipped, 0 failed
+- Verified baseline: 193 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-23
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
@@ -60,10 +60,10 @@ Required context:
 
 Last Evaluation:
 
-- Task: T57
+- Task: PUBLIC-TEST-1
 - Date: 2026-05-23
-- Eval Source: pytest tests/unit/test_docs.py -q
-- Result: solo showcase readiness review says request prospect data
+- Eval Source: pytest -q; ruff check; ruff format --check
+- Result: internet workflow fixtures recorded as public-source tests only
 
 ## Profile State
 

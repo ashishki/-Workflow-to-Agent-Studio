@@ -131,6 +131,11 @@ public-demo-only claim handling.
 T52 established the lead-intake public workflow corpus baseline with 21 HVAC
 public sources, a sanitized fixture, and public-demo-only source boundaries.
 
+PUBLIC-TEST-1 established three internet workflow examples for test fixtures:
+Django ticket triage, Mozilla Bugzilla triage, and Apache Airflow issue triage.
+These fixtures are public-source test examples only and do not satisfy pilot
+evidence.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -325,6 +330,18 @@ Lead-intake public corpus baseline:
 - Public-demo-only boundary: pass
 - Regression: No
 
+Internet workflow test examples baseline:
+
+- Date: 2026-05-23
+- Task: PUBLIC-TEST-1
+- Corpus Version: internet-workflow-examples-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/eval/test_public_source_experiment.py tests/eval/test_retrieval_eval.py -q
+- Fixture count: 3
+- Sources: Django ticket triage, Mozilla Bugzilla triage, Apache Airflow issue triage
+- Public-test-only boundary: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -348,6 +365,7 @@ Lead-intake public corpus baseline:
 | 2026-05-20 | T46 | dataset-boundary-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-23 | T51 | public-workflow-research-protocol-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-23 | T52 | hvac-lead-intake-public-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-23 | PUBLIC-TEST-1 | internet-workflow-examples-v1 | n/a | pytest tests/eval/test_public_source_experiment.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 
 ---
 

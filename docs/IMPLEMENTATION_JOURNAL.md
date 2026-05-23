@@ -807,3 +807,31 @@ Next action:
 
 - Human/operator requests real prospect workflow data using
   `docs/prospect_data_request_pack.md`.
+
+---
+
+## 2026-05-23 - PUBLIC-TEST-1 Internet Workflow Test Examples
+
+Task: PUBLIC-TEST-1
+
+Summary:
+
+- Added three public-source internet workflow examples as test fixtures: Django
+  ticket triage, Mozilla Bugzilla triage, and Apache Airflow issue triage.
+- Added parametrized tests that require each fixture to preserve source URL,
+  actors, systems, decisions, data fields, and unsafe-answer boundaries.
+- Recorded retrieval and planning eval baselines for the public test examples.
+- Kept the boundary explicit: these examples are tests only and do not satisfy
+  real pilot evidence, T34, or T40.
+
+Validation:
+
+- Pre-task baseline: 188 passed.
+- `.venv/bin/python -m pytest -q`: 193 passed.
+- `.venv/bin/python -m ruff check workflow_agent_studio tests/`: passed.
+- `.venv/bin/python -m ruff format --check workflow_agent_studio tests/`: passed.
+
+Next action:
+
+- Human/operator requests real prospect workflow data using
+  `docs/prospect_data_request_pack.md`.

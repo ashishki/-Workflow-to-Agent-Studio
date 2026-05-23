@@ -296,3 +296,19 @@ def test_plan_eval_records_public_blueprint_quality_rubric() -> None:
         "0% | No | pytest tests/eval/test_public_source_experiment.py "
         "tests/eval/test_plan_eval.py -q |" in plan_eval
     )
+
+
+def test_plan_eval_records_internet_workflow_examples() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "PUBLIC-TEST-1 established three internet workflow examples" in plan_eval
+    assert "Fixture count: 3" in plan_eval
+    assert "Required fact groups: 5" in plan_eval
+    assert "Public-test-only boundary: pass" in plan_eval
+    assert (
+        "| 2026-05-23 | PUBLIC-TEST-1 | v1 | Internet workflow example fixture coverage | "
+        "100%; fixtures 3; required fact groups 5; public-test-only boundary pass | "
+        "100%; fixtures 3; required fact groups 5; public-test-only boundary pass | "
+        "0% | No | pytest tests/eval/test_public_source_experiment.py "
+        "tests/eval/test_plan_eval.py -q |" in plan_eval
+    )

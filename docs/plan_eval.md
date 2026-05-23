@@ -141,6 +141,10 @@ intake, issue triage, and incident response packs.
 T54 established the public blueprint quality review rubric baseline with
 showcase-ready results for all three public demo packs.
 
+PUBLIC-TEST-1 established three internet workflow examples as public-source test
+fixtures with actors, systems, decisions, data fields, and unsafe-answer
+boundaries.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -476,6 +480,20 @@ Public blueprint quality rubric baseline:
 - Critical missing question blocker: pass
 - Regression: No
 
+Internet workflow test examples baseline:
+
+- Date: 2026-05-23
+- Task: PUBLIC-TEST-1
+- Eval Source: pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q
+- Metric: Internet workflow example fixture coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Fixture count: 3
+- Required fact groups: 5
+- Public-test-only boundary: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -509,6 +527,7 @@ Public blueprint quality rubric baseline:
 | 2026-05-23 | T52 | v1 | Lead-intake public corpus coverage | 100%; source rows 21; workflow fact groups 6; public-vs-pilot boundary pass | 100%; source rows 21; workflow fact groups 6; public-vs-pilot boundary pass | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 | 2026-05-23 | T53 | v1 | Public showcase pack completeness | 100%; packs 3; required artifacts per pack 6; public-vs-pilot boundary pass | 100%; packs 3; required artifacts per pack 6; public-vs-pilot boundary pass | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
 | 2026-05-23 | T54 | v1 | Public blueprint quality rubric coverage | 100%; rubric dimensions 7; showcase-ready pack results 3; critical blocker pass | 100%; rubric dimensions 7; showcase-ready pack results 3; critical blocker pass | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
+| 2026-05-23 | PUBLIC-TEST-1 | v1 | Internet workflow example fixture coverage | 100%; fixtures 3; required fact groups 5; public-test-only boundary pass | 100%; fixtures 3; required fact groups 5; public-test-only boundary pass | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
 
 ---
 
