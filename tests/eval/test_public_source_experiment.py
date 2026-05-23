@@ -175,6 +175,7 @@ def test_netbox_public_demo_pack_contains_reproducible_artifacts() -> None:
     gap_summary = (pack_dir / "gap_summary.md").read_text(encoding="utf-8")
     boundary_label = (pack_dir / "boundary_label.md").read_text(encoding="utf-8")
     source_register = (pack_dir / "source_register.md").read_text(encoding="utf-8")
+    review_result = (pack_dir / "review_result.md").read_text(encoding="utf-8")
 
     assert "tests/fixtures/public_sources/netbox_issue_triage.notes.md" in readme
     assert "public-source demo material; not customer proof" in readme
@@ -192,6 +193,7 @@ def test_netbox_public_demo_pack_contains_reproducible_artifacts() -> None:
     assert "public_demo_only" in source_register
     assert "true" in source_register
     assert "not customer proof" in boundary_label
+    assert "Status: showcase_ready" in review_result
 
 
 def test_phase_12_public_showcase_packs_are_complete() -> None:
@@ -222,6 +224,7 @@ def test_phase_12_public_showcase_packs_are_complete() -> None:
         review = (pack_dir / "review_workspace.md").read_text(encoding="utf-8")
         gap_summary = (pack_dir / "gap_summary.md").read_text(encoding="utf-8")
         boundary = (pack_dir / "boundary_label.md").read_text(encoding="utf-8")
+        review_result = (pack_dir / "review_result.md").read_text(encoding="utf-8")
         normalized_blueprint = " ".join(blueprint.split())
 
         assert fixture_marker in readme or fixture_marker in source_register
@@ -236,6 +239,9 @@ def test_phase_12_public_showcase_packs_are_complete() -> None:
         assert "## Findings\n- none" in review
         assert "not real pilot review" in gap_summary
         assert "not customer proof" in boundary
+        assert "Status: showcase_ready" in review_result
+        assert "Critical missing questions: none" in review_result
+        assert "Pilot-blocking gaps:" in review_result
 
 
 def test_evaluation_guide_lists_phase_12_showcase_packs() -> None:
@@ -247,6 +253,22 @@ def test_evaluation_guide_lists_phase_12_showcase_packs() -> None:
     assert "gitlab_incident_response/" in guide
     assert "source register or fixture pointer" in guide
     assert "boundary label" in guide
+
+
+def test_public_blueprint_quality_rubric_blocks_critical_missing_questions() -> None:
+    guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
+    normalized = " ".join(guide.split())
+
+    assert "## Public Blueprint Quality Review Rubric" in guide
+    assert "evidence coverage" in guide
+    assert "workflow specificity" in guide
+    assert "missing questions" in guide
+    assert "approval boundaries" in guide
+    assert "integration realism" in guide
+    assert "eval-case quality" in guide
+    assert "forbidden claims" in guide
+    assert "`showcase_ready` is allowed only" in guide
+    assert "no unresolved critical missing question remains" in normalized
 
 
 @pytest.mark.parametrize(

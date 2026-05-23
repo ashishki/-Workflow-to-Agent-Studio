@@ -75,6 +75,26 @@ Phase 12 showcase packs live under `docs/experiments/public_demo_pack/`:
 Each pack must include a source register or fixture pointer, command transcript,
 generated blueprint, review workspace, gap summary, and boundary label.
 
+## Public Blueprint Quality Review Rubric
+
+Use this rubric before showing a public-source blueprint pack to a prospect.
+Scores are `pass`, `warning`, or `fail`.
+
+| Dimension | Pass Standard | Fail / Blocker |
+|---|---|---|
+| evidence coverage | Important claims cite the public source fixture/register or mark assumptions. | Unsupported claims are presented as facts. |
+| workflow specificity | Blueprint preserves domain actors, systems, decisions, data fields, and exceptions. | Blueprint collapses into a generic support-intake draft. |
+| missing questions | Missing questions are recorded and classified as demo-only, pilot-blocking, or critical. | Any unresolved critical missing question remains. |
+| approval boundaries | Human approval is explicit before external commitments or unsafe actions. | Blueprint allows autonomous commitments, dispatch, closure, paging, or publication. |
+| integration realism | Integrations are named as public-source evidence or explicit assumptions. | Blueprint invents internal tools or hidden integrations as facts. |
+| eval-case quality | Eval cases are measurable and tied to the workflow boundary. | Eval cases are vague or unrelated to the source workflow. |
+| forbidden claims | Pack labels reject buyer proof, pilot proof, pricing, conversion, and demand claims. | Pack implies customer acceptance, commercial proof, T34, or T40 completion. |
+
+`showcase_ready` is allowed only when every dimension is `pass` or documented
+`warning` and no unresolved critical missing question remains. Real-pilot gaps
+may be non-blocking for public showcase readiness, but they still block
+commercial proof and pilot measurement.
+
 Passing this gate authorizes a controlled source request only. It does not create
 a pilot measurement row, does not satisfy T34/T40, and does not support
 commercial claims until the prospect source is reviewed by a human reviewer and

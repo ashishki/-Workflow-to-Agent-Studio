@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 12 - Solo Public Workflow Showcase
-- Next task: T54 Public Blueprint Quality Review Rubric
-- Verified baseline: 183 passing tests, 0 skipped, 0 failed
+- Next task: T55 Lead Agent Handoff Blueprint
+- Verified baseline: 185 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-23
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
@@ -34,52 +34,52 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T54 Public Blueprint Quality Review Rubric
+Task: T55 Lead Agent Handoff Blueprint
 
-Goal: add a repeatable rubric for judging whether a public-source blueprint is
-demo-worthy before it is shown to a prospect.
+Goal: convert the lead-intake public blueprint into a focused handoff pack for
+Lead Response SLA Agent.
 
 Acceptance summary:
 
-- rubric scores evidence coverage, workflow specificity, missing questions,
-  approval boundaries, integration realism, eval-case quality, and forbidden
-  claims
-- each public demo pack records a review result
-- unresolved critical missing questions block "showcase_ready" status
+- handoff pack includes workflow map, qualification fields, safe reply
+  boundaries, handoff reasons, knowledge-pack requirements, eval cases, and
+  missing data requests
+- handoff pack cites only public source evidence or marks assumptions
+- Lead Response SLA Agent can start its demo corpus work from this handoff
+  without reading every source
 
 File scope:
 
-- `docs/evaluation_guide.md`
+- `docs/handoffs/lead_response_sla_agent.md`
 - `docs/experiments/public_demo_pack/`
-- `tests/eval/`
 
 Required context:
 
 - `docs/tasks.md#phase-12-solo-public-workflow-showcase`
 - `docs/open_source_research_protocol.md`
-- `docs/experiments/public_demo_pack/`
+- `docs/experiments/public_demo_pack/hvac_lead_intake/`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T53
+- Task: T54
 - Date: 2026-05-23
 - Eval Source: pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q
-- Result: three public showcase packs recorded in planning eval
+- Result: public blueprint quality rubric and showcase-ready results recorded in planning eval
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: public blueprint quality review rubric
+- Next work: lead-intake handoff pack
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: public blueprint quality review rubric
+- Next work: lead-intake handoff pack
 - Open planning findings: none
 
 Tool-Use: OFF

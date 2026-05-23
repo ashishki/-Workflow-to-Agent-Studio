@@ -280,3 +280,19 @@ def test_plan_eval_records_three_pack_public_showcase() -> None:
         "0% | No | pytest tests/eval/test_public_source_experiment.py "
         "tests/eval/test_plan_eval.py -q |" in plan_eval
     )
+
+
+def test_plan_eval_records_public_blueprint_quality_rubric() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T54 established the public blueprint quality review rubric baseline" in plan_eval
+    assert "Rubric dimensions: 7" in plan_eval
+    assert "Showcase-ready pack results: 3" in plan_eval
+    assert "Critical missing question blocker: pass" in plan_eval
+    assert (
+        "| 2026-05-23 | T54 | v1 | Public blueprint quality rubric coverage | "
+        "100%; rubric dimensions 7; showcase-ready pack results 3; critical blocker pass | "
+        "100%; rubric dimensions 7; showcase-ready pack results 3; critical blocker pass | "
+        "0% | No | pytest tests/eval/test_public_source_experiment.py "
+        "tests/eval/test_plan_eval.py -q |" in plan_eval
+    )

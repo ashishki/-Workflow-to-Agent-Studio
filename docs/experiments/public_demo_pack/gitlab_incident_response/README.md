@@ -21,3 +21,4 @@ commercial proof claims.
 - `review_workspace.md`: local review workspace exported for the generated blueprint.
 - `gap_summary.md`: remaining gaps and public-source boundary notes.
 - `boundary_label.md`: public-demo-only label for the pack.
+- `review_result.md`: rubric result for public showcase readiness.
