@@ -197,6 +197,21 @@ def test_prospect_data_request_pack_keeps_request_narrow_and_local() -> None:
     assert "public-source demos, not buyer validation or pilot proof" in normalized
 
 
+def test_solo_showcase_readiness_review_requests_prospect_data() -> None:
+    review = Path("docs/audit/SOLO_SHOWCASE_READINESS_REVIEW.md").read_text(encoding="utf-8")
+    normalized = " ".join(review.split())
+
+    assert "Status: ready_to_request_prospect_data" in review
+    assert "Next action: request prospect data." in review
+    assert "HVAC lead intake" in review
+    assert "NetBox issue triage" in review
+    assert "GitLab incident response" in review
+    assert "showcase_ready" in review
+    assert "must not be represented as buyer validation" in normalized
+    assert "T34 and T40 remain blocked" in review
+    assert "docs/prospect_data_request_pack.md" in review
+
+
 def test_evaluation_guide_links_pilot_measurement_artifact() -> None:
     guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
 

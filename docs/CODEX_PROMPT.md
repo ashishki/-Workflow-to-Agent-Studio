@@ -13,8 +13,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 12 - Solo Public Workflow Showcase
-- Next task: T57 Solo Showcase Readiness Review
-- Verified baseline: 187 passing tests, 0 skipped, 0 failed
+- Next task: BLOCKED - real prospect/customer workflow data required
+- Verified baseline: 188 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-23
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
@@ -34,53 +34,49 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T57 Solo Showcase Readiness Review
+Task: BLOCKED - real prospect/customer workflow data required
 
-Goal: decide whether the public-source showcase is ready to show manually to
-prospects and whether the next work is prospect data collection or another
-public-source quality pass.
+Goal: resume real pilot proof work after a prospect supplies one real workflow
+packet and a named reviewer.
 
 Acceptance summary:
 
-- review cites all three public demo packs and their rubric results
-- review confirms public-source artifacts are not represented as buyer proof
-- review records next action: request prospect data, improve demo quality, or
-  pause
+- Phase 12 public-source showcase is ready for manual outreach
+- `docs/prospect_data_request_pack.md` is the next operator-facing action
+- T34/T40 remain blocked until prospect/customer workflow data is reviewed as a
+  real pilot
 
 File scope:
 
-- `docs/audit/SOLO_SHOWCASE_READINESS_REVIEW.md`
-- `docs/CODEX_PROMPT.md`
+- `docs/pilot_measurement.md`
+- `docs/prospect_data_request_pack.md`
 
 Required context:
 
-- `docs/tasks.md#phase-12-solo-public-workflow-showcase`
-- `docs/experiments/public_demo_pack/hvac_lead_intake/`
-- `docs/experiments/public_demo_pack/netbox_issue_triage/`
-- `docs/experiments/public_demo_pack/gitlab_incident_response/`
-- `docs/prospect_data_request_pack.md`
+- `docs/audit/SOLO_SHOWCASE_READINESS_REVIEW.md`
+- `docs/pilot_measurement.md#prospect-data-request-gate`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T56
+- Task: T57
 - Date: 2026-05-23
 - Eval Source: pytest tests/unit/test_docs.py -q
-- Result: prospect data request pack keeps request narrow, local, and demo-only
+- Result: solo showcase readiness review says request prospect data
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: solo showcase readiness review
+- Next work: blocked until real prospect/customer workflow data exists
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: solo showcase readiness review
+- Next work: blocked until real prospect/customer workflow data exists
 - Open planning findings: none
 
 Tool-Use: OFF
