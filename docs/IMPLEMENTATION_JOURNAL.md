@@ -757,3 +757,28 @@ Validation:
 Next action:
 
 - Continue with `T56: Solo Prospect Data Request Pack`.
+
+---
+
+## 2026-05-23 - T56 Solo Prospect Data Request Pack
+
+Task: T56
+
+Summary:
+
+- Added `docs/prospect_data_request_pack.md` with a narrow one-workflow packet
+  request, local processing boundary, human review request, and optional
+  sanitized benchmark reuse language.
+- Updated `docs/pilot_measurement.md` to point to the request pack while keeping
+  public demo packs as demo material only.
+
+Validation:
+
+- Pre-task baseline: 186 passed.
+- `.venv/bin/python -m pytest -q`: 187 passed.
+- `.venv/bin/python -m ruff check workflow_agent_studio tests/`: passed.
+- `.venv/bin/python -m ruff format --check workflow_agent_studio tests/`: passed.
+
+Next action:
+
+- Continue with `T57: Solo Showcase Readiness Review`.

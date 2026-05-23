@@ -175,6 +175,26 @@ def test_pilot_measurement_defines_prospect_data_request_gate() -> None:
     assert "named reviewer who can accept sections" in measurement
     assert "docs/open_source_research_protocol.md" in measurement
     assert "cannot create the first pilot row" in measurement
+    assert "docs/prospect_data_request_pack.md" in measurement
+
+
+def test_prospect_data_request_pack_keeps_request_narrow_and_local() -> None:
+    pack = Path("docs/prospect_data_request_pack.md").read_text(encoding="utf-8")
+    normalized = " ".join(pack.split())
+
+    assert "Status: request template; not pilot proof" in pack
+    assert "one SOP" in pack
+    assert "one transcript" in pack
+    assert "one pasted notes file" in pack
+    assert "one form description" in pack
+    assert "one integration excerpt" in pack
+    assert "one mixed packet" in pack
+    assert "process it locally" in pack
+    assert "do not need system access" in normalized
+    assert "Do not request credentials" in pack
+    assert "named reviewer" in pack
+    assert "Optional Sanitized Benchmark Reuse" in pack
+    assert "public-source demos, not buyer validation or pilot proof" in normalized
 
 
 def test_evaluation_guide_links_pilot_measurement_artifact() -> None:

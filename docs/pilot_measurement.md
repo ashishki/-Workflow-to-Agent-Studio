@@ -75,6 +75,9 @@ Minimum safe source request for potential customers:
 - named reviewer who can accept sections, record edits, resolve critical missing
   questions, and approve or reject the pilot result
 
+The manual outreach template lives in `docs/prospect_data_request_pack.md`. It
+must present public demo packs as demonstration material only, not proof.
+
 The first real pilot row can be created only after the requested source is
 reviewed by that human reviewer and the required fields below are measured.
 
