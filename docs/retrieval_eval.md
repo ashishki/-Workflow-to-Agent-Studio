@@ -124,6 +124,10 @@ until real pilot evidence exists.
 T46 established the demo/synthetic/real-pilot dataset boundary baseline for
 retrieval eval artifacts.
 
+T51 established the public workflow research protocol baseline for public-source
+source-register fields, allowed and forbidden source boundaries, and
+public-demo-only claim handling.
+
 - Date: 2026-05-19
 - Task: T07
 - Corpus Version: source-fixture-v1
@@ -293,6 +297,19 @@ Dataset boundary baseline:
 - Real pilot evidence source: docs/pilot_measurement.md
 - Regression: No
 
+Public workflow research protocol baseline:
+
+- Date: 2026-05-23
+- Task: T51
+- Corpus Version: public-workflow-research-protocol-v1
+- Index Schema: n/a
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q
+- Required source register fields: source_url_or_locator, captured_at,
+  source_type, workflow_kind, extracted_workflow_facts, limitations,
+  public_demo_only
+- Public-demo-only boundary: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -314,6 +331,7 @@ Dataset boundary baseline:
 | 2026-05-20 | T41 | synthetic-benchmark-v1 | n/a | pytest tests/eval/test_synthetic_benchmark_eval.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-20 | T44 | vertical-dry-run-synthetic-v1 | n/a | pytest tests/eval/test_vertical_pack_dry_run_eval.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 | 2026-05-20 | T46 | dataset-boundary-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
+| 2026-05-23 | T51 | public-workflow-research-protocol-v1 | n/a | pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py -q | n/a | n/a | n/a | n/a | n/a | n/a | n/a | No |
 
 ---
 

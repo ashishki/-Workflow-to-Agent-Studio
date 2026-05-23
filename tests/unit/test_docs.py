@@ -45,6 +45,32 @@ def test_operator_guide_documents_supported_source_kinds() -> None:
     assert "not pilot evidence" in guide
 
 
+def test_open_source_research_protocol_defines_public_demo_boundaries() -> None:
+    protocol = Path("docs/open_source_research_protocol.md").read_text(encoding="utf-8")
+    normalized = " ".join(protocol.split())
+
+    assert "## Allowed Sources" in protocol
+    assert "public GitHub issues, discussions, PR templates" in protocol
+    assert "public company FAQ/booking/support pages" in protocol
+    assert "## Forbidden Sources" in protocol
+    assert "private client docs, private communities, private repositories" in protocol
+    assert "raw personal data, tokens, cookies" in protocol
+    assert "source_url_or_locator" in protocol
+    assert "captured_at" in protocol
+    assert "extracted_workflow_facts" in protocol
+    assert "`public_demo_only` must be true" in protocol
+    assert "do not support commercial pilot pass/fail claims" in normalized
+
+
+def test_operator_guide_links_open_source_research_protocol() -> None:
+    guide = Path("docs/operator_guide.md").read_text(encoding="utf-8")
+    normalized = " ".join(guide.split())
+
+    assert "docs/open_source_research_protocol.md" in guide
+    assert "allowed sources, forbidden sources, source register fields" in normalized
+    assert "public-demo-only claim boundary" in guide
+
+
 def test_evaluation_guide_lists_eval_commands_and_metrics() -> None:
     guide = Path("docs/evaluation_guide.md").read_text(encoding="utf-8")
 
@@ -110,6 +136,8 @@ def test_pilot_measurement_defines_prospect_data_request_gate() -> None:
     assert "one real SOP, transcript, pasted notes file" in measurement
     assert "no secrets, credentials, production tokens" in measurement
     assert "named reviewer who can accept sections" in measurement
+    assert "docs/open_source_research_protocol.md" in measurement
+    assert "cannot create the first pilot row" in measurement
 
 
 def test_evaluation_guide_links_pilot_measurement_artifact() -> None:

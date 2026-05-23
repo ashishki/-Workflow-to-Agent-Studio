@@ -1,8 +1,8 @@
 # CODEX_PROMPT.md
 
 Version: 2.0
-Date: 2026-05-21
-Phase: 11
+Date: 2026-05-23
+Phase: 12
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,12 +12,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 11 - Public-Source Demo Quality
-- Next task: BLOCKED - Real prospect/customer workflow data required
-- Verified baseline: 171 passing tests, 0 skipped, 0 failed
+- Current phase: Phase 12 - Solo Public Workflow Showcase
+- Next task: T52 Lead Intake Public Workflow Corpus
+- Verified baseline: 175 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
-- Last updated: 2026-05-21
-- Open findings: T34/T40 remain blocked until real pilot evidence exists; use public sources for demo-quality stabilization only.
+- Last updated: 2026-05-23
+- Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
 - Completed product baseline: Phase 0 / local evidence-linked MVP
 
@@ -34,38 +34,54 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: BLOCKED - Real prospect/customer workflow data required
+Task: T52 Lead Intake Public Workflow Corpus
 
-Goal: resume pilot proof work after a potential customer supplies a real workflow source and reviewer.
+Goal: collect a small public workflow corpus for local-service lead intake using
+public business pages, FAQs, booking forms, service-area pages, and
+support/contact instructions.
 
 Acceptance summary:
 
-- public-source corpus now covers NetBox, Kubernetes, OpenStack, and GitLab workflows
-- public-source demo pack and prospect data request gate are complete
-- T34/T40 remain blocked until prospect/customer data is reviewed as a real pilot
-- first real pilot row requires a named reviewer, measured thresholds, edits, and critical missing-question count
+- source register contains at least 20 public sources across one selected local
+  service vertical
+- source notes extract actors, systems, customer inputs, qualification fields,
+  escalation points, and unsafe-answer boundaries
+- committed fixtures are sanitized and public-demo labeled
+- no pricing, conversion, or buyer-readiness claim is made without explicit
+  evidence
 
 File scope:
 
-- `docs/pilot_measurement.md`
+- `docs/experiments/public_sources/lead_intake/`
+- `tests/fixtures/public_sources/`
+- `docs/open_source_research_protocol.md`
 
 Required context:
 
-- `docs/pilot_measurement.md#prospect-data-request-gate`
-- `docs/pilot_measurement.md`
+- `docs/tasks.md#phase-12-solo-public-workflow-showcase`
+- `docs/open_source_research_protocol.md`
+
+## Evaluation State
+
+Last Evaluation:
+
+- Task: T51
+- Date: 2026-05-23
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_retrieval_eval.py tests/eval/test_plan_eval.py -q
+- Result: public workflow research protocol coverage recorded in retrieval and planning evals
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: public-source workflow fact preservation evals
+- Next work: lead-intake public source corpus
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: public-source workflow fact preservation evals
+- Next work: lead-intake public source corpus
 - Open planning findings: none
 
 Tool-Use: OFF

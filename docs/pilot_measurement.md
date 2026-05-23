@@ -47,6 +47,11 @@ Public-source work must meet the gate below before asking potential customers fo
 real workflow data. Passing this gate only authorizes a data request; it does not
 create a pilot row or satisfy T34/T40.
 
+Public demo packs created under `docs/open_source_research_protocol.md` remain
+demo-quality evidence only. They cannot replace a prospect or customer workflow
+packet, cannot create the first pilot row, and cannot be cited as commercial
+pilot proof.
+
 Gate requirements:
 
 - at least one committed public demo pack exists with source fixture reference,

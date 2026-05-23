@@ -237,3 +237,17 @@ def test_plan_eval_records_dataset_boundary_metrics() -> None:
         "100%; demo/synthetic proof excluded; real pilot source recorded | "
         "100%; demo/synthetic proof excluded; real pilot source recorded | 0% | No |" in plan_eval
     )
+
+
+def test_plan_eval_records_public_workflow_research_protocol() -> None:
+    plan_eval = Path("docs/plan_eval.md").read_text(encoding="utf-8")
+
+    assert "T51 established the public workflow research protocol planning baseline" in (plan_eval)
+    assert "Source register coverage: pass" in plan_eval
+    assert "Public-vs-pilot boundary: pass" in plan_eval
+    assert (
+        "| 2026-05-23 | T51 | v1 | Public workflow research protocol coverage | "
+        "100%; source register pass; public-vs-pilot boundary pass | "
+        "100%; source register pass; public-vs-pilot boundary pass | 0% | No | "
+        "pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |" in plan_eval
+    )

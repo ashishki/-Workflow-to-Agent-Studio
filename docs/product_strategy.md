@@ -33,6 +33,7 @@ The mature product produces useful pre-build artifacts:
 | 8 | Integrations And Controlled Handoff | Import from real systems and export controlled implementation handoffs. |
 | 9 | Learning System And Moat | Turn reviewed outcomes into better patterns, evals, and benchmarks. |
 | 11 | Public-Source Demo Quality | Stabilize draft quality on public workflow sources before requesting prospect data. |
+| 12 | Solo Public Workflow Showcase | Build polished public-source demo packs and prospect data request assets for a solo operator with no business network. |
 
 ## Market Lens
 
@@ -135,5 +136,8 @@ row in `docs/pilot_measurement.md`.
 - Require evidence or explicit assumptions for important claims.
 - Treat `insufficient_evidence` as a product feature, not an error.
 - Use pilot data to choose vertical packs and integration priorities.
+- When real workflow data is unavailable, use `docs/open_source_research_protocol.md`
+  to gather public workflow evidence and produce demo-quality artifacts without
+  claiming buyer proof.
 
 The detailed draft that introduced these phases is archived at `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`.

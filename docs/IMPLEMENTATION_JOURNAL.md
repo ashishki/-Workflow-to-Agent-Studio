@@ -625,3 +625,29 @@ Validation:
 Next action:
 
 - Commit and push granular changes to `main`.
+
+---
+
+## 2026-05-23 - T51 Public Workflow Research Protocol
+
+Task: T51
+
+Summary:
+
+- Added the active open-source workflow research protocol for public demo-pack
+  source collection.
+- Linked the protocol from the operator guide and reinforced that public demo
+  packs cannot create pilot proof.
+- Updated retrieval and planning eval artifacts with the T51 protocol coverage
+  baseline.
+
+Validation:
+
+- Pre-task baseline: 171 passed.
+- `.venv/bin/python -m pytest -q`: 175 passed.
+- `.venv/bin/python -m ruff check workflow_agent_studio tests/`: passed.
+- `.venv/bin/python -m ruff format --check workflow_agent_studio tests/`: passed.
+
+Next action:
+
+- Continue with `T52: Lead Intake Public Workflow Corpus`.

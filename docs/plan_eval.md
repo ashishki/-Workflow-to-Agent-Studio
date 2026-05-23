@@ -127,6 +127,10 @@ and blueprint-version counts that exclude raw confidential reviewer text.
 T46 established the demo/synthetic/real-pilot dataset boundary baseline for
 planning eval artifacts and pilot measurement docs.
 
+T51 established the public workflow research protocol planning baseline for
+source-register completeness, public-vs-pilot boundary language, and operator
+handoff instructions.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -407,6 +411,19 @@ Dataset boundary baseline:
 - Real pilot proof source: docs/pilot_measurement.md
 - Regression: No
 
+Public workflow research protocol baseline:
+
+- Date: 2026-05-23
+- Task: T51
+- Eval Source: pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q
+- Metric: Public workflow research protocol coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Source register coverage: pass
+- Public-vs-pilot boundary: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -436,6 +453,7 @@ Dataset boundary baseline:
 | 2026-05-20 | T44 | v1 | Vertical-pack dry-run expected-section coverage | 100%; generic sections 3; vertical sections 7; pilot evidence no | 100%; generic sections 3; vertical sections 7; pilot evidence no | 0% | No | pytest tests/eval/test_vertical_pack_dry_run_eval.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T45 | v1 | Feedback analytics expected-outcome pass rate | 100%; category/section/version counts; raw feedback persistence no | 100%; category/section/version counts; raw feedback persistence no | 0% | No | pytest tests/integration/test_review_state.py tests/eval/test_plan_eval.py -q |
 | 2026-05-20 | T46 | v1 | Dataset boundary documentation coverage | 100%; demo/synthetic proof excluded; real pilot source recorded | 100%; demo/synthetic proof excluded; real pilot source recorded | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
+| 2026-05-23 | T51 | v1 | Public workflow research protocol coverage | 100%; source register pass; public-vs-pilot boundary pass | 100%; source register pass; public-vs-pilot boundary pass | 0% | No | pytest tests/unit/test_docs.py tests/eval/test_plan_eval.py -q |
 
 ---
 

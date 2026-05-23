@@ -804,3 +804,201 @@ Files:
 - `docs/product_strategy.md`
 - `docs/evaluation_guide.md`
 - `tests/unit/test_docs.py`
+
+---
+
+## Phase 12: Solo Public Workflow Showcase
+
+Business goal: create a polished public-source automation-discovery showcase
+that a solo operator can show before having business relationships or customer
+workflow data. This phase should make the product useful for portfolio demos and
+for preparing focused data requests to future prospects.
+
+Boundary:
+
+- public-source research and public demo packs are allowed;
+- public-source packs remain demo-quality only and do not satisfy real pilot
+  proof, T34, or T40;
+- if a task lacks enough workflow evidence, the agent must follow
+  `docs/open_source_research_protocol.md` and collect public sources instead of
+  stopping.
+
+Exit criteria:
+
+- at least three public workflow demo packs exist;
+- one pack is a lead-intake workflow that can hand off to Lead Response SLA
+  Agent;
+- every demo pack includes source register, generated blueprint, review
+  workspace, gap summary, and public-vs-pilot boundary label;
+- a concise prospect data request pack is ready for manual outreach.
+
+## T51: Public Workflow Research Protocol
+
+Owner: codex
+Phase: 12
+Type: rag:ingestion plan:validation research
+Depends-On: T50
+
+Objective: document the public-source research protocol and link it from the
+operator workflow so future agents know how to gather missing public workflow
+data.
+
+Acceptance-Criteria:
+
+- `docs/open_source_research_protocol.md` defines allowed sources, forbidden
+  sources, required source register fields, and public-demo claim boundaries.
+- `docs/operator_guide.md` references the protocol for public demo-pack work.
+- `docs/pilot_measurement.md` still states that public demos cannot satisfy real
+  pilot proof.
+
+Files:
+
+- `docs/open_source_research_protocol.md`
+- `docs/operator_guide.md`
+- `docs/pilot_measurement.md`
+
+## T52: Lead Intake Public Workflow Corpus
+
+Owner: codex
+Phase: 12
+Type: rag:ingestion plan:validation research
+Depends-On: T51
+
+Objective: collect a small public workflow corpus for local-service lead intake
+using public business pages, FAQs, booking forms, service-area pages, and
+support/contact instructions.
+
+Acceptance-Criteria:
+
+- source register contains at least 20 public sources across one selected local
+  service vertical;
+- source notes extract actors, systems, customer inputs, qualification fields,
+  escalation points, and unsafe-answer boundaries;
+- committed fixtures are sanitized and public-demo labeled;
+- no pricing, conversion, or buyer-readiness claim is made without explicit
+  evidence.
+
+Files:
+
+- `docs/experiments/public_sources/lead_intake/`
+- `tests/fixtures/public_sources/`
+- `docs/open_source_research_protocol.md`
+
+## T53: Three Public Blueprint Showcase Packs
+
+Owner: codex
+Phase: 12
+Type: plan:validation report
+Depends-On: T52
+
+Objective: produce three reproducible public-source demo packs that show the
+product can turn public workflow evidence into useful automation blueprints.
+
+Acceptance-Criteria:
+
+- one pack covers lead intake;
+- one pack covers public issue/support triage;
+- one pack covers an operations workflow such as onboarding, invoice approval,
+  or incident response;
+- each pack includes source fixture/register, command transcript, generated
+  blueprint, review workspace, gap summary, and boundary label.
+
+Files:
+
+- `docs/experiments/public_demo_pack/`
+- `tests/fixtures/public_sources/`
+- `docs/evaluation_guide.md`
+
+## T54: Public Blueprint Quality Review Rubric
+
+Owner: codex
+Phase: 12
+Type: plan:validation eval
+Depends-On: T53
+
+Objective: add a repeatable rubric for judging whether a public-source
+blueprint is demo-worthy before it is shown to a prospect.
+
+Acceptance-Criteria:
+
+- rubric scores evidence coverage, workflow specificity, missing questions,
+  approval boundaries, integration realism, eval-case quality, and forbidden
+  claims;
+- each public demo pack records a review result;
+- unresolved critical missing questions block "showcase_ready" status.
+
+Files:
+
+- `docs/evaluation_guide.md`
+- `docs/experiments/public_demo_pack/`
+- `tests/eval/`
+
+## T55: Lead Agent Handoff Blueprint
+
+Owner: codex
+Phase: 12
+Type: portfolio handoff
+Depends-On: T53, T54
+
+Objective: convert the lead-intake public blueprint into a focused handoff pack
+for Lead Response SLA Agent.
+
+Acceptance-Criteria:
+
+- handoff pack includes workflow map, qualification fields, safe reply
+  boundaries, handoff reasons, knowledge-pack requirements, eval cases, and
+  missing data requests;
+- handoff pack cites only public source evidence or marks assumptions;
+- Lead Response SLA Agent can start its demo corpus work from this handoff
+  without reading every source.
+
+Files:
+
+- `docs/handoffs/lead_response_sla_agent.md`
+- `docs/experiments/public_demo_pack/`
+
+## T56: Solo Prospect Data Request Pack
+
+Owner: human + codex
+Phase: 12
+Type: gtm research
+Depends-On: T53, T54
+
+Objective: create a lightweight request pack a solo operator can send manually
+to prospects, asking for one narrow workflow packet without broad system access.
+
+Acceptance-Criteria:
+
+- request asks for one SOP, transcript, notes file, form description,
+  integration excerpt, or mixed packet;
+- request explains local processing, confidentiality boundaries, human review,
+  and optional sanitized benchmark reuse;
+- request includes the public demo pack as demo material, not proof.
+
+Files:
+
+- `docs/prospect_data_request_pack.md`
+- `docs/pilot_measurement.md`
+
+## T57: Solo Showcase Readiness Review
+
+Owner: human + codex
+Phase: 12
+Type: audit decision
+Depends-On: T53, T55, T56
+
+Objective: decide whether the public-source showcase is ready to show manually
+to prospects and whether the next work is prospect data collection or another
+public-source quality pass.
+
+Acceptance-Criteria:
+
+- review cites all three public demo packs and their rubric results;
+- review confirms public-source artifacts are not represented as buyer proof;
+- review records next action: request prospect data, improve demo quality, or
+  pause.
+
+Files:
+
+- `docs/audit/SOLO_SHOWCASE_READINESS_REVIEW.md`
+- `docs/CODEX_PROMPT.md`

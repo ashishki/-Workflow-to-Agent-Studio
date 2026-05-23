@@ -17,6 +17,7 @@ This file is a retrieval index. Canonical decisions live in `docs/ARCHITECTURE.m
 | D-008 | 2026-05-19 | Use SQLite and local vector index for v1 persistence and retrieval. | `docs/ARCHITECTURE.md#tech-stack` | Local-first proof does not need PostgreSQL or external vector infrastructure. | n/a |
 | D-009 | 2026-05-19 | Make source confidentiality and evidence-linked claims project-specific contract rules. | `docs/IMPLEMENTATION_CONTRACT.md#project-specific-rules` | The product handles sensitive workflow material and client-facing scope claims. | n/a |
 | D-010 | 2026-05-19 | Use `Dream_Motif_Interpreter` as a reference-only RAG and retrieval-eval implementation source. | `docs/IMPLEMENTATION_REFERENCE_MAP.md` | The repo contains a mature RAG/eval shape, but its dream-domain and PostgreSQL-specific decisions are not canonical for this project. | n/a |
+| D-011 | 2026-05-22 | Prioritize a solo public-source workflow showcase before waiting for customer workflow access. | `docs/tasks.md#phase-12-solo-public-workflow-showcase`, `docs/open_source_research_protocol.md` | The operator has limited business access, so the next useful proof is polished public-source demo packs plus a focused prospect data request, while real pilot proof remains gated. | n/a |
 
 ## ADR Triggers
 

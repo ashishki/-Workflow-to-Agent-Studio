@@ -40,6 +40,11 @@ Public demo packs use open workflow sources to demonstrate product mechanics and
 draft quality before prospect data is available. They are not pilot evidence and
 must not be used as customer proof.
 
+When a demo-pack task lacks prospect or customer workflow material, follow
+`docs/open_source_research_protocol.md` before collecting or committing public
+source notes. The protocol defines allowed sources, forbidden sources, source
+register fields, and the public-demo-only claim boundary.
+
 The current public demo pack is
 `docs/experiments/public_demo_pack/netbox_issue_triage/`. It includes the source
 fixture reference, command transcript, generated draft blueprint, review
