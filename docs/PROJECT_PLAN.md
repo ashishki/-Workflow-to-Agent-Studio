@@ -3,6 +3,7 @@
 Status: active framework candidate
 Role: convert human workflows into bounded agent system designs
 Priority: P0
+Next active work: T59 - Design Diversity Candidate Set
 
 ## Strategic Role
 
@@ -31,11 +32,15 @@ Then it should compare tradeoffs and produce implementation tasks.
 
 ### P0 - Reposition README
 
+Status: complete in T58.
+
 - Present as a serious workflow-to-agent design framework.
 - Add "What this produces" with concrete artifacts.
 - Add examples for support, research, sales, and operations workflows.
 
 ### P0 - Add Design Diversity
+
+Status: next active work in T59.
 
 - Add Gensyn DEI-inspired candidate generation:
   - different architecture lenses

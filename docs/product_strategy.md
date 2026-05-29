@@ -2,9 +2,31 @@
 
 Purpose: keep product direction compact and actionable for implementation planning.
 
-Workflow-to-Agent Studio is the pre-production layer for AI automation. It should help an operator decide what is worth automating, what evidence supports that decision, what must remain human-approved, and how the future automation will be evaluated.
+Workflow-to-Agent Studio is the pre-production layer for AI automation and the
+framework for workflow-to-agent design. It should help an operator convert messy
+workflow evidence into bounded
+workflow-to-agent system designs: what is worth automating, what evidence
+supports that decision, which steps should stay deterministic, which steps may
+use LLMs or tools, what must remain human-approved, and how the future system
+will be evaluated.
 
 The product should not compete as a generic agent builder or a one-off deep research prompt. Its differentiation is evidence-linked workflow discovery: every important recommendation is tied to source material, missing evidence is surfaced before implementation, and approval/export paths stay governed.
+
+## Framework Role
+
+The product role is workflow evidence to agent blueprint design. It should sit
+between discovery and implementation, producing reviewable artifacts before any
+team commits to building or deploying an agent.
+
+The framework should:
+
+- preserve the Phase 12 public-source showcase as demo material only;
+- keep `docs/prospect_data_request_pack.md` as the next operator-facing action
+  for requesting real workflow data;
+- keep T34/T40 blocked until prospect or customer workflow data is reviewed as a
+  real pilot;
+- allow Phase 13 implementation because it improves design output and artifact
+  export without claiming buyer proof.
 
 ## Target Outcome
 
@@ -13,10 +35,15 @@ The mature product produces useful pre-build artifacts:
 - evidence-backed automation blueprint
 - workflow map with actors, systems, decisions, exceptions, and data fields
 - automation readiness and risk assessment
+- design candidate set with autonomy, risk, cost, eval, and approval tradeoffs
+- consolidated workflow-to-agent blueprint
+- deterministic-step, LLM-step, tool-permission, and runtime-tier boundaries
 - human approval boundaries
 - integration and implementation task plan
 - eval cases with measurable expected behavior
 - audit trail for source evidence, reviewer edits, and approvals
+- AI Workflow Playbook-compatible task blocks, contract deltas, and eval
+  skeletons
 
 ## Development Phases
 
@@ -57,6 +84,15 @@ silently choosing one model-generated answer.
 The strongest downstream export is AI Workflow Playbook-compatible artifacts:
 task blocks, contract deltas, eval skeletons, permission boundaries, and
 Context-Refs.
+
+Framework non-goals:
+
+- no automatic production agent creation or deployment
+- no autonomous execution of customer workflows
+- no generic agent generation without workflow evidence
+- no model-only approval of blueprint readiness
+- no external publication or handoff without a separate human approval boundary
+- no buyer-proof or commercial-success claim from public-source demo artifacts
 
 ## Market Lens
 

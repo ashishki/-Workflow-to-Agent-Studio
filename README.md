@@ -1,10 +1,22 @@
 # Workflow-to-Agent Studio
 
-Workflow-to-Agent Studio — это local-first инструмент для AI automation discovery: он превращает сырые описания рабочих процессов в структурированный blueprint для будущей автоматизации.
+Workflow-to-Agent Studio is a local-first framework for converting workflow
+evidence into bounded, reviewable agent system blueprints. It is for the design
+step before implementation: understanding the workflow, deciding which parts can
+be deterministic, where LLMs or tools may help, what needs human approval, and
+how the future system will be evaluated.
 
-Входом могут быть SOP, расшифровка Loom/созвона, заметки из discovery, описание формы, API/интеграций или вручную собранные операционные notes. Выходом должен стать evidence-linked automation brief: карта текущего процесса, болевые точки, кандидаты на автоматизацию, интеграции, human approval boundaries, риски, eval cases, observability needs и следующие implementation tasks.
+Inputs can be SOPs, Loom or call transcripts, discovery notes, form
+descriptions, API or integration excerpts, or manually collected operating
+notes. Outputs are evidence-linked design artifacts: workflow maps, automation
+readiness decisions, candidate agent designs, deterministic and LLM-owned step
+boundaries, approval gates, risks, eval cases, observability needs, and
+implementation tasks.
 
-Статус: active framework candidate. T01-T36 complete. Следующий фокус - design diversity, Playbook-compatible export, and a stronger workflow-to-agent positioning. See `docs/PROJECT_PLAN.md`.
+Status: active framework candidate. The local evidence-linked MVP and public
+workflow showcase are built; the next focus is design diversity,
+Playbook-compatible export, and stronger workflow-to-agent blueprint output. See
+`docs/PROJECT_PLAN.md`.
 
 Reference integration: `docs/entropy_core_gensyn_integration.md`.
 
@@ -59,6 +71,34 @@ workflow-agent-studio export \
 
 ---
 
+## What This Produces
+
+For one workflow evidence packet, the framework should produce a portfolio of
+agent-system design options rather than one generic agent answer:
+
+- deterministic-first blueprint
+- human-in-the-loop blueprint
+- bounded-agent blueprint
+- high-autonomy blueprint
+- compliance-heavy blueprint
+- low-cost MVP blueprint
+
+Each option should make the tradeoffs explicit:
+
+- autonomy level and runtime tier
+- deterministic steps, LLM-owned steps, and tool-use boundaries
+- required human approvals
+- integration assumptions and evidence gaps
+- risk, cost, observability, and eval posture
+- implementation task blocks compatible with AI Workflow Playbook-style planning
+
+Example workflow domains:
+
+- support: triage, reply drafting, escalation, and refund approval workflows
+- research: source collection, synthesis, citation checks, and reviewer approval
+- sales: lead qualification, CRM updates, follow-up drafting, and approval gates
+- operations: intake, routing, exception handling, and audit-ready handoffs
+
 ## Зачем это нужно
 
 Компании хотят автоматизировать процессы с помощью AI-агентов, но часто не могут достаточно точно описать сам workflow. До реализации инженеру или консультанту приходится вручную вытаскивать:
@@ -72,7 +112,7 @@ workflow-agent-studio export \
 - риски и failure modes
 - критерии приемки и eval cases
 
-Обычная AI-сводка помогает с текстом, но часто пропускает implementation boundaries, evidence links, security assumptions и проверяемые acceptance criteria.
+Обычная AI-сводка помогает с текстом, но часто пропускает implementation boundaries, evidence links, security assumptions, autonomy tradeoffs и проверяемые acceptance criteria.
 
 ---
 
@@ -90,7 +130,7 @@ workflow-agent-studio export \
 
 ## Основная гипотеза
 
-Если дать оператору инструмент, который принимает 10-20 минут сырого описания workflow и возвращает структурированный, evidence-linked automation blueprint, то discovery для AI automation проектов станет быстрее и надежнее.
+Если дать оператору инструмент, который принимает 10-20 минут сырого описания workflow и возвращает структурированный, evidence-linked workflow-to-agent blueprint, то discovery для AI automation проектов станет быстрее и надежнее.
 
 Критерий успеха v1:
 
@@ -185,7 +225,8 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retri
 - text-only RAG
 - structured workflow extraction
 - deterministic completeness checks
-- evidence-linked blueprint generation
+- evidence-linked workflow-to-agent blueprint generation
+- design candidate comparison before implementation
 - risk and approval map
 - eval-case draft
 - integration checklist
@@ -196,6 +237,7 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retri
 
 - автоматическое создание production agent
 - autonomous deployment
+- generic agent generation without workflow evidence
 - выполнение customer workflows
 - замена stakeholder interviews
 - мультимодальный parsing скриншотов/видео
@@ -238,8 +280,11 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retri
 - Phase 5 implementation tasks T31-T32 are complete
 - Phase 6 task T33 is complete; T34 is blocked by the T34/T40 dependency cycle
 - Phase 7 implementation tasks T35-T36 are complete
+- Phase 11 and Phase 12 public-source showcase work is complete and remains demo material, not buyer proof
+- Phase 13 framework upgrade is active; next implementation focus is T59 design diversity schema
 - Latest deep review: Cycle 13 for CODE-2 archived at `docs/archive/CYCLE13_CODE2_FIX.md`
-- Verified local baseline: 127 passing tests, 0 skipped, 0 failed
+- Verified local baseline: 199 passing tests, 0 skipped, 0 failed
+- Prior README checkpoint: Verified local baseline: 127 passing tests before the later public-proof phases
 - CI workflow configured for Python 3.12, ruff lint, ruff format check, and pytest
 - Package skeleton, health command, settings, observability helpers, storage, ingestion, safety guards, text-only retrieval baseline, and initial v1 blueprint schema are implemented
 - `FIX-1` / `CODE-1` closed: `WorkflowStep` rejects steps without evidence or an assumption marker
@@ -249,7 +294,7 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retri
 - Planning profile ON
 - Tool-Use / Agentic / Compliance profiles OFF for v1
 - Open findings: T34 and T40 currently form a dependency cycle
-- Active task graph is ready for Phase 8 / `T37: Controlled Import Connectors`
+- Active task graph is ready for Phase 13 / `T59: Design Diversity Candidate Set`
 - Product strategy is summarized in `docs/product_strategy.md`; the original long phase draft is archived at `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
 
 To continue implementation, run Codex with:

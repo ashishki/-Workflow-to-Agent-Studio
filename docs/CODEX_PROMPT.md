@@ -1,7 +1,7 @@
 # CODEX_PROMPT.md
 
 Version: 2.0
-Date: 2026-05-23
+Date: 2026-05-29
 Phase: 13
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 13 - Workflow-To-Agent Framework Upgrade
-- Next task: T58 - Framework Positioning Refresh
+- Next task: T59 - Design Diversity Candidate Set
 - Verified baseline: 199 passing tests, 0 skipped, 0 failed
-- Ruff: passing for `workflow_agent_studio tests/`
-- Last updated: 2026-05-23
+- Ruff: passing for `workflow_agent_studio tests/`; ruff format check passing
+- Last updated: 2026-05-29
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete
 
 ## Active References
 
@@ -34,47 +34,49 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T58 - Framework Positioning Refresh
+Task: T59 - Design Diversity Candidate Set
 
-Goal: reposition the project from a public-source showcase into a serious
-workflow-to-agent design framework before new implementation work.
+Goal: add a candidate design model that can represent several bounded
+agent/workflow architectures for the same source evidence.
 
 Acceptance summary:
 
-- Phase 12 public-source showcase remains useful as demo material
-- `docs/prospect_data_request_pack.md` remains the next operator-facing action
-- T34/T40 remain blocked until prospect/customer workflow data is reviewed as a
-  real pilot
-- Phase 13 work is allowed because it improves framework positioning and
-  artifact export without claiming buyer proof
+- candidate schema supports deterministic-first, human-in-the-loop,
+  bounded-agent, high-autonomy, compliance-heavy, and low-cost MVP variants
+- each candidate records autonomy level, required tools, human approvals,
+  runtime tier, eval needs, risks, cost posture, and evidence gaps
+- validators reject candidates that lack approval boundaries or eval plan
+- tests cover schema validation and missing-field rejection
 
 File scope:
 
-- `README.md`
-- `docs/product_strategy.md`
-- `docs/PROJECT_PLAN.md`
+- `workflow_agent_studio/domain/`
+- `workflow_agent_studio/validators/`
+- `tests/unit/`
+- `docs/plan_eval.md`
 - `docs/CODEX_PROMPT.md`
 
 Required context:
 
 - `docs/tasks.md#phase-13-workflow-to-agent-framework-upgrade`
 - `docs/PROJECT_PLAN.md#near-term-roadmap`
+- `docs/ARCHITECTURE.md#solution-shape-selection`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: PUBLIC-PROOF-1
-- Date: 2026-05-23
-- Eval Source: pytest -q; ruff check; ruff format --check
-- Result: public-data working product proof recorded; customer proof still blocked
+- Task: T58
+- Date: 2026-05-29
+- Eval Source: .venv/bin/pytest -q; .venv/bin/ruff check workflow_agent_studio tests/; .venv/bin/ruff format --check workflow_agent_studio tests/
+- Result: framework positioning refresh complete; customer proof still blocked
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: T58 framework positioning, then T59 design diversity schema
+- Next work: T59 design diversity schema
 - Open retrieval findings: none
 
 Planning: ON
