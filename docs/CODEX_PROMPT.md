@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 13 - Workflow-To-Agent Framework Upgrade
-- Next task: T59 - Design Diversity Candidate Set
-- Verified baseline: 199 passing tests, 0 skipped, 0 failed
+- Next task: T60 - Diverse Blueprint Generation Flow
+- Verified baseline: 205 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`; ruff format check passing
 - Last updated: 2026-05-29
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete
 
 ## Active References
 
@@ -34,26 +34,25 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T59 - Design Diversity Candidate Set
+Task: T60 - Diverse Blueprint Generation Flow
 
-Goal: add a candidate design model that can represent several bounded
-agent/workflow architectures for the same source evidence.
+Goal: generate and validate several design candidates from one workflow source
+package before selecting a consolidated blueprint.
 
 Acceptance summary:
 
-- candidate schema supports deterministic-first, human-in-the-loop,
-  bounded-agent, high-autonomy, compliance-heavy, and low-cost MVP variants
-- each candidate records autonomy level, required tools, human approvals,
-  runtime tier, eval needs, risks, cost posture, and evidence gaps
-- validators reject candidates that lack approval boundaries or eval plan
-- tests cover schema validation and missing-field rejection
+- generation flow produces at least three candidate designs from one fixture
+- candidates cite source evidence and record assumptions separately
+- consolidation output compares tradeoffs instead of silently choosing one
+- tests verify insufficient evidence keeps a candidate in `needs_review` status
 
 File scope:
 
-- `workflow_agent_studio/domain/`
-- `workflow_agent_studio/validators/`
-- `tests/unit/`
-- `docs/plan_eval.md`
+- `workflow_agent_studio/blueprint/`
+- `workflow_agent_studio/extraction/`
+- `workflow_agent_studio/export/`
+- `tests/integration/`
+- `docs/evaluation_guide.md`
 - `docs/CODEX_PROMPT.md`
 
 Required context:
@@ -66,23 +65,23 @@ Required context:
 
 Last Evaluation:
 
-- Task: T58
+- Task: T59
 - Date: 2026-05-29
-- Eval Source: .venv/bin/pytest -q; .venv/bin/ruff check workflow_agent_studio tests/; .venv/bin/ruff format --check workflow_agent_studio tests/
-- Result: framework positioning refresh complete; customer proof still blocked
+- Eval Source: .venv/bin/pytest tests/unit/test_design_candidate_schema.py tests/eval/test_plan_eval.py -q; .venv/bin/pytest -q; .venv/bin/ruff check workflow_agent_studio tests/; .venv/bin/ruff format --check workflow_agent_studio tests/
+- Result: design candidate schema baseline established; customer proof still blocked
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: T59 design diversity schema
+- Next work: T60 diverse blueprint generation flow
 - Open retrieval findings: none
 
 Planning: ON
 
-- Current schema: blueprint v1
-- Next work: T59 design diversity candidate schema and T60 generation flow
+- Current schema: blueprint v1 plus design-candidate-v1
+- Next work: T60 generation flow
 - Open planning findings: none
 
 Tool-Use: OFF

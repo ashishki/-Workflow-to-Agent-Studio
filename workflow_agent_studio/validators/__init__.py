@@ -8,6 +8,10 @@ from workflow_agent_studio.validators.blueprint import (
     validate_blueprint_for_approval,
     validate_evidence_gap_report,
 )
+from workflow_agent_studio.validators.design_candidate import (
+    validate_design_candidate_for_approval,
+    validate_design_candidate_set_for_approval,
+)
 from workflow_agent_studio.validators.forbidden_claims import (
     ForbiddenClaimFinding,
     scan_blueprint_text_for_forbidden_claims,
@@ -29,5 +33,7 @@ __all__ = [
     "scan_blueprint_text_for_forbidden_claims",
     "scan_source_for_sensitive_data",
     "validate_blueprint_for_approval",
+    "validate_design_candidate_for_approval",
+    "validate_design_candidate_set_for_approval",
     "validate_evidence_gap_report",
 ]
