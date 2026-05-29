@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 13 - Workflow-To-Agent Framework Upgrade
-- Next task: T62 - Permission And Runtime Boundary Pack
-- Verified baseline: 213 passing tests, 0 skipped, 0 failed
+- Next task: T63 - Framework Readiness Review
+- Verified baseline: 216 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`; ruff format check passing
 - Last updated: 2026-05-29
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete
 
 ## Active References
 
@@ -34,24 +34,21 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T62 - Permission And Runtime Boundary Pack
+Task: T63 - Framework Readiness Review
 
-Goal: create a reusable permission/runtime boundary section for every agent
-candidate.
+Goal: decide whether the project is ready to be shown as a serious
+workflow-to-agent framework or needs another quality pass.
 
 Acceptance summary:
 
-- every candidate lists read/write/destructive tool surfaces
-- risky actions include confirmation or sandbox recommendation
-- runtime tier is justified by mutability, privilege, and blast radius
-- output can feed AI Rollout Training OS scenarios
+- review cites candidate diversity, Playbook export, permission boundary pack,
+  eval evidence, and public positioning
+- review records what claims are still forbidden before real workflow data
+- CODEX_PROMPT.md records the next task or pause decision
 
 File scope:
 
-- `workflow_agent_studio/domain/`
-- `workflow_agent_studio/blueprint/`
-- `tests/unit/`
-- `docs/handoffs/ai_rollout_training_os.md`
+- `docs/audit/FRAMEWORK_READINESS_REVIEW.md`
 - `docs/CODEX_PROMPT.md`
 
 Required context:
@@ -64,23 +61,23 @@ Required context:
 
 Last Evaluation:
 
-- Task: T61
+- Task: T62
 - Date: 2026-05-29
-- Eval Source: .venv/bin/pytest tests/integration/test_playbook_export.py -q; .venv/bin/pytest -q; .venv/bin/ruff check workflow_agent_studio tests/; .venv/bin/ruff format --check workflow_agent_studio tests/
-- Result: Playbook-compatible export established; customer proof still blocked
+- Eval Source: .venv/bin/pytest tests/unit/test_design_candidate_schema.py tests/unit/test_permission_runtime_boundaries.py -q; .venv/bin/pytest -q; .venv/bin/ruff check workflow_agent_studio tests/; .venv/bin/ruff format --check workflow_agent_studio tests/
+- Result: permission/runtime boundary pack established; customer proof still blocked
 
 ## Profile State
 
 RAG: ON
 
 - Current mode: text-only
-- Next work: T62 permission/runtime boundary pack
+- Next work: T63 framework readiness review
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1 plus design-candidate-v1
-- Next work: T62 permission/runtime boundary pack
+- Next work: T63 framework readiness review
 - Open planning findings: none
 
 Tool-Use: OFF

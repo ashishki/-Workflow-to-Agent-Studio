@@ -21,6 +21,28 @@ def _candidate_data(variant: str = "bounded_agent") -> dict:
                 "evidence_references": [{"source_id": "src-1", "chunk_id": "chk-1"}],
             }
         ],
+        "permission_runtime_boundary": {
+            "runtime_tier": "T0",
+            "runtime_justification": {
+                "runtime_tier": "T0",
+                "mutability": "draft_only",
+                "privilege_level": "low",
+                "blast_radius": "local",
+                "rationale": "Draft-only CRM updates stay local until approved.",
+            },
+            "tool_surfaces": [
+                {
+                    "tool_name": "CRM",
+                    "read_surfaces": ["Read account status"],
+                    "write_surfaces": ["Draft CRM update"],
+                    "destructive_surfaces": [],
+                    "confirmation_required": True,
+                    "sandbox_recommended": False,
+                    "rationale": "Writes are draft-only and need operator confirmation.",
+                }
+            ],
+            "human_approval_points": ["Approve generated CRM update"],
+        },
         "human_approvals": [
             {
                 "decision": "Approve generated CRM update",
@@ -79,6 +101,10 @@ def test_design_candidate_records_required_tradeoff_fields() -> None:
 
     assert candidate.autonomy_level == "bounded"
     assert candidate.required_tools[0].permission_boundary
+    assert candidate.permission_runtime_boundary.tool_surfaces[0].read_surfaces
+    assert candidate.permission_runtime_boundary.tool_surfaces[0].write_surfaces
+    assert candidate.permission_runtime_boundary.runtime_justification.mutability == "draft_only"
+    assert candidate.permission_runtime_boundary.runtime_justification.blast_radius == "local"
     assert candidate.human_approvals[0].approver == "Operator"
     assert candidate.runtime_tier == "T0"
     assert candidate.eval_needs[0].verification_method
@@ -100,6 +126,16 @@ def test_design_candidate_schema_rejects_missing_eval_plan() -> None:
     data["eval_needs"] = []
 
     with pytest.raises(ValidationError, match="eval_needs"):
+        AgentDesignCandidate.model_validate(data)
+
+
+def test_risky_tool_surfaces_require_confirmation_or_sandbox() -> None:
+    data = _candidate_data()
+    surface = data["permission_runtime_boundary"]["tool_surfaces"][0]
+    surface["confirmation_required"] = False
+    surface["sandbox_recommended"] = False
+
+    with pytest.raises(ValidationError, match="write or destructive tool surfaces"):
         AgentDesignCandidate.model_validate(data)
 
 

@@ -17,8 +17,11 @@ from workflow_agent_studio.domain.design_candidate import (
     DesignCandidateVariant,
     EvalNeed,
     EvidenceGap,
+    PermissionRuntimeBoundary,
     RuntimeTier,
+    RuntimeTierJustification,
     ToolRequirement,
+    ToolSurfaceBoundary,
 )
 from workflow_agent_studio.domain.workflow import EvidenceReference
 from workflow_agent_studio.extraction import ExtractedWorkflowMap, MissingQuestion
@@ -198,6 +201,11 @@ def _draft_candidate(
             )
             for system in workflow.systems
         ],
+        permission_runtime_boundary=_permission_runtime_boundary(
+            spec=spec,
+            workflow=workflow,
+            approval_decision=profile.approval_decision,
+        ),
         human_approvals=[
             ApprovalBoundary(
                 decision=profile.approval_decision,
@@ -259,6 +267,78 @@ def _candidate_evidence_gaps(evidence_gaps: EvidenceGapReport | None) -> list[Ev
         EvidenceGap(section=gap.section, question=gap.question, impact=gap.reason)
         for gap in evidence_gaps.gaps
     ]
+
+
+def _permission_runtime_boundary(
+    *,
+    spec: _CandidateSpec,
+    workflow: ExtractedWorkflowMap,
+    approval_decision: str,
+) -> PermissionRuntimeBoundary:
+    return PermissionRuntimeBoundary(
+        runtime_tier=spec.runtime_tier,
+        runtime_justification=RuntimeTierJustification(
+            runtime_tier=spec.runtime_tier,
+            mutability=_mutability_for_spec(spec),
+            privilege_level=_privilege_for_spec(spec),
+            blast_radius=_blast_radius_for_spec(spec),
+            rationale=(
+                f"{spec.runtime_tier} fits {spec.variant} because the design has "
+                f"{_mutability_for_spec(spec)} mutability, "
+                f"{_privilege_for_spec(spec)} privilege, and "
+                f"{_blast_radius_for_spec(spec)} blast radius."
+            ),
+        ),
+        tool_surfaces=[
+            ToolSurfaceBoundary(
+                tool_name=system,
+                read_surfaces=[f"Read workflow evidence from {system}"],
+                write_surfaces=_write_surfaces_for_spec(spec, system),
+                destructive_surfaces=[],
+                confirmation_required=bool(_write_surfaces_for_spec(spec, system)),
+                sandbox_recommended=spec.runtime_tier != "T0",
+                rationale=spec.tool_boundary,
+            )
+            for system in workflow.systems
+        ],
+        human_approval_points=[approval_decision],
+    )
+
+
+def _mutability_for_spec(
+    spec: _CandidateSpec,
+) -> Literal["read_only", "draft_only", "writes_allowed", "destructive"]:
+    if spec.variant == "deterministic_first":
+        return "read_only"
+    if spec.variant == "high_autonomy":
+        return "writes_allowed"
+    return "draft_only"
+
+
+def _privilege_for_spec(spec: _CandidateSpec) -> Literal["none", "low", "medium", "high"]:
+    if spec.variant == "deterministic_first":
+        return "none"
+    if spec.variant == "high_autonomy":
+        return "high"
+    if spec.variant in {"bounded_agent", "compliance_heavy"}:
+        return "medium"
+    return "low"
+
+
+def _blast_radius_for_spec(
+    spec: _CandidateSpec,
+) -> Literal["local", "team", "customer", "production"]:
+    if spec.variant == "high_autonomy":
+        return "customer"
+    if spec.variant in {"bounded_agent", "compliance_heavy"}:
+        return "team"
+    return "local"
+
+
+def _write_surfaces_for_spec(spec: _CandidateSpec, system: str) -> list[str]:
+    if spec.variant in {"deterministic_first", "low_cost_mvp"}:
+        return []
+    return [f"Draft proposed update for {system}"]
 
 
 def _compare_tradeoffs(candidate: AgentDesignCandidate) -> DesignTradeoffComparison:
