@@ -4,7 +4,7 @@ Workflow-to-Agent Studio — это local-first инструмент для AI a
 
 Входом могут быть SOP, расшифровка Loom/созвона, заметки из discovery, описание формы, API/интеграций или вручную собранные операционные notes. Выходом должен стать evidence-linked automation brief: карта текущего процесса, болевые точки, кандидаты на автоматизацию, интеграции, human approval boundaries, риски, eval cases, observability needs и следующие implementation tasks.
 
-Статус: T01-T36 complete. Local ingestion, transcript/notes/form/integration source support, text-only retrieval, evidence gap reporting, evidence packs, retrieval quality controls, provider-backed extraction path, prompt registry, workflow extraction, blueprint synthesis, validation, readiness scoring, governance report export, review comments/diffs, local review workspace export, review versioning, Markdown export, CLI workflow, operator docs, corpus evals, vertical pack contract, pilot measurement template, and assumption-backed commercial pilot package are implemented.
+Статус: active framework candidate. T01-T36 complete. Следующий фокус - design diversity, Playbook-compatible export, and a stronger workflow-to-agent positioning. See `docs/PROJECT_PLAN.md`.
 
 ---
 

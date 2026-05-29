@@ -34,6 +34,29 @@ The mature product produces useful pre-build artifacts:
 | 9 | Learning System And Moat | Turn reviewed outcomes into better patterns, evals, and benchmarks. |
 | 11 | Public-Source Demo Quality | Stabilize draft quality on public workflow sources before requesting prospect data. |
 | 12 | Solo Public Workflow Showcase | Build polished public-source demo packs and prospect data request assets for a solo operator with no business network. |
+| 13 | Framework Upgrade | Generate diverse workflow-to-agent design candidates, compare tradeoffs, and export Playbook-compatible artifacts. |
+
+## Framework Upgrade Direction
+
+The next product direction is a workflow-to-agent design framework, not a
+generic agent builder. For the same workflow evidence package, the system should
+produce multiple candidate designs:
+
+- deterministic-first
+- human-in-the-loop
+- bounded-agent
+- high-autonomy
+- compliance-heavy
+- low-cost MVP
+
+Each candidate must state autonomy level, tool permissions, runtime tier, eval
+needs, human approval boundaries, risks, cost posture, and evidence gaps. The
+system then consolidates the candidates into a reviewable blueprint instead of
+silently choosing one model-generated answer.
+
+The strongest downstream export is AI Workflow Playbook-compatible artifacts:
+task blocks, contract deltas, eval skeletons, permission boundaries, and
+Context-Refs.
 
 ## Market Lens
 

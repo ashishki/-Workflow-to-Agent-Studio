@@ -1002,3 +1002,170 @@ Files:
 
 - `docs/audit/SOLO_SHOWCASE_READINESS_REVIEW.md`
 - `docs/CODEX_PROMPT.md`
+
+---
+
+## Phase 13: Workflow-To-Agent Framework Upgrade
+
+Business goal: reposition the project from a local demo generator into a serious
+framework for converting human workflows into bounded, reviewable agent system
+designs.
+
+Exit criteria:
+
+- the product can generate multiple design candidates for the same workflow;
+- each candidate has explicit autonomy, risk, cost, eval, and approval tradeoffs;
+- one consolidated blueprint can be exported into AI Workflow Playbook artifacts;
+- public README and product docs explain the framework direction without
+  claiming automated agent deployment.
+
+## T58: Framework Positioning Refresh
+
+Owner: human + codex
+Phase: 13
+Type: docs strategy
+Depends-On: T57
+
+Objective: update the public and internal product positioning around
+workflow-to-agent design, not generic agent generation.
+
+Acceptance-Criteria:
+
+- README explains the product as a workflow evidence to agent blueprint
+  framework;
+- docs/product_strategy.md lists the new framework role, non-goals, and
+  design-output artifacts;
+- docs/PROJECT_PLAN.md and docs/CODEX_PROMPT.md agree on the next active work.
+
+Files:
+
+- `README.md`
+- `docs/product_strategy.md`
+- `docs/PROJECT_PLAN.md`
+- `docs/CODEX_PROMPT.md`
+
+## T59: Design Diversity Candidate Set
+
+Owner: codex
+Phase: 13
+Type: plan:schema
+Depends-On: T58
+
+Objective: add a candidate design model that can represent several bounded
+agent/workflow architectures for the same source evidence.
+
+Acceptance-Criteria:
+
+- candidate schema supports deterministic-first, human-in-the-loop,
+  bounded-agent, high-autonomy, compliance-heavy, and low-cost MVP variants;
+- each candidate records autonomy level, required tools, human approvals,
+  runtime tier, eval needs, risks, cost posture, and evidence gaps;
+- validators reject candidates that lack approval boundaries or eval plan;
+- tests cover schema validation and missing-field rejection.
+
+Files:
+
+- `workflow_agent_studio/domain/`
+- `workflow_agent_studio/validators/`
+- `tests/unit/`
+- `docs/plan_eval.md`
+
+Context-Refs:
+
+- `docs/PROJECT_PLAN.md#near-term-roadmap`
+- `docs/ARCHITECTURE.md#solution-shape-selection`
+
+## T60: Diverse Blueprint Generation Flow
+
+Owner: codex
+Phase: 13
+Type: plan:validation
+Depends-On: T59
+
+Objective: generate and validate several design candidates from one workflow
+source package before selecting a consolidated blueprint.
+
+Acceptance-Criteria:
+
+- generation flow produces at least three candidate designs from one fixture;
+- candidates cite source evidence and record assumptions separately;
+- consolidation output compares tradeoffs instead of silently choosing one;
+- tests verify insufficient evidence keeps a candidate in `needs_review` status.
+
+Files:
+
+- `workflow_agent_studio/blueprint/`
+- `workflow_agent_studio/extraction/`
+- `workflow_agent_studio/export/`
+- `tests/integration/`
+- `docs/evaluation_guide.md`
+
+## T61: Playbook Artifact Export
+
+Owner: codex
+Phase: 13
+Type: portfolio handoff
+Depends-On: T60
+
+Objective: export an approved workflow-to-agent design into AI Workflow
+Playbook-compatible artifacts.
+
+Acceptance-Criteria:
+
+- export includes task blocks, implementation contract deltas, eval artifact
+  skeletons, runtime tier, tool permission boundaries, and human approval points;
+- exported tasks include Context-Refs back to source evidence;
+- export marks generated artifacts as convenience, not authority;
+- tests cover Markdown export structure.
+
+Files:
+
+- `workflow_agent_studio/export/`
+- `docs/examples/playbook_export/`
+- `tests/integration/test_playbook_export.py`
+
+## T62: Permission And Runtime Boundary Pack
+
+Owner: codex
+Phase: 13
+Type: tool:schema
+Depends-On: T60
+
+Objective: create a reusable permission/runtime boundary section for every
+agent candidate.
+
+Acceptance-Criteria:
+
+- every candidate lists read/write/destructive tool surfaces;
+- risky actions include confirmation or sandbox recommendation;
+- runtime tier is justified by mutability, privilege, and blast radius;
+- output can feed AI Rollout Training OS scenarios.
+
+Files:
+
+- `workflow_agent_studio/domain/`
+- `workflow_agent_studio/blueprint/`
+- `tests/unit/`
+- `docs/handoffs/ai_rollout_training_os.md`
+
+## T63: Framework Readiness Review
+
+Owner: human + codex
+Phase: 13
+Type: audit decision
+Depends-On: T58, T60, T61, T62
+
+Objective: decide whether the project is ready to be shown as a serious
+workflow-to-agent framework or needs another quality pass.
+
+Acceptance-Criteria:
+
+- review cites candidate diversity, Playbook export, permission boundary pack,
+  eval evidence, and public positioning;
+- review records what claims are still forbidden before real workflow data;
+- CODEX_PROMPT.md records the next task or pause decision.
+
+Files:
+
+- `docs/audit/FRAMEWORK_READINESS_REVIEW.md`
+- `docs/CODEX_PROMPT.md`

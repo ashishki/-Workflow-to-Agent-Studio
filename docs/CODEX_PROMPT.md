@@ -2,7 +2,7 @@
 
 Version: 2.0
 Date: 2026-05-23
-Phase: 12
+Phase: 13
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,8 +12,8 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 12 - Solo Public Workflow Showcase
-- Next task: BLOCKED - real prospect/customer workflow data required
+- Current phase: Phase 13 - Workflow-To-Agent Framework Upgrade
+- Next task: T58 - Framework Positioning Refresh
 - Verified baseline: 199 passing tests, 0 skipped, 0 failed
 - Ruff: passing for `workflow_agent_studio tests/`
 - Last updated: 2026-05-23
@@ -34,27 +34,31 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: BLOCKED - real prospect/customer workflow data required
+Task: T58 - Framework Positioning Refresh
 
-Goal: resume real pilot proof work after a prospect supplies one real workflow
-packet and a named reviewer.
+Goal: reposition the project from a public-source showcase into a serious
+workflow-to-agent design framework before new implementation work.
 
 Acceptance summary:
 
-- Phase 12 public-source showcase is ready for manual outreach
-- `docs/prospect_data_request_pack.md` is the next operator-facing action
+- Phase 12 public-source showcase remains useful as demo material
+- `docs/prospect_data_request_pack.md` remains the next operator-facing action
 - T34/T40 remain blocked until prospect/customer workflow data is reviewed as a
   real pilot
+- Phase 13 work is allowed because it improves framework positioning and
+  artifact export without claiming buyer proof
 
 File scope:
 
-- `docs/pilot_measurement.md`
-- `docs/prospect_data_request_pack.md`
+- `README.md`
+- `docs/product_strategy.md`
+- `docs/PROJECT_PLAN.md`
+- `docs/CODEX_PROMPT.md`
 
 Required context:
 
-- `docs/audit/SOLO_SHOWCASE_READINESS_REVIEW.md`
-- `docs/pilot_measurement.md#prospect-data-request-gate`
+- `docs/tasks.md#phase-13-workflow-to-agent-framework-upgrade`
+- `docs/PROJECT_PLAN.md#near-term-roadmap`
 
 ## Evaluation State
 
@@ -70,13 +74,13 @@ Last Evaluation:
 RAG: ON
 
 - Current mode: text-only
-- Next work: blocked until real prospect/customer workflow data exists
+- Next work: T58 framework positioning, then T59 design diversity schema
 - Open retrieval findings: none
 
 Planning: ON
 
 - Current schema: blueprint v1
-- Next work: blocked until real prospect/customer workflow data exists
+- Next work: T59 design diversity candidate schema and T60 generation flow
 - Open planning findings: none
 
 Tool-Use: OFF
