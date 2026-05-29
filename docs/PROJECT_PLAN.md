@@ -42,6 +42,8 @@ Then it should compare tradeoffs and produce implementation tasks.
   - different risk/cost/autonomy profiles
   - archive of candidate blueprints
 - Add consolidation step with evidence and tradeoffs.
+- Follow `docs/entropy_core_gensyn_integration.md`: use Gensyn as a bounded
+  design reference and Entropy Core as optional receipt vocabulary.
 
 ### P1 - Agent Boundary Output
 
@@ -60,6 +62,7 @@ Then it should compare tradeoffs and produce implementation tasks.
 - Export AI Workflow Playbook-compatible task blocks.
 - Export Implementation Contract deltas.
 - Export evaluation artifact skeletons.
+- Export receipt-compatible blueprint artifacts when useful.
 
 ### P2 - Demo Surface
 

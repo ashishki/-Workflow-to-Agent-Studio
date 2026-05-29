@@ -6,6 +6,8 @@ Workflow-to-Agent Studio — это local-first инструмент для AI a
 
 Статус: active framework candidate. T01-T36 complete. Следующий фокус - design diversity, Playbook-compatible export, and a stronger workflow-to-agent positioning. See `docs/PROJECT_PLAN.md`.
 
+Reference integration: `docs/entropy_core_gensyn_integration.md`.
+
 ---
 
 ## Quickstart
