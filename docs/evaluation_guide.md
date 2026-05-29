@@ -40,11 +40,19 @@ Command:
 python -m pytest tests/unit/test_blueprint_validators.py tests/eval/test_plan_eval.py -q
 ```
 
+Design-candidate flow command:
+
+```bash
+python -m pytest tests/integration/test_design_candidate_flow.py tests/eval/test_plan_eval.py -q
+```
+
 Metrics updated in `docs/plan_eval.md`:
 
 - schema validation pass rate
 - blueprint synthesis section coverage
 - validation fixture expected-outcome pass rate
+- design candidate count and tradeoff comparison coverage
+- insufficient-evidence `needs_review` candidate coverage
 - blocking finding count
 - review approval gate expected-outcome pass rate
 - end-to-end draft blueprint expected-outcome pass rate

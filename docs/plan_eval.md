@@ -153,6 +153,10 @@ T59 established the design candidate schema baseline with six
 workflow-to-agent variants, required tradeoff fields, and deterministic blockers
 for missing approval boundaries or eval plans.
 
+T60 established the diverse design generation baseline with six generated
+candidates, explicit tradeoff comparison, consolidated blueprint output, and
+`needs_review` status when evidence gaps indicate insufficient evidence.
+
 - Date: 2026-05-19
 - Task: T05
 - Eval Source: pytest tests/unit/test_blueprint_schema.py tests/eval/test_plan_eval.py -q
@@ -531,6 +535,20 @@ Design diversity candidate schema baseline:
 - Blocking validator paths: 2
 - Regression: No
 
+Diverse blueprint generation flow baseline:
+
+- Date: 2026-05-29
+- Task: T60
+- Eval Source: pytest tests/integration/test_design_candidate_flow.py tests/eval/test_plan_eval.py -q
+- Metric: Diverse design generation expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Candidate variants generated: 6
+- Tradeoff comparison coverage: 100%
+- Insufficient-evidence status: needs_review
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -567,6 +585,7 @@ Design diversity candidate schema baseline:
 | 2026-05-23 | PUBLIC-TEST-1 | v1 | Internet workflow example fixture coverage | 100%; fixtures 3; required fact groups 5; public-test-only boundary pass | 100%; fixtures 3; required fact groups 5; public-test-only boundary pass | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
 | 2026-05-23 | PUBLIC-PROOF-1 | v1 | Public-data working product proof coverage | 100%; public fixtures 8; internet E2E fixtures 3; showcase-ready packs 3; customer proof no | 100%; public fixtures 8; internet E2E fixtures 3; showcase-ready packs 3; customer proof no | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
 | 2026-05-29 | T59 | design-candidate-v1 | Design candidate schema and validator expected-outcome pass rate | 100%; 6 variants; 2 blocking validator paths | 100%; 6 variants; 2 blocking validator paths | 0% | No | pytest tests/unit/test_design_candidate_schema.py tests/eval/test_plan_eval.py -q |
+| 2026-05-29 | T60 | design-candidate-v1 | Diverse design generation expected-outcome pass rate | 100%; 6 candidates; tradeoff coverage 100%; insufficient evidence needs_review | 100%; 6 candidates; tradeoff coverage 100%; insufficient evidence needs_review | 0% | No | pytest tests/integration/test_design_candidate_flow.py tests/eval/test_plan_eval.py -q |
 
 ---
 

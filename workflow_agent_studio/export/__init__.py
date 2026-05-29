@@ -4,6 +4,7 @@ from workflow_agent_studio.export.markdown import (
     ApprovedExportBlockedError,
     export_approved_blueprint,
     export_approved_handoff,
+    export_design_candidate_portfolio,
     export_draft_blueprint,
     export_governance_report,
 )
@@ -14,6 +15,7 @@ __all__ = [
     "ExportPathError",
     "export_approved_blueprint",
     "export_approved_handoff",
+    "export_design_candidate_portfolio",
     "export_draft_blueprint",
     "export_governance_report",
     "resolve_export_path",

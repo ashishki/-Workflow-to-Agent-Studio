@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from workflow_agent_studio.blueprint.design_candidates import DesignCandidatePortfolio
 from workflow_agent_studio.domain.blueprint import (
     AutomationBlueprint,
     AutomationCandidate,
@@ -165,6 +166,18 @@ def export_governance_report(
         ),
         encoding="utf-8",
     )
+    return target
+
+
+def export_design_candidate_portfolio(
+    *,
+    portfolio: DesignCandidatePortfolio,
+    export_dir: Path,
+    output_path: Path,
+) -> Path:
+    target = resolve_export_path(export_dir=export_dir, output_path=output_path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(_render_design_candidate_portfolio(portfolio), encoding="utf-8")
     return target
 
 
@@ -363,6 +376,62 @@ def _render_approved_handoff(
         *_bullet_evidence(_collect_evidence(blueprint)),
         "",
     ]
+    return "\n".join(lines)
+
+
+def _render_design_candidate_portfolio(portfolio: DesignCandidatePortfolio) -> str:
+    lines = [
+        "# Design Candidate Portfolio",
+        "",
+        "Status: Draft",
+        "",
+        "## Candidates",
+    ]
+    for draft in portfolio.candidates:
+        candidate = draft.candidate
+        lines.extend(
+            [
+                f"### {candidate.name}",
+                f"Status: {draft.status}",
+                f"Variant: {candidate.variant}",
+                f"Autonomy: {candidate.autonomy_level}",
+                f"Runtime Tier: {candidate.runtime_tier}",
+                f"Cost Posture: {candidate.cost_posture}",
+                "",
+                "Approvals:",
+                *_bullet(
+                    f"{approval.decision}: {approval.approver} - {approval.reason}"
+                    for approval in candidate.human_approvals
+                ),
+                "",
+                "Eval Needs:",
+                *_bullet(
+                    f"{item.name}: expect {item.expected_behavior}; verify by "
+                    f"{item.verification_method}"
+                    for item in candidate.eval_needs
+                ),
+                "",
+                "Assumptions:",
+                *_bullet(item.description for item in draft.assumptions),
+                "",
+            ]
+        )
+    lines.extend(
+        [
+            "## Tradeoff Comparison",
+            *_bullet(
+                f"{item.variant}: autonomy={item.autonomy_level}; "
+                f"runtime={item.runtime_tier}; cost={item.cost_posture}; "
+                f"approvals={item.approval_count}; evals={item.eval_count}; "
+                f"risks={item.risk_count}; evidence_gaps={item.evidence_gap_count}"
+                for item in portfolio.tradeoff_comparison
+            ),
+            "",
+            "## Consolidated Blueprint",
+            portfolio.consolidated_blueprint.workflow_summary.text,
+            "",
+        ]
+    )
     return "\n".join(lines)
 
 
