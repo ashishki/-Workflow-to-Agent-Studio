@@ -22,6 +22,7 @@ Repo-local map for evidence-linked workflow extraction, blueprint synthesis, ret
 - Canonical repo artifacts win over this manifest.
 - Generated notes and Obsidian graph views are convenience only.
 - Blueprint quality decisions must cite source evidence, evals, or review artifacts.
+- The cognition vault is for navigation, context packets, and cross-project recall only; this repo remains authoritative.
 
 ## Project Identity
 
@@ -104,6 +105,10 @@ If an agent runs on the VPS, clone the vault next to `projects/` and pass packet
 
 Do not write canonical decisions, eval results, or findings directly into the vault. Write them into this repo first, then regenerate the vault.
 
+Use the vault when starting an agent cold, preparing a reviewer packet, comparing
+projects, or checking cross-project dependencies. Do not use it to close tasks,
+change project status, replace ADRs/evals/findings, or drive runtime behavior.
+
 ---
 
 ## Known Gaps
@@ -119,4 +124,3 @@ Do not write canonical decisions, eval results, or findings directly into the va
 |----------|------|--------|
 | Cognition index | `generated/cognition/index.json` | Optional generated artifact |
 | Context packets | `docs/context-packets/` | Commit only major review/regression packets |
-
