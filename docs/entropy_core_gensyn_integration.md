@@ -16,7 +16,7 @@ vendored component, adapted code, pattern-only reuse, or rejection.
 
 ## Entropy Core Use
 
-Default level: receipt-compatible.
+Default level: receipt-compatible now; schema-compatible next.
 
 Planned local artifacts:
 
@@ -64,6 +64,28 @@ multiple blueprint candidates -> critic/evaluator pass -> referee verdict -> sel
 
 Use it for high-impact workflow designs where one generated blueprint may miss a
 better permission model or failure boundary.
+
+## Proof Layer Implementation
+
+Workflow-to-Agent Studio should use Entropy Core to prove blueprint decisions,
+not to generate blueprints.
+
+Implementation path:
+
+1. Define `workflow_blueprint_receipt` with schema id, source notes, evidence
+   refs, generated blueprint path/hash, permission boundary summary, and
+   reviewer verdict.
+2. Use schema compatibility before changing exported blueprint or receipt
+   formats.
+3. Add evidence lookup refs for discovery notes, SOP excerpts, risk findings,
+   and approval decisions.
+4. Keep workflow synthesis, UI, client editing, and export behavior
+   product-local.
+5. Block export-to-implementation when the receipt has missing evidence,
+   unresolved permission boundaries, or no reviewer verdict.
+
+Core value here: prevent impressive but ungrounded agent blueprints from being
+treated as implementation-ready.
 
 Not adopted:
 
