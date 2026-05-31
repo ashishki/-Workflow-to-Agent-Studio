@@ -67,7 +67,9 @@ Status: next active work in T59.
 - Export AI Workflow Playbook-compatible task blocks.
 - Export Implementation Contract deltas.
 - Export evaluation artifact skeletons.
-- Export receipt-compatible blueprint artifacts when useful.
+- Export `blueprint_proof_receipt` artifacts with approved blueprint exports.
+- Block implementation handoff when proof receipts have missing evidence or
+  unresolved reviewer findings.
 
 ### P2 - Demo Surface
 
@@ -80,6 +82,8 @@ Status: next active work in T59.
 - Use deterministic validation for required fields.
 - Use reviewers to challenge over-autonomous designs.
 - Use runtime verification when generated tasks modify project docs.
+- Use `workflow_agent_studio/proof.py` before treating a blueprint as
+  implementation-ready.
 
 ## Stop Conditions
 

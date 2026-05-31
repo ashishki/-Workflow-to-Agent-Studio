@@ -1,7 +1,7 @@
 # Entropy Core And Gensyn Integration
 
-Status: planned reference integration
-Last updated: 2026-05-29
+Status: implemented local blueprint proof receipt; Core runtime not adopted
+Last updated: 2026-05-31
 
 ## Purpose
 
@@ -16,11 +16,11 @@ vendored component, adapted code, pattern-only reuse, or rejection.
 
 ## Entropy Core Use
 
-Default level: receipt-compatible now; schema-compatible next.
+Default level: schema-compatible for blueprint proof receipts.
 
-Planned local artifacts:
+Local artifacts:
 
-- `workflow_blueprint_receipt`
+- `blueprint_proof_receipt` implemented in `workflow_agent_studio/proof.py`
 - `permission_boundary_receipt`
 - `agent_design_referee_verdict`
 - `playbook_export_receipt`
@@ -70,11 +70,19 @@ better permission model or failure boundary.
 Workflow-to-Agent Studio should use Entropy Core to prove blueprint decisions,
 not to generate blueprints.
 
-Implementation path:
+Implemented now:
 
-1. Define `workflow_blueprint_receipt` with schema id, source notes, evidence
-   refs, generated blueprint path/hash, permission boundary summary, and
-   reviewer verdict.
+- `build_blueprint_proof_receipt(...)` hashes the blueprint artifact payload,
+  records schema version, collects source/chunk evidence refs across blueprint
+  sections, and counts explicit assumptions.
+- Receipts fail validation when no evidence refs exist.
+- `tests/unit/test_proof_receipts.py` covers artifact hash, evidence refs,
+  assumption count, receipt hash, and missing-evidence rejection.
+
+Next implementation tasks:
+
+1. Wire `build_blueprint_proof_receipt(...)` into approved Markdown and
+   governance report export paths.
 2. Use schema compatibility before changing exported blueprint or receipt
    formats.
 3. Add evidence lookup refs for discovery notes, SOP excerpts, risk findings,
