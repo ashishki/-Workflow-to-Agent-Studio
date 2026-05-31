@@ -9,6 +9,11 @@ Workflow-To-Agent Studio can use Entropy Core vocabulary to make generated agent
 blueprints auditable. Gensyn is a design reference for diverse candidate designs
 and evaluator/referee roles, not a runtime dependency.
 
+Before building custom Gensyn-shaped logic, run the Gensyn OSS reuse gate from
+`repo://AI_workflow_playbook/docs/entropy_core_and_gensyn_reference_policy.md`.
+Check official Gensyn repos first and record whether the result is dependency,
+vendored component, adapted code, pattern-only reuse, or rejection.
+
 ## Entropy Core Use
 
 Default level: receipt-compatible.
@@ -70,5 +75,7 @@ Not adopted:
 
 ## Code Reuse Boundary
 
-Do not copy Gensyn code into this project unless a task explicitly asks for an
-open-source code review with license, commit, attribution, and security notes.
+Do not copy Gensyn code into this project casually. If the reuse gate finds a
+fit, create an ADR or task note with license, commit, file refs, attribution,
+security notes, and why dependency, vendoring, adapted code, pattern-only reuse,
+or rejection is the right choice.
