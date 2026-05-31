@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from pydantic import ValidationError
+
 from workflow_agent_studio.blueprint.design_candidates import DesignCandidatePortfolio
 from workflow_agent_studio.domain.blueprint import (
     AutomationBlueprint,
@@ -17,6 +19,7 @@ from workflow_agent_studio.domain.blueprint import (
 )
 from workflow_agent_studio.domain.workflow import EvidenceReference, WorkflowStep
 from workflow_agent_studio.export.paths import resolve_export_path
+from workflow_agent_studio.proof import build_blueprint_proof_receipt
 from workflow_agent_studio.storage import BlueprintApprovalRecord, BlueprintVersionRecord
 from workflow_agent_studio.validators import (
     AutomationReadinessResult,
@@ -83,17 +86,27 @@ def export_approved_blueprint(
         raise ApprovedExportBlockedError([mismatch])
 
     target = resolve_export_path(export_dir=export_dir, output_path=output_path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(
-        _render_blueprint(
-            blueprint=blueprint,
-            status="Approved",
-            version=version,
-            findings=[],
-            approval=approval,
-        ),
-        encoding="utf-8",
+    receipt_path = _proof_receipt_path(target)
+    payload = _render_blueprint(
+        blueprint=blueprint,
+        status="Approved",
+        version=version,
+        findings=[],
+        approval=approval,
+        proof_receipt_ref=str(receipt_path),
     )
+    proof_findings = _proof_receipt_blockers(
+        blueprint=blueprint,
+        artifact=target,
+        artifact_payload=payload,
+        rule_prefix="EXPORT",
+    )
+    if proof_findings:
+        raise ApprovedExportBlockedError(proof_findings)
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(payload, encoding="utf-8")
+    _write_proof_receipt(blueprint=blueprint, artifact=target, artifact_payload=payload)
     return target
 
 
@@ -114,15 +127,25 @@ def export_approved_handoff(
         raise ApprovedExportBlockedError(findings)
 
     target = resolve_export_path(export_dir=export_dir, output_path=output_path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(
-        _render_approved_handoff(
-            blueprint=blueprint,
-            version=version,
-            approval=approval,
-        ),
-        encoding="utf-8",
+    receipt_path = _proof_receipt_path(target)
+    payload = _render_approved_handoff(
+        blueprint=blueprint,
+        version=version,
+        approval=approval,
+        proof_receipt_ref=str(receipt_path),
     )
+    proof_findings = _proof_receipt_blockers(
+        blueprint=blueprint,
+        artifact=target,
+        artifact_payload=payload,
+        rule_prefix="HANDOFF",
+    )
+    if proof_findings:
+        raise ApprovedExportBlockedError(proof_findings)
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(payload, encoding="utf-8")
+    _write_proof_receipt(blueprint=blueprint, artifact=target, artifact_payload=payload)
     return target
 
 
@@ -155,17 +178,29 @@ def export_governance_report(
             raise ApprovedExportBlockedError([mismatch])
 
     target = resolve_export_path(export_dir=export_dir, output_path=output_path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(
-        _render_governance_report(
-            blueprint=blueprint,
-            readiness=compute_automation_readiness(blueprint, validation=validation),
-            findings=validation.findings,
-            version=version,
-            approval=approval,
-        ),
-        encoding="utf-8",
+    receipt_path = _proof_receipt_path(target) if approval is not None else None
+    payload = _render_governance_report(
+        blueprint=blueprint,
+        readiness=compute_automation_readiness(blueprint, validation=validation),
+        findings=validation.findings,
+        version=version,
+        approval=approval,
+        proof_receipt_ref=str(receipt_path) if receipt_path is not None else None,
     )
+    if approval is not None:
+        proof_findings = _proof_receipt_blockers(
+            blueprint=blueprint,
+            artifact=target,
+            artifact_payload=payload,
+            rule_prefix="GOVERNANCE",
+        )
+        if proof_findings:
+            raise ApprovedExportBlockedError(proof_findings)
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(payload, encoding="utf-8")
+    if approval is not None:
+        _write_proof_receipt(blueprint=blueprint, artifact=target, artifact_payload=payload)
     return target
 
 
@@ -232,6 +267,65 @@ def _version_mismatch_finding(
     )
 
 
+def _proof_receipt_path(artifact: Path) -> Path:
+    return artifact.with_name(f"{artifact.name}.proof_receipt.json")
+
+
+def _write_proof_receipt(
+    *,
+    blueprint: AutomationBlueprint,
+    artifact: Path,
+    artifact_payload: str,
+) -> Path:
+    receipt_path = _proof_receipt_path(artifact)
+    receipt = build_blueprint_proof_receipt(
+        blueprint=blueprint,
+        artifact_ref=artifact,
+        artifact_payload=artifact_payload,
+    )
+    receipt_path.write_text(
+        f"{receipt.model_dump_json(exclude_none=True, indent=2)}\n",
+        encoding="utf-8",
+    )
+    return receipt_path
+
+
+def _proof_receipt_blockers(
+    *,
+    blueprint: AutomationBlueprint,
+    artifact: Path,
+    artifact_payload: str,
+    rule_prefix: str,
+) -> list[BlueprintValidationFinding]:
+    try:
+        receipt = build_blueprint_proof_receipt(
+            blueprint=blueprint,
+            artifact_ref=artifact,
+            artifact_payload=artifact_payload,
+        )
+    except ValidationError as exc:
+        return [
+            BlueprintValidationFinding(
+                rule_id=f"{rule_prefix}-PROOF-RECEIPT",
+                severity="blocking",
+                section="proof_receipt",
+                message="Proof receipt could not be generated for the exported artifact.",
+                repair_hint=str(exc),
+            )
+        ]
+    if receipt.verifier_status == "passed":
+        return []
+    return [
+        BlueprintValidationFinding(
+            rule_id=f"{rule_prefix}-PROOF-RECEIPT",
+            severity="blocking",
+            section="proof_receipt",
+            message="Proof receipt did not pass verification for the exported artifact.",
+            repair_hint="Add evidence references and resolve verifier notes before export.",
+        )
+    ]
+
+
 def _render_blueprint(
     *,
     blueprint: AutomationBlueprint,
@@ -239,6 +333,7 @@ def _render_blueprint(
     version: BlueprintVersionRecord | None,
     findings: list[BlueprintValidationFinding],
     approval: BlueprintApprovalRecord | None,
+    proof_receipt_ref: str | None = None,
 ) -> str:
     lines = [
         "# Automation Blueprint",
@@ -317,6 +412,8 @@ def _render_blueprint(
             "",
         ]
     )
+    if proof_receipt_ref is not None:
+        lines.extend(["## Blueprint Proof Receipt", f"- Receipt Artifact: {proof_receipt_ref}", ""])
     if status == "Draft":
         lines.extend(["## Unresolved Findings", *_bullet_findings(findings), ""])
     lines.extend(["## Evidence Appendix", *_bullet_evidence(_collect_evidence(blueprint)), ""])
@@ -328,6 +425,7 @@ def _render_approved_handoff(
     blueprint: AutomationBlueprint,
     version: BlueprintVersionRecord,
     approval: BlueprintApprovalRecord | None,
+    proof_receipt_ref: str | None = None,
 ) -> str:
     lines = [
         "# Implementation Handoff",
@@ -371,6 +469,9 @@ def _render_approved_handoff(
         "",
         "## External Side Effects",
         "- Disabled. This handoff is a local Markdown artifact only.",
+        "",
+        "## Blueprint Proof Receipt",
+        f"- Receipt Artifact: {proof_receipt_ref or 'not generated'}",
         "",
         "## Evidence Appendix",
         *_bullet_evidence(_collect_evidence(blueprint)),
@@ -442,6 +543,7 @@ def _render_governance_report(
     findings: list[BlueprintValidationFinding],
     version: BlueprintVersionRecord | None,
     approval: BlueprintApprovalRecord | None,
+    proof_receipt_ref: str | None = None,
 ) -> str:
     evidence = _collect_evidence(blueprint)
     lines = [
@@ -483,6 +585,8 @@ def _render_governance_report(
             "",
         ]
     )
+    if proof_receipt_ref is not None:
+        lines.extend(["## Blueprint Proof Receipt", f"- Receipt Artifact: {proof_receipt_ref}", ""])
     return "\n".join(lines)
 
 

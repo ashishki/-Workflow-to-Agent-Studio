@@ -1,6 +1,6 @@
 # Entropy Core And Gensyn Integration
 
-Status: implemented local blueprint proof receipt; Core runtime not adopted
+Status: receipt wired into approved export loop; Core runtime not adopted
 Last updated: 2026-05-31
 
 ## Purpose
@@ -76,21 +76,24 @@ Implemented now:
   records schema version, collects source/chunk evidence refs across blueprint
   sections, and counts explicit assumptions.
 - Receipts fail validation when no evidence refs exist.
+- Approved blueprint, approved governance report, and approved implementation
+  handoff exports write a `*.proof_receipt.json` sidecar that hashes the
+  exported Markdown artifact.
+- Implementation handoff export is blocked when the proof receipt cannot pass
+  validation.
 - `tests/unit/test_proof_receipts.py` covers artifact hash, evidence refs,
   assumption count, receipt hash, and missing-evidence rejection.
 
 Next implementation tasks:
 
-1. Wire `build_blueprint_proof_receipt(...)` into approved Markdown and
-   governance report export paths.
-2. Use schema compatibility before changing exported blueprint or receipt
+1. Use schema compatibility before changing exported blueprint or receipt
    formats.
-3. Add evidence lookup refs for discovery notes, SOP excerpts, risk findings,
+2. Add evidence lookup refs for discovery notes, SOP excerpts, risk findings,
    and approval decisions.
-4. Keep workflow synthesis, UI, client editing, and export behavior
+3. Keep workflow synthesis, UI, client editing, and export behavior
    product-local.
-5. Block export-to-implementation when the receipt has missing evidence,
-   unresolved permission boundaries, or no reviewer verdict.
+4. Extend export-to-implementation blocking beyond receipt validation when
+   reviewer verdict metadata and permission-boundary receipts exist.
 
 Core value here: prevent impressive but ungrounded agent blueprints from being
 treated as implementation-ready.

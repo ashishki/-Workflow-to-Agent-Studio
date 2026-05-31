@@ -1,8 +1,10 @@
+import hashlib
 import json
 from pathlib import Path
 
 import pytest
 
+import workflow_agent_studio.export.markdown as markdown_export
 from workflow_agent_studio.blueprint.review import approve_blueprint
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
 from workflow_agent_studio.export import (
@@ -13,6 +15,7 @@ from workflow_agent_studio.export import (
     export_draft_blueprint,
     export_governance_report,
 )
+from workflow_agent_studio.proof import BlueprintProofReceipt
 from workflow_agent_studio.storage import (
     AuditEventRepository,
     BlueprintApprovalRecord,
@@ -86,10 +89,18 @@ def test_approved_export_includes_version_and_evidence_appendix(tmp_path) -> Non
         database.close()
 
     markdown = output.read_text(encoding="utf-8")
+    receipt_path = Path(f"{output}.proof_receipt.json")
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     assert "Status: Approved" in markdown
     assert f"Blueprint Version ID: {version.blueprint_version_id}" in markdown
+    assert "## Blueprint Proof Receipt" in markdown
+    assert f"Receipt Artifact: {receipt_path}" in markdown
     assert "## Evidence Appendix" in markdown
     assert "src-1 / chk-1" in markdown
+    assert receipt["type"] == "blueprint_proof_receipt"
+    assert receipt["artifact_ref"] == str(output)
+    assert receipt["artifact_sha256"] == hashlib.sha256(markdown.encode("utf-8")).hexdigest()
+    assert any(item["supports"] == "workflow_summary" for item in receipt["evidence_refs"])
 
 
 def test_approved_export_rejects_version_payload_mismatch(tmp_path) -> None:
@@ -146,6 +157,44 @@ def test_governance_report_includes_readiness_evidence_and_findings(tmp_path) ->
     assert "## Unresolved Findings" in markdown
 
 
+def test_approved_governance_report_writes_blueprint_proof_receipt(tmp_path) -> None:
+    database = connect_database(tmp_path / "workflow_studio.sqlite3")
+    initialize_database(database)
+    try:
+        WorkflowRunRepository(database).create_run("run-1")
+        blueprint = _valid_blueprint()
+        version = BlueprintVersionRepository(database).add_version(
+            run_id="run-1",
+            blueprint=blueprint.model_dump(mode="json"),
+        )
+        approved = approve_blueprint(
+            blueprint=blueprint,
+            version=version,
+            reviewer_label="operator",
+            approvals=BlueprintApprovalRepository(database),
+            audit_events=AuditEventRepository(database),
+            approved_at="2026-05-20T00:00:00+00:00",
+        )
+
+        output = export_governance_report(
+            blueprint=blueprint,
+            version=version,
+            approval=approved.approval,
+            export_dir=tmp_path / "exports",
+            output_path=Path("governance.md"),
+        )
+    finally:
+        database.close()
+
+    markdown = output.read_text(encoding="utf-8")
+    receipt_path = Path(f"{output}.proof_receipt.json")
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    assert "Status: Approved" in markdown
+    assert "## Blueprint Proof Receipt" in markdown
+    assert receipt["artifact_ref"] == str(output)
+    assert receipt["artifact_sha256"] == hashlib.sha256(markdown.encode("utf-8")).hexdigest()
+
+
 def test_approved_handoff_includes_tasks_eval_boundaries_and_evidence(tmp_path) -> None:
     database = connect_database(tmp_path / "workflow_studio.sqlite3")
     initialize_database(database)
@@ -176,6 +225,7 @@ def test_approved_handoff_includes_tasks_eval_boundaries_and_evidence(tmp_path) 
         database.close()
 
     markdown = output.read_text(encoding="utf-8")
+    receipt_path = Path(f"{output}.proof_receipt.json")
     assert "# Implementation Handoff" in markdown
     assert "Status: Approved" in markdown
     assert "## Implementation Tasks" in markdown
@@ -183,8 +233,56 @@ def test_approved_handoff_includes_tasks_eval_boundaries_and_evidence(tmp_path) 
     assert "## Automation Boundaries" in markdown
     assert "## Human Approval Boundaries" in markdown
     assert "## Assumptions" in markdown
+    assert "## Blueprint Proof Receipt" in markdown
+    assert f"Receipt Artifact: {receipt_path}" in markdown
     assert "## Evidence Appendix" in markdown
+    assert receipt_path.exists()
     assert "Disabled. This handoff is a local Markdown artifact only." in markdown
+
+
+def test_handoff_rejects_when_proof_receipt_cannot_validate(tmp_path, monkeypatch) -> None:
+    blueprint = _valid_blueprint()
+    version = BlueprintVersionRecord(
+        blueprint_version_id=1,
+        run_id="run-1",
+        version_number=1,
+        blueprint_json=json.dumps(blueprint.model_dump(mode="json"), sort_keys=True),
+        created_at="2026-05-20T00:00:00+00:00",
+    )
+    approval = BlueprintApprovalRecord(
+        blueprint_version_id=1,
+        run_id="run-1",
+        reviewer_label="operator",
+        approved_at="2026-05-20T00:00:00+00:00",
+        status="approved",
+    )
+
+    def invalid_receipt(**_kwargs):
+        return BlueprintProofReceipt(
+            blueprint_schema_version="v1",
+            artifact_ref="exports/handoff.md",
+            artifact_sha256="a" * 64,
+            generated_at="2026-05-20T00:00:00+00:00",
+            evidence_refs=[],
+            assumption_count=0,
+            verifier_status="failed",
+            verifier_notes=("no evidence",),
+        )
+
+    monkeypatch.setattr(markdown_export, "build_blueprint_proof_receipt", invalid_receipt)
+
+    with pytest.raises(ApprovedExportBlockedError) as blocked:
+        export_approved_handoff(
+            blueprint=blueprint,
+            version=version,
+            approval=approval,
+            export_dir=tmp_path / "exports",
+            output_path=Path("handoff.md"),
+        )
+
+    assert any(finding.rule_id == "HANDOFF-PROOF-RECEIPT" for finding in blocked.value.findings)
+    assert not (tmp_path / "exports" / "handoff.md").exists()
+    assert not (tmp_path / "exports" / "handoff.md.proof_receipt.json").exists()
 
 
 def test_handoff_rejects_unapproved_or_blocked_blueprints(tmp_path) -> None:
