@@ -549,6 +549,20 @@ Diverse blueprint generation flow baseline:
 - Insufficient-evidence status: needs_review
 - Regression: No
 
+Privacy classification schema baseline:
+
+- Date: 2026-06-01
+- Task: T64
+- Eval Source: pytest tests/unit/test_privacy_schema.py -q
+- Metric: Privacy classification schema expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Privacy classes: 5
+- Invalid class rejection paths: 2
+- Classification fields: detected flags, redaction status, source class, recommendation class
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -586,6 +600,7 @@ Diverse blueprint generation flow baseline:
 | 2026-05-23 | PUBLIC-PROOF-1 | v1 | Public-data working product proof coverage | 100%; public fixtures 8; internet E2E fixtures 3; showcase-ready packs 3; customer proof no | 100%; public fixtures 8; internet E2E fixtures 3; showcase-ready packs 3; customer proof no | 0% | No | pytest tests/eval/test_public_source_experiment.py tests/eval/test_plan_eval.py -q |
 | 2026-05-29 | T59 | design-candidate-v1 | Design candidate schema and validator expected-outcome pass rate | 100%; 6 variants; 2 blocking validator paths | 100%; 6 variants; 2 blocking validator paths | 0% | No | pytest tests/unit/test_design_candidate_schema.py tests/eval/test_plan_eval.py -q |
 | 2026-05-29 | T60 | design-candidate-v1 | Diverse design generation expected-outcome pass rate | 100%; 6 candidates; tradeoff coverage 100%; insufficient evidence needs_review | 100%; 6 candidates; tradeoff coverage 100%; insufficient evidence needs_review | 0% | No | pytest tests/integration/test_design_candidate_flow.py tests/eval/test_plan_eval.py -q |
+| 2026-06-01 | T64 | privacy-classification-v1 | Privacy classification schema expected-outcome pass rate | 100%; 5 privacy classes; 2 invalid class rejection paths | 100%; 5 privacy classes; 2 invalid class rejection paths | 0% | No | pytest tests/unit/test_privacy_schema.py -q |
 
 ---
 

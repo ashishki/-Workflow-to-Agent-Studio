@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
-- Next task: T64 - Privacy Domain Model
-- Verified baseline: 216 passing tests, 0 skipped, 0 failed from the prior framework loop; current documentation prep check passed with `tests/unit/test_docs.py` at 24 passing tests
-- Ruff: previously passing for `workflow_agent_studio tests/`; rerun focused ruff after T64 code changes
+- Next task: T65 - Recommendation Card Schema
+- Verified baseline: T64 pre-change baseline was repaired from 1 failing README corpus-reference regression to 221 passing tests; T64 completion baseline is 225 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T64
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete
 
 ## Active References
 
@@ -38,37 +38,39 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 Task: T64 - Privacy Domain Model
 
-Goal: add typed privacy classes and classification result schemas used by
-roadmap recommendations and policy gates.
+Status: complete.
+
+Task: T65 - Recommendation Card Schema
+
+Goal: implement the `RecommendationCard` schema for roadmap initiatives.
 
 Acceptance summary:
 
-- privacy classes include public, internal, confidential, sensitive, and
-  restricted
-- unknown privacy classes fail Pydantic validation
-- schema can represent detected flags, redaction status, source privacy class,
-  and recommendation privacy class
-- unit tests cover valid classes and invalid class rejection
+- recommendation without target workflow step fails validation
+- recommendation without evidence and without assumptions fails validation
+- recommendation without fallback fails validation
+- recommendation requires privacy, cost, time, risks, validation method,
+  success metrics, required data, dependencies, and human gate fields
+- unit tests cover happy path and each blocking invalid case
 
 File scope:
 
-- `workflow_agent_studio/domain/privacy.py`
-- `tests/unit/test_privacy_schema.py`
+- `workflow_agent_studio/domain/recommendation.py`
+- `tests/unit/test_recommendation_schema.py`
 
 Required context:
 
-- `docs/security/data_classification.md`
-- `docs/security/privacy_modes.md`
-- `docs/product/report_contract.md`
+- `docs/product/report_contract.md#6-recommendation-cards`
+- `docs/methodology/ai_suitability_classification.md`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: roadmap documentation prep
+- Task: T64
 - Date: 2026-06-01
-- Eval Source: `.venv/bin/python -m pytest tests/unit/test_docs.py -q`
-- Result: 24 passed; full pytest and ruff should be rerun after the first Phase 14 code task
+- Eval Source: `.venv/bin/python -m pytest tests/unit/test_privacy_schema.py -q`
+- Result: 4 passed; full repository verification passed with 225 tests
 
 ## Profile State
 
@@ -81,7 +83,7 @@ RAG: ON
 Planning: ON
 
 - Current schema: blueprint v1 plus design-candidate-v1
-- Next work: RoadmapReport v1, RecommendationCard, privacy, costing, scoring,
+- Next work: RoadmapReport v1, RecommendationCard, costing, scoring,
   and verification schemas for SMB implementation planning
 - Open planning findings: none
 
