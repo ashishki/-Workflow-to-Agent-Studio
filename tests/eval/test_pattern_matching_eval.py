@@ -59,6 +59,32 @@ def test_reporting_match_prefers_deterministic_pattern_when_llm_unnecessary() ->
     assert match.when_not_to_use
 
 
+def test_lead_intake_matches_lead_qualification_pattern() -> None:
+    match = match_smb_pattern(
+        workflow_description="HVAC lead intake and service-area qualification workflow.",
+        pain_point="Intake teams manually check required fields, urgency, and routing.",
+        privacy_class="sensitive",
+    )
+
+    assert match.pattern_id == "lead_qualification"
+    assert match.recommended_solution_type == "human_in_the_loop_workflow"
+    assert "automatic_lead_rejection" in match.blocked_anti_matches
+    assert match.privacy_compatible
+
+
+def test_incident_workflow_matches_private_runbook_assistant_pattern() -> None:
+    match = match_smb_pattern(
+        workflow_description="Incident response runbook and coordination support workflow.",
+        pain_point="Responders coordinate across Slack, Incident.io, Zoom, and docs.",
+        privacy_class="internal",
+    )
+
+    assert match.pattern_id == "internal_knowledge_assistant"
+    assert match.recommended_solution_type == "rag_knowledge_assistant"
+    assert "autonomous_paging" in match.blocked_anti_matches
+    assert match.privacy_compatible
+
+
 def test_privacy_weaker_than_detected_data_class_is_blocked() -> None:
     match = match_smb_pattern(
         workflow_description="Weekly reporting dashboard.",
@@ -75,6 +101,11 @@ def test_demo_roadmap_traces_expected_pattern_matches() -> None:
         "docs/examples/domains/hair_salon_input.md": "appointment_booking:v1",
         "docs/examples/domains/ecommerce_input.md": "ecommerce_returns:v1",
         "docs/examples/domains/legal_consultancy_input.md": "legal_checklist:v1",
+        "tests/fixtures/public_sources/hvac_lead_intake.notes.md": "lead_qualification:v1",
+        "tests/fixtures/public_sources/netbox_issue_triage.notes.md": "customer_support_triage:v1",
+        "tests/fixtures/public_sources/gitlab_incident_workflow.notes.md": (
+            "internal_knowledge_assistant:v1"
+        ),
     }
 
     for input_path, pattern_ref in expected.items():

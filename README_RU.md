@@ -52,6 +52,7 @@ flowchart LR
 Текущая версия уже умеет локально, без внешних credentials:
 
 - читать demo business profile в Markdown;
+- читать сохраненные public-source workflow fixtures;
 - собирать typed `RoadmapReport`;
 - классифицировать данные как `public`, `internal`, `confidential`,
   `sensitive`, `restricted`;
@@ -113,6 +114,26 @@ flowchart LR
 Это хороший пример, потому что продукт показывает не только “что можно сделать”,
 но и **что нельзя делать**.
 
+## Public-source примеры
+
+Кроме synthetic SMB demos, в репозитории есть публичные workflow examples:
+
+- HVAC lead intake;
+- NetBox issue triage;
+- GitLab incident workflow.
+
+Они доказывают другой слой: продукт работает не только на выдуманных fixtures,
+но и на сохраненных публичных описаниях реальных workflows. Это все еще не buyer
+proof, но это сильный technical proof для demo.
+
+```mermaid
+flowchart LR
+    A[Public workflow notes] --> B[RoadmapReport]
+    B --> C[Privacy + cost + risks]
+    C --> D[Markdown roadmap]
+    D --> E[Review / handoff gates]
+```
+
 ## Архитектура простыми словами
 
 ```mermaid
@@ -146,12 +167,16 @@ flowchart TB
 
 Текущий engineering proof:
 
-- полный test suite: `343 passed`;
+- полный test suite: `350 passed`;
 - ruff lint и format clean;
-- 3 demo domains:
+- 3 synthetic demo domains:
   - hair salon;
   - e-commerce returns/support;
   - legal consultancy;
+- 3 public-source roadmap demos:
+  - HVAC lead intake;
+  - NetBox issue triage;
+  - GitLab incident workflow;
 - eval suite проверяет:
   - нет forbidden claims;
   - каждая рекомендация имеет evidence или assumptions;
@@ -169,7 +194,7 @@ flowchart TB
 Ожидаемый результат:
 
 ```text
-343 passed
+350 passed
 ```
 
 ## Демо в терминале
@@ -183,9 +208,28 @@ bash scripts/demo_roadmap_ru.sh
 Скрипт:
 
 - генерирует roadmap для demo hair salon workflow;
+- генерирует roadmap для public-source HVAC workflow;
 - показывает команду, которая запускается;
 - печатает ключевые результаты;
 - сохраняет Markdown roadmap в `.data/demo/exports/`.
+
+## Как считаются стоимость, сроки и риски
+
+Подробно: `docs/methodology/ROADMAP_CALCULATION_RU.md`.
+
+Коротко:
+
+- workflow берется из input file или public-source fixture;
+- тип решения выбирается из versioned SMB pattern library;
+- privacy mode решается deterministic policy gate;
+- cost/time/team - planning range на основе pattern, scope, volume, privacy
+  multiplier, assumptions и confidence;
+- актуальные provider/integration prices перед quote должны обновляться через
+  versioned price cards;
+- LLM может помогать извлекать и формулировать drafts, но не утверждает privacy,
+  cost, approval или handoff;
+- hallucination risk снижается через schemas, evidence-or-assumption rule,
+  source hashes, model metadata, evals и human review.
 
 ## Как это можно продавать
 
@@ -237,4 +281,3 @@ bash scripts/demo_roadmap_ru.sh
 3. Провести 10-20 discovery calls.
 4. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
 5. Получить 1 paid pilot на 3-5 workflows.
-

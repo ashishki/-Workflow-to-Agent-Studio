@@ -14,12 +14,12 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
 - Next task: none - active task graph complete through T82
-- Verified baseline: T82 pre-change baseline was 338 passing tests, 0 skipped, 0 failed; T82 completion baseline is 343 passing tests, 0 skipped, 0 failed
+- Verified baseline: T82 pre-change baseline was 338 passing tests, 0 skipped, 0 failed; post public-source roadmap demo package baseline is 350 passing tests, 0 skipped, 0 failed
 - Ruff: `ruff check` and `ruff format --check` pass for the full repository after T82
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete; T80 roadmap CLI command complete; T81 roadmap eval suite complete; T82 roadmap review and handoff export complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete; T80 roadmap CLI command complete; T81 roadmap eval suite complete; T82 roadmap review and handoff export complete; public-source roadmap demos added for HVAC lead intake, NetBox issue triage, and GitLab incident workflow
 
 ## Active References
 
@@ -49,7 +49,7 @@ Last Evaluation:
 - Task: T82
 - Date: 2026-06-01
 - Eval Source: `.venv/bin/python -m pytest tests/integration/test_roadmap_review.py tests/integration/test_roadmap_handoff_export.py -q`
-- Result: 5 passed; full repository verification passed with 343 tests
+- Result: 5 passed; full repository verification now passes with 350 tests after public-source roadmap demo support
 
 ## Profile State
 

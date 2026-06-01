@@ -49,6 +49,16 @@ follow-up, back-office operations. Затем превращаем это в roa
 Это показывает зрелость продукта: он умеет говорить не только “давайте AI”, но
 и “здесь AI опасен”.
 
+Потом показываем public-source workflow как credibility layer:
+
+1. HVAC lead intake взят из сохраненных публичных workflow notes.
+2. Система строит roadmap без customer data и без внешних credentials.
+3. Roadmap показывает lead qualification, privacy, do-not-automate и handoff
+   gates.
+
+Формулировка: synthetic demos проверяют edge cases, public-source demos
+показывают работу на опубликованных workflow descriptions.
+
 ## Что показать в терминале
 
 ```bash
@@ -69,15 +79,19 @@ bash scripts/demo_roadmap_ru.sh
 2. `docs/product/report_contract.md` - контракт итогового roadmap.
 3. `docs/security/privacy_modes.md` - логика cloud/private/local.
 4. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
-5. `tests/eval/` - автоматические проверки.
-6. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
+5. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
+   source of truth, LLM boundaries и hallucination safeguards.
+6. `tests/eval/` - автоматические проверки.
+7. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
    запуска скрипта.
+8. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
+   output после запуска скрипта.
 
 ## Proof points
 
 Технические доказательства:
 
-- full suite: `343 passed`;
+- full suite: `350 passed`;
 - локальный CLI без внешних credentials;
 - typed schemas через Pydantic;
 - deterministic evals;
@@ -85,6 +99,8 @@ bash scripts/demo_roadmap_ru.sh
 - cost range checks;
 - forbidden-claim checks;
 - approved handoff blocked unless review approved.
+- public-source workflow demos reuse saved public fixtures, not invented
+  customer data.
 
 Продуктовые доказательства:
 
@@ -103,6 +119,7 @@ bash scripts/demo_roadmap_ru.sh
 - “это готовый AI agent platform”;
 - “мы гарантируем ROI”;
 - “мы certified compliance solution”.
+- “public-source demo доказывает спрос рынка”.
 
 Говорить:
 
@@ -110,6 +127,8 @@ bash scripts/demo_roadmap_ru.sh
 - “мы готовы проверять commercial demand”;
 - “первый paid package - AI readiness / AI roadmap diagnostic”;
 - “продукт помогает не потратить деньги на неправильную AI-автоматизацию”.
+- “public-source demos доказывают техническую работу на опубликованных workflow,
+  но buyer proof должен прийти через real pilot”.
 
 ## Первый paid offer
 
@@ -154,4 +173,3 @@ bash scripts/demo_roadmap_ru.sh
    - support tickets.
 4. Готовы ли платить за roadmap без немедленного implementation.
 5. Какой price point не вызывает долгого procurement.
-

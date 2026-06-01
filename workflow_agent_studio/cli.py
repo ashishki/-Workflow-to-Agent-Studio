@@ -223,8 +223,7 @@ def _validate_roadmap_privacy_mode(*, report, business_profile: Path, privacy_mo
     source = report.evidence_packet.source_documents[0]
     redaction_status = source.redaction_status
     if (
-        source.source_type.startswith("synthetic")
-        and source.source_privacy_class == "sensitive"
+        source.source_privacy_class == "sensitive"
         and "redact" in report.executive_summary.overall_privacy_mode_recommendation.lower()
     ):
         redaction_status = "required"

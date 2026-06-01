@@ -11,6 +11,12 @@ DOMAIN_INPUTS = [
     Path("docs/examples/domains/legal_consultancy_input.md"),
 ]
 
+PUBLIC_SOURCE_INPUTS = [
+    Path("tests/fixtures/public_sources/hvac_lead_intake.notes.md"),
+    Path("tests/fixtures/public_sources/netbox_issue_triage.notes.md"),
+    Path("tests/fixtures/public_sources/gitlab_incident_workflow.notes.md"),
+]
+
 
 @pytest.mark.parametrize("input_path", DOMAIN_INPUTS)
 def test_roadmap_service_creates_valid_report_for_demo_inputs(input_path: Path) -> None:
@@ -34,3 +40,38 @@ def test_legal_demo_report_requires_local_or_private_privacy_mode() -> None:
     assert "Local/on-prem" in report.executive_summary.overall_privacy_mode_recommendation
     assert report.recommendations[0].privacy_class == "restricted"
     assert "Legal eligibility decisions" in report.do_not_automate_rationale
+
+
+@pytest.mark.parametrize("input_path", PUBLIC_SOURCE_INPUTS)
+def test_roadmap_service_creates_valid_report_for_public_source_inputs(
+    input_path: Path,
+) -> None:
+    report = generate_roadmap_report(input_path)
+
+    reparsed = RoadmapReport.model_validate(report.model_dump(mode="json"))
+
+    assert reparsed == report
+    assert report.evidence_packet.source_documents[0].source_type == "public_source_markdown"
+    assert report.recommendations
+    assert report.do_not_automate_rationale
+    assert report.verification_appendix.recommendation_trace
+
+
+def test_public_hvac_report_uses_public_source_lead_intake_pattern() -> None:
+    report = generate_roadmap_report("tests/fixtures/public_sources/hvac_lead_intake.notes.md")
+
+    assert report.report_id == "RPT-HVAC-001"
+    assert "lead_qualification:v1" in (
+        report.verification_appendix.recommendation_trace[0].matched_pattern_id
+    )
+    assert "automatic lead rejection" in report.do_not_automate_rationale
+
+
+def test_public_incident_report_keeps_incident_actions_human_approved() -> None:
+    report = generate_roadmap_report(
+        "tests/fixtures/public_sources/gitlab_incident_workflow.notes.md"
+    )
+
+    assert "Private analysis" in report.executive_summary.overall_privacy_mode_recommendation
+    assert "paging responders" in report.do_not_automate_rationale
+    assert report.recommendations[0].human_gate.required

@@ -46,6 +46,13 @@ def match_smb_pattern(
             blocked_anti_matches=["high_autonomy_agent"],
             rationale="Appointment workflows are mostly deterministic scheduling and reminders.",
         )
+    if _contains_any(text, ("lead", "intake", "service area", "qualification")):
+        return _match(
+            patterns["lead_qualification"],
+            privacy_class=privacy_class,
+            blocked_anti_matches=["automatic_lead_rejection", "discriminatory_scoring"],
+            rationale="Lead intake needs field checks, routing rules, and human approval.",
+        )
     if _contains_any(text, ("return", "refund", "rma request")):
         return _match(
             patterns["ecommerce_returns"],
@@ -66,6 +73,16 @@ def match_smb_pattern(
             privacy_class=privacy_class,
             blocked_anti_matches=["llm_agent_for_metric_calculation"],
             rationale="Stable reporting should prefer deterministic calculations.",
+        )
+    if _contains_any(text, ("incident", "runbook", "pagerduty", "slack", "incident.io")):
+        return _match(
+            patterns["internal_knowledge_assistant"],
+            privacy_class=privacy_class,
+            blocked_anti_matches=["automatic_incident_declaration", "autonomous_paging"],
+            rationale=(
+                "Incident response support should cite runbooks and keep response "
+                "actions human-approved."
+            ),
         )
     return _match(
         patterns["customer_support_triage"],

@@ -148,7 +148,7 @@ def generate_roadmap_report(input_path: str | Path) -> RoadmapReport:
             source_documents=[
                 EvidenceSourceSummary(
                     source_id=profile["source_id"],
-                    source_type="synthetic_demo_markdown",
+                    source_type=profile.get("source_type", "synthetic_demo_markdown"),
                     source_hash=source_hash,
                     extracted_evidence_snippets=profile["evidence_snippets"],
                     missing_evidence=profile["missing_evidence"],
@@ -221,7 +221,7 @@ def generate_roadmap_report(input_path: str | Path) -> RoadmapReport:
                     chunk_id="CH-001",
                     source_hash=source_hash,
                     evidence_summary=profile["evidence_snippets"][0],
-                    redacted=True,
+                    redacted=profile.get("evidence_redacted", True),
                 )
             ],
             recommendation_trace=[trace],
@@ -260,6 +260,12 @@ def _profile_for_input(path: Path, text: str) -> dict:
         return _ecommerce_profile()
     if "legal" in name:
         return _legal_profile()
+    if "hvac_lead_intake" in name:
+        return _hvac_lead_intake_profile()
+    if "netbox_issue_triage" in name:
+        return _netbox_issue_triage_profile()
+    if "gitlab_incident_workflow" in name:
+        return _gitlab_incident_profile()
     raise ValueError(f"Unsupported roadmap demo input: {path}")
 
 
@@ -477,6 +483,403 @@ def _legal_profile() -> dict:
             "acceptance_criteria": ["No legal advice is generated without consultant review."],
             "regression_tests": ["legal advice blocker", "restricted cloud blocker"],
             "stop_conditions": ["client-facing legal interpretation without consultant review"],
+        }
+    )
+    return profile
+
+
+def _hvac_lead_intake_profile() -> dict:
+    profile = _hair_salon_profile()
+    profile.update(
+        {
+            "domain_id": "hvac",
+            "source_id": "SRC-PUBLIC-HVAC",
+            "source_type": "public_source_markdown",
+            "evidence_redacted": False,
+            "privacy_class": "sensitive",
+            "privacy_mode": "lightweight_cloud",
+            "privacy_mode_recommendation": (
+                "Lightweight cloud only after redacting contact and service-address fields."
+            ),
+            "company_context": "Public HVAC lead-intake workflow from service pages.",
+            "workflow_description": "HVAC lead intake and service-area qualification workflow.",
+            "pain_point": "Intake teams manually check required fields, urgency, and routing.",
+            "workflow_name": "HVAC lead intake",
+            "workflow_id": "WF-PUBLIC-HVAC",
+            "business_owner": "Service manager",
+            "trigger": "Customer calls, submits an appointment form, or requests service online.",
+            "actors": [
+                "customer",
+                "intake representative",
+                "scheduling coordinator",
+                "dispatcher",
+                "technician or estimator",
+            ],
+            "systems": [
+                "website appointment form",
+                "phone intake line",
+                "service-area checker",
+                "dispatch calendar",
+                "CRM or service-management system",
+            ],
+            "steps": [
+                "Capture contact and service details",
+                "Check service-area fit",
+                "Classify urgency and service type",
+                "Route to dispatcher-reviewed follow-up",
+            ],
+            "decisions": [
+                "Inside service area",
+                "Emergency or standard follow-up",
+                "Residential, commercial, or industrial route",
+            ],
+            "exceptions": [
+                "outside service area",
+                "incomplete contact details",
+                "emergency no-cooling or no-heat request",
+            ],
+            "inputs": [
+                "name",
+                "phone",
+                "email",
+                "service address or ZIP code",
+                "service type",
+                "issue description",
+            ],
+            "outputs": ["intake summary", "dispatcher review queue", "follow-up task"],
+            "frequency_or_volume": "Public source does not verify internal volume.",
+            "pain_points": [
+                "incomplete intake details",
+                "manual service-area checks",
+                "emergency routing",
+            ],
+            "current_tools": [
+                "website form",
+                "phone line",
+                "service-area checker",
+                "dispatch calendar",
+            ],
+            "current_manual_effort": (
+                "Staff manually qualify and route each inbound service request."
+            ),
+            "recommendation": "Human-reviewed HVAC lead intake assistant",
+            "target_step": "Required-field, service-area, and urgency qualification",
+            "target_step_id": "WF-PUBLIC-HVAC-STEP-002",
+            "expected_value": "Reduce manual intake sorting while keeping dispatch approval.",
+            "quantitative_assumption": "Reduce manual intake triage time by 20-40 percent.",
+            "required_data": ["intake form fields", "service-area rules", "routing destinations"],
+            "architecture_model": "Deterministic field checks with LLM intake summarization.",
+            "deterministic_components": [
+                "required field check",
+                "service-area check",
+                "human approval gate",
+            ],
+            "llm_components": ["summarize lead", "draft qualification notes"],
+            "estimated_time": {"low": "3 weeks", "medium": "5 weeks", "high": "6 weeks"},
+            "required_people": ["AI automation engineer", "service manager", "dispatcher"],
+            "dependencies": ["service-area rules", "CRM fields", "dispatch approval policy"],
+            "risks": ["wrong lead rejection", "missing consent", "bad emergency routing"],
+            "validation_method": ["golden intake requests", "dispatcher override review"],
+            "success_metrics": ["routing accuracy", "missing-field rate", "dispatcher overrides"],
+            "fallback_option": "Manual intake checklist and dispatcher follow-up.",
+            "assumptions": ["CRM or service-management integration is available."],
+            "assumption_impact": (
+                "Without CRM access, the assistant remains a draft-only intake aid."
+            ),
+            "assumption_verification": (
+                "Review target CRM fields and routing rules with dispatcher."
+            ),
+            "claim_text": "HVAC lead intake is suitable for human-reviewed qualification support.",
+            "evidence_snippets": [
+                "Public HVAC notes list intake fields, service-area checks, and escalation points."
+            ],
+            "missing_evidence": ["Internal volume", "actual CRM schema", "conversion baseline"],
+            "do_not_automate": [
+                "automatic lead rejection",
+                "diagnosis from short issue descriptions",
+                "arrival-time guarantees",
+            ],
+            "roadmap_30_60_90": [
+                "Map intake fields",
+                "Pilot dispatcher-reviewed summaries",
+                "Measure routing overrides",
+            ],
+            "scope": "medium",
+            "monthly_volume": 800,
+            "confidence": "medium",
+            "business_value": 80,
+            "delivery_readiness": 65,
+            "risk_penalty": 45,
+            "evaluation_clarity": 75,
+            "privacy_sensitivity_score": 65,
+            "data_readiness_score": 60,
+            "implementation_complexity_score": 55,
+            "uncertainty_notes": ["Public source does not verify internal volume."],
+            "golden_test_cases": [
+                "complete standard request",
+                "outside service area",
+                "emergency no-heat request",
+            ],
+            "shadow_mode": "Draft intake summaries without creating appointments.",
+            "human_review_sample": "First 100 intake recommendations.",
+            "acceptance_criteria": ["No automatic dispatch or appointment confirmation."],
+            "regression_tests": ["outside-area blocker", "emergency routing escalation"],
+            "stop_conditions": ["automatic rejection", "diagnosis or price guarantee"],
+        }
+    )
+    return profile
+
+
+def _netbox_issue_triage_profile() -> dict:
+    profile = _hair_salon_profile()
+    profile.update(
+        {
+            "domain_id": "netbox",
+            "source_id": "SRC-PUBLIC-NETBOX",
+            "source_type": "public_source_markdown",
+            "evidence_redacted": False,
+            "privacy_class": "public",
+            "privacy_mode": "lightweight_cloud",
+            "privacy_mode_recommendation": (
+                "Lightweight cloud is acceptable for public issue metadata."
+            ),
+            "company_context": "Public NetBox GitHub issue triage workflow.",
+            "workflow_description": (
+                "GitHub Issues support triage checks templates and routes submissions."
+            ),
+            "pain_point": "Maintainers repeatedly request missing details and close duplicates.",
+            "workflow_name": "NetBox issue triage",
+            "workflow_id": "WF-PUBLIC-NETBOX",
+            "business_owner": "Maintainer or triager",
+            "trigger": "A new issue, feature request, bug report, or support-like request arrives.",
+            "actors": ["reporter", "maintainer or triager", "engineering owner"],
+            "systems": ["GitHub Issues", "issue templates", "labels", "project backlog"],
+            "steps": [
+                "Check template completion",
+                "Review duplicate and scope status",
+                "Request missing details",
+                "Route accepted issue to engineering review",
+            ],
+            "decisions": [
+                "Template complete",
+                "Duplicate or out of scope",
+                "Reproducible on current release",
+                "Accepted for engineering review",
+            ],
+            "exceptions": [
+                "missing reproduction steps",
+                "duplicate issue",
+                "stale reporter follow-up",
+            ],
+            "inputs": [
+                "issue type",
+                "reporter",
+                "template completion state",
+                "product version",
+                "reproduction steps",
+            ],
+            "outputs": ["draft triage recommendation", "clarification request", "routing note"],
+            "frequency_or_volume": "Public source does not verify maintainer volume.",
+            "pain_points": [
+                "template checks",
+                "manual clarification",
+                "duplicate and out-of-scope triage",
+            ],
+            "current_tools": ["GitHub Issues", "issue templates", "labels"],
+            "current_manual_effort": "Maintainers manually inspect and respond to every issue.",
+            "recommendation": "Maintainer-reviewed issue triage assistant",
+            "target_step": "Template, scope, duplicate, and reproducibility triage",
+            "target_step_id": "WF-PUBLIC-NETBOX-STEP-002",
+            "expected_value": "Reduce repetitive triage drafting without mutating GitHub state.",
+            "quantitative_assumption": "Reduce maintainer triage drafting time by 20-35 percent.",
+            "required_data": ["issue templates", "triage policy", "public issue metadata"],
+            "architecture_model": "LLM triage drafting with deterministic no-mutation boundary.",
+            "deterministic_components": [
+                "template field check",
+                "no-mutation gate",
+                "maintainer approval",
+            ],
+            "llm_components": ["summarize issue", "draft clarification request"],
+            "estimated_time": {"low": "2 weeks", "medium": "4 weeks", "high": "6 weeks"},
+            "required_people": ["automation engineer", "maintainer", "repository admin"],
+            "dependencies": ["GitHub issue export", "triage policy", "approval workflow"],
+            "risks": ["incorrect closure", "wrong routing", "unsupported maintainer claim"],
+            "validation_method": ["golden issue examples", "maintainer review"],
+            "success_metrics": [
+                "triage draft acceptance",
+                "clarification accuracy",
+                "override rate",
+            ],
+            "fallback_option": "Canned maintainer responses and manual issue review.",
+            "assumptions": ["Maintainers can export or review representative issue examples."],
+            "assumption_impact": "Without examples, triage quality remains public-demo only.",
+            "assumption_verification": "Review issue samples and maintainer overrides.",
+            "claim_text": "Issue triage is suitable for draft-only support triage assistance.",
+            "evidence_snippets": [
+                "Public NetBox notes list GitHub Issues, templates, duplicate checks, and routing."
+            ],
+            "missing_evidence": ["Maintainer volume", "private moderation policy"],
+            "do_not_automate": [
+                "closing public issues",
+                "changing labels or owners",
+                "accepting engineering commitments",
+            ],
+            "roadmap_30_60_90": [
+                "Collect issue examples",
+                "Pilot draft triage comments",
+                "Measure maintainer overrides",
+            ],
+            "scope": "small",
+            "monthly_volume": 300,
+            "confidence": "medium",
+            "business_value": 65,
+            "delivery_readiness": 75,
+            "risk_penalty": 35,
+            "evaluation_clarity": 80,
+            "privacy_sensitivity_score": 10,
+            "data_readiness_score": 80,
+            "implementation_complexity_score": 35,
+            "uncertainty_notes": ["Public source does not prove maintainer acceptance."],
+            "golden_test_cases": ["missing template", "duplicate issue", "reproducible bug"],
+            "shadow_mode": "Draft triage recommendations without changing GitHub state.",
+            "human_review_sample": "First 100 draft triage recommendations.",
+            "acceptance_criteria": [
+                "No labels, closures, or routing changes without maintainer approval."
+            ],
+            "regression_tests": ["no-close gate", "missing-template clarification"],
+            "stop_conditions": ["automatic closure", "unsupported engineering commitment"],
+        }
+    )
+    return profile
+
+
+def _gitlab_incident_profile() -> dict:
+    profile = _hair_salon_profile()
+    profile.update(
+        {
+            "domain_id": "gitlab_incident",
+            "source_id": "SRC-PUBLIC-GITLAB-INCIDENT",
+            "source_type": "public_source_markdown",
+            "evidence_redacted": False,
+            "privacy_class": "internal",
+            "privacy_mode": "private_analysis",
+            "privacy_mode_recommendation": (
+                "Private analysis recommended before using real incident records."
+            ),
+            "company_context": "Public GitLab incident coordination workflow.",
+            "workflow_description": "Incident response runbook and coordination support workflow.",
+            "pain_point": (
+                "Incident responders coordinate across Slack, Incident.io, Zoom, and docs."
+            ),
+            "workflow_name": "GitLab incident coordination",
+            "workflow_id": "WF-PUBLIC-GITLAB-INCIDENT",
+            "business_owner": "Incident manager on call",
+            "trigger": "Monitoring detects an incident or a responder declares one.",
+            "actors": [
+                "engineer on call",
+                "incident manager",
+                "communications manager",
+                "incident responder",
+                "service owner",
+            ],
+            "systems": ["Incident.io", "Slack", "Zoom", "PagerDuty", "Google Docs", "runbooks"],
+            "steps": [
+                "Receive alert",
+                "Declare incident when needed",
+                "Coordinate roles and communications",
+                "Use service-specific runbooks",
+            ],
+            "decisions": [
+                "Declare incident",
+                "Notify extra roles",
+                "Select service runbook",
+                "Publish stakeholder update",
+            ],
+            "exceptions": ["high severity incident", "split communication", "missing runbook"],
+            "inputs": [
+                "alert source",
+                "severity",
+                "affected service",
+                "incident channel",
+                "runbook link",
+            ],
+            "outputs": ["coordination summary", "runbook reference", "human approval queue"],
+            "frequency_or_volume": "Public source does not verify incident volume.",
+            "pain_points": [
+                "multi-system coordination",
+                "role notification",
+                "documentation drift",
+            ],
+            "current_tools": ["Incident.io", "Slack", "PagerDuty", "Zoom", "Google Docs"],
+            "current_manual_effort": "Responders manually synchronize updates across tools.",
+            "recommendation": "Incident runbook and coordination assistant",
+            "target_step": "Runbook lookup and coordination summary drafting",
+            "target_step_id": "WF-PUBLIC-GITLAB-INCIDENT-STEP-003",
+            "expected_value": (
+                "Reduce coordination drift while keeping incident actions human-approved."
+            ),
+            "quantitative_assumption": "Reduce incident summary drafting time by 15-30 percent.",
+            "required_data": ["runbooks", "incident status", "role policy", "communication policy"],
+            "architecture_model": (
+                "Private RAG assistant over runbooks with strict action approval gates."
+            ),
+            "deterministic_components": ["source citation", "access check", "approval gate"],
+            "llm_components": ["draft coordination summary", "summarize relevant runbook"],
+            "estimated_time": {"low": "4 weeks", "medium": "7 weeks", "high": "10 weeks"},
+            "required_people": ["automation engineer", "incident manager", "security reviewer"],
+            "dependencies": ["runbook access", "incident data policy", "approval workflow"],
+            "risks": ["wrong severity advice", "autonomous paging", "stale runbook citation"],
+            "validation_method": ["golden incident scenarios", "incident manager review"],
+            "success_metrics": [
+                "citation accuracy",
+                "manager correction rate",
+                "coordination delay",
+            ],
+            "fallback_option": "Manual runbook lookup and incident manager coordination.",
+            "assumptions": ["Runbooks are current and accessible to the assistant."],
+            "assumption_impact": "Stale runbooks can produce unsafe coordination drafts.",
+            "assumption_verification": "Review runbook freshness and incident manager overrides.",
+            "claim_text": (
+                "Incident coordination can use cited draft assistance with human approval gates."
+            ),
+            "evidence_snippets": [
+                "Public GitLab notes list Incident.io, Slack, PagerDuty, Zoom, "
+                "Google Docs, and runbooks."
+            ],
+            "missing_evidence": ["Internal incident frequency", "access-control policy"],
+            "do_not_automate": [
+                "declaring incidents",
+                "paging responders",
+                "publishing customer-facing updates",
+            ],
+            "roadmap_30_60_90": [
+                "Audit runbooks",
+                "Pilot private draft summaries",
+                "Measure incident manager corrections",
+            ],
+            "scope": "medium",
+            "monthly_volume": 50,
+            "confidence": "low",
+            "business_value": 75,
+            "delivery_readiness": 55,
+            "risk_penalty": 85,
+            "evaluation_clarity": 65,
+            "privacy_sensitivity_score": 70,
+            "data_readiness_score": 55,
+            "implementation_complexity_score": 70,
+            "uncertainty_notes": ["Real incident records may be sensitive and access-controlled."],
+            "golden_test_cases": [
+                "low severity alert",
+                "high severity escalation",
+                "missing runbook",
+            ],
+            "shadow_mode": "Draft summaries only; incident manager approves all actions.",
+            "human_review_sample": "All pilot incident drafts.",
+            "acceptance_criteria": [
+                "No incident declaration, paging, or publication without approval."
+            ],
+            "regression_tests": ["autonomous paging blocker", "citation-required summary"],
+            "stop_conditions": ["automatic incident action", "uncited response guidance"],
         }
     )
     return profile

@@ -111,5 +111,30 @@ CMD
 section "6. Финальный смысл"
 bold "Это не agent builder."
 bold "Это AI roadmap layer: что внедрять, что не внедрять, privacy, cost, eval и handoff."
-ok "Demo complete"
 
+section "7. Public-source workflow пример"
+PUBLIC_INPUT="tests/fixtures/public_sources/hvac_lead_intake.notes.md"
+PUBLIC_OUTPUT="public_hvac_roadmap.md"
+cat <<CMD
+$PYTHON_BIN -m workflow_agent_studio.cli roadmap \\
+  --database $DATABASE \\
+  --run-id public-hvac-demo \\
+  --business-profile $PUBLIC_INPUT \\
+  --privacy-mode lightweight_cloud \\
+  --export-dir $EXPORT_DIR \\
+  --output $PUBLIC_OUTPUT
+CMD
+
+PUBLIC_RESULT="$(
+  "$PYTHON_BIN" -m workflow_agent_studio.cli roadmap \
+    --database "$DATABASE" \
+    --run-id public-hvac-demo \
+    --business-profile "$PUBLIC_INPUT" \
+    --privacy-mode lightweight_cloud \
+    --export-dir "$EXPORT_DIR" \
+    --output "$PUBLIC_OUTPUT"
+)"
+ok "Public-source roadmap generated"
+printf '%s\n' "$PUBLIC_RESULT"
+muted "Важно: public-source demo доказывает работу на публичном workflow, но не buyer demand."
+ok "Demo complete"

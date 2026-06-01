@@ -23,6 +23,7 @@ Russian cofounder/demo package:
 
 - `README_RU.md`
 - `docs/demo/COFOUNDER_DEMO_RU.md`
+- `docs/methodology/ROADMAP_CALCULATION_RU.md`
 - `scripts/demo_roadmap_ru.sh`
 
 Reference integration: `docs/entropy_core_gensyn_integration.md`.
@@ -197,7 +198,7 @@ Primary metrics:
 - Next task: waiting for the next task graph or human direction.
 - Open commercial proof boundary: T34/T40 remain blocked until
   human-reviewed real workflow data is recorded in `docs/pilot_measurement.md`.
-- Latest full baseline after T82: 343 passing tests, 0 skipped, 0 failed.
+- Latest full baseline after public-source roadmap demo package: 350 passing tests, 0 skipped, 0 failed.
 - Documentation prep check: `.venv/bin/python -m pytest tests/unit/test_docs.py -q`
   passed with 24 tests.
 - Historical checkpoint: Verified local baseline: 127 passing tests before the

@@ -31,10 +31,11 @@ The product promise:
 7. `docs/methodology/cost_estimation.md`
 8. `docs/methodology/scoring_model.md`
 9. `docs/methodology/verification_model.md`
-10. `docs/architecture/smb_roadmap_architecture.md`
-11. `docs/prompts/roadmap_prompt_contracts.md`
-12. `docs/tasks.md#phase-14-smb-ai-roadmap-product-layer`
-13. `docs/CODEX_PROMPT.md`
+10. `docs/methodology/ROADMAP_CALCULATION_RU.md`
+11. `docs/architecture/smb_roadmap_architecture.md`
+12. `docs/prompts/roadmap_prompt_contracts.md`
+13. `docs/tasks.md#phase-14-smb-ai-roadmap-product-layer`
+14. `docs/CODEX_PROMPT.md`
 
 ## Demo Packs
 
