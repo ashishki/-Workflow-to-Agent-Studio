@@ -576,6 +576,20 @@ Recommendation card schema baseline:
 - Required planning fields: privacy, cost, time, risks, validation, metrics, data, dependencies, human gate
 - Regression: No
 
+Cost estimate schema baseline:
+
+- Date: 2026-06-01
+- Task: T66
+- Eval Source: pytest tests/unit/test_costing_schema.py -q
+- Metric: Cost estimate schema expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Cost ranges: one-time and monthly represented separately
+- Blocking invalid cases: unordered one-time range, unordered monthly range, missing assumptions
+- Confidence levels: low, medium, high
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -615,6 +629,7 @@ Recommendation card schema baseline:
 | 2026-05-29 | T60 | design-candidate-v1 | Diverse design generation expected-outcome pass rate | 100%; 6 candidates; tradeoff coverage 100%; insufficient evidence needs_review | 100%; 6 candidates; tradeoff coverage 100%; insufficient evidence needs_review | 0% | No | pytest tests/integration/test_design_candidate_flow.py tests/eval/test_plan_eval.py -q |
 | 2026-06-01 | T64 | privacy-classification-v1 | Privacy classification schema expected-outcome pass rate | 100%; 5 privacy classes; 2 invalid class rejection paths | 100%; 5 privacy classes; 2 invalid class rejection paths | 0% | No | pytest tests/unit/test_privacy_schema.py -q |
 | 2026-06-01 | T65 | recommendation-card-v1 | Recommendation card schema expected-outcome pass rate | 100%; happy path; 12 blocking invalid cases | 100%; happy path; 12 blocking invalid cases | 0% | No | pytest tests/unit/test_recommendation_schema.py -q |
+| 2026-06-01 | T66 | cost-estimate-v1 | Cost estimate schema expected-outcome pass rate | 100%; 2 ordered range paths; 3 confidence levels; missing assumptions blocked | 100%; 2 ordered range paths; 3 confidence levels; missing assumptions blocked | 0% | No | pytest tests/unit/test_costing_schema.py -q |
 
 ---
 
