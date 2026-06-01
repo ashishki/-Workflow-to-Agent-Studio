@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
-- Next task: T72 - Cloud Private Local Policy Gate
-- Verified baseline: T71 pre-change baseline was 294 passing tests, 0 skipped, 0 failed; T71 completion baseline is 297 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T71
+- Next task: T73 - SMB Implementation Pattern Schema
+- Verified baseline: T72 pre-change baseline was 297 passing tests, 0 skipped, 0 failed; T72 completion baseline is 302 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T72
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete
 
 ## Active References
 
@@ -36,42 +36,40 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T71 - Redaction Preview
+Task: T72 - Cloud Private Local Policy Gate
 
 Status: complete.
 
-Task: T72 - Cloud Private Local Policy Gate
+Task: T73 - SMB Implementation Pattern Schema
 
-Goal: block unsafe model-mode recommendations based on privacy class and
-redaction status.
+Goal: implement schema and loader for versioned SMB implementation patterns.
 
 Acceptance summary:
 
-- restricted data blocks lightweight cloud recommendation unless source is
-  synthetic/redacted and report states the condition
-- sensitive data requires redaction note for cloud mode
-- high-risk legal, medical, financial, and HR domains require a human review
-  gate
-- tests cover legal consultancy, e-commerce, and hair salon fixtures
+- pattern schema validates pattern ID, version, signals, required data, privacy
+  default, architecture, risks, eval metrics, and when-not-to-use
+- invalid JSON pattern fails with a clear validation error
+- loader returns pattern version metadata
+- unit tests validate every pattern file
 
 File scope:
 
-- `workflow_agent_studio/validators/privacy.py`
-- `tests/unit/test_privacy_policy_gate.py`
+- `workflow_agent_studio/patterns/smb.py`
+- `workflow_agent_studio/patterns/smb/`
+- `tests/unit/test_smb_pattern_library.py`
 
 Required context:
 
-- `docs/security/cloud_vs_local_decision.md`
-- `docs/security/privacy_modes.md`
+- `docs/methodology/implementation_patterns.md`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T71
+- Task: T72
 - Date: 2026-06-01
-- Eval Source: `.venv/bin/python -m pytest tests/unit/test_redaction_preview.py -q`
-- Result: 3 passed; full repository verification passed with 297 tests
+- Eval Source: `.venv/bin/python -m pytest tests/unit/test_privacy_policy_gate.py -q`
+- Result: 5 passed; full repository verification passed with 302 tests
 
 ## Profile State
 
@@ -84,8 +82,7 @@ RAG: ON
 Planning: ON
 
 - Current schema: blueprint v1 plus design-candidate-v1
-- Next work: deterministic privacy classification and policy gates for SMB
-  implementation planning
+- Next work: SMB implementation patterns for roadmap planning
 - Open planning findings: none
 
 Tool-Use: OFF

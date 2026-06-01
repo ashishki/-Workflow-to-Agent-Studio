@@ -630,6 +630,19 @@ Roadmap report aggregate schema baseline:
 - Blocking invalid cases: missing required sections, empty recommendations without do-not-automate rationale
 - Regression: No
 
+Privacy policy gate baseline:
+
+- Date: 2026-06-01
+- Task: T72
+- Eval Source: pytest tests/unit/test_privacy_policy_gate.py -q
+- Metric: Cloud/private/local privacy policy gate expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Blocking paths: restricted cloud, sensitive cloud without redaction note, high-risk domain without human gate
+- Allowed paths: restricted redacted/synthetic condition, salon cloud after redaction note
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -673,6 +686,7 @@ Roadmap report aggregate schema baseline:
 | 2026-06-01 | T67 | priority-score-v1 | Priority scoring schema expected-outcome pass rate | 100%; 6 bands; rationale and uncertainty required; invalid band blocked | 100%; 6 bands; rationale and uncertainty required; invalid band blocked | 0% | No | pytest tests/unit/test_priority_scoring_schema.py -q |
 | 2026-06-01 | T68 | roadmap-verification-receipt-v1 | Verification receipt schema expected-outcome pass rate | 100%; valid receipt; required claim, assumption, trace, receipt fields blocked | 100%; valid receipt; required claim, assumption, trace, receipt fields blocked | 0% | No | pytest tests/unit/test_verification_receipt.py -q |
 | 2026-06-01 | T69 | roadmap-report-v1 | Roadmap report aggregate schema expected-outcome pass rate | 100%; JSON round-trip; missing required sections blocked; empty recommendation rationale gate | 100%; JSON round-trip; missing required sections blocked; empty recommendation rationale gate | 0% | No | pytest tests/unit/test_roadmap_report_schema.py -q |
+| 2026-06-01 | T72 | privacy-policy-gate-v1 | Cloud/private/local privacy policy gate expected-outcome pass rate | 100%; restricted/sensitive/high-risk blockers; allowed redacted paths | 100%; restricted/sensitive/high-risk blockers; allowed redacted paths | 0% | No | pytest tests/unit/test_privacy_policy_gate.py -q |
 
 ---
 
