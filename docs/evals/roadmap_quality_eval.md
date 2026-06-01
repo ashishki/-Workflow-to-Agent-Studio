@@ -63,3 +63,9 @@ MVP demo report passes when:
 - privacy awareness score is at least 4;
 - anti-overengineering score is at least 4;
 - unsupported claim count is zero.
+
+## Eval History
+
+| Date | Task | Eval Version | Metric | Score | Baseline | Delta | Regression? | Eval Source |
+|------|------|--------------|--------|-------|----------|-------|-------------|-------------|
+| 2026-06-01 | T81 | roadmap-eval-suite-v1 | Roadmap quality gate pass rate | 100%; 3 demo reports; forbidden claim surfaces clean; required quality sections present | 100%; 3 demo reports; forbidden claim surfaces clean; required quality sections present | 0% | No | pytest tests/eval/test_roadmap_quality_eval.py -q |

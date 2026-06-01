@@ -37,6 +37,7 @@ forcing every workflow into an AI agent pattern.
 | Date | Task | Matcher Version | Metric | Score | Baseline | Delta | Regression? | Eval Source |
 |------|------|-----------------|--------|-------|----------|-------|-------------|-------------|
 | 2026-06-01 | T75 | pattern-matching-baseline-v1 | Expected SMB pattern matches | 100%; salon reminder, e-commerce returns, legal checklist, reporting automation, privacy anti-match | 100%; salon reminder, e-commerce returns, legal checklist, reporting automation, privacy anti-match | 0% | No | pytest tests/eval/test_pattern_matching_eval.py -q |
+| 2026-06-01 | T81 | roadmap-eval-suite-v1 | Roadmap pattern trace pass rate | 100%; 3 demo reports trace expected pattern IDs and versions | 100%; 3 demo reports trace expected pattern IDs and versions | 0% | No | pytest tests/eval/test_pattern_matching_eval.py -q |
 
 ## Human Review
 

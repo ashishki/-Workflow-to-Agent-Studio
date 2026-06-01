@@ -30,6 +30,7 @@ Purpose: keep cost ranges honest and avoid false precision.
 | Date | Task | Cost Model Version | Metric | Score | Baseline | Delta | Regression? | Eval Source |
 |------|------|--------------------|--------|-------|----------|-------|-------------|-------------|
 | 2026-06-01 | T76 | cost-engine-baseline-v1 | Deterministic cost engine expected-outcome pass rate | 100%; reminder, support assistant, private document assistant, missing assumptions blocked | 100%; reminder, support assistant, private document assistant, missing assumptions blocked | 0% | No | pytest tests/unit/test_cost_engine.py -q |
+| 2026-06-01 | T81 | roadmap-eval-suite-v1 | Roadmap cost estimate quality pass rate | 100%; demo reports use ranges with assumptions; single-point estimate flagged | 100%; demo reports use ranges with assumptions; single-point estimate flagged | 0% | No | pytest tests/eval/test_cost_estimation_eval.py -q |
 
 ## Sanity Bands
 

@@ -46,6 +46,7 @@ before roadmap recommendations choose model mode.
 | Date | Task | Classifier Version | Metric | Score | Baseline | Delta | Regression? | Eval Source |
 |------|------|--------------------|--------|-------|----------|-------|-------------|-------------|
 | 2026-06-01 | T70 | privacy-classification-v1 | Required privacy category coverage | 100%; 13 categories; legal restricted; salon sensitive; false-positive not restricted | 100%; 13 categories; legal restricted; salon sensitive; false-positive not restricted | 0% | No | pytest tests/unit/test_privacy_classifier.py -q |
+| 2026-06-01 | T81 | roadmap-eval-suite-v1 | Roadmap privacy policy eval pass rate | 100%; legal cloud blocker; report privacy classes present | 100%; legal cloud blocker; report privacy classes present | 0% | No | pytest tests/eval/test_privacy_classification_eval.py -q |
 
 ## Human Review
 

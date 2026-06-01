@@ -1,4 +1,5 @@
 from workflow_agent_studio.roadmap.pattern_matching import match_smb_pattern
+from workflow_agent_studio.roadmap.service import generate_roadmap_report
 
 
 def test_salon_reminder_matches_appointment_pattern_not_high_autonomy_agent() -> None:
@@ -67,3 +68,18 @@ def test_privacy_weaker_than_detected_data_class_is_blocked() -> None:
 
     assert not match.privacy_compatible
     assert "privacy_default_weaker_than_detected_data_class" in match.blocked_anti_matches
+
+
+def test_demo_roadmap_traces_expected_pattern_matches() -> None:
+    expected = {
+        "docs/examples/domains/hair_salon_input.md": "appointment_booking:v1",
+        "docs/examples/domains/ecommerce_input.md": "ecommerce_returns:v1",
+        "docs/examples/domains/legal_consultancy_input.md": "legal_checklist:v1",
+    }
+
+    for input_path, pattern_ref in expected.items():
+        report = generate_roadmap_report(input_path)
+
+        assert (
+            report.verification_appendix.recommendation_trace[0].matched_pattern_id == pattern_ref
+        )

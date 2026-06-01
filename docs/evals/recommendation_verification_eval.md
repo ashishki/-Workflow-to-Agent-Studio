@@ -57,3 +57,9 @@ Report passes when:
 - zero forbidden claims;
 - all unresolved assumptions are listed;
 - high-risk recommendations are either blocked or human-gated.
+
+## Eval History
+
+| Date | Task | Eval Version | Metric | Score | Baseline | Delta | Regression? | Eval Source |
+|------|------|--------------|--------|-------|----------|-------|-------------|-------------|
+| 2026-06-01 | T81 | roadmap-eval-suite-v1 | Recommendation verification pass rate | 100%; evidence or assumptions present; trace model versions present | 100%; evidence or assumptions present; trace model versions present | 0% | No | pytest tests/eval/test_recommendation_verification_eval.py -q |

@@ -721,6 +721,18 @@ Roadmap assembly baseline:
 - Required report coverage: recommendations, do-not-automate items, privacy mode, verification appendix
 - Regression: No
 
+Roadmap eval suite baseline:
+
+- Date: 2026-06-01
+- Task: T81
+- Eval Source: pytest tests/eval/test_roadmap_quality_eval.py tests/eval/test_privacy_classification_eval.py tests/eval/test_cost_estimation_eval.py tests/eval/test_pattern_matching_eval.py tests/eval/test_recommendation_verification_eval.py -q
+- Metric: Roadmap quality/privacy/cost/pattern/verification expected-outcome pass rate
+- Score: 100%; 14 checks
+- Baseline: 100%; 14 checks
+- Delta: 0%
+- Covered gates: forbidden claims, evidence or assumptions, legal cloud blocker, single-point costs, pattern trace
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -771,6 +783,7 @@ Roadmap assembly baseline:
 | 2026-06-01 | T76 | cost-engine-baseline-v1 | Deterministic cost engine expected-outcome pass rate | 100%; reminder, support assistant, private document assistant, assumptions gate | 100%; reminder, support assistant, private document assistant, assumptions gate | 0% | No | pytest tests/unit/test_cost_engine.py -q |
 | 2026-06-01 | T77 | priority-scoring-engine-v1 | Deterministic priority scoring expected-outcome pass rate | 100%; quick_win, do_not_automate_yet, classic_automation, uncertainty gate | 100%; quick_win, do_not_automate_yet, classic_automation, uncertainty gate | 0% | No | pytest tests/unit/test_priority_scoring.py -q |
 | 2026-06-01 | T78 | roadmap-report-v1 | Demo roadmap assembly expected-outcome pass rate | 100%; 3 demo reports; privacy and verification appendix present | 100%; 3 demo reports; privacy and verification appendix present | 0% | No | pytest tests/integration/test_roadmap_generation.py -q |
+| 2026-06-01 | T81 | roadmap-eval-suite-v1 | Roadmap quality/privacy/cost/pattern/verification expected-outcome pass rate | 100%; 14 checks; forbidden claims and unsafe privacy blocked | 100%; 14 checks; forbidden claims and unsafe privacy blocked | 0% | No | pytest tests/eval/test_roadmap_quality_eval.py tests/eval/test_privacy_classification_eval.py tests/eval/test_cost_estimation_eval.py tests/eval/test_pattern_matching_eval.py tests/eval/test_recommendation_verification_eval.py -q |
 
 ---
 
