@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "appointment_booking",
+  "version": "v1",
+  "pattern_name": "Appointment booking",
+  "business_problem": "Staff manually answer booking requests and update a calendar",
+  "suitable_company_type": ["salon", "repair service", "clinic"],
+  "workflow_signals": ["booking requests", "calendar lookup", "service duration rules"],
+  "required_data": ["service menu", "availability", "booking rules"],
+  "privacy_default": "sensitive",
+  "architecture": {
+    "recommended_solution_type": "classic_script",
+    "llm_owned_steps": ["draft customer-friendly reply"],
+    "deterministic_steps": ["availability lookup", "slot hold", "confirmation approval"]
+  },
+  "estimated_implementation_time": "2-5 weeks",
+  "cost_range": "small integration range plus messaging subscription",
+  "required_roles": ["automation engineer", "business owner", "front desk reviewer"],
+  "risks": ["double booking", "wrong service duration", "customer preference exposure"],
+  "evaluation_metrics": ["booking accuracy", "manual correction rate", "response time"],
+  "when_not_to_use": ["calendar data unavailable", "medical triage required", "no confirmation policy"]
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "ecommerce_returns",
+  "version": "v1",
+  "pattern_name": "E-commerce returns",
+  "business_problem": "Return requests require repetitive policy checks and human approval",
+  "suitable_company_type": ["e-commerce", "retail"],
+  "workflow_signals": ["return requests", "refund policy", "order lookup"],
+  "required_data": ["return policy", "order metadata", "customer message"],
+  "privacy_default": "sensitive",
+  "architecture": {
+    "recommended_solution_type": "human_in_the_loop_workflow",
+    "llm_owned_steps": ["summarize request", "draft response"],
+    "deterministic_steps": ["eligibility rule check", "refund approval gate", "order lookup"]
+  },
+  "estimated_implementation_time": "3-7 weeks",
+  "cost_range": "implementation range plus e-commerce integration cost",
+  "required_roles": ["AI automation engineer", "support lead", "policy owner"],
+  "risks": ["automatic refund", "wrong policy answer", "customer data exposure"],
+  "evaluation_metrics": ["eligibility accuracy", "approval override rate", "first response time"],
+  "when_not_to_use": ["automatic refund required", "unstable return policy", "no approval gate"]
+}

@@ -656,6 +656,19 @@ SMB implementation pattern schema baseline:
 - Blocking invalid cases: malformed JSON, missing required schema field
 - Regression: No
 
+MVP SMB pattern pack baseline:
+
+- Date: 2026-06-01
+- Task: T74
+- Eval Source: pytest tests/unit/test_smb_pattern_library.py -q
+- Metric: MVP SMB pattern pack coverage
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Pattern files validated: 11
+- Required pattern coverage: support triage, knowledge assistant, sales email, lead qualification, document extraction, invoice processing, appointment booking, legal checklist, e-commerce returns, reporting automation, messaging support bot
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -701,6 +714,7 @@ SMB implementation pattern schema baseline:
 | 2026-06-01 | T69 | roadmap-report-v1 | Roadmap report aggregate schema expected-outcome pass rate | 100%; JSON round-trip; missing required sections blocked; empty recommendation rationale gate | 100%; JSON round-trip; missing required sections blocked; empty recommendation rationale gate | 0% | No | pytest tests/unit/test_roadmap_report_schema.py -q |
 | 2026-06-01 | T72 | privacy-policy-gate-v1 | Cloud/private/local privacy policy gate expected-outcome pass rate | 100%; restricted/sensitive/high-risk blockers; allowed redacted paths | 100%; restricted/sensitive/high-risk blockers; allowed redacted paths | 0% | No | pytest tests/unit/test_privacy_policy_gate.py -q |
 | 2026-06-01 | T73 | smb-pattern-v1 | SMB pattern schema and loader expected-outcome pass rate | 100%; 1 pattern file; malformed JSON and schema blockers | 100%; 1 pattern file; malformed JSON and schema blockers | 0% | No | pytest tests/unit/test_smb_pattern_library.py -q |
+| 2026-06-01 | T74 | smb-pattern-v1 | MVP SMB pattern pack coverage | 100%; 11 required patterns; every file validates; when-not-to-use present | 100%; 11 required patterns; every file validates; when-not-to-use present | 0% | No | pytest tests/unit/test_smb_pattern_library.py -q |
 
 ---
 

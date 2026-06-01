@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "messaging_support_bot",
+  "version": "v1",
+  "pattern_name": "Messaging support bot",
+  "business_problem": "Local service teams need faster first replies with escalation boundaries",
+  "suitable_company_type": ["local service business", "restaurant", "repair service"],
+  "workflow_signals": ["messaging inbox", "repeated questions", "escalation policy"],
+  "required_data": ["FAQ", "service policy", "escalation rules"],
+  "privacy_default": "sensitive",
+  "architecture": {
+    "recommended_solution_type": "llm_assistant",
+    "llm_owned_steps": ["draft reply", "classify intent"],
+    "deterministic_steps": ["business hours lookup", "escalation routing", "human approval gate"]
+  },
+  "estimated_implementation_time": "2-6 weeks",
+  "cost_range": "assistant implementation range plus messaging/LLM usage",
+  "required_roles": ["AI automation engineer", "business owner", "support reviewer"],
+  "risks": ["wrong service promise", "payment or medical advice", "customer data exposure"],
+  "evaluation_metrics": ["intent accuracy", "first response time", "escalation precision"],
+  "when_not_to_use": ["payments/medical/legal advice", "no escalation policy", "no human review"]
+}

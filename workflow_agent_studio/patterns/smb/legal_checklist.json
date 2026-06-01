@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "legal_checklist",
+  "version": "v1",
+  "pattern_name": "Legal checklist assistant",
+  "business_problem": "Legal teams need repeatable checklist support without automating legal advice",
+  "suitable_company_type": ["legal consultancy", "regulated operations"],
+  "workflow_signals": ["checklist process", "document requirements", "lawyer review"],
+  "required_data": ["approved checklist", "document requirements", "review boundaries"],
+  "privacy_default": "restricted",
+  "architecture": {
+    "recommended_solution_type": "rag_knowledge_assistant",
+    "llm_owned_steps": ["summarize checklist status", "draft missing item questions"],
+    "deterministic_steps": ["approved checklist lookup", "restricted mode gate", "lawyer review gate"]
+  },
+  "estimated_implementation_time": "5-12 weeks",
+  "cost_range": "private/local implementation range plus review cost",
+  "required_roles": ["AI automation engineer", "legal reviewer", "process owner"],
+  "risks": ["legal advice automation", "restricted data exposure", "outdated checklist"],
+  "evaluation_metrics": ["checklist coverage", "lawyer correction rate", "unsupported answer count"],
+  "when_not_to_use": ["legal advice automation", "no lawyer review", "cloud use requires raw restricted records"]
+}

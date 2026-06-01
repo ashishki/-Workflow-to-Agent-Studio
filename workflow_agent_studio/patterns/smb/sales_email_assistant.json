@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "sales_email_assistant",
+  "version": "v1",
+  "pattern_name": "Sales email assistant",
+  "business_problem": "Sales team spends repetitive time drafting follow-up emails",
+  "suitable_company_type": ["B2B services", "agency", "SaaS"],
+  "workflow_signals": ["repeated outbound emails", "templates exist", "human approval available"],
+  "required_data": ["email templates", "CRM context", "approved offer language"],
+  "privacy_default": "sensitive",
+  "architecture": {
+    "recommended_solution_type": "llm_assistant",
+    "llm_owned_steps": ["draft reply", "summarize buyer context"],
+    "deterministic_steps": ["CRM lookup", "approved template selection", "send approval gate"]
+  },
+  "estimated_implementation_time": "2-5 weeks",
+  "cost_range": "small implementation plus monthly LLM usage",
+  "required_roles": ["AI automation engineer", "sales owner", "reviewer"],
+  "risks": ["off-brand claims", "wrong offer terms", "personal data exposure"],
+  "evaluation_metrics": ["draft acceptance rate", "edit distance", "approval turnaround"],
+  "when_not_to_use": ["no human review", "regulated claims", "unapproved pricing language"]
+}

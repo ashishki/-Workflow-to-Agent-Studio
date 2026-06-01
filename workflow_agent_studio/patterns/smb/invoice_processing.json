@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "invoice_processing",
+  "version": "v1",
+  "pattern_name": "Invoice processing",
+  "business_problem": "Invoice intake and coding require repetitive extraction and accounting checks",
+  "suitable_company_type": ["accounting", "operations", "small business"],
+  "workflow_signals": ["invoice inbox", "manual coding", "approval rules"],
+  "required_data": ["invoice samples", "chart of accounts", "approval policy"],
+  "privacy_default": "confidential",
+  "architecture": {
+    "recommended_solution_type": "human_in_the_loop_workflow",
+    "llm_owned_steps": ["extract invoice fields", "draft coding suggestion"],
+    "deterministic_steps": ["vendor lookup", "approval threshold check", "accounting review gate"]
+  },
+  "estimated_implementation_time": "4-8 weeks",
+  "cost_range": "implementation range plus accounting integration cost",
+  "required_roles": ["AI automation engineer", "accounting reviewer", "process owner"],
+  "risks": ["wrong account coding", "duplicate payment", "confidential vendor exposure"],
+  "evaluation_metrics": ["field accuracy", "coding accuracy", "review override rate"],
+  "when_not_to_use": ["no accounting review", "unclear approval policy", "poor invoice samples"]
+}

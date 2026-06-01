@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "document_extraction",
+  "version": "v1",
+  "pattern_name": "Document extraction",
+  "business_problem": "Teams manually extract structured fields from recurring documents",
+  "suitable_company_type": ["accounting", "legal", "logistics"],
+  "workflow_signals": ["repeated documents", "field extraction", "human validation samples"],
+  "required_data": ["sample documents", "target schema", "validation rules"],
+  "privacy_default": "restricted",
+  "architecture": {
+    "recommended_solution_type": "human_in_the_loop_workflow",
+    "llm_owned_steps": ["extract draft fields", "summarize anomalies"],
+    "deterministic_steps": ["schema validation", "confidence thresholds", "review queue"]
+  },
+  "estimated_implementation_time": "4-10 weeks",
+  "cost_range": "implementation range plus extraction and review cost",
+  "required_roles": ["AI automation engineer", "domain reviewer", "process owner"],
+  "risks": ["incorrect extraction", "restricted data exposure", "missing validation samples"],
+  "evaluation_metrics": ["field accuracy", "review correction rate", "blocked low-confidence count"],
+  "when_not_to_use": ["no validation samples", "raw restricted documents required in cloud", "no reviewer"]
+}

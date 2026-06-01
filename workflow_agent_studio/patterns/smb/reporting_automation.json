@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "reporting_automation",
+  "version": "v1",
+  "pattern_name": "Reporting automation",
+  "business_problem": "Teams repeatedly compile operational metrics into reports",
+  "suitable_company_type": ["operations", "accounting", "agency"],
+  "workflow_signals": ["recurring report", "manual spreadsheet work", "stable metrics"],
+  "required_data": ["metric definitions", "source system exports", "report template"],
+  "privacy_default": "confidential",
+  "architecture": {
+    "recommended_solution_type": "classic_script",
+    "llm_owned_steps": ["draft narrative explanation"],
+    "deterministic_steps": ["data pull", "metric calculation", "report generation"]
+  },
+  "estimated_implementation_time": "2-6 weeks",
+  "cost_range": "script/integration range plus maintenance cost",
+  "required_roles": ["automation engineer", "report owner", "data reviewer"],
+  "risks": ["wrong metric definition", "stale source data", "unsupported narrative claim"],
+  "evaluation_metrics": ["metric match rate", "manual time saved", "review correction count"],
+  "when_not_to_use": ["metrics undefined", "source data unreliable", "report owner unavailable"]
+}

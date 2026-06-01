@@ -18,6 +18,19 @@ def test_smb_pattern_loader_validates_every_pattern_file() -> None:
 
     assert pattern_paths
     assert len(patterns) == len(pattern_paths)
+    assert {pattern.pattern_id for pattern in patterns} == {
+        "appointment_booking",
+        "customer_support_triage",
+        "document_extraction",
+        "ecommerce_returns",
+        "internal_knowledge_assistant",
+        "invoice_processing",
+        "lead_qualification",
+        "legal_checklist",
+        "messaging_support_bot",
+        "reporting_automation",
+        "sales_email_assistant",
+    }
     assert all(isinstance(pattern, SMBImplementationPattern) for pattern in patterns)
     assert {pattern.schema_version for pattern in patterns} == {"smb-pattern-v1"}
     assert all(pattern.workflow_signals for pattern in patterns)

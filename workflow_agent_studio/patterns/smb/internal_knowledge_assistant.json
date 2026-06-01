@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "internal_knowledge_assistant",
+  "version": "v1",
+  "pattern_name": "Internal knowledge assistant",
+  "business_problem": "Staff repeatedly search scattered internal documents for operational answers",
+  "suitable_company_type": ["agency", "operations team", "SaaS"],
+  "workflow_signals": ["repeated policy questions", "document lookup", "internal SOPs exist"],
+  "required_data": ["SOPs", "policy docs", "FAQ", "access rules"],
+  "privacy_default": "internal",
+  "architecture": {
+    "recommended_solution_type": "rag_knowledge_assistant",
+    "llm_owned_steps": ["draft cited answer", "summarize relevant policy"],
+    "deterministic_steps": ["document retrieval", "source citation", "access check"]
+  },
+  "estimated_implementation_time": "3-8 weeks",
+  "cost_range": "implementation range plus monthly LLM/vector cost",
+  "required_roles": ["AI automation engineer", "document owner", "reviewer"],
+  "risks": ["stale documents", "missing access control", "unsupported answer"],
+  "evaluation_metrics": ["citation accuracy", "answer acceptance rate", "no-answer accuracy"],
+  "when_not_to_use": ["outdated docs", "unresolved access control", "no owner for document refresh"]
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "lead_qualification",
+  "version": "v1",
+  "pattern_name": "Lead qualification",
+  "business_problem": "Inbound leads need consistent qualification and routing",
+  "suitable_company_type": ["clinic", "real estate", "local services"],
+  "workflow_signals": ["lead forms", "manual qualification", "routing rules"],
+  "required_data": ["intake form fields", "qualification rules", "routing destinations"],
+  "privacy_default": "sensitive",
+  "architecture": {
+    "recommended_solution_type": "human_in_the_loop_workflow",
+    "llm_owned_steps": ["summarize lead", "draft qualification notes"],
+    "deterministic_steps": ["required field check", "service area check", "human approval gate"]
+  },
+  "estimated_implementation_time": "3-6 weeks",
+  "cost_range": "implementation range plus CRM/form integration cost",
+  "required_roles": ["AI automation engineer", "sales owner", "reviewer"],
+  "risks": ["discriminatory scoring", "wrong lead rejection", "missing consent"],
+  "evaluation_metrics": ["routing accuracy", "qualification consistency", "review override rate"],
+  "when_not_to_use": ["discriminatory scoring risk", "no accountable reviewer", "unclear qualification rules"]
+}
