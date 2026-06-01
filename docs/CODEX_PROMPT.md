@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
-- Next task: T82 - Roadmap Review And Handoff Export
-- Verified baseline: T81 pre-change baseline was 329 passing tests, 0 skipped, 0 failed; T81 completion baseline is 338 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T81
+- Next task: none - active task graph complete through T82
+- Verified baseline: T82 pre-change baseline was 338 passing tests, 0 skipped, 0 failed; T82 completion baseline is 343 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T82
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete; T80 roadmap CLI command complete; T81 roadmap eval suite complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete; T80 roadmap CLI command complete; T81 roadmap eval suite complete; T82 roadmap review and handoff export complete
 
 ## Active References
 
@@ -36,44 +36,20 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T81 - Roadmap Eval Suite
+Task: T82 - Roadmap Review And Handoff Export
 
 Status: complete.
 
-Task: T82 - Roadmap Review And Handoff Export
-
-Goal: add reviewer checklist output and approved implementation handoff export
-for roadmap recommendations.
-
-Acceptance summary:
-
-- reviewer output includes accepted, reason, missing evidence, cost realism, privacy concern, would-show-to-client, and required changes
-- unresolved blocking findings prevent approved export
-- handoff includes tasks, acceptance criteria, eval cases, risks, owner, privacy mode, and human gates
-- unapproved or blocked roadmap cannot produce approved handoff
-
-File scope:
-
-- `workflow_agent_studio/roadmap/review.py`
-- `workflow_agent_studio/export/roadmap_handoff.py`
-- `tests/integration/test_roadmap_review.py`
-- `tests/integration/test_roadmap_handoff_export.py`
-- `docs/operator_guide.md`
-
-Required context:
-
-- `docs/evals/recommendation_verification_eval.md`
-- `docs/prompts/ORCHESTRATOR.md`
-- `docs/CODEX_PROMPT.md`
+No remaining tasks are listed after T82 in `docs/tasks.md`.
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T81
+- Task: T82
 - Date: 2026-06-01
-- Eval Source: `.venv/bin/python -m pytest tests/eval/test_roadmap_quality_eval.py tests/eval/test_privacy_classification_eval.py tests/eval/test_cost_estimation_eval.py tests/eval/test_pattern_matching_eval.py tests/eval/test_recommendation_verification_eval.py -q`
-- Result: 14 passed; full repository verification passed with 338 tests
+- Eval Source: `.venv/bin/python -m pytest tests/integration/test_roadmap_review.py tests/integration/test_roadmap_handoff_export.py -q`
+- Result: 5 passed; full repository verification passed with 343 tests
 
 ## Profile State
 
@@ -86,7 +62,7 @@ RAG: ON
 Planning: ON
 
 - Current schema: blueprint v1 plus design-candidate-v1
-- Next work: roadmap review and handoff export for SMB implementation planning
+- Next work: active task graph complete; wait for next task graph or human direction
 - Open planning findings: none
 
 Tool-Use: OFF

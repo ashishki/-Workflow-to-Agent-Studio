@@ -72,6 +72,14 @@ The CLI rejects unknown privacy modes before writing an export. Policy-blocked
 mode recommendations return a nonzero exit with finding IDs. Output paths stay
 constrained to the selected export directory.
 
+Roadmap reviewer outputs are local checklist artifacts. Each recommendation review
+records whether it is accepted, the reason, missing evidence, cost realism,
+privacy concern, whether it would be shown to a client, and required changes.
+Approved roadmap implementation handoffs require an approved checklist with no
+blocking findings. Handoffs include implementation tasks, acceptance criteria,
+eval cases, risks, owner, privacy mode, and human gates; they remain local
+Markdown artifacts and do not execute the roadmap.
+
 ## Sanitization For Benchmarks
 
 Benchmark and future pilot artifacts must be sanitized before they are reused outside

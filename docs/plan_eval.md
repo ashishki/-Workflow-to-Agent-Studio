@@ -733,6 +733,18 @@ Roadmap eval suite baseline:
 - Covered gates: forbidden claims, evidence or assumptions, legal cloud blocker, single-point costs, pattern trace
 - Regression: No
 
+Roadmap review and handoff baseline:
+
+- Date: 2026-06-01
+- Task: T82
+- Eval Source: pytest tests/integration/test_roadmap_review.py tests/integration/test_roadmap_handoff_export.py -q
+- Metric: Roadmap review and approved handoff expected-outcome pass rate
+- Score: 100%; 5 checks
+- Baseline: 100%; 5 checks
+- Delta: 0%
+- Covered gates: reviewer checklist fields, blocking findings, approved handoff content, unapproved handoff blocker
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -784,6 +796,7 @@ Roadmap eval suite baseline:
 | 2026-06-01 | T77 | priority-scoring-engine-v1 | Deterministic priority scoring expected-outcome pass rate | 100%; quick_win, do_not_automate_yet, classic_automation, uncertainty gate | 100%; quick_win, do_not_automate_yet, classic_automation, uncertainty gate | 0% | No | pytest tests/unit/test_priority_scoring.py -q |
 | 2026-06-01 | T78 | roadmap-report-v1 | Demo roadmap assembly expected-outcome pass rate | 100%; 3 demo reports; privacy and verification appendix present | 100%; 3 demo reports; privacy and verification appendix present | 0% | No | pytest tests/integration/test_roadmap_generation.py -q |
 | 2026-06-01 | T81 | roadmap-eval-suite-v1 | Roadmap quality/privacy/cost/pattern/verification expected-outcome pass rate | 100%; 14 checks; forbidden claims and unsafe privacy blocked | 100%; 14 checks; forbidden claims and unsafe privacy blocked | 0% | No | pytest tests/eval/test_roadmap_quality_eval.py tests/eval/test_privacy_classification_eval.py tests/eval/test_cost_estimation_eval.py tests/eval/test_pattern_matching_eval.py tests/eval/test_recommendation_verification_eval.py -q |
+| 2026-06-01 | T82 | roadmap-review-handoff-v1 | Roadmap review and approved handoff expected-outcome pass rate | 100%; 5 checks; approval and blocking gates pass | 100%; 5 checks; approval and blocking gates pass | 0% | No | pytest tests/integration/test_roadmap_review.py tests/integration/test_roadmap_handoff_export.py -q |
 
 ---
 
