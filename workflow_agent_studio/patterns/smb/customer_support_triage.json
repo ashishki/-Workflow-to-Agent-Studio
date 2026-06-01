@@ -1,0 +1,22 @@
+{
+  "schema_version": "smb-pattern-v1",
+  "pattern_id": "customer_support_triage",
+  "version": "v1",
+  "pattern_name": "Customer support triage",
+  "business_problem": "Manual classification and routing of inbound requests",
+  "suitable_company_type": ["e-commerce", "local service business"],
+  "workflow_signals": ["repeated inbound messages", "manual routing", "FAQ or policy exists"],
+  "required_data": ["support messages", "FAQ", "policy docs", "order/customer lookup metadata"],
+  "privacy_default": "sensitive",
+  "architecture": {
+    "recommended_solution_type": "llm_assistant",
+    "llm_owned_steps": ["summarize message", "suggest intent"],
+    "deterministic_steps": ["policy lookup", "escalation routing", "refund approval gate"]
+  },
+  "estimated_implementation_time": "2-6 weeks",
+  "cost_range": "implementation range plus monthly run cost",
+  "required_roles": ["AI automation engineer", "process owner", "reviewer"],
+  "risks": ["hallucinated policy answer", "wrong escalation", "sensitive customer data exposure"],
+  "evaluation_metrics": ["classification accuracy", "first response time", "escalation precision"],
+  "when_not_to_use": ["low message volume", "no stable policy", "high-risk decision without human review"]
+}

@@ -643,6 +643,19 @@ Privacy policy gate baseline:
 - Allowed paths: restricted redacted/synthetic condition, salon cloud after redaction note
 - Regression: No
 
+SMB implementation pattern schema baseline:
+
+- Date: 2026-06-01
+- Task: T73
+- Eval Source: pytest tests/unit/test_smb_pattern_library.py -q
+- Metric: SMB pattern schema and loader expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Pattern files validated: 1
+- Blocking invalid cases: malformed JSON, missing required schema field
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -687,6 +700,7 @@ Privacy policy gate baseline:
 | 2026-06-01 | T68 | roadmap-verification-receipt-v1 | Verification receipt schema expected-outcome pass rate | 100%; valid receipt; required claim, assumption, trace, receipt fields blocked | 100%; valid receipt; required claim, assumption, trace, receipt fields blocked | 0% | No | pytest tests/unit/test_verification_receipt.py -q |
 | 2026-06-01 | T69 | roadmap-report-v1 | Roadmap report aggregate schema expected-outcome pass rate | 100%; JSON round-trip; missing required sections blocked; empty recommendation rationale gate | 100%; JSON round-trip; missing required sections blocked; empty recommendation rationale gate | 0% | No | pytest tests/unit/test_roadmap_report_schema.py -q |
 | 2026-06-01 | T72 | privacy-policy-gate-v1 | Cloud/private/local privacy policy gate expected-outcome pass rate | 100%; restricted/sensitive/high-risk blockers; allowed redacted paths | 100%; restricted/sensitive/high-risk blockers; allowed redacted paths | 0% | No | pytest tests/unit/test_privacy_policy_gate.py -q |
+| 2026-06-01 | T73 | smb-pattern-v1 | SMB pattern schema and loader expected-outcome pass rate | 100%; 1 pattern file; malformed JSON and schema blockers | 100%; 1 pattern file; malformed JSON and schema blockers | 0% | No | pytest tests/unit/test_smb_pattern_library.py -q |
 
 ---
 

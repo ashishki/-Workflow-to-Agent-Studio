@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
-- Next task: T73 - SMB Implementation Pattern Schema
-- Verified baseline: T72 pre-change baseline was 297 passing tests, 0 skipped, 0 failed; T72 completion baseline is 302 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T72
+- Next task: T74 - MVP SMB Pattern Pack
+- Verified baseline: T73 pre-change baseline was 302 passing tests, 0 skipped, 0 failed; T73 completion baseline is 306 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T73
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete
 
 ## Active References
 
@@ -36,40 +36,40 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T72 - Cloud Private Local Policy Gate
+Task: T73 - SMB Implementation Pattern Schema
 
 Status: complete.
 
-Task: T73 - SMB Implementation Pattern Schema
+Task: T74 - MVP SMB Pattern Pack
 
-Goal: implement schema and loader for versioned SMB implementation patterns.
+Goal: add the first versioned SMB pattern JSON pack.
 
 Acceptance summary:
 
-- pattern schema validates pattern ID, version, signals, required data, privacy
-  default, architecture, risks, eval metrics, and when-not-to-use
-- invalid JSON pattern fails with a clear validation error
-- loader returns pattern version metadata
-- unit tests validate every pattern file
+- pattern pack includes support triage, knowledge assistant, sales email, lead
+  qualification, document extraction, invoice processing, appointment booking,
+  legal checklist, e-commerce returns, reporting automation, and messaging
+  support bot
+- every pattern includes when-not-to-use
+- pattern library tests validate all JSON files
 
 File scope:
 
-- `workflow_agent_studio/patterns/smb.py`
-- `workflow_agent_studio/patterns/smb/`
+- `workflow_agent_studio/patterns/smb/*.json`
 - `tests/unit/test_smb_pattern_library.py`
 
 Required context:
 
-- `docs/methodology/implementation_patterns.md`
+- `docs/methodology/implementation_patterns.md#mvp-pattern-set`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T72
+- Task: T73
 - Date: 2026-06-01
-- Eval Source: `.venv/bin/python -m pytest tests/unit/test_privacy_policy_gate.py -q`
-- Result: 5 passed; full repository verification passed with 302 tests
+- Eval Source: `.venv/bin/python -m pytest tests/unit/test_smb_pattern_library.py -q`
+- Result: 4 passed; full repository verification passed with 306 tests
 
 ## Profile State
 
