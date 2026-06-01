@@ -617,6 +617,19 @@ Roadmap verification schema baseline:
 - Blocking invalid cases: missing claim, assumption, trace, and receipt required fields
 - Regression: No
 
+Roadmap report aggregate schema baseline:
+
+- Date: 2026-06-01
+- Task: T69
+- Eval Source: pytest tests/unit/test_roadmap_report_schema.py -q
+- Metric: Roadmap report aggregate schema expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Fixture round-trip: pass
+- Blocking invalid cases: missing required sections, empty recommendations without do-not-automate rationale
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -659,6 +672,7 @@ Roadmap verification schema baseline:
 | 2026-06-01 | T66 | cost-estimate-v1 | Cost estimate schema expected-outcome pass rate | 100%; 2 ordered range paths; 3 confidence levels; missing assumptions blocked | 100%; 2 ordered range paths; 3 confidence levels; missing assumptions blocked | 0% | No | pytest tests/unit/test_costing_schema.py -q |
 | 2026-06-01 | T67 | priority-score-v1 | Priority scoring schema expected-outcome pass rate | 100%; 6 bands; rationale and uncertainty required; invalid band blocked | 100%; 6 bands; rationale and uncertainty required; invalid band blocked | 0% | No | pytest tests/unit/test_priority_scoring_schema.py -q |
 | 2026-06-01 | T68 | roadmap-verification-receipt-v1 | Verification receipt schema expected-outcome pass rate | 100%; valid receipt; required claim, assumption, trace, receipt fields blocked | 100%; valid receipt; required claim, assumption, trace, receipt fields blocked | 0% | No | pytest tests/unit/test_verification_receipt.py -q |
+| 2026-06-01 | T69 | roadmap-report-v1 | Roadmap report aggregate schema expected-outcome pass rate | 100%; JSON round-trip; missing required sections blocked; empty recommendation rationale gate | 100%; JSON round-trip; missing required sections blocked; empty recommendation rationale gate | 0% | No | pytest tests/unit/test_roadmap_report_schema.py -q |
 
 ---
 

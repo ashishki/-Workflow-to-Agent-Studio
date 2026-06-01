@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
-- Next task: T69 - Roadmap Report Schema
-- Verified baseline: T68 pre-change baseline was 248 passing tests, 0 skipped, 0 failed; T68 completion baseline is 265 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T68
+- Next task: T70 - Deterministic Privacy Classifier
+- Verified baseline: T69 pre-change baseline was 265 passing tests, 0 skipped, 0 failed; T69 completion baseline is 276 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T69
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete
 
 ## Active References
 
@@ -36,43 +36,43 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T68 - Verification Domain Model
+Task: T69 - Roadmap Report Schema
 
 Status: complete.
 
-Task: T69 - Roadmap Report Schema
+Task: T70 - Deterministic Privacy Classifier
 
-Goal: implement the `RoadmapReport` aggregate schema.
+Goal: classify workflow fields and source snippets for PII, secrets, legal,
+health, payment, tax, HR, and identity hints.
 
 Acceptance summary:
 
-- report requires executive summary, evidence packet, workflow map, process
-  inventory, recommendations, rollout plan, evaluation plan, governance plan,
-  and verification appendix
-- report fails validation when recommendations list is empty and no
-  do-not-automate rationale is provided
-- JSON fixture round-trips through Pydantic serialization
-- tests cover minimal valid and invalid reports
+- classifier marks email, phone, address, passport/ID-like, payment-like, and
+  API-key-like examples
+- legal consultancy fixture is classified restricted
+- salon fixture is classified sensitive, not restricted
+- false-positive fixture remains internal or confidential as expected
+- tests cover all required privacy eval categories
 
 File scope:
 
-- `workflow_agent_studio/domain/roadmap.py`
-- `tests/unit/test_roadmap_report_schema.py`
-- `tests/fixtures/roadmaps/minimal_valid_roadmap.json`
+- `workflow_agent_studio/privacy/classifier.py`
+- `tests/unit/test_privacy_classifier.py`
+- `tests/fixtures/smb/`
 
 Required context:
 
-- `docs/product/report_contract.md`
-- `docs/architecture/roadmap_data_model.md`
+- `docs/security/data_classification.md`
+- `docs/evals/privacy_classification_eval.md`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T68
+- Task: T69
 - Date: 2026-06-01
-- Eval Source: `.venv/bin/python -m pytest tests/unit/test_verification_receipt.py -q`
-- Result: 17 passed; full repository verification passed with 265 tests
+- Eval Source: `.venv/bin/python -m pytest tests/unit/test_roadmap_report_schema.py -q`
+- Result: 11 passed; full repository verification passed with 276 tests
 
 ## Profile State
 
@@ -85,7 +85,8 @@ RAG: ON
 Planning: ON
 
 - Current schema: blueprint v1 plus design-candidate-v1
-- Next work: RoadmapReport v1 for SMB implementation planning
+- Next work: deterministic privacy classification and policy gates for SMB
+  implementation planning
 - Open planning findings: none
 
 Tool-Use: OFF

@@ -1,0 +1,196 @@
+{
+  "report_id": "RPT-001",
+  "executive_summary": {
+    "company_context": "Small e-commerce support team.",
+    "top_recommended_initiatives": ["Customer support triage assistant"],
+    "top_do_not_automate_yet_items": ["Automatic refunds"],
+    "roadmap_30_60_90": ["Clean FAQ", "Pilot triage assistant", "Review scale decision"],
+    "overall_privacy_mode_recommendation": "Private analysis after redaction.",
+    "overall_confidence_level": "medium",
+    "critical_assumptions": ["Support requests are repetitive enough."]
+  },
+  "evidence_packet": {
+    "source_documents": [
+      {
+        "source_id": "SRC-001",
+        "source_type": "notes",
+        "source_hash": "sha256:source-001",
+        "extracted_evidence_snippets": ["Support requests are triaged manually."],
+        "missing_evidence": ["Exact weekly volume"],
+        "redaction_status": "redacted",
+        "source_privacy_class": "sensitive"
+      }
+    ]
+  },
+  "workflow_map": [
+    {
+      "workflow_id": "WF-001",
+      "workflow_name": "Support triage",
+      "business_owner": "Support lead",
+      "trigger": "Customer message arrives.",
+      "actors": ["Support agent"],
+      "systems": ["Gmail", "Order admin"],
+      "steps": ["Classify inbound message", "Route to queue"],
+      "decisions": ["Refund request requires approval"],
+      "exceptions": ["VIP customer escalation"],
+      "inputs": ["support message", "order status"],
+      "outputs": ["triage label", "routing decision"],
+      "frequency_or_volume": "Estimated 50 messages per week.",
+      "pain_points": ["Manual triage delays response."],
+      "current_tools": ["Gmail"],
+      "current_manual_effort": "Several hours per week.",
+      "evidence_references": [{"source_id": "SRC-001", "chunk_id": "CH-001"}]
+    }
+  ],
+  "process_inventory": [
+    {
+      "process_id": "PROC-001",
+      "process_name": "Support triage",
+      "automation_feasibility_score": 80,
+      "business_impact_score": 75,
+      "privacy_sensitivity_score": 60,
+      "security_risk_score": 35,
+      "data_readiness_score": 70,
+      "implementation_complexity_score": 45,
+      "evaluation_clarity_score": 80,
+      "recommended_solution_type": "llm_assistant"
+    }
+  ],
+  "recommendations": [
+    {
+      "recommendation_id": "REC-001",
+      "recommendation": "Customer support triage assistant",
+      "target_workflow_step": "Inbound message classification",
+      "expected_value": {
+        "qualitative": "Faster response and fewer missed requests.",
+        "quantitative_assumption": "Reduce manual triage time by 30-50 percent."
+      },
+      "required_data": ["support messages", "order status", "FAQ/SOP"],
+      "privacy_class": "sensitive",
+      "implementation_option": "llm_assistant",
+      "architecture": {
+        "model": "Cloud LLM API or private mode depending on customer data.",
+        "deterministic_components": ["routing rules", "refund approval gate"],
+        "llm_components": ["message summarization", "intent classification draft"]
+      },
+      "estimated_cost": {
+        "one_time_low": 2000,
+        "one_time_medium": 7000,
+        "one_time_high": 20000,
+        "currency": "USD"
+      },
+      "estimated_time": {
+        "low": "2 weeks",
+        "medium": "4 weeks",
+        "high": "8 weeks"
+      },
+      "required_people": ["AI automation engineer", "business process owner"],
+      "dependencies": ["clean FAQ", "support inbox access"],
+      "risks": ["hallucinated policy answer", "exposure of customer data"],
+      "validation_method": ["golden support tickets"],
+      "success_metrics": ["first response time", "escalation accuracy"],
+      "confidence_level": "medium",
+      "assumptions": ["Support requests are repetitive enough."],
+      "evidence": [{"source_id": "SRC-001", "chunk_id": "CH-004"}],
+      "fallback_option": "Deterministic canned replies and manual routing.",
+      "human_gate": {
+        "required": true,
+        "reviewer": "Support lead",
+        "approval_event": "Approve first production rollout.",
+        "rationale": "Customer-facing support drafts require accountable review."
+      }
+    }
+  ],
+  "do_not_automate_rationale": [],
+  "rollout_plan": {
+    "stages": ["Phase 0: process and data cleanup", "Phase 1: low-risk assistant"]
+  },
+  "evaluation_plan": {
+    "golden_test_cases": ["Known support tickets"],
+    "shadow_mode": "Run suggested labels without sending customer replies.",
+    "human_review_sample": "First 100 classifications.",
+    "acceptance_criteria": ["Escalation accuracy exceeds manual baseline."],
+    "regression_tests": ["Refund policy routing cases"],
+    "stop_conditions": ["Policy answer hallucination"]
+  },
+  "governance_plan": {
+    "owner": "Support lead",
+    "review_cadence": "Weekly during pilot.",
+    "approval_rules": ["Support lead approves rollout."],
+    "incident_handling": "Disable assistant and route manually.",
+    "change_policy": "Review prompt/model changes before rollout.",
+    "data_retention": "Short retention for redacted artifacts.",
+    "audit_logs": "Local audit log only."
+  },
+  "verification_appendix": {
+    "claims_registry": [
+      {
+        "claim_id": "CLM-001",
+        "claim_text": "Support requests are manually triaged.",
+        "claim_type": "observation",
+        "source_refs": [{"source_id": "SRC-001", "chunk_id": "CH-001"}],
+        "evidence_level": "direct",
+        "confidence": "high",
+        "created_by": "workflow_decomposer:v1",
+        "status": "accepted"
+      }
+    ],
+    "assumptions_registry": [
+      {
+        "assumption_id": "ASM-001",
+        "text": "The company receives at least 50 support messages per week.",
+        "impact_if_wrong": "Automation may not be worth implementing.",
+        "verification_method": "Ask owner for weekly support volume.",
+        "owner": "business_owner",
+        "expires_at_stage": "before_implementation",
+        "status": "unresolved"
+      }
+    ],
+    "evidence_table": [
+      {
+        "evidence_id": "EVD-001",
+        "source_id": "SRC-001",
+        "chunk_id": "CH-001",
+        "source_hash": "sha256:source-001",
+        "evidence_summary": "Redacted support triage workflow evidence.",
+        "redacted": true
+      }
+    ],
+    "recommendation_trace": [
+      {
+        "recommendation_id": "REC-001",
+        "target_step_id": "WF-001-STEP-001",
+        "matched_pattern_id": "customer_support_triage:v1",
+        "supporting_claims": ["CLM-001"],
+        "cost_model_version": "cost_model:v1",
+        "scoring_model_version": "priority_model:v1",
+        "privacy_model_version": "privacy_model:v1",
+        "decision_log_id": "DEC-001",
+        "review_status": "needs_human_review"
+      }
+    ],
+    "decision_log": ["DEC-001: Recommend assistant with human review."],
+    "reviewer_notes": [],
+    "confidence_and_uncertainty_flags": ["Weekly volume is estimated."],
+    "receipt": {
+      "report_schema_version": "roadmap_report:v1",
+      "source_hashes": ["sha256:source-001"],
+      "prompt_versions": {"roadmap": "roadmap_prompt:v1"},
+      "model_metadata": {
+        "provider": "fake",
+        "model": "deterministic-fixture",
+        "prompt_version": "roadmap_prompt:v1",
+        "generation_mode": "deterministic_demo"
+      },
+      "pattern_library_version": "smb_patterns:v1",
+      "privacy_model_version": "privacy_model:v1",
+      "cost_model_version": "cost_model:v1",
+      "scoring_model_version": "priority_model:v1",
+      "claim_count": 1,
+      "assumption_count": 1,
+      "blocking_finding_count": 0,
+      "review_status": "draft",
+      "recommendation_traces": []
+    }
+  }
+}
