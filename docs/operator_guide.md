@@ -54,6 +54,24 @@ The public-data working product proof is recorded in
 `docs/audit/PUBLIC_DATA_PRODUCT_PROOF.md`. It supports technical demo claims
 only and does not replace a real pilot row.
 
+## SMB Roadmap Drafts
+
+SMB roadmap drafts are local Markdown exports generated from a business profile
+or demo input. They summarize recommended initiatives, do-not-automate-yet
+items, privacy mode guidance, cost/time/team assumptions, rollout stages,
+evaluation plans, and a verification appendix. They are draft planning artifacts,
+not approved implementation instructions.
+
+Supported privacy modes:
+
+- `lightweight_cloud`
+- `private_analysis`
+- `local_on_prem`
+
+The CLI rejects unknown privacy modes before writing an export. Policy-blocked
+mode recommendations return a nonzero exit with finding IDs. Output paths stay
+constrained to the selected export directory.
+
 ## Sanitization For Benchmarks
 
 Benchmark and future pilot artifacts must be sanitized before they are reused outside
@@ -112,6 +130,16 @@ workflow-agent-studio review \
   --blueprint-version-id 1 \
   --export-dir .data/exports \
   --output sample-sop-review.md
+```
+
+```bash
+workflow-agent-studio roadmap \
+  --database .data/workflow_studio.sqlite3 \
+  --run-id hair-salon-roadmap \
+  --business-profile docs/examples/domains/hair_salon_input.md \
+  --privacy-mode lightweight_cloud \
+  --export-dir .data/exports \
+  --output hair-salon-roadmap.md
 ```
 
 Use `workflow-agent-studio review --set-rough-effort-band medium` when a reviewer needs

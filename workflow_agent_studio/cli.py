@@ -10,10 +10,15 @@ from pathlib import Path
 from workflow_agent_studio import __version__
 from workflow_agent_studio.blueprint.review import edit_blueprint
 from workflow_agent_studio.domain.blueprint import AutomationBlueprint
-from workflow_agent_studio.export import export_draft_blueprint, resolve_export_path
+from workflow_agent_studio.export import (
+    export_draft_blueprint,
+    export_draft_roadmap_report,
+    resolve_export_path,
+)
 from workflow_agent_studio.health import get_health_status
 from workflow_agent_studio.ingestion import UnsupportedSourceType, ingest_source_paths
 from workflow_agent_studio.pipeline import run_draft_pipeline
+from workflow_agent_studio.roadmap.service import generate_roadmap_report
 from workflow_agent_studio.storage import (
     AuditEventRepository,
     BlueprintVersionRepository,
@@ -22,6 +27,7 @@ from workflow_agent_studio.storage import (
     initialize_database,
 )
 from workflow_agent_studio.validators import validate_blueprint_for_approval
+from workflow_agent_studio.validators.privacy import validate_model_mode_recommendation
 
 COMMAND_NAME = "workflow-agent-studio"
 
@@ -52,6 +58,22 @@ def build_parser() -> argparse.ArgumentParser:
     review_parser.add_argument("--export-dir", required=True, help="Selected export directory.")
     review_parser.add_argument("--output", required=True, help="Output Markdown path.")
     review_parser.add_argument("--set-rough-effort-band")
+    roadmap_parser = subparsers.add_parser("roadmap", help="Generate a draft SMB roadmap.")
+    roadmap_parser.add_argument("--database", required=True, help="SQLite database path.")
+    roadmap_parser.add_argument("--run-id", required=True, help="Workflow run ID.")
+    roadmap_parser.add_argument(
+        "--business-profile",
+        required=True,
+        help="Business profile or demo input Markdown path.",
+    )
+    roadmap_parser.add_argument(
+        "--privacy-mode",
+        required=True,
+        choices=["lightweight_cloud", "private_analysis", "local_on_prem"],
+        help="Requested analysis privacy mode.",
+    )
+    roadmap_parser.add_argument("--export-dir", required=True, help="Selected export directory.")
+    roadmap_parser.add_argument("--output", required=True, help="Output Markdown path.")
     return parser
 
 
@@ -150,7 +172,71 @@ def main(argv: list[str] | None = None) -> int:
             )
         finally:
             connection.close()
+    if args.command == "roadmap":
+        connection = connect_database(Path(args.database))
+        try:
+            initialize_database(connection)
+            run_repository = WorkflowRunRepository(connection)
+            if run_repository.get_run(args.run_id) is None:
+                run_repository.create_run(args.run_id)
+            report = generate_roadmap_report(Path(args.business_profile))
+            privacy_result = _validate_roadmap_privacy_mode(
+                report=report,
+                business_profile=Path(args.business_profile),
+                privacy_mode=args.privacy_mode,
+            )
+            if not privacy_result.can_recommend:
+                print(
+                    json.dumps(
+                        {
+                            "error": "privacy mode blocked",
+                            "finding_ids": [finding.rule_id for finding in privacy_result.findings],
+                        },
+                        sort_keys=True,
+                    ),
+                    file=sys.stderr,
+                )
+                return 2
+            output = export_draft_roadmap_report(
+                report=report,
+                export_dir=Path(args.export_dir),
+                output_path=Path(args.output),
+            )
+            print(
+                json.dumps(
+                    {
+                        "path": str(output),
+                        "privacy_mode": args.privacy_mode,
+                        "report_id": report.report_id,
+                        "run_id": args.run_id,
+                        "status": "draft",
+                    },
+                    sort_keys=True,
+                )
+            )
+        finally:
+            connection.close()
     return 0
+
+
+def _validate_roadmap_privacy_mode(*, report, business_profile: Path, privacy_mode: str):
+    source = report.evidence_packet.source_documents[0]
+    redaction_status = source.redaction_status
+    if (
+        source.source_type.startswith("synthetic")
+        and source.source_privacy_class == "sensitive"
+        and "redact" in report.executive_summary.overall_privacy_mode_recommendation.lower()
+    ):
+        redaction_status = "required"
+    return validate_model_mode_recommendation(
+        privacy_class=source.source_privacy_class,
+        redaction_status=redaction_status,
+        recommended_mode=privacy_mode,
+        domain=business_profile.stem.replace("_input", ""),
+        source_is_synthetic_or_redacted=source.source_type.startswith("synthetic"),
+        report_condition=report.executive_summary.overall_privacy_mode_recommendation,
+        human_review_gate=any(card.human_gate.required for card in report.recommendations),
+    )
 
 
 def _export_review_workspace(
