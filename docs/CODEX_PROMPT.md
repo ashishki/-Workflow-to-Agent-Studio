@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
-- Next task: T79 - Roadmap Markdown Export
-- Verified baseline: T78 pre-change baseline was 319 passing tests, 0 skipped, 0 failed; T78 completion baseline is 323 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T78
+- Next task: T80 - Roadmap CLI Command
+- Verified baseline: T79 pre-change baseline was 323 passing tests, 0 skipped, 0 failed; T79 completion baseline is 327 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T79
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete
 
 ## Active References
 
@@ -36,41 +36,40 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T78 - Roadmap Assembly Service
+Task: T79 - Roadmap Markdown Export
 
 Status: complete.
 
-Task: T79 - Roadmap Markdown Export
+Task: T80 - Roadmap CLI Command
 
-Goal: export RoadmapReport to stable Markdown with recommendation cards and
-verification appendix.
+Goal: add a local CLI command that generates a roadmap from a business
+profile/input file.
 
 Acceptance summary:
 
-- export includes all required report sections in stable order
-- draft export is visibly labeled as draft
-- verification appendix includes claims and assumptions
-- local export path constraints remain enforced
+- command accepts database, run ID, business profile, privacy mode, and output path
+- command can generate the hair salon demo report without external credentials
+- invalid privacy mode exits nonzero with clear error
+- integration test covers command success and invalid mode
 
 File scope:
 
-- `workflow_agent_studio/reporting/roadmap_markdown.py`
-- `workflow_agent_studio/export/roadmap.py`
-- `tests/integration/test_roadmap_markdown_export.py`
+- `workflow_agent_studio/cli.py`
+- `tests/integration/test_roadmap_cli.py`
+- `docs/operator_guide.md`
 
 Required context:
 
-- `docs/product/report_contract.md`
-- `workflow_agent_studio/export/paths.py`
+- `docs/examples/domains/hair_salon_input.md`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T78
+- Task: T79
 - Date: 2026-06-01
-- Eval Source: `.venv/bin/python -m pytest tests/integration/test_roadmap_generation.py -q`
-- Result: 4 passed; full repository verification passed with 323 tests
+- Eval Source: `.venv/bin/python -m pytest tests/integration/test_roadmap_markdown_export.py -q`
+- Result: 4 passed; full repository verification passed with 327 tests
 
 ## Profile State
 
@@ -83,7 +82,7 @@ RAG: ON
 Planning: ON
 
 - Current schema: blueprint v1 plus design-candidate-v1
-- Next work: roadmap Markdown export for SMB implementation planning
+- Next work: roadmap CLI command for SMB implementation planning
 - Open planning findings: none
 
 Tool-Use: OFF
