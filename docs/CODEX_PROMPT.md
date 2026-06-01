@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
-- Next task: T67 - Scoring Domain Model
-- Verified baseline: T66 pre-change baseline was 238 passing tests, 0 skipped, 0 failed; T66 completion baseline is 243 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T66
+- Next task: T68 - Verification Domain Model
+- Verified baseline: T67 pre-change baseline was 243 passing tests, 0 skipped, 0 failed; T67 completion baseline is 248 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T67
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete
 
 ## Active References
 
@@ -36,40 +36,43 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T66 - Costing Domain Model
+Task: T67 - Scoring Domain Model
 
 Status: complete.
 
-Task: T67 - Scoring Domain Model
+Task: T68 - Verification Domain Model
 
-Goal: implement priority score schemas for business value, delivery readiness,
-risk penalty, priority band, confidence, rationale, and uncertainty.
+Goal: implement claims, assumptions, evidence items, recommendation traces, and
+verification receipt schemas for roadmap reports.
 
 Acceptance summary:
 
-- priority band supports quick_win, strategic_pilot, prepare_first,
-  do_not_automate_yet, classic_automation, and human_only
-- score output requires rationale and uncertainty notes
-- invalid score bands fail validation
-- unit tests cover valid and invalid score outputs
+- claim requires claim type, evidence level, confidence, and status
+- assumption requires impact, verification method, owner, and status
+- recommendation trace records pattern, cost model, scoring model, and privacy
+  model versions
+- receipt records source hashes, report schema version, model metadata, and
+  blocking finding count
+- unit tests cover minimal valid receipt and invalid missing fields
 
 File scope:
 
-- `workflow_agent_studio/domain/scoring.py`
-- `tests/unit/test_priority_scoring_schema.py`
+- `workflow_agent_studio/domain/verification.py`
+- `tests/unit/test_verification_receipt.py`
 
 Required context:
 
-- `docs/methodology/scoring_model.md`
+- `docs/methodology/verification_model.md`
+- `docs/architecture/reproducibility.md`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T66
+- Task: T67
 - Date: 2026-06-01
-- Eval Source: `.venv/bin/python -m pytest tests/unit/test_costing_schema.py -q`
-- Result: 5 passed; full repository verification passed with 243 tests
+- Eval Source: `.venv/bin/python -m pytest tests/unit/test_priority_scoring_schema.py -q`
+- Result: 5 passed; full repository verification passed with 248 tests
 
 ## Profile State
 
@@ -82,8 +85,8 @@ RAG: ON
 Planning: ON
 
 - Current schema: blueprint v1 plus design-candidate-v1
-- Next work: RoadmapReport v1, scoring,
-  and verification schemas for SMB implementation planning
+- Next work: RoadmapReport v1 and verification schemas for SMB implementation
+  planning
 - Open planning findings: none
 
 Tool-Use: OFF

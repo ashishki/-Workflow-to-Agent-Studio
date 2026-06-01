@@ -590,6 +590,20 @@ Cost estimate schema baseline:
 - Confidence levels: low, medium, high
 - Regression: No
 
+Priority scoring schema baseline:
+
+- Date: 2026-06-01
+- Task: T67
+- Eval Source: pytest tests/unit/test_priority_scoring_schema.py -q
+- Metric: Priority scoring schema expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Priority bands: 6
+- Required fields: business value, delivery readiness, risk penalty, band, confidence, rationale, uncertainty
+- Invalid band rejection: pass
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -630,6 +644,7 @@ Cost estimate schema baseline:
 | 2026-06-01 | T64 | privacy-classification-v1 | Privacy classification schema expected-outcome pass rate | 100%; 5 privacy classes; 2 invalid class rejection paths | 100%; 5 privacy classes; 2 invalid class rejection paths | 0% | No | pytest tests/unit/test_privacy_schema.py -q |
 | 2026-06-01 | T65 | recommendation-card-v1 | Recommendation card schema expected-outcome pass rate | 100%; happy path; 12 blocking invalid cases | 100%; happy path; 12 blocking invalid cases | 0% | No | pytest tests/unit/test_recommendation_schema.py -q |
 | 2026-06-01 | T66 | cost-estimate-v1 | Cost estimate schema expected-outcome pass rate | 100%; 2 ordered range paths; 3 confidence levels; missing assumptions blocked | 100%; 2 ordered range paths; 3 confidence levels; missing assumptions blocked | 0% | No | pytest tests/unit/test_costing_schema.py -q |
+| 2026-06-01 | T67 | priority-score-v1 | Priority scoring schema expected-outcome pass rate | 100%; 6 bands; rationale and uncertainty required; invalid band blocked | 100%; 6 bands; rationale and uncertainty required; invalid band blocked | 0% | No | pytest tests/unit/test_priority_scoring_schema.py -q |
 
 ---
 
