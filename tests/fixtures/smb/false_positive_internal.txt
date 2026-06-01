@@ -1,0 +1,3 @@
+Internal SOP for support case routing.
+Team reviews case status, queue ownership, and escalation timing.
+No customer records or regulated documents are included.

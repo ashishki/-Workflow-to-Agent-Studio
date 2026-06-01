@@ -1,0 +1,5 @@
+Salon appointment request.
+Customer name: Jane Miller.
+Email: jane@example.test.
+Phone: +1 555 222 0199.
+Preference: quiet appointment near closing time.

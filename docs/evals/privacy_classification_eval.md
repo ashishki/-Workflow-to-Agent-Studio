@@ -41,6 +41,12 @@ before roadmap recommendations choose model mode.
 - false-positive fixture does not classify generic process terms as restricted;
 - report includes source privacy class and recommendation privacy class.
 
+## Eval History
+
+| Date | Task | Classifier Version | Metric | Score | Baseline | Delta | Regression? | Eval Source |
+|------|------|--------------------|--------|-------|----------|-------|-------------|-------------|
+| 2026-06-01 | T70 | privacy-classification-v1 | Required privacy category coverage | 100%; 13 categories; legal restricted; salon sensitive; false-positive not restricted | 100%; 13 categories; legal restricted; salon sensitive; false-positive not restricted | 0% | No | pytest tests/unit/test_privacy_classifier.py -q |
+
 ## Human Review
 
 Reviewers should inspect:
