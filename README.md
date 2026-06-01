@@ -13,10 +13,17 @@ readiness decisions, candidate agent designs, deterministic and LLM-owned step
 boundaries, approval gates, risks, eval cases, observability needs, and
 implementation tasks.
 
-Status: active framework candidate with Phase 14 focused on the SMB AI Roadmap
-Product Layer. The local evidence-linked MVP, public workflow showcase, design
-candidate portfolio, and Playbook export are built. The next implementation
-focus is `T64: Privacy Domain Model` in `docs/tasks.md`.
+Status: active framework candidate with the Phase 14 SMB AI Roadmap Product
+Layer completed through the current task graph. The local evidence-linked MVP,
+public workflow showcase, design candidate portfolio, Playbook export, roadmap
+assembly, Markdown export, CLI command, eval suite, reviewer checklist, and
+approved handoff export are built.
+
+Russian cofounder/demo package:
+
+- `README_RU.md`
+- `docs/demo/COFOUNDER_DEMO_RU.md`
+- `scripts/demo_roadmap_ru.sh`
 
 Reference integration: `docs/entropy_core_gensyn_integration.md`.
 
@@ -69,6 +76,12 @@ workflow-agent-studio export \
   --output sample-sop-blueprint.md
 ```
 
+Roadmap demo command:
+
+```bash
+bash scripts/demo_roadmap_ru.sh
+```
+
 ---
 
 ## What This Produces
@@ -84,7 +97,7 @@ artifacts:
 - evaluation cases, risks, observability notes, implementation tasks, and
   Markdown exports.
 
-Phase 14 adds the SMB AI roadmap layer:
+The SMB AI roadmap layer adds:
 
 - RoadmapReport v1;
 - recommendation cards;
@@ -92,7 +105,9 @@ Phase 14 adds the SMB AI roadmap layer:
 - cost/time/team ranges;
 - priority scoring;
 - SMB implementation patterns;
-- verification receipts and roadmap evals.
+- verification receipts and roadmap evals;
+- reviewer checklists;
+- approved implementation handoff exports.
 
 ## Product Direction
 
@@ -156,7 +171,7 @@ Primary metrics:
 - missing critical question count;
 - forbidden-claim violations;
 - reviewer acceptance rate;
-- roadmap quality/privacy/cost/pattern verification once Phase 14 code lands.
+- roadmap quality/privacy/cost/pattern verification.
 
 ## Documentation Map
 
@@ -176,13 +191,13 @@ Primary metrics:
 ## Current Project State
 
 - Completed: Phase 0 local evidence-linked MVP; Phase 11/12 public workflow
-  showcase; Phase 13 workflow-to-agent framework upgrade.
-- Active: Phase 14 SMB AI Roadmap Product Layer.
-- Next task: `T64: Privacy Domain Model`.
+  showcase; Phase 13 workflow-to-agent framework upgrade; Phase 14 SMB AI
+  Roadmap Product Layer through `T82`.
+- Active: no remaining tasks are listed after `T82` in `docs/tasks.md`.
+- Next task: waiting for the next task graph or human direction.
 - Open commercial proof boundary: T34/T40 remain blocked until
   human-reviewed real workflow data is recorded in `docs/pilot_measurement.md`.
-- Latest full baseline before Phase 14 prep: 216 passing tests, 0 skipped,
-  0 failed.
+- Latest full baseline after T82: 343 passing tests, 0 skipped, 0 failed.
 - Documentation prep check: `.venv/bin/python -m pytest tests/unit/test_docs.py -q`
   passed with 24 tests.
 - Historical checkpoint: Verified local baseline: 127 passing tests before the

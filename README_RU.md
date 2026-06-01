@@ -1,0 +1,240 @@
+# AI Roadmap Studio
+
+Локальный продукт для компаний, которые хотят понять, **нужно ли им внедрять AI,
+где именно начинать, где AI опасен, сколько это может стоить и какой следующий
+шаг безопасен**.
+
+Это не агент, который сразу подключается к CRM и начинает что-то делать. Это
+предварительный слой перед внедрением: он превращает описание рабочих процессов
+в понятный AI implementation roadmap.
+
+## Коротко
+
+**Проблема:** у компаний много разговоров про AI, но мало ясности:
+
+- какие процессы действительно стоит автоматизировать;
+- где достаточно обычного скрипта или CRM-интеграции;
+- где нужен LLM assistant;
+- где нужен человек в контуре;
+- где нельзя автоматизировать из-за рисков, данных или ответственности;
+- сколько это примерно стоит;
+- как проверить, что внедрение сработало.
+
+**Решение:** AI Roadmap Studio берет описание workflow и выдает структурированный
+roadmap:
+
+- что автоматизировать;
+- что пока не автоматизировать;
+- какой тип решения подходит;
+- какой privacy mode безопасен;
+- диапазон стоимости и сроков;
+- какие люди нужны;
+- какие риски и human gates;
+- как тестировать результат;
+- что можно передать implementation-команде.
+
+## Как это работает
+
+```mermaid
+flowchart LR
+    A[Описание workflow<br/>SOP, notes, transcript, form] --> B[Workflow analysis]
+    B --> C[Privacy classification]
+    C --> D[SMB pattern matching]
+    D --> E[Cost + priority scoring]
+    E --> F[RoadmapReport]
+    F --> G[Markdown roadmap]
+    F --> H[Reviewer checklist]
+    H --> I[Approved implementation handoff]
+```
+
+## Что уже умеет текущая версия
+
+Текущая версия уже умеет локально, без внешних credentials:
+
+- читать demo business profile в Markdown;
+- собирать typed `RoadmapReport`;
+- классифицировать данные как `public`, `internal`, `confidential`,
+  `sensitive`, `restricted`;
+- блокировать небезопасные privacy-рекомендации;
+- выбирать SMB implementation pattern;
+- считать честные cost/time/team диапазоны, а не одну магическую цифру;
+- определять приоритет инициативы;
+- экспортировать roadmap в Markdown;
+- запускаться через CLI;
+- проверять roadmap через eval suite;
+- делать reviewer checklist;
+- экспортировать approved handoff только после approval и без blockers.
+
+## Что продукт НЕ делает
+
+Это важно для честного позиционирования.
+
+Продукт сейчас не:
+
+- подключается к production CRM;
+- слушает реальные звонки;
+- транскрибирует аудио;
+- запускает production agents;
+- отправляет сообщения клиентам;
+- меняет данные в CRM;
+- обещает ROI;
+- обещает compliance certification;
+- заменяет интервью с владельцами процессов.
+
+Он помогает компании **понять, где AI имеет смысл, а где нет**, до того как она
+потратит деньги на внедрение.
+
+## Пример: салон красоты
+
+Вход: описание процесса записи клиентов, подтверждений и reminders.
+
+Выход:
+
+- recommended initiative: appointment booking and reminder automation;
+- do-not-automate: штрафы за отмену, медицинские/косметологические советы;
+- privacy mode: cloud только после redaction контактных данных;
+- solution type: deterministic calendar checks + optional LLM reply drafting;
+- risks: double booking, wrong service duration, contact data exposure;
+- validation: golden booking requests, calendar conflict checks;
+- human gate: владелец подтверждает первый live workflow.
+
+## Пример: юридический intake
+
+Вход: описание процесса сбора документов для visa/legal checklist.
+
+Выход:
+
+- recommendation: private legal checklist assistant;
+- do-not-automate: legal eligibility decisions, legal strategy, final advice;
+- privacy mode: local/on-prem или strict private analysis;
+- unrestricted cloud mode блокируется;
+- human gate обязателен.
+
+Это хороший пример, потому что продукт показывает не только “что можно сделать”,
+но и **что нельзя делать**.
+
+## Архитектура простыми словами
+
+```mermaid
+flowchart TB
+    subgraph Input
+        A1[Business profile]
+        A2[Workflow notes]
+        A3[SOP / transcript / form]
+    end
+
+    subgraph Core
+        B1[Typed schemas]
+        B2[Privacy gates]
+        B3[Pattern library]
+        B4[Cost engine]
+        B5[Priority scoring]
+        B6[Verification receipts]
+    end
+
+    subgraph Output
+        C1[AI Roadmap]
+        C2[Review checklist]
+        C3[Approved handoff]
+        C4[Eval results]
+    end
+
+    Input --> Core --> Output
+```
+
+## Доказательства рабочести
+
+Текущий engineering proof:
+
+- полный test suite: `343 passed`;
+- ruff lint и format clean;
+- 3 demo domains:
+  - hair salon;
+  - e-commerce returns/support;
+  - legal consultancy;
+- eval suite проверяет:
+  - нет forbidden claims;
+  - каждая рекомендация имеет evidence или assumptions;
+  - legal restricted data блокирует unrestricted cloud;
+  - single-point cost estimate rejected;
+  - recommendation trace содержит pattern/cost/scoring/privacy versions;
+- approved handoff нельзя экспортировать без approved review.
+
+Команда для проверки:
+
+```bash
+.venv/bin/python -m pytest -q
+```
+
+Ожидаемый результат:
+
+```text
+343 passed
+```
+
+## Демо в терминале
+
+Запуск красивого локального demo:
+
+```bash
+bash scripts/demo_roadmap_ru.sh
+```
+
+Скрипт:
+
+- генерирует roadmap для demo hair salon workflow;
+- показывает команду, которая запускается;
+- печатает ключевые результаты;
+- сохраняет Markdown roadmap в `.data/demo/exports/`.
+
+## Как это можно продавать
+
+Не как “мы поставим вам AI agent”.
+
+Лучше:
+
+> Мы анализируем ваши рабочие процессы и превращаем их в практичный AI
+> implementation roadmap: где AI реально нужен, где он не нужен, какие риски,
+> какие данные, privacy mode, бюджетный диапазон, этапы внедрения и human review
+> gates.
+
+Потенциальный paid package:
+
+- 3-5 workflow компании;
+- короткий intake;
+- локальный анализ;
+- AI roadmap report;
+- приоритизация инициатив;
+- do-not-automate список;
+- implementation handoff для первой инициативы.
+
+## Кому это может быть нужно
+
+Первичные ICP:
+
+- owner/CEO малого или среднего бизнеса;
+- COO / Head of Operations;
+- Sales Ops / Support Lead;
+- AI automation consultant;
+- digital transformation consultant;
+- технический founder, которому нужен pre-sales diagnostic.
+
+## Что еще не доказано
+
+Честная граница:
+
+- техническая состоятельность MVP доказана локальными tests/evals;
+- commercial demand еще нужно доказать разговорами и paid pilots;
+- demo fixtures не являются buyer proof;
+- реальные commercial claims должны опираться на пилот с настоящим workflow.
+
+## Следующий правильный шаг
+
+Для cofounder/sales проверки:
+
+1. Показать terminal demo.
+2. Показать generated Markdown roadmap.
+3. Провести 10-20 discovery calls.
+4. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
+5. Получить 1 paid pilot на 3-5 workflows.
+
