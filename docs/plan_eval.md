@@ -669,6 +669,19 @@ MVP SMB pattern pack baseline:
 - Required pattern coverage: support triage, knowledge assistant, sales email, lead qualification, document extraction, invoice processing, appointment booking, legal checklist, e-commerce returns, reporting automation, messaging support bot
 - Regression: No
 
+Pattern matching baseline:
+
+- Date: 2026-06-01
+- Task: T75
+- Eval Source: pytest tests/eval/test_pattern_matching_eval.py -q
+- Metric: Expected SMB pattern matches
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Expected matches: salon appointment, e-commerce returns, legal checklist, reporting automation
+- Anti-matches: high-autonomy agent, automatic refund, legal advice agent, unrestricted cloud bot, weak privacy default
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -715,6 +728,7 @@ MVP SMB pattern pack baseline:
 | 2026-06-01 | T72 | privacy-policy-gate-v1 | Cloud/private/local privacy policy gate expected-outcome pass rate | 100%; restricted/sensitive/high-risk blockers; allowed redacted paths | 100%; restricted/sensitive/high-risk blockers; allowed redacted paths | 0% | No | pytest tests/unit/test_privacy_policy_gate.py -q |
 | 2026-06-01 | T73 | smb-pattern-v1 | SMB pattern schema and loader expected-outcome pass rate | 100%; 1 pattern file; malformed JSON and schema blockers | 100%; 1 pattern file; malformed JSON and schema blockers | 0% | No | pytest tests/unit/test_smb_pattern_library.py -q |
 | 2026-06-01 | T74 | smb-pattern-v1 | MVP SMB pattern pack coverage | 100%; 11 required patterns; every file validates; when-not-to-use present | 100%; 11 required patterns; every file validates; when-not-to-use present | 0% | No | pytest tests/unit/test_smb_pattern_library.py -q |
+| 2026-06-01 | T75 | pattern-matching-baseline-v1 | Expected SMB pattern matches | 100%; expected matches and anti-matches pass | 100%; expected matches and anti-matches pass | 0% | No | pytest tests/eval/test_pattern_matching_eval.py -q |
 
 ---
 

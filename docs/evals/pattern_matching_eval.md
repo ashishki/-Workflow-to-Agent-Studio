@@ -32,6 +32,12 @@ forcing every workflow into an AI agent pattern.
 - deterministic patterns are preferred when LLM is unnecessary;
 - high-risk anti-matches are blocked.
 
+## Eval History
+
+| Date | Task | Matcher Version | Metric | Score | Baseline | Delta | Regression? | Eval Source |
+|------|------|-----------------|--------|-------|----------|-------|-------------|-------------|
+| 2026-06-01 | T75 | pattern-matching-baseline-v1 | Expected SMB pattern matches | 100%; salon reminder, e-commerce returns, legal checklist, reporting automation, privacy anti-match | 100%; salon reminder, e-commerce returns, legal checklist, reporting automation, privacy anti-match | 0% | No | pytest tests/eval/test_pattern_matching_eval.py -q |
+
 ## Human Review
 
 Reviewers should confirm:
