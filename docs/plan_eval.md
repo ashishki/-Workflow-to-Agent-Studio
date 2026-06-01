@@ -682,6 +682,19 @@ Pattern matching baseline:
 - Anti-matches: high-autonomy agent, automatic refund, legal advice agent, unrestricted cloud bot, weak privacy default
 - Regression: No
 
+Cost engine baseline:
+
+- Date: 2026-06-01
+- Task: T76
+- Eval Source: pytest tests/unit/test_cost_engine.py -q
+- Metric: Deterministic cost engine expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Covered estimates: deterministic reminder, support assistant, private document assistant
+- Blocking invalid cases: missing assumptions
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -729,6 +742,7 @@ Pattern matching baseline:
 | 2026-06-01 | T73 | smb-pattern-v1 | SMB pattern schema and loader expected-outcome pass rate | 100%; 1 pattern file; malformed JSON and schema blockers | 100%; 1 pattern file; malformed JSON and schema blockers | 0% | No | pytest tests/unit/test_smb_pattern_library.py -q |
 | 2026-06-01 | T74 | smb-pattern-v1 | MVP SMB pattern pack coverage | 100%; 11 required patterns; every file validates; when-not-to-use present | 100%; 11 required patterns; every file validates; when-not-to-use present | 0% | No | pytest tests/unit/test_smb_pattern_library.py -q |
 | 2026-06-01 | T75 | pattern-matching-baseline-v1 | Expected SMB pattern matches | 100%; expected matches and anti-matches pass | 100%; expected matches and anti-matches pass | 0% | No | pytest tests/eval/test_pattern_matching_eval.py -q |
+| 2026-06-01 | T76 | cost-engine-baseline-v1 | Deterministic cost engine expected-outcome pass rate | 100%; reminder, support assistant, private document assistant, assumptions gate | 100%; reminder, support assistant, private document assistant, assumptions gate | 0% | No | pytest tests/unit/test_cost_engine.py -q |
 
 ---
 

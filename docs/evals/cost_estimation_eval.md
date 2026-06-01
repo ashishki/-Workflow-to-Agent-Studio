@@ -25,6 +25,12 @@ Purpose: keep cost ranges honest and avoid false precision.
 - high-risk workflow cost confidence cannot be high without sample data;
 - no ROI guarantee appears.
 
+## Eval History
+
+| Date | Task | Cost Model Version | Metric | Score | Baseline | Delta | Regression? | Eval Source |
+|------|------|--------------------|--------|-------|----------|-------|-------------|-------------|
+| 2026-06-01 | T76 | cost-engine-baseline-v1 | Deterministic cost engine expected-outcome pass rate | 100%; reminder, support assistant, private document assistant, missing assumptions blocked | 100%; reminder, support assistant, private document assistant, missing assumptions blocked | 0% | No | pytest tests/unit/test_cost_engine.py -q |
+
 ## Sanity Bands
 
 The following are planning heuristics, not quotes:
