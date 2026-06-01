@@ -137,6 +137,17 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py -q
 python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retrieval_eval.py tests/eval/test_plan_eval.py -q
 ```
 
+Real-world corpus fixtures:
+
+- `tests/fixtures/sources/discovery_call.transcript.txt`
+- `tests/fixtures/sources/discovery_notes.notes.txt`
+- `tests/fixtures/sources/intake_form.form.md`
+- `tests/fixtures/sources/crm_integration.integration.txt`
+
+Real-world corpus eval:
+
+- `tests/eval/test_real_world_corpus_eval.py`
+
 Primary metrics:
 
 - evidence-link coverage;
