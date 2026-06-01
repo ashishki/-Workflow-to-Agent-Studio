@@ -708,6 +708,19 @@ Priority scoring engine baseline:
 - Required output: rationale and uncertainty notes
 - Regression: No
 
+Roadmap assembly baseline:
+
+- Date: 2026-06-01
+- Task: T78
+- Eval Source: pytest tests/integration/test_roadmap_generation.py -q
+- Metric: Demo roadmap assembly expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Demo inputs: hair salon, e-commerce, legal consultancy
+- Required report coverage: recommendations, do-not-automate items, privacy mode, verification appendix
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -757,6 +770,7 @@ Priority scoring engine baseline:
 | 2026-06-01 | T75 | pattern-matching-baseline-v1 | Expected SMB pattern matches | 100%; expected matches and anti-matches pass | 100%; expected matches and anti-matches pass | 0% | No | pytest tests/eval/test_pattern_matching_eval.py -q |
 | 2026-06-01 | T76 | cost-engine-baseline-v1 | Deterministic cost engine expected-outcome pass rate | 100%; reminder, support assistant, private document assistant, assumptions gate | 100%; reminder, support assistant, private document assistant, assumptions gate | 0% | No | pytest tests/unit/test_cost_engine.py -q |
 | 2026-06-01 | T77 | priority-scoring-engine-v1 | Deterministic priority scoring expected-outcome pass rate | 100%; quick_win, do_not_automate_yet, classic_automation, uncertainty gate | 100%; quick_win, do_not_automate_yet, classic_automation, uncertainty gate | 0% | No | pytest tests/unit/test_priority_scoring.py -q |
+| 2026-06-01 | T78 | roadmap-report-v1 | Demo roadmap assembly expected-outcome pass rate | 100%; 3 demo reports; privacy and verification appendix present | 100%; 3 demo reports; privacy and verification appendix present | 0% | No | pytest tests/integration/test_roadmap_generation.py -q |
 
 ---
 
