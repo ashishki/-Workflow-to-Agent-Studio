@@ -76,15 +76,18 @@ bash scripts/demo_roadmap_ru.sh
 ## Что показать в репозитории
 
 1. `README_RU.md` - понятное описание продукта.
-2. `docs/product/report_contract.md` - контракт итогового roadmap.
-3. `docs/security/privacy_modes.md` - логика cloud/private/local.
-4. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
-5. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
+2. `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md` - красивый пример
+   клиентского отчета для сложного workflow: заявки акселератора, CRM, звонки,
+   review memory, cost/time/team estimates.
+3. `docs/product/report_contract.md` - контракт итогового roadmap.
+4. `docs/security/privacy_modes.md` - логика cloud/private/local.
+5. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
+6. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
    source of truth, LLM boundaries и hallucination safeguards.
-6. `tests/eval/` - автоматические проверки.
-7. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
+7. `tests/eval/` - автоматические проверки.
+8. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
    запуска скрипта.
-8. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
+9. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
    output после запуска скрипта.
 
 ## Proof points

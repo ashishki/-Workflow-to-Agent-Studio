@@ -278,6 +278,8 @@ bash scripts/demo_roadmap_ru.sh
 
 1. Показать terminal demo.
 2. Показать generated Markdown roadmap.
-3. Провести 10-20 discovery calls.
-4. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
-5. Получить 1 paid pilot на 3-5 workflows.
+3. Показать polished customer-facing пример:
+   `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md`.
+4. Провести 10-20 discovery calls.
+5. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
+6. Получить 1 paid pilot на 3-5 workflows.
