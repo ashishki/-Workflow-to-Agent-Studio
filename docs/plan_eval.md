@@ -695,6 +695,19 @@ Cost engine baseline:
 - Blocking invalid cases: missing assumptions
 - Regression: No
 
+Priority scoring engine baseline:
+
+- Date: 2026-06-01
+- Task: T77
+- Eval Source: pytest tests/unit/test_priority_scoring.py -q
+- Metric: Deterministic priority scoring expected-outcome pass rate
+- Score: 100%
+- Baseline: 100%
+- Delta: 0%
+- Expected bands: quick_win, do_not_automate_yet, classic_automation
+- Required output: rationale and uncertainty notes
+- Regression: No
+
 ---
 
 ## Evaluation History
@@ -743,6 +756,7 @@ Cost engine baseline:
 | 2026-06-01 | T74 | smb-pattern-v1 | MVP SMB pattern pack coverage | 100%; 11 required patterns; every file validates; when-not-to-use present | 100%; 11 required patterns; every file validates; when-not-to-use present | 0% | No | pytest tests/unit/test_smb_pattern_library.py -q |
 | 2026-06-01 | T75 | pattern-matching-baseline-v1 | Expected SMB pattern matches | 100%; expected matches and anti-matches pass | 100%; expected matches and anti-matches pass | 0% | No | pytest tests/eval/test_pattern_matching_eval.py -q |
 | 2026-06-01 | T76 | cost-engine-baseline-v1 | Deterministic cost engine expected-outcome pass rate | 100%; reminder, support assistant, private document assistant, assumptions gate | 100%; reminder, support assistant, private document assistant, assumptions gate | 0% | No | pytest tests/unit/test_cost_engine.py -q |
+| 2026-06-01 | T77 | priority-scoring-engine-v1 | Deterministic priority scoring expected-outcome pass rate | 100%; quick_win, do_not_automate_yet, classic_automation, uncertainty gate | 100%; quick_win, do_not_automate_yet, classic_automation, uncertainty gate | 0% | No | pytest tests/unit/test_priority_scoring.py -q |
 
 ---
 

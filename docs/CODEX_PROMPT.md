@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
-- Next task: T77 - Priority Scoring Engine
-- Verified baseline: T76 pre-change baseline was 311 passing tests, 0 skipped, 0 failed; T76 completion baseline is 315 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T76
+- Next task: T78 - Roadmap Assembly Service
+- Verified baseline: T77 pre-change baseline was 315 passing tests, 0 skipped, 0 failed; T77 completion baseline is 319 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T77
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete
 
 ## Active References
 
@@ -36,40 +36,40 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T76 - Cost Engine
+Task: T77 - Priority Scoring Engine
 
 Status: complete.
 
-Task: T77 - Priority Scoring Engine
+Task: T78 - Roadmap Assembly Service
 
-Goal: compute priority bands from business value, delivery readiness, risk
-penalty, and confidence.
+Goal: assemble workflow map, opportunities, privacy results, pattern matches,
+costs, scores, and verification data into `RoadmapReport`.
 
 Acceptance summary:
 
-- high value/high readiness/low risk maps to quick_win
-- high privacy risk and low evaluation clarity maps to prepare_first or
-  do_not_automate_yet
-- deterministic reminder can map to classic_automation
-- output includes uncertainty notes
+- service creates a valid RoadmapReport from each of the three demo inputs
+- report includes do-not-automate items
+- report includes privacy mode recommendation
+- report includes verification appendix
 
 File scope:
 
-- `workflow_agent_studio/scoring/priority.py`
-- `tests/unit/test_priority_scoring.py`
+- `workflow_agent_studio/roadmap/service.py`
+- `tests/integration/test_roadmap_generation.py`
 
 Required context:
 
-- `docs/methodology/scoring_model.md`
+- `docs/product/report_contract.md`
+- `docs/examples/domains/`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T76
+- Task: T77
 - Date: 2026-06-01
-- Eval Source: `.venv/bin/python -m pytest tests/unit/test_cost_engine.py -q`
-- Result: 4 passed; full repository verification passed with 315 tests
+- Eval Source: `.venv/bin/python -m pytest tests/unit/test_priority_scoring.py -q`
+- Result: 4 passed; full repository verification passed with 319 tests
 
 ## Profile State
 
@@ -82,7 +82,7 @@ RAG: ON
 Planning: ON
 
 - Current schema: blueprint v1 plus design-candidate-v1
-- Next work: deterministic priority scoring for roadmap planning
+- Next work: roadmap assembly for SMB implementation planning
 - Open planning findings: none
 
 Tool-Use: OFF
