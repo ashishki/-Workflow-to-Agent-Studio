@@ -13,10 +13,10 @@ readiness decisions, candidate agent designs, deterministic and LLM-owned step
 boundaries, approval gates, risks, eval cases, observability needs, and
 implementation tasks.
 
-Status: active framework candidate. The local evidence-linked MVP and public
-workflow showcase are built; the next focus is design diversity,
-Playbook-compatible export, and stronger workflow-to-agent blueprint output. See
-`docs/PROJECT_PLAN.md`.
+Status: active framework candidate with Phase 14 focused on the SMB AI Roadmap
+Product Layer. The local evidence-linked MVP, public workflow showcase, design
+candidate portfolio, and Playbook export are built. The next implementation
+focus is `T64: Privacy Domain Model` in `docs/tasks.md`.
 
 Reference integration: `docs/entropy_core_gensyn_integration.md`.
 
@@ -73,232 +73,117 @@ workflow-agent-studio export \
 
 ## What This Produces
 
-For one workflow evidence packet, the framework should produce a portfolio of
-agent-system design options rather than one generic agent answer:
+The current framework produces evidence-linked workflow-to-agent design
+artifacts:
 
-- deterministic-first blueprint
-- human-in-the-loop blueprint
-- bounded-agent blueprint
-- high-autonomy blueprint
-- compliance-heavy blueprint
-- low-cost MVP blueprint
+- workflow maps with actors, systems, data fields, decisions, and exceptions;
+- automation candidates with deterministic, LLM-owned, and human approval
+  boundaries;
+- design candidates such as deterministic-first, human-in-the-loop,
+  bounded-agent, compliance-heavy, and low-cost MVP;
+- evaluation cases, risks, observability notes, implementation tasks, and
+  Markdown exports.
 
-Each option should make the tradeoffs explicit:
+Phase 14 adds the SMB AI roadmap layer:
 
-- autonomy level and runtime tier
-- deterministic steps, LLM-owned steps, and tool-use boundaries
-- required human approvals
-- integration assumptions and evidence gaps
-- risk, cost, observability, and eval posture
-- implementation task blocks compatible with AI Workflow Playbook-style planning
+- RoadmapReport v1;
+- recommendation cards;
+- privacy classification and cloud/private/local policy gates;
+- cost/time/team ranges;
+- priority scoring;
+- SMB implementation patterns;
+- verification receipts and roadmap evals.
 
-Example workflow domains:
+## Product Direction
 
-- support: triage, reply drafting, escalation, and refund approval workflows
-- research: source collection, synthesis, citation checks, and reviewer approval
-- sales: lead qualification, CRM updates, follow-up drafting, and approval gates
-- operations: intake, routing, exception handling, and audit-ready handoffs
+The product is a pre-implementation AI roadmap studio, not an agent builder.
 
-## Зачем это нужно
+It helps an operator or consultant answer:
 
-Компании хотят автоматизировать процессы с помощью AI-агентов, но часто не могут достаточно точно описать сам workflow. До реализации инженеру или консультанту приходится вручную вытаскивать:
+- what should be automated;
+- what should not be automated yet;
+- whether the right solution is a script, API integration, RPA, LLM assistant,
+  RAG assistant, human-in-the-loop workflow, or bounded agent;
+- which data is needed and how sensitive it is;
+- whether cloud, private, or local analysis is safe;
+- what assumptions, risks, costs, rollout stages, and human-review gates apply.
 
-- шаги процесса
-- участников и системы
-- входные и выходные данные
-- edge cases
-- approvals и human-in-the-loop точки
-- интеграции и ограничения
-- риски и failure modes
-- критерии приемки и eval cases
+Primary users:
 
-Обычная AI-сводка помогает с текстом, но часто пропускает implementation boundaries, evidence links, security assumptions, autonomy tradeoffs и проверяемые acceptance criteria.
+- AI automation consultants;
+- freelance AI engineers;
+- ops leads;
+- solution architects;
+- technical founders.
 
----
+## Boundaries
 
-## Целевая аудитория
+The project does not:
 
-- AI automation consultants
-- freelance AI engineers
-- ops leads
-- solution architects
-- technical founders
+- create production agents automatically;
+- deploy automations;
+- mutate production systems;
+- replace stakeholder interviews when evidence is missing;
+- claim ROI, buyer proof, or compliance certification from synthetic demos;
+- recommend autonomous legal, medical, financial, HR, or identity-sensitive
+  decisions.
 
-Первый пользователь — человек, который должен быстро превратить messy workflow description в buildable spec.
+## Evaluation
 
----
-
-## Основная гипотеза
-
-Если дать оператору инструмент, который принимает 10-20 минут сырого описания workflow и возвращает структурированный, evidence-linked workflow-to-agent blueprint, то discovery для AI automation проектов станет быстрее и надежнее.
-
-Критерий успеха v1:
-
-- оператор получает reviewable blueprint менее чем за 30 минут
-- минимум 80% обязательных секций принимаются после human review без полного переписывания
-- критические missing questions, approval boundaries и integration risks не теряются
-
----
-
-## Что именно тестируем
-
-### H1. Скорость discovery
-
-Проверяем, можно ли сократить путь от raw workflow input до reviewable implementation brief.
-
-Метрика:
-
-- время от загрузки/вставки источника до draft blueprint
-- целевое значение: менее 30 минут для v1 workflow
-
-### H2. Качество blueprint
-
-Проверяем, получается ли не просто summary, а документ, по которому инженер может принимать решение о реализации.
-
-Метрики:
-
-- acceptance rate обязательных секций после human review
-- количество секций, которые оператору пришлось переписать вручную
-- количество critical missing questions, найденных до implementation
-
-### H3. Evidence grounding
-
-Проверяем, можно ли связать важные утверждения blueprint с исходными фрагментами.
-
-Метрики:
-
-- evidence-link coverage
-- citation precision
-- доля claims без evidence или explicit assumption
-
-### H4. Safety boundaries
-
-Проверяем, не предлагает ли система опасную или преждевременную автоматизацию.
-
-Метрики:
-
-- наличие human approval boundaries для risky automation candidates
-- forbidden-claim violations
-- количество unsafe candidates, заблокированных validation gate
-
-### H5. RAG usefulness
-
-Проверяем, помогает ли retrieval находить релевантные source snippets, prior patterns, integration templates и eval templates.
-
-Метрики:
-
-- hit@3 / hit@5
-- MRR
-- no-answer accuracy
-- citation precision
-- p50 / p95 retrieval latency
-
-RAG/eval reference: `Dream_Motif_Interpreter` используется только как reference-only проект для формы retrieval pipeline и eval discipline. Детали зафиксированы в `docs/IMPLEMENTATION_REFERENCE_MAP.md`.
-
-### Real-world-style corpus fixture
-
-Phase 1 corpus fixtures live in `tests/fixtures/sources/`:
-
-- `tests/fixtures/sources/discovery_call.transcript.txt`
-- `tests/fixtures/sources/discovery_notes.notes.txt`
-- `tests/fixtures/sources/intake_form.form.md`
-- `tests/fixtures/sources/crm_integration.integration.txt`
-
-Corpus/eval commands:
+Focused eval commands:
 
 ```bash
 python -m pytest tests/eval/test_real_world_corpus_eval.py -q
-```
-
-```bash
 python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retrieval_eval.py tests/eval/test_plan_eval.py -q
 ```
 
----
+Primary metrics:
 
-## V1 Scope
+- evidence-link coverage;
+- citation precision;
+- no-answer accuracy;
+- missing critical question count;
+- forbidden-claim violations;
+- reviewer acceptance rate;
+- roadmap quality/privacy/cost/pattern verification once Phase 14 code lands.
 
-Входит в v1:
+## Documentation Map
 
-- text/transcript ingestion
-- normalized source documents
-- text-only RAG
-- structured workflow extraction
-- deterministic completeness checks
-- evidence-linked workflow-to-agent blueprint generation
-- design candidate comparison before implementation
-- risk and approval map
-- eval-case draft
-- integration checklist
-- Markdown export
-- immutable blueprint versions and audit trail
-
-Не входит в v1:
-
-- автоматическое создание production agent
-- autonomous deployment
-- generic agent generation without workflow evidence
-- выполнение customer workflows
-- замена stakeholder interviews
-- мультимодальный parsing скриншотов/видео
-- multi-user workspace
-- GitHub issue export без отдельного human approval gate
-
----
-
-## Architecture Direction
-
-Минимально достаточная форма: workflow orchestration with deterministic validators and LLM synthesis.
-
-Принципы:
-
-- deterministic validators own safety-critical checks
-- LLM drafts extraction and synthesis, but does not approve scope
-- every important claim needs evidence or explicit assumption
-- unsupported retrieval returns `insufficient_evidence`
-- human approval remains required for client-facing proposal, implementation scope, estimates, and security assumptions
-
-См. также:
-
-- `docs/ARCHITECTURE.md`
-- `docs/spec.md`
-- `docs/product_strategy.md`
-- `docs/product_strategy.md#commercial-pilot-package`
-- `docs/tasks.md`
-- `docs/retrieval_eval.md`
-- `docs/plan_eval.md`
-
----
+- Active task graph: `docs/tasks.md`
+- Current Codex state: `docs/CODEX_PROMPT.md`
+- Orchestrator prompt: `docs/prompts/ORCHESTRATOR.md`
+- Product strategy: `docs/product_strategy.md`
+- Commercial pilot package: `docs/product_strategy.md#commercial-pilot-package`
+- SMB roadmap index: `docs/AI_ROADMAP_STUDIO_INDEX.md`
+- Architecture: `docs/ARCHITECTURE.md`
+- Specification: `docs/spec.md`
+- Operator guide: `docs/operator_guide.md`
+- Retrieval eval: `docs/retrieval_eval.md`
+- Planning eval: `docs/plan_eval.md`
+- Original long phase draft: `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
 
 ## Current Project State
 
-- Phase 0 implementation tasks T01-T20 are built and archived at `docs/archive/TASK_GRAPH_V1_T01_T20.md`
-- Phase 1 implementation tasks T21-T24 are complete
-- Phase 2 implementation tasks T25-T26 are complete
-- Phase 3 implementation tasks T27-T28 are complete
-- Phase 4 implementation tasks T29-T30 are complete
-- Phase 5 implementation tasks T31-T32 are complete
-- Phase 6 task T33 is complete; T34 is blocked by the T34/T40 dependency cycle
-- Phase 7 implementation tasks T35-T36 are complete
-- Phase 11 and Phase 12 public-source showcase work is complete and remains demo material, not buyer proof
-- Phase 13 framework upgrade is active; next implementation focus is T59 design diversity schema
-- Latest deep review: Cycle 13 for CODE-2 archived at `docs/archive/CYCLE13_CODE2_FIX.md`
-- Verified local baseline: 199 passing tests, 0 skipped, 0 failed
-- Prior README checkpoint: Verified local baseline: 127 passing tests before the later public-proof phases
-- CI workflow configured for Python 3.12, ruff lint, ruff format check, and pytest
-- Package skeleton, health command, settings, observability helpers, storage, ingestion, safety guards, text-only retrieval baseline, and initial v1 blueprint schema are implemented
-- `FIX-1` / `CODE-1` closed: `WorkflowStep` rejects steps without evidence or an assumption marker
-- Codex-only orchestration selected
-- Development loop is nonstop: task -> review -> fix if needed -> docs/state update -> checkpoint -> next task or phase
-- RAG profile ON
-- Planning profile ON
-- Tool-Use / Agentic / Compliance profiles OFF for v1
-- Open findings: T34 and T40 currently form a dependency cycle
-- Active task graph is ready for Phase 13 / `T59: Design Diversity Candidate Set`
-- Product strategy is summarized in `docs/product_strategy.md`; the original long phase draft is archived at `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
+- Completed: Phase 0 local evidence-linked MVP; Phase 11/12 public workflow
+  showcase; Phase 13 workflow-to-agent framework upgrade.
+- Active: Phase 14 SMB AI Roadmap Product Layer.
+- Next task: `T64: Privacy Domain Model`.
+- Open commercial proof boundary: T34/T40 remain blocked until
+  human-reviewed real workflow data is recorded in `docs/pilot_measurement.md`.
+- Latest full baseline before Phase 14 prep: 216 passing tests, 0 skipped,
+  0 failed.
+- Documentation prep check: `.venv/bin/python -m pytest tests/unit/test_docs.py -q`
+  passed with 24 tests.
+- Historical checkpoint: Verified local baseline: 127 passing tests before the
+  later public-proof phases.
 
-To continue implementation, run Codex with:
+## Development Loop
+
+Continue implementation with the standard Codex-only loop:
 
 ```bash
-docs/prompts/ORCHESTRATOR.md
+codex "$(cat docs/prompts/ORCHESTRATOR.md)"
 ```
+
+The orchestrator reads `docs/CODEX_PROMPT.md`, then executes the next task from
+`docs/tasks.md`. Do not use archived taskgraphs as active planning input.

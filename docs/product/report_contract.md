@@ -1,0 +1,249 @@
+# Roadmap Report Contract
+
+Contract name: `RoadmapReport v1`
+
+Purpose: define the target output artifact for SMB AI implementation planning.
+
+The report is a contract-bound artifact, not a prose-only PDF. Markdown export
+is one view of the same structured data.
+
+## Required Sections
+
+### 1. Executive Summary
+
+Required fields:
+
+- company context;
+- top recommended initiatives;
+- top do-not-automate-yet items;
+- 30/60/90 day roadmap;
+- overall privacy mode recommendation;
+- overall confidence level;
+- critical assumptions.
+
+### 2. Evidence Packet
+
+Required fields:
+
+- source documents;
+- source type;
+- source fingerprint/hash;
+- extracted evidence snippets;
+- missing evidence;
+- redaction status;
+- source privacy class.
+
+### 3. Workflow Map
+
+For each workflow:
+
+- workflow ID;
+- workflow name;
+- business owner;
+- trigger;
+- actors;
+- systems;
+- steps;
+- decisions;
+- exceptions;
+- inputs and outputs;
+- frequency/volume;
+- pain points;
+- current tools;
+- current manual effort;
+- evidence references.
+
+### 4. Process Inventory
+
+For each process:
+
+- automation feasibility score;
+- business impact score;
+- privacy sensitivity score;
+- security risk score;
+- data readiness score;
+- implementation complexity score;
+- evaluation clarity score;
+- recommended solution type.
+
+Allowed solution types:
+
+- do not automate yet;
+- classic script;
+- API integration;
+- RPA;
+- LLM assistant;
+- RAG knowledge assistant;
+- human-in-the-loop workflow;
+- bounded AI agent;
+- high-autonomy agent - future only.
+
+### 5. AI Opportunity Map
+
+Each opportunity must include:
+
+- workflow step;
+- pain point;
+- automation pattern;
+- why AI is useful or why AI is not needed;
+- expected value;
+- required data;
+- privacy class;
+- confidence;
+- fallback option.
+
+### 6. Recommendation Cards
+
+Each recommendation card must include:
+
+```yaml
+recommendation_id: REC-001
+recommendation: Customer support triage assistant
+target_workflow_step: Inbound message classification
+expected_value:
+  qualitative: Faster response and fewer missed requests
+  quantitative_assumption: Reduce manual triage time by 30-50 percent
+required_data:
+  - support messages
+  - order status
+  - FAQ/SOP
+privacy_class: moderate
+implementation_option: LLM assistant plus deterministic routing
+architecture:
+  model: Cloud LLM API or private mode depending on customer data
+  deterministic_components:
+    - routing rules
+    - refund approval gate
+    - PII redaction
+  llm_components:
+    - message summarization
+    - intent classification draft
+estimated_cost:
+  one_time_low: 2000
+  one_time_medium: 7000
+  one_time_high: 20000
+  currency: USD
+estimated_time:
+  low: 2 weeks
+  medium: 4 weeks
+  high: 8 weeks
+required_people:
+  - AI automation engineer
+  - business process owner
+  - reviewer/support lead
+dependencies:
+  - clean FAQ
+  - support inbox access
+  - refund policy
+risks:
+  - hallucinated policy answer
+  - exposure of customer data
+  - wrong escalation
+validation_method:
+  - golden support tickets
+  - human review of first 100 classifications
+success_metrics:
+  - first response time
+  - escalation accuracy
+  - manual handling time
+confidence_level: medium
+assumptions:
+  - Support requests are repetitive enough
+  - FAQ reflects current policy
+evidence:
+  - source_id: SRC-001
+    chunk_id: CH-004
+fallback_option: Deterministic canned replies and manual routing
+```
+
+### 7. Cloud Vs Local/Private Recommendation
+
+For each initiative:
+
+- cloud safe;
+- cloud only after redaction;
+- private mode recommended;
+- local/on-prem required;
+- rationale;
+- data classes involved;
+- quality/cost tradeoff.
+
+### 8. Build Vs Buy
+
+Allowed outputs:
+
+- buy SaaS;
+- configure existing SaaS;
+- build small integration;
+- build custom AI workflow;
+- do not build yet.
+
+### 9. Cost, Time, And Team Plan
+
+Required fields:
+
+- one-time implementation cost range;
+- monthly run cost range;
+- human review cost;
+- integration/subscription cost;
+- maintenance cost;
+- roles and estimated involvement;
+- assumptions and confidence.
+
+### 10. Rollout Plan
+
+Required stages:
+
+- Phase 0: process and data cleanup;
+- Phase 1: low-risk assistant or deterministic automation;
+- Phase 2: human-in-the-loop automation;
+- Phase 3: integration or bounded-agent pilot;
+- Phase 4: scale, revise, or stop.
+
+### 11. Evaluation Plan
+
+Required fields:
+
+- golden test cases;
+- shadow mode;
+- human review sample;
+- acceptance criteria;
+- regression tests;
+- stop conditions.
+
+### 12. Governance And Maintenance
+
+Required fields:
+
+- owner;
+- review cadence;
+- approval rules;
+- incident handling;
+- prompt/model/version change policy;
+- data retention;
+- audit logs.
+
+### 13. Verification Appendix
+
+Required files or sections:
+
+- claims registry;
+- assumptions registry;
+- evidence table;
+- recommendation trace;
+- decision log;
+- reviewer notes;
+- confidence and uncertainty flags.
+
+## Blocking Conditions
+
+The report must fail validation when:
+
+- a recommendation lacks a workflow step;
+- a recommendation lacks evidence and lacks assumptions;
+- cost ranges lack assumptions;
+- a restricted privacy workflow recommends unrestricted cloud analysis;
+- high-risk recommendations lack a human approval gate;
+- "guaranteed ROI" or similar unsupported claims appear;
+- autonomous legal, medical, financial, or HR decisions are recommended;
+- a high-autonomy agent is recommended for a high-risk workflow.

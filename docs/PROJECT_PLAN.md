@@ -1,23 +1,25 @@
 # Workflow-to-Agent Studio - Project Plan
 
 Status: active framework candidate
-Role: convert human workflows into bounded agent system designs
+Role: convert human workflow evidence into bounded agent designs and SMB AI
+implementation roadmaps
 Priority: P0
-Next active work: T59 - Design Diversity Candidate Set
+Next active work: T64 - Privacy Domain Model
 
 ## Strategic Role
 
-Workflow-to-Agent Studio should become the portfolio's second serious framework
-next to AI Workflow Playbook.
+Workflow-to-Agent Studio should become the portfolio's evidence-first planning
+framework next to AI Workflow Playbook.
 
 The core problem: teams ask for "AI agents" before they understand the workflow,
 permission boundaries, deterministic steps, eval needs, and human approvals. This
-project should turn messy workflow evidence into an agent-ready blueprint.
+project should turn messy workflow evidence into a reviewable blueprint and,
+in Phase 14, an SMB AI implementation roadmap.
 
 ## Product Direction
 
-The project should not generate one magical agent. It should generate a design
-portfolio:
+The project should not generate one magical agent. The Phase 13 framework
+already supports a design portfolio:
 
 - deterministic-first design
 - human-in-the-loop design
@@ -26,55 +28,39 @@ portfolio:
 - compliance-heavy design
 - low-cost MVP design
 
-Then it should compare tradeoffs and produce implementation tasks.
+Phase 14 extends this into RoadmapReport v1: recommendation cards, privacy
+classification, cost/time/team ranges, priority bands, rollout stages, and a
+verification appendix.
 
 ## Near-Term Roadmap
 
-### P0 - Reposition README
+### P0 - Framework Baseline
 
-Status: complete in T58.
+Status: complete in T58-T63.
 
-- Present as a serious workflow-to-agent design framework.
-- Add "What this produces" with concrete artifacts.
-- Add examples for support, research, sales, and operations workflows.
+- README and product strategy position the project as a workflow-to-agent design
+  framework.
+- Design candidate schema and diverse generation flow are implemented.
+- Playbook export and permission/runtime boundary pack are implemented.
+- Framework readiness review is recorded.
 
-### P0 - Add Design Diversity
+### P0 - SMB AI Roadmap Product Layer
 
-Status: next active work in T59.
+Status: active in Phase 14, starting with T64.
 
-- Add Gensyn DEI-inspired candidate generation:
-  - different architecture lenses
-  - different risk/cost/autonomy profiles
-  - archive of candidate blueprints
-- Add consolidation step with evidence and tradeoffs.
-- Follow `docs/entropy_core_gensyn_integration.md`: use Gensyn as a bounded
-  design reference and Entropy Core as optional receipt vocabulary.
+- Add privacy, recommendation, costing, scoring, verification, and roadmap
+  schemas.
+- Add deterministic privacy classification and redaction preview.
+- Add cloud/private/local policy gates.
+- Add SMB pattern library, cost engine, priority scoring, roadmap assembly,
+  Markdown export, CLI command, eval suite, review checklist, and handoff export.
 
-### P1 - Agent Boundary Output
+### P1 - Pilot Packaging
 
-- Generate:
-  - deterministic steps
-  - LLM-owned steps
-  - tool-use boundaries
-  - human approvals
-  - runtime tier
-  - eval plan
-  - observability plan
-  - implementation task graph
-
-### P1 - Playbook Export
-
-- Export AI Workflow Playbook-compatible task blocks.
-- Export Implementation Contract deltas.
-- Export evaluation artifact skeletons.
-- Export `blueprint_proof_receipt` artifacts with approved blueprint exports.
-- Block implementation handoff when proof receipts have missing evidence or
-  unresolved reviewer findings.
-
-### P2 - Demo Surface
-
-- Add one polished CLI demo.
-- Later add a simple visual workflow map if it helps sales/demo clarity.
+- Use synthetic demo reports for mechanics only.
+- Keep commercial proof blocked until `docs/pilot_measurement.md` contains a
+  human-reviewed real pilot row.
+- Convert approved roadmap recommendations into implementation handoff artifacts.
 
 ## AI-Development Tasks
 
@@ -89,3 +75,5 @@ Status: next active work in T59.
 
 - Do not become a general agent runner.
 - Do not generate implementation code before the workflow blueprint is approved.
+- Do not claim ROI, compliance certification, or buyer proof from synthetic
+  demos.

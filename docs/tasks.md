@@ -1169,3 +1169,573 @@ Files:
 
 - `docs/audit/FRAMEWORK_READINESS_REVIEW.md`
 - `docs/CODEX_PROMPT.md`
+
+---
+
+## Phase 14: SMB AI Roadmap Product Layer
+
+Business goal: turn the current evidence-linked workflow-to-agent framework into
+an SMB AI implementation roadmap product layer. The product should produce
+verified implementation roadmaps that state what to automate, what not to
+automate yet, which solution type fits, which privacy mode is safe, what the
+cost/time/team assumptions are, and how each recommendation should be reviewed
+and evaluated.
+
+Exit criteria:
+
+- RoadmapReport v1, RecommendationCard, privacy, costing, scoring, and
+  verification schemas are typed and tested;
+- privacy classification and cloud/private/local policy gates block unsafe
+  recommendations;
+- SMB implementation patterns are versioned and validated;
+- deterministic cost and priority engines produce ranges and bands with
+  assumptions;
+- three synthetic demo workflows generate roadmap reports with verification
+  appendices;
+- roadmap evals block generic reports, unsupported claims, unsafe privacy
+  recommendations, and false-precision estimates.
+
+## T64: Privacy Domain Model
+
+Owner: codex
+Phase: 14
+Type: plan:schema compliance:control
+Depends-On: T63
+
+Objective: add typed privacy classes and classification result schemas used by
+roadmap recommendations and policy gates.
+
+Acceptance-Criteria:
+
+- privacy classes include public, internal, confidential, sensitive, and
+  restricted;
+- unknown privacy classes fail Pydantic validation;
+- schema can represent detected flags, redaction status, source privacy class,
+  and recommendation privacy class;
+- unit tests cover valid classes and invalid class rejection.
+
+Files:
+
+- `workflow_agent_studio/domain/privacy.py`
+- `tests/unit/test_privacy_schema.py`
+
+Context-Refs:
+
+- `docs/security/data_classification.md`
+- `docs/security/privacy_modes.md`
+- `docs/product/report_contract.md`
+
+## T65: Recommendation Card Schema
+
+Owner: codex
+Phase: 14
+Type: plan:schema
+Depends-On: T64
+
+Objective: implement the `RecommendationCard` schema for roadmap initiatives.
+
+Acceptance-Criteria:
+
+- recommendation without target workflow step fails validation;
+- recommendation without evidence and without assumptions fails validation;
+- recommendation without fallback fails validation;
+- recommendation requires privacy, cost, time, risks, validation method, success
+  metrics, required data, dependencies, and human gate fields;
+- unit tests cover happy path and each blocking invalid case.
+
+Files:
+
+- `workflow_agent_studio/domain/recommendation.py`
+- `tests/unit/test_recommendation_schema.py`
+
+Context-Refs:
+
+- `docs/product/report_contract.md#6-recommendation-cards`
+- `docs/methodology/ai_suitability_classification.md`
+
+## T66: Costing Domain Model
+
+Owner: codex
+Phase: 14
+Type: plan:schema
+Depends-On: T65
+
+Objective: implement cost estimate schemas with one-time/monthly ranges,
+assumptions, confidence, and price-card references.
+
+Acceptance-Criteria:
+
+- low, medium, and high cost ordering is validated;
+- estimate without assumptions fails validation;
+- estimate confidence supports low, medium, and high;
+- monthly and one-time costs can be represented separately;
+- unit tests cover invalid ordering and missing assumptions.
+
+Files:
+
+- `workflow_agent_studio/domain/costing.py`
+- `tests/unit/test_costing_schema.py`
+
+Context-Refs:
+
+- `docs/methodology/cost_estimation.md`
+- `docs/evals/cost_estimation_eval.md`
+
+## T67: Scoring Domain Model
+
+Owner: codex
+Phase: 14
+Type: plan:schema
+Depends-On: T65
+
+Objective: implement priority score schemas for business value, delivery
+readiness, risk penalty, priority band, confidence, rationale, and uncertainty.
+
+Acceptance-Criteria:
+
+- priority band supports quick_win, strategic_pilot, prepare_first,
+  do_not_automate_yet, classic_automation, and human_only;
+- score output requires rationale and uncertainty notes;
+- invalid score bands fail validation;
+- unit tests cover valid and invalid score outputs.
+
+Files:
+
+- `workflow_agent_studio/domain/scoring.py`
+- `tests/unit/test_priority_scoring_schema.py`
+
+Context-Refs:
+
+- `docs/methodology/scoring_model.md`
+
+## T68: Verification Domain Model
+
+Owner: codex
+Phase: 14
+Type: compliance:evidence plan:schema
+Depends-On: T65
+
+Objective: implement claims, assumptions, evidence items, recommendation traces,
+and verification receipt schemas for roadmap reports.
+
+Acceptance-Criteria:
+
+- claim requires claim type, evidence level, confidence, and status;
+- assumption requires impact, verification method, owner, and status;
+- recommendation trace records pattern, cost model, scoring model, and privacy
+  model versions;
+- receipt records source hashes, report schema version, model metadata, and
+  blocking finding count;
+- unit tests cover minimal valid receipt and invalid missing fields.
+
+Files:
+
+- `workflow_agent_studio/domain/verification.py`
+- `tests/unit/test_verification_receipt.py`
+
+Context-Refs:
+
+- `docs/methodology/verification_model.md`
+- `docs/architecture/reproducibility.md`
+
+## T69: Roadmap Report Schema
+
+Owner: codex
+Phase: 14
+Type: plan:schema
+Depends-On: T64, T65, T66, T67, T68
+
+Objective: implement the `RoadmapReport` aggregate schema.
+
+Acceptance-Criteria:
+
+- report requires executive summary, evidence packet, workflow map, process
+  inventory, recommendations, rollout plan, evaluation plan, governance plan,
+  and verification appendix;
+- report fails validation when recommendations list is empty and no
+  do-not-automate rationale is provided;
+- JSON fixture round-trips through Pydantic serialization;
+- tests cover minimal valid and invalid reports.
+
+Files:
+
+- `workflow_agent_studio/domain/roadmap.py`
+- `tests/unit/test_roadmap_report_schema.py`
+- `tests/fixtures/roadmaps/minimal_valid_roadmap.json`
+
+Context-Refs:
+
+- `docs/product/report_contract.md`
+- `docs/architecture/roadmap_data_model.md`
+
+## T70: Deterministic Privacy Classifier
+
+Owner: codex
+Phase: 14
+Type: compliance:control
+Depends-On: T64
+
+Objective: classify workflow fields and source snippets for PII, secrets, legal,
+health, payment, tax, HR, and identity hints.
+
+Acceptance-Criteria:
+
+- classifier marks email, phone, address, passport/ID-like, payment-like, and
+  API-key-like examples;
+- legal consultancy fixture is classified restricted;
+- salon fixture is classified sensitive, not restricted;
+- false-positive fixture remains internal or confidential as expected;
+- tests cover all required privacy eval categories.
+
+Files:
+
+- `workflow_agent_studio/privacy/classifier.py`
+- `tests/unit/test_privacy_classifier.py`
+- `tests/fixtures/smb/`
+
+Context-Refs:
+
+- `docs/security/data_classification.md`
+- `docs/evals/privacy_classification_eval.md`
+
+## T71: Redaction Preview
+
+Owner: codex
+Phase: 14
+Type: compliance:control
+Depends-On: T70
+
+Objective: implement deterministic redaction preview that masks detected secrets
+and personal values while preserving field names and workflow meaning.
+
+Acceptance-Criteria:
+
+- preview replaces emails, phones, addresses, IDs, card-like values, and API
+  keys with stable placeholders;
+- preview reports redaction counts by type;
+- original raw values do not appear in preview output;
+- tests cover mixed synthetic/real examples.
+
+Files:
+
+- `workflow_agent_studio/privacy/redaction.py`
+- `tests/unit/test_redaction_preview.py`
+
+Context-Refs:
+
+- `docs/security/redaction_policy.md`
+
+## T72: Cloud Private Local Policy Gate
+
+Owner: codex
+Phase: 14
+Type: compliance:control plan:validation
+Depends-On: T70, T71
+
+Objective: block unsafe model-mode recommendations based on privacy class and
+redaction status.
+
+Acceptance-Criteria:
+
+- restricted data blocks lightweight cloud recommendation unless source is
+  synthetic/redacted and report states the condition;
+- sensitive data requires redaction note for cloud mode;
+- high-risk legal, medical, financial, and HR domains require a human review
+  gate;
+- tests cover legal consultancy, e-commerce, and hair salon fixtures.
+
+Files:
+
+- `workflow_agent_studio/validators/privacy.py`
+- `tests/unit/test_privacy_policy_gate.py`
+
+Context-Refs:
+
+- `docs/security/cloud_vs_local_decision.md`
+- `docs/security/privacy_modes.md`
+
+## T73: SMB Implementation Pattern Schema
+
+Owner: codex
+Phase: 14
+Type: plan:schema
+Depends-On: T65
+
+Objective: implement schema and loader for versioned SMB implementation
+patterns.
+
+Acceptance-Criteria:
+
+- pattern schema validates pattern ID, version, signals, required data, privacy
+  default, architecture, risks, eval metrics, and when-not-to-use;
+- invalid JSON pattern fails with a clear validation error;
+- loader returns pattern version metadata;
+- unit tests validate every pattern file.
+
+Files:
+
+- `workflow_agent_studio/patterns/smb.py`
+- `workflow_agent_studio/patterns/smb/`
+- `tests/unit/test_smb_pattern_library.py`
+
+Context-Refs:
+
+- `docs/methodology/implementation_patterns.md`
+
+## T74: MVP SMB Pattern Pack
+
+Owner: codex
+Phase: 14
+Type: plan:schema
+Depends-On: T73
+
+Objective: add the first versioned SMB pattern JSON pack.
+
+Acceptance-Criteria:
+
+- pattern pack includes support triage, knowledge assistant, sales email, lead
+  qualification, document extraction, invoice processing, appointment booking,
+  legal checklist, e-commerce returns, reporting automation, and messaging
+  support bot;
+- every pattern includes when-not-to-use;
+- pattern library tests validate all JSON files.
+
+Files:
+
+- `workflow_agent_studio/patterns/smb/*.json`
+- `tests/unit/test_smb_pattern_library.py`
+
+Context-Refs:
+
+- `docs/methodology/implementation_patterns.md#mvp-pattern-set`
+
+## T75: Pattern Matching Baseline
+
+Owner: codex
+Phase: 14
+Type: plan:validation
+Depends-On: T72, T73, T74
+
+Objective: match opportunities to SMB patterns with anti-matches and privacy
+checks.
+
+Acceptance-Criteria:
+
+- hair salon reminder maps to deterministic reminder/appointment pattern, not a
+  high-autonomy agent;
+- e-commerce returns maps to human-in-the-loop returns assistant, not automatic
+  refund;
+- legal checklist maps to private checklist assistant, not legal advice
+  automation;
+- pattern matching eval records expected matches.
+
+Files:
+
+- `workflow_agent_studio/roadmap/pattern_matching.py`
+- `tests/eval/test_pattern_matching_eval.py`
+- `docs/evals/pattern_matching_eval.md`
+
+Context-Refs:
+
+- `docs/evals/pattern_matching_eval.md`
+
+## T76: Cost Engine
+
+Owner: codex
+Phase: 14
+Type: plan:validation
+Depends-On: T66, T73
+
+Objective: generate deterministic cost ranges from pattern, scope, privacy mode,
+volume, and assumptions.
+
+Acceptance-Criteria:
+
+- engine returns one-time and monthly low/medium/high ranges;
+- engine requires assumptions and confidence;
+- local/private mode includes infra and maintenance overhead;
+- tests cover reminder, support assistant, and private document assistant.
+
+Files:
+
+- `workflow_agent_studio/costing/engine.py`
+- `workflow_agent_studio/costing/price_cards.py`
+- `tests/unit/test_cost_engine.py`
+
+Context-Refs:
+
+- `docs/methodology/cost_estimation.md`
+- `docs/evals/cost_estimation_eval.md`
+
+## T77: Priority Scoring Engine
+
+Owner: codex
+Phase: 14
+Type: plan:validation
+Depends-On: T67, T72, T75
+
+Objective: compute priority bands from business value, delivery readiness, risk
+penalty, and confidence.
+
+Acceptance-Criteria:
+
+- high value/high readiness/low risk maps to quick_win;
+- high privacy risk and low evaluation clarity maps to prepare_first or
+  do_not_automate_yet;
+- deterministic reminder can map to classic_automation;
+- output includes uncertainty notes.
+
+Files:
+
+- `workflow_agent_studio/scoring/priority.py`
+- `tests/unit/test_priority_scoring.py`
+
+Context-Refs:
+
+- `docs/methodology/scoring_model.md`
+
+## T78: Roadmap Assembly Service
+
+Owner: codex
+Phase: 14
+Type: plan:schema plan:validation
+Depends-On: T69, T72, T75, T76, T77
+
+Objective: assemble workflow map, opportunities, privacy results, pattern
+matches, costs, scores, and verification data into `RoadmapReport`.
+
+Acceptance-Criteria:
+
+- service creates a valid RoadmapReport from each of the three demo inputs;
+- report includes do-not-automate items;
+- report includes privacy mode recommendation;
+- report includes verification appendix.
+
+Files:
+
+- `workflow_agent_studio/roadmap/service.py`
+- `tests/integration/test_roadmap_generation.py`
+
+Context-Refs:
+
+- `docs/product/report_contract.md`
+- `docs/examples/domains/`
+
+## T79: Roadmap Markdown Export
+
+Owner: codex
+Phase: 14
+Type: none
+Depends-On: T78
+
+Objective: export RoadmapReport to stable Markdown with recommendation cards and
+verification appendix.
+
+Acceptance-Criteria:
+
+- export includes all required report sections in stable order;
+- draft export is visibly labeled as draft;
+- verification appendix includes claims and assumptions;
+- local export path constraints remain enforced.
+
+Files:
+
+- `workflow_agent_studio/reporting/roadmap_markdown.py`
+- `workflow_agent_studio/export/roadmap.py`
+- `tests/integration/test_roadmap_markdown_export.py`
+
+Context-Refs:
+
+- `docs/product/report_contract.md`
+- `workflow_agent_studio/export/paths.py`
+
+## T80: Roadmap CLI Command
+
+Owner: codex
+Phase: 14
+Type: none
+Depends-On: T78, T79
+
+Objective: add a local CLI command that generates a roadmap from a business
+profile/input file.
+
+Acceptance-Criteria:
+
+- command accepts database, run ID, business profile, privacy mode, and output
+  path;
+- command can generate the hair salon demo report without external credentials;
+- invalid privacy mode exits nonzero with clear error;
+- integration test covers command success and invalid mode.
+
+Files:
+
+- `workflow_agent_studio/cli.py`
+- `tests/integration/test_roadmap_cli.py`
+- `docs/operator_guide.md`
+
+Context-Refs:
+
+- `docs/examples/domains/hair_salon_input.md`
+
+## T81: Roadmap Eval Suite
+
+Owner: codex
+Phase: 14
+Type: plan:validation eval
+Depends-On: T79, T80
+
+Objective: implement automated evals for roadmap quality, privacy
+classification, cost estimation, pattern matching, and recommendation
+verification.
+
+Acceptance-Criteria:
+
+- eval tests assert no forbidden claims in demo reports;
+- eval tests assert every recommendation has evidence or assumptions;
+- privacy eval blocks unrestricted cloud mode for legal consultancy;
+- cost eval rejects single-point estimates.
+
+Files:
+
+- `tests/eval/test_roadmap_quality_eval.py`
+- `tests/eval/test_privacy_classification_eval.py`
+- `tests/eval/test_cost_estimation_eval.py`
+- `tests/eval/test_pattern_matching_eval.py`
+- `tests/eval/test_recommendation_verification_eval.py`
+
+Context-Refs:
+
+- `docs/evals/`
+
+## T82: Roadmap Review And Handoff Export
+
+Owner: codex
+Phase: 14
+Type: plan:validation compliance:evidence
+Depends-On: T81
+
+Objective: add reviewer checklist output and approved implementation handoff
+export for roadmap recommendations.
+
+Acceptance-Criteria:
+
+- reviewer output includes accepted, reason, missing evidence, cost realism,
+  privacy concern, would-show-to-client, and required changes;
+- unresolved blocking findings prevent approved export;
+- handoff includes tasks, acceptance criteria, eval cases, risks, owner, privacy
+  mode, and human gates;
+- unapproved or blocked roadmap cannot produce approved handoff.
+
+Files:
+
+- `workflow_agent_studio/roadmap/review.py`
+- `workflow_agent_studio/export/roadmap_handoff.py`
+- `tests/integration/test_roadmap_review.py`
+- `tests/integration/test_roadmap_handoff_export.py`
+- `docs/operator_guide.md`
+
+Context-Refs:
+
+- `docs/evals/recommendation_verification_eval.md`
+- `docs/prompts/ORCHESTRATOR.md`
+- `docs/CODEX_PROMPT.md`

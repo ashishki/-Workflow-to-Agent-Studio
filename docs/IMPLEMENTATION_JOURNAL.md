@@ -7,6 +7,30 @@ Use this file for durable handoff context that future agents need without re-rea
 
 ---
 
+## 2026-06-01 - Documentation Cleanup For Phase 14
+
+Task: documentation cleanup
+
+Summary:
+
+- Folded the separate SMB roadmap taskgraph into the standard `docs/tasks.md`
+  loop as Phase 14 / T64-T82.
+- Updated `docs/CODEX_PROMPT.md` so the next standard task is `T64: Privacy
+  Domain Model`.
+- Compressed README around the active product direction and removed stale Phase
+  13/T59 state.
+- Archived separate SMB-loop drafts under `docs/archive/smb_roadmap_planning/`.
+- Consolidated roadmap prompt contracts into
+  `docs/prompts/roadmap_prompt_contracts.md`.
+- Moved legacy root-level prompts into `docs/archive/legacy_root_prompts/`;
+  active prompts now live under `docs/prompts/`.
+
+Next action:
+
+- Resume the standard Codex-only loop from `docs/prompts/ORCHESTRATOR.md`.
+
+---
+
 ## 2026-05-19 - Bootstrap Phase 1 Package
 
 Task: bootstrap-new
