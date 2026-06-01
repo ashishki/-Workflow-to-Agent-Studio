@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 14 - SMB AI Roadmap Product Layer
-- Next task: T71 - Redaction Preview
-- Verified baseline: T70 pre-change baseline was 276 passing tests, 0 skipped, 0 failed; T70 completion baseline is 294 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T70
+- Next task: T72 - Cloud Private Local Policy Gate
+- Verified baseline: T71 pre-change baseline was 294 passing tests, 0 skipped, 0 failed; T71 completion baseline is 297 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T71
 - Last updated: 2026-06-01
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete
 
 ## Active References
 
@@ -36,40 +36,42 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T70 - Deterministic Privacy Classifier
+Task: T71 - Redaction Preview
 
 Status: complete.
 
-Task: T71 - Redaction Preview
+Task: T72 - Cloud Private Local Policy Gate
 
-Goal: implement deterministic redaction preview that masks detected secrets and
-personal values while preserving field names and workflow meaning.
+Goal: block unsafe model-mode recommendations based on privacy class and
+redaction status.
 
 Acceptance summary:
 
-- preview replaces emails, phones, addresses, IDs, card-like values, and API
-  keys with stable placeholders
-- preview reports redaction counts by type
-- original raw values do not appear in preview output
-- tests cover mixed synthetic/real examples
+- restricted data blocks lightweight cloud recommendation unless source is
+  synthetic/redacted and report states the condition
+- sensitive data requires redaction note for cloud mode
+- high-risk legal, medical, financial, and HR domains require a human review
+  gate
+- tests cover legal consultancy, e-commerce, and hair salon fixtures
 
 File scope:
 
-- `workflow_agent_studio/privacy/redaction.py`
-- `tests/unit/test_redaction_preview.py`
+- `workflow_agent_studio/validators/privacy.py`
+- `tests/unit/test_privacy_policy_gate.py`
 
 Required context:
 
-- `docs/security/redaction_policy.md`
+- `docs/security/cloud_vs_local_decision.md`
+- `docs/security/privacy_modes.md`
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T70
+- Task: T71
 - Date: 2026-06-01
-- Eval Source: `.venv/bin/python -m pytest tests/unit/test_privacy_classifier.py -q`
-- Result: 18 passed; full repository verification passed with 294 tests
+- Eval Source: `.venv/bin/python -m pytest tests/unit/test_redaction_preview.py -q`
+- Result: 3 passed; full repository verification passed with 297 tests
 
 ## Profile State
 
