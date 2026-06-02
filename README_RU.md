@@ -309,9 +309,11 @@ bash scripts/demo_roadmap_ru.sh
 
 1. Показать terminal demo.
 2. Показать generated Markdown roadmap.
-3. Показать polished customer-facing пример:
+3. Показать showcase index из 6 customer-facing отчетов:
+   `docs/demo/CUSTOMER_REPORT_SHOWCASE_INDEX_RU.md`.
+4. Открыть polished accelerator пример:
    `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md`.
-4. Показать n8n mining summary и Opus 4.6 frontier summary.
-5. Провести 10-20 discovery calls.
-6. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
-7. Получить 1 paid pilot на 3-5 workflows.
+5. Показать n8n mining summary и Opus 4.6 frontier summary.
+6. Провести 10-20 discovery calls.
+7. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
+8. Получить 1 paid pilot на 3-5 workflows.

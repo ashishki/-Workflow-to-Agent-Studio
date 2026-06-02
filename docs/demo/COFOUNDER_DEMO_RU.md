@@ -117,23 +117,33 @@ Frontier demo с Claude Opus 4.6:
 ## Что показать в репозитории
 
 1. `README_RU.md` - понятное описание продукта.
-2. `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md` - красивый пример
-   клиентского отчета для сложного workflow: заявки акселератора, CRM, звонки,
-   review memory, cost/time/team estimates, n8n public signals и frontier
-   candidates.
-3. `docs/experiments/n8n_template_mining_summary.md` - что извлекли из public
+2. `docs/demo/CUSTOMER_REPORT_SHOWCASE_INDEX_RU.md` - индекс 6 красивых
+   customer-facing отчетов.
+3. `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md` - сложный workflow:
+   заявки акселератора, CRM, звонки, review memory, cost/time/team estimates,
+   n8n public signals и frontier candidates.
+4. `docs/demo/SALON_BOOKING_ROADMAP_RU.md` - SMB quick-win: booking, reminders,
+   analytics.
+5. `docs/demo/ECOMMERCE_SUPPORT_RETURNS_ROADMAP_RU.md` - support, order status,
+   returns и refund approval.
+6. `docs/demo/LEGAL_INTAKE_ROADMAP_RU.md` - restricted legal/immigration intake.
+7. `docs/demo/HVAC_LEAD_INTAKE_ROADMAP_RU.md` - public-source service lead
+   intake.
+8. `docs/demo/INCIDENT_COORDINATION_ROADMAP_RU.md` - internal incident
+   coordination и runbook assistant.
+9. `docs/experiments/n8n_template_mining_summary.md` - что извлекли из public
    n8n templates.
-4. `docs/experiments/frontier_opportunity_discovery_opus46_summary.md` - что
+10. `docs/experiments/frontier_opportunity_discovery_opus46_summary.md` - что
    Claude Opus 4.6 предложил и как verifier это обработал.
-5. `docs/product/report_contract.md` - контракт итогового roadmap.
-6. `docs/security/privacy_modes.md` - логика cloud/private/local.
-7. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
-8. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
+11. `docs/product/report_contract.md` - контракт итогового roadmap.
+12. `docs/security/privacy_modes.md` - логика cloud/private/local.
+13. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
+14. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
    source of truth, LLM boundaries и hallucination safeguards.
-9. `tests/eval/` - автоматические проверки.
-10. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
+15. `tests/eval/` - автоматические проверки.
+16. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
    запуска скрипта.
-11. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
+17. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
    output после запуска скрипта.
 
 ## Proof points
