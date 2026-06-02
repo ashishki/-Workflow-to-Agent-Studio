@@ -59,6 +59,20 @@ follow-up, back-office operations. Затем превращаем это в roa
 Формулировка: synthetic demos проверяют edge cases, public-source demos
 показывают работу на опубликованных workflow descriptions.
 
+Потом показываем новый opportunity discovery layer:
+
+1. Мы не копируем n8n templates как готовые решения.
+2. Мы используем их как public signal: что люди уже пытаются автоматизировать.
+3. Corpus run извлек `8,824` public n8n workflows и схлопнул их в `4,963`
+   deduplicated metadata candidates.
+4. Claude Opus 4.6 смотрит на workflow + n8n mining summary и предлагает missed
+   opportunities.
+5. Deterministic verifier не дает модели превратить candidate в approved
+   roadmap без human review.
+
+Формулировка: n8n mining насыщает карту идей, frontier model расширяет список
+вариантов, verifier удерживает качество и safety.
+
 ## Что показать в терминале
 
 ```bash
@@ -73,28 +87,60 @@ bash scripts/demo_roadmap_ru.sh
 - видны ключевые секции;
 - видно, что есть privacy mode, do-not-automate и verification appendix.
 
+Дополнительный mining demo:
+
+```bash
+.venv/bin/python scripts/mine_n8n_templates.py --top 70
+```
+
+Смысл вывода:
+
+- public n8n repos уже склонированы в ignored `.data/n8n_sources`;
+- raw workflow JSON не коммитится;
+- система извлекает metadata, дедуплицирует и пишет summary;
+- summary показывает archetypes, integrations и review queue.
+
+Frontier demo с Claude Opus 4.6:
+
+```bash
+.venv/bin/python scripts/run_frontier_opportunity_discovery.py --env-check
+.venv/bin/python scripts/run_frontier_opportunity_discovery.py --max-tokens 6000
+```
+
+Смысл вывода:
+
+- `ANTHROPIC_API_KEY` доступен;
+- модель `claude-opus-4-6`;
+- candidates сохраняются в ignored `.data/frontier/`;
+- verifier показывает, что candidates не exportable без human review.
+
 ## Что показать в репозитории
 
 1. `README_RU.md` - понятное описание продукта.
 2. `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md` - красивый пример
    клиентского отчета для сложного workflow: заявки акселератора, CRM, звонки,
-   review memory, cost/time/team estimates.
-3. `docs/product/report_contract.md` - контракт итогового roadmap.
-4. `docs/security/privacy_modes.md` - логика cloud/private/local.
-5. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
-6. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
+   review memory, cost/time/team estimates, n8n public signals и frontier
+   candidates.
+3. `docs/experiments/n8n_template_mining_summary.md` - что извлекли из public
+   n8n templates.
+4. `docs/experiments/frontier_opportunity_discovery_opus46_summary.md` - что
+   Claude Opus 4.6 предложил и как verifier это обработал.
+5. `docs/product/report_contract.md` - контракт итогового roadmap.
+6. `docs/security/privacy_modes.md` - логика cloud/private/local.
+7. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
+8. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
    source of truth, LLM boundaries и hallucination safeguards.
-7. `tests/eval/` - автоматические проверки.
-8. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
+9. `tests/eval/` - автоматические проверки.
+10. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
    запуска скрипта.
-9. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
+11. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
    output после запуска скрипта.
 
 ## Proof points
 
 Технические доказательства:
 
-- full suite: `350 passed`;
+- full suite: `364 passed`;
 - локальный CLI без внешних credentials;
 - typed schemas через Pydantic;
 - deterministic evals;
@@ -104,6 +150,10 @@ bash scripts/demo_roadmap_ru.sh
 - approved handoff blocked unless review approved.
 - public-source workflow demos reuse saved public fixtures, not invented
   customer data.
+- n8n mining extracted `8,824` public workflows into `4,963` deduplicated
+  metadata candidates.
+- Claude Opus 4.6 produced frontier candidates, but verifier kept all of them
+  non-exportable until human review.
 
 Продуктовые доказательства:
 
@@ -123,6 +173,8 @@ bash scripts/demo_roadmap_ru.sh
 - “мы гарантируем ROI”;
 - “мы certified compliance solution”.
 - “public-source demo доказывает спрос рынка”.
+- “n8n templates доказывают, что рынок хочет именно наш продукт”.
+- “Claude сам решил, что внедрять”.
 
 Говорить:
 
@@ -132,6 +184,10 @@ bash scripts/demo_roadmap_ru.sh
 - “продукт помогает не потратить деньги на неправильную AI-автоматизацию”.
 - “public-source demos доказывают техническую работу на опубликованных workflow,
   но buyer proof должен прийти через real pilot”.
+- “n8n templates - это источник идей о популярных automation patterns, не proof
+  спроса”.
+- “frontier model расширяет список candidates, но verifier и human review
+  решают, что попадет в roadmap”.
 
 ## Первый paid offer
 

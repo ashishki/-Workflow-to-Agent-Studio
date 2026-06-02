@@ -36,6 +36,26 @@ Verifier result after deterministic checks:
 - every candidate remains `exportable_as_recommendation=false`;
 - every candidate requires human review before roadmap inclusion.
 
+## What Changed In The Customer Report
+
+The customer-facing roadmap can now show a richer provenance trail:
+
+```text
+known pattern library recommendation
+  + public n8n automation signals
+  + frontier-suggested missed opportunities
+  + deterministic verifier status
+  + human review requirement
+```
+
+This makes the report more useful for a cofounder/sales conversation:
+
+- base roadmap explains what to build first;
+- n8n mining explains which automation patterns are common in public templates;
+- frontier model suggests expansion candidates that the baseline library may
+  miss;
+- verifier proves the model cannot approve its own recommendations.
+
 ## Contract Lessons
 
 The first live calls exposed useful failure modes:

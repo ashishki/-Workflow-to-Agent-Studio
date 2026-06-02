@@ -44,6 +44,10 @@ AI Roadmap Studio уже умеет выдавать такой тип арте�
 - читать описание workflow из Markdown/notes/source fixture;
 - выделять actors, systems, inputs, handoffs и risky steps;
 - выбирать подходящие AI-инициативы из pattern pack;
+- использовать public n8n template corpus как источник идей о том, что люди уже
+  автоматизируют в реальных workflow;
+- просить frontier model предложить missed opportunities, но держать их
+  unapproved до verifier и human review;
 - определять privacy mode и do-not-automate границы;
 - считать rough order-of-magnitude по времени, стоимости и ролям;
 - собирать roadmap report с priority, risk, eval plan и implementation handoff;
@@ -55,7 +59,49 @@ memory.
 
 ---
 
-## 3. Исходный workflow
+## 3. Откуда взялись рекомендации
+
+Roadmap собирается не из одного prompt. У каждой идеи есть provenance:
+
+```mermaid
+flowchart LR
+    A[Workflow заказчика] --> B[Pattern library]
+    C[Public n8n template corpus] --> D[Automation signals]
+    B --> E[Known recommendations]
+    D --> F[Frontier model candidates]
+    F --> G[Deterministic verifier]
+    E --> H[Roadmap]
+    G --> I[Human review queue]
+    I --> H
+```
+
+В этом demo использованы три слоя:
+
+| Layer | Что дает | Граница |
+|---|---|---|
+| Pattern library | проверенные implementation patterns: triage, memory, call briefs, outreach drafts | не доказывает ROI |
+| Public n8n mining | сигналы того, что люди уже автоматизируют: Slack/webhook/Sheets/Gmail/OpenAI/CRM flows | это research corpus, не customer proof |
+| Claude Opus 4.6 | дополнительные candidates, которые базовая библиотека могла пропустить | не утверждает roadmap |
+
+Public n8n corpus после dedupe:
+
+| Metric | Value |
+|---|---:|
+| Scanned JSON files | 8,854 |
+| Parsed n8n workflows | 8,824 |
+| Duplicate workflows collapsed | 3,861 |
+| Deduplicated candidates | 4,963 |
+| Candidates with AI nodes | 1,875 |
+| Candidates with risky action signals | 2,069 |
+| Candidates with sensitivity signals | 3,616 |
+
+Это не значит, что эти шаблоны надо копировать. Это значит: мы видим, какие
+automation patterns уже встречаются в публичной n8n ecosystem, и используем их
+как рынок идей перед human review.
+
+---
+
+## 4. Исходный workflow
 
 ```mermaid
 flowchart LR
@@ -86,7 +132,7 @@ Airtable/Notion, calendar, public web sources, internal review notes.
 
 ---
 
-## 4. Рекомендованная архитектура
+## 5. Рекомендованная архитектура
 
 ```mermaid
 flowchart TB
@@ -123,7 +169,7 @@ flowchart TB
 
 ---
 
-## 5. Рекомендации
+## 6. Базовые рекомендации
 
 ### R1. Application Triage Assistant
 
@@ -267,7 +313,38 @@ Acceptance criteria:
 
 ---
 
-## 6. Приоритет
+## 7. Дополнительные frontier candidates
+
+После базового roadmap Claude Opus 4.6 получил workflow context и n8n mining
+summary. Он предложил три дополнительные идеи. Все они прошли schema validation,
+но остались **не approved**: verifier ставит `needs_human_review`, а
+`exportable_as_recommendation=false`.
+
+| ID | Candidate | Почему полезно | Риск | Verifier status |
+|---|---|---|---|---|
+| FOC-001 | Claim verification research assistant | помогает проверять traction/revenue claims через approved public source register | нельзя объявлять founder dishonest или убирать заявку без человека | needs human review |
+| FOC-002 | Post-call structured feedback capture and routing | превращает инсайты после звонка в structured feedback для decision memory | может добавить friction reviewer team | needs human review |
+| FOC-003 | Duplicate and repeat applicant detection | находит повторные заявки, похожие компании и overlap между cohorts | fuzzy matching может давать false positives | needs human review |
+
+Rejected идеи от модели:
+
+- autonomous application scoring and auto-reject agent;
+- AI-driven founder honesty detector.
+
+Почему это делает отчёт сильнее:
+
+- появляется секция missed opportunities;
+- идеи связаны с public automation signals, а не только с нашей интуицией;
+- verifier показывает, что модель не может сама превратить идею в approved
+  recommendation;
+- sales conversation становится богаче: можно обсуждать не один MVP, а очередь
+  expansion candidates.
+
+Эти candidates не входят в MVP scope автоматически. Они идут в review queue.
+
+---
+
+## 8. Приоритет
 
 | Priority | Initiative | Почему сейчас | Риск | Решение |
 |---:|---|---|---|---|
@@ -275,6 +352,9 @@ Acceptance criteria:
 | 2 | Daily call briefing | Быстро экономит senior-время | Medium | Build with triage |
 | 3 | Reviewer memory | Дает compounding value | Medium | Start after feedback appears |
 | 4 | Outbound assistant | Полезно перед launch | Medium-high | Build only with clear approval rules |
+| 5 | Claim verification research | Полезно при большом объеме traction claims | Medium-high | Review candidate after triage MVP |
+| 6 | Post-call feedback capture | Усиливает decision memory после звонков | Medium | Add after call briefs |
+| 7 | Duplicate applicant detection | Может экономить reviewer time на больших cohorts | Low-medium | Validate duplicate rate first |
 
 Рекомендуемый MVP scope: **R1 + R2 + базовая R3**.
 
@@ -283,7 +363,7 @@ R4 добавлять после того, как команда явно сог
 
 ---
 
-## 7. Расчет времени, стоимости и ресурсов
+## 9. Расчет времени, стоимости и ресурсов
 
 ### Допущения
 
@@ -317,6 +397,14 @@ R4 добавлять после того, как команда явно сог
 | Monthly LLM/API/hosting | 700-4,000 USD |
 | Maintenance | 1-3 дня в месяц |
 
+### Expansion candidates after MVP
+
+| Candidate | When to consider | Extra estimate |
+|---|---|---:|
+| Claim verification research assistant | after source register and triage MVP exist | 2-5 недель / 5,000-18,000 USD |
+| Post-call structured feedback capture | after call briefing dashboard is used weekly | 1-3 недели / 3,000-10,000 USD |
+| Duplicate/repeat applicant detection | only if duplicate/repeat rate is material | 1-3 недели / 2,000-8,000 USD |
+
 Минимальная команда:
 
 - AI automation engineer;
@@ -340,7 +428,7 @@ R4 добавлять после того, как команда явно сог
 
 ---
 
-## 8. Источник истины и роль LLM
+## 10. Источник истины и роль LLM
 
 Source of truth:
 
@@ -360,6 +448,8 @@ LLM помогает:
 - сделать draft;
 - сгруппировать feedback;
 - объяснить recommendation простым языком.
+- предложить frontier candidates на основе workflow context и public n8n
+  signals.
 
 LLM не является source of truth для:
 
@@ -369,10 +459,11 @@ LLM не является source of truth для:
 - стоимости без estimate model;
 - CRM status;
 - consent и permission.
+- approved roadmap recommendation без verifier и reviewer.
 
 ---
 
-## 9. Защита от галлюцинаций
+## 11. Защита от галлюцинаций
 
 ```mermaid
 flowchart LR
@@ -394,6 +485,9 @@ Safeguards:
 - memory rules проходят approval;
 - private data не попадает в exports без policy;
 - eval suite проверяет forbidden claims и missing evidence.
+- frontier candidates проходят typed schema validation и deterministic verifier;
+- candidates от модели остаются `exportable_as_recommendation=false`, пока
+  reviewer не примет их вручную.
 
 Stop conditions:
 
@@ -405,7 +499,7 @@ Stop conditions:
 
 ---
 
-## 10. 30/60/90 Day Plan
+## 12. 30/60/90 Day Plan
 
 ### Days 0-30
 
@@ -432,10 +526,12 @@ Stop conditions:
 - Подготовить implementation handoff для stable modules.
 - Решить: scale, revise или stop.
 - Добавить outbound launch assistant, если approval и consent boundaries готовы.
+- Review frontier candidates: claim verification, post-call feedback capture,
+  duplicate applicant detection.
 
 ---
 
-## 11. Что заказчик получает на выходе
+## 13. Что заказчик получает на выходе
 
 Deliverables после AI Roadmap Sprint:
 
@@ -449,6 +545,7 @@ Deliverables после AI Roadmap Sprint:
 - eval plan;
 - first implementation handoff;
 - list of data needed for pilot.
+- frontier-suggested opportunity queue with verifier status.
 
 То есть заказчик получает не "AI demo", а понятный decision artifact: что
 делать, что не делать, почему, сколько это примерно займет, кто нужен и как
@@ -456,7 +553,7 @@ Deliverables после AI Roadmap Sprint:
 
 ---
 
-## 12. Итоговая рекомендация
+## 14. Итоговая рекомендация
 
 Proceed with MVP, but keep positioning precise:
 

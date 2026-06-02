@@ -134,6 +134,32 @@ flowchart LR
     D --> E[Review / handoff gates]
 ```
 
+## Public automation signals
+
+Отдельный слой - public n8n template mining.
+
+Мы не берем n8n templates как готовые решения и не копируем их в продукт. Мы
+используем их как карту того, что люди уже пытаются автоматизировать.
+
+Текущий mining run:
+
+- `8,854` JSON files scanned;
+- `8,824` n8n workflows parsed;
+- `3,861` duplicate workflows collapsed;
+- `4,963` deduplicated metadata candidates;
+- `1,875` candidates with AI nodes;
+- `2,069` candidates with risky action signals;
+- `3,616` candidates with sensitivity signals.
+
+Смотреть:
+
+- `docs/experiments/n8n_template_mining_summary.md`;
+- `docs/experiments/frontier_opportunity_discovery_opus46_summary.md`.
+
+Claude Opus 4.6 используется как frontier candidate generator: он предлагает
+missed opportunities, но deterministic verifier держит все candidates
+non-exportable до human review.
+
 ## Архитектура простыми словами
 
 ```mermaid
@@ -148,9 +174,11 @@ flowchart TB
         B1[Typed schemas]
         B2[Privacy gates]
         B3[Pattern library]
-        B4[Cost engine]
-        B5[Priority scoring]
-        B6[Verification receipts]
+        B4[Public n8n signals]
+        B5[Frontier candidates]
+        B6[Cost engine]
+        B7[Priority scoring]
+        B8[Verification receipts]
     end
 
     subgraph Output
@@ -167,7 +195,7 @@ flowchart TB
 
 Текущий engineering proof:
 
-- полный test suite: `350 passed`;
+- полный test suite: `364 passed`;
 - ruff lint и format clean;
 - 3 synthetic demo domains:
   - hair salon;
@@ -184,6 +212,9 @@ flowchart TB
   - single-point cost estimate rejected;
   - recommendation trace содержит pattern/cost/scoring/privacy versions;
 - approved handoff нельзя экспортировать без approved review.
+- public n8n mining дает `4,963` deduplicated metadata candidates;
+- Opus 4.6 frontier run дал 3 useful candidates, но verifier оставил их
+  `exportable_as_recommendation=false` до human review.
 
 Команда для проверки:
 
@@ -194,7 +225,7 @@ flowchart TB
 Ожидаемый результат:
 
 ```text
-350 passed
+364 passed
 ```
 
 ## Демо в терминале
@@ -280,6 +311,7 @@ bash scripts/demo_roadmap_ru.sh
 2. Показать generated Markdown roadmap.
 3. Показать polished customer-facing пример:
    `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md`.
-4. Провести 10-20 discovery calls.
-5. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
-6. Получить 1 paid pilot на 3-5 workflows.
+4. Показать n8n mining summary и Opus 4.6 frontier summary.
+5. Провести 10-20 discovery calls.
+6. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
+7. Получить 1 paid pilot на 3-5 workflows.
