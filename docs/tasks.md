@@ -1784,8 +1784,10 @@ Acceptance-Criteria:
 Files:
 
 - `workflow_agent_studio/patterns/n8n.py`
+- `scripts/mine_n8n_templates.py`
 - `tests/unit/test_n8n_pattern_mining.py`
 - `docs/experiments/n8n_template_source_register.md`
+- `docs/experiments/n8n_template_mining_summary.md`
 - `docs/methodology/N8N_PATTERN_MINING_RU.md`
 - `docs/tasks.md`
 - `docs/CODEX_PROMPT.md`

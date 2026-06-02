@@ -2,7 +2,11 @@ import json
 
 from workflow_agent_studio.patterns.n8n import (
     dedupe_n8n_candidates,
+    discover_n8n_json_paths,
     extract_n8n_pattern_candidate,
+    is_n8n_workflow_payload,
+    mine_n8n_workflow_paths,
+    n8n_candidate_summary_counts,
 )
 
 
@@ -67,6 +71,54 @@ def test_extract_n8n_pattern_candidate_accepts_plain_json_payloads() -> None:
     assert candidate.suggested_archetype == "ai_email_assistant"
     assert candidate.ai_node_count == 1
     assert "personal_or_customer_messages" in candidate.data_sensitivity_signals
+
+
+def test_mine_n8n_workflow_paths_skips_non_workflow_json(tmp_path) -> None:
+    source_root = tmp_path / "sources"
+    repo_dir = source_root / "owner__repo"
+    repo_dir.mkdir(parents=True)
+    workflow_path = repo_dir / "workflow.json"
+    duplicate_path = repo_dir / "duplicate.json"
+    non_workflow_path = repo_dir / "package.json"
+    workflow_path.write_text(json.dumps(_lead_routing_workflow()), encoding="utf-8")
+    duplicate_path.write_text(json.dumps(_lead_routing_workflow()), encoding="utf-8")
+    non_workflow_path.write_text(json.dumps({"name": "package"}), encoding="utf-8")
+
+    result = mine_n8n_workflow_paths(
+        discover_n8n_json_paths(source_root),
+        source_root=source_root,
+    )
+
+    assert result.scanned_json_files == 3
+    assert result.parsed_workflows == 2
+    assert result.skipped_json_files == 1
+    assert result.duplicate_workflows == 1
+    assert len(result.candidates) == 1
+    assert result.candidates[0].source_locator == "github://owner/repo/duplicate.json"
+    assert result.candidates[0].source_locators == [
+        "github://owner/repo/duplicate.json",
+        "github://owner/repo/workflow.json",
+    ]
+
+
+def test_n8n_candidate_summary_counts_sorts_by_count() -> None:
+    candidates = [
+        extract_n8n_pattern_candidate(_lead_routing_workflow(), source_locator="lead"),
+        extract_n8n_pattern_candidate(_email_summary_workflow(), source_locator="email"),
+    ]
+
+    counts = n8n_candidate_summary_counts(candidates)
+
+    assert counts == {
+        "ai_email_assistant": 1,
+        "crm_lead_enrichment_or_routing": 1,
+    }
+
+
+def test_is_n8n_workflow_payload_requires_nodes_with_type() -> None:
+    assert is_n8n_workflow_payload(_lead_routing_workflow())
+    assert not is_n8n_workflow_payload({"nodes": []})
+    assert not is_n8n_workflow_payload({"nodes": [{"name": "No type"}]})
 
 
 def _lead_routing_workflow() -> dict:
