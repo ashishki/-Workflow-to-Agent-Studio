@@ -1,101 +1,289 @@
-# AI Roadmap Report
+# AI Roadmap Report V2
 
 ## Клиентский пример: HVAC lead intake и service-area qualification
 
 Статус: public-source customer-facing demo  
-Тип: AI implementation roadmap  
+Тип: AI Implementation Decision Pack  
 Граница: public workflow notes; не buyer proof и не commercial pilot evidence.
 
 ---
 
-## 1. Коротко для заказчика
+## 1. Executive Decision Summary
 
 HVAC-компания получает заявки через сайт, форму, телефон и online appointment
 request. Intake должен быстро понять: service-area fit, urgent/emergency,
 residential/commercial, repair/maintenance/install, missing contact details.
 
 Рекомендация: строить **human-reviewed lead intake assistant** с deterministic
-field checks и dispatcher approval.
+field checks, ZIP/service-area rules, emergency escalation and dispatcher
+approval.
 
----
-
-## 2. Provenance
-
-| Layer | Что дает |
+| Decision Field | Recommendation |
 |---|---|
-| Source workflow | public HVAC service intake notes |
-| Pattern library | lead qualification, messaging support, appointment booking |
-| Public n8n signals | webhook/forms, Slack/Telegram alerts, CRM routing, Sheets |
-| Frontier candidates | emergency routing checklist, service-area exception queue |
-| Verifier boundary | no diagnosis, no pricing guarantee, no dispatch without human |
+| First use case | field completeness + service-area qualification + dispatcher handoff |
+| Не автоматизировать | diagnosis, pricing guarantee, dispatch, edge rejection |
+| Scenario | Standard SMB pilot |
+| Pilot-ready срок | 5-8 недель |
+| Expected effect | меньше потерянных заявок, быстрее urgent routing, меньше ручной сортировки |
+| Proceed decision | proceed after CRM/service-area rule review |
 
 ---
 
-## 3. Workflow Map
+## 2. Evidence Boundary
+
+| Evidence Field | Planning Assumption |
+|---|---|
+| Workflow source | public HVAC service intake notes |
+| Monthly volume | 300-1,000 leads/month |
+| Systems | website form, phone notes, CRM, dispatcher calendar |
+| Data class | contact/address/service issue = sensitive/internal |
+| Current pain | incomplete leads, missed urgent cases, manual service-area checks |
+| Missing evidence before quote | CRM fields, ZIP rules, emergency policy, dispatcher workflow |
+
+Public-source evidence supports workflow mechanics only. Real proof needs actual
+lead volume, conversion, dispatcher corrections and response-time baseline.
+
+---
+
+## 3. Current-State Workflow
 
 ```mermaid
 flowchart LR
     A[Customer request] --> B[Collect contact/service fields]
     B --> C{Service area fit?}
-    C -- no --> D[Manual rejection/refer]
+    C -- no --> D[Manual exception/refer]
     C -- yes --> E{Emergency?}
     E -- yes --> F[Urgent phone route]
     E -- no --> G[Scheduling queue]
     G --> H[Dispatcher review]
 ```
 
----
-
-## 4. Recommended Initiatives
-
-| Priority | Initiative | Why | Human Gate | Estimate |
-|---:|---|---|---|---:|
-| 1 | Intake field completeness checker | incomplete forms block scheduling | coordinator approves follow-up | 1-3 недели / 2,000-8,000 USD |
-| 2 | Service-area qualification | deterministic ZIP/address check | manual exception review | 2-4 недели / 4,000-12,000 USD |
-| 3 | Emergency routing assistant | urgent cases need fast path | no diagnosis, phone escalation | 2-5 недель / 5,000-18,000 USD |
-| 4 | CRM/dispatcher handoff | reduces lost leads | dispatcher approves schedule | 3-6 недель / 6,000-22,000 USD |
-
-MVP scope: field completeness + service-area qualification + dispatcher handoff.
+| Step | Actor | System | Pain | Automation Fit |
+|---|---|---|---|---|
+| Lead capture | customer/coordinator | form/phone | incomplete fields | high |
+| Service-area check | coordinator | ZIP rules/map | repetitive | high deterministic |
+| Emergency triage | dispatcher | notes/phone | urgency may be missed | medium HITL |
+| Scheduling queue | dispatcher | CRM/calendar | manual routing | medium |
+| Diagnosis/pricing | technician/estimator | field visit | professional judgment | do not automate |
 
 ---
 
-## 5. Do Not Automate
+## 4. Opportunity Provenance
 
-- HVAC diagnosis from short form text;
-- pricing quote without approved estimator;
-- arrival-time guarantee;
-- technician dispatch without dispatcher approval;
-- rejection of edge service-area cases without human review.
-
----
-
-## 6. Cost And Team
-
-| Package | Estimate |
-|---|---:|
-| Lead intake MVP | 4-8 недель / 10,000-35,000 USD |
-| Monthly run cost | 300-2,000 USD |
-
-Minimum team:
-
-- service manager;
-- dispatcher/scheduling coordinator;
-- AI automation engineer;
-- CRM/service-management integration owner.
+| Layer | Что дает | Boundary |
+|---|---|---|
+| Pattern library | lead qualification, messaging support, appointment booking | known SMB pattern |
+| Public n8n signals | forms/webhooks, Slack/Telegram alerts, CRM routing, Sheets | supporting signal |
+| Frontier candidates | emergency checklist, service-area exception queue | review queue |
+| Verifier | blocks diagnosis, pricing guarantee and dispatch without human | deterministic gate |
 
 ---
 
-## 7. 30/60/90 Plan
+## 5. Target Architecture
 
-- 30 days: define required fields, service-area rules, emergency routing rules.
-- 60 days: pilot intake assistant in shadow mode on recent requests.
-- 90 days: connect CRM handoff and measure response time, missed leads and
-  manual corrections.
+```text
+Website form / phone note / email
+  -> Lead Intake Normalizer
+  -> Field Completeness Checker
+  -> ZIP and Service-Area Rules Engine
+  -> Emergency Signal Classifier
+  -> Dispatcher Review Queue
+  -> CRM Task / Lead Writeback after approval
+  -> SLA and Conversion Report
+  -> Evidence Log
+```
+
+| Component | Needed | Notes |
+|---|---|---|
+| Intake Normalizer | yes | normalizes web forms, phone notes, emails |
+| Completeness Checker | yes | required contact/address/service fields |
+| Service-Area Engine | yes | ZIP/address rules, exception queue |
+| Emergency Classifier | yes | conservative escalation, no diagnosis |
+| Dispatcher Queue | mandatory | human owns schedule/dispatch |
+| CRM Connector | yes | writeback only after dispatcher approval |
+| DB | Postgres for pilot | lead status, corrections, evidence |
+| Reporting | yes | response time, missed fields, conversion |
 
 ---
 
-## 8. Proof / Boundary
+## 6. Recommendation Cards
 
-This is a practical SMB workflow because forms and routing rules are concrete.
-Public-source evidence supports workflow mechanics only; real pilot proof needs
-actual lead volume, dispatcher edits and conversion measurements.
+### R1. Intake Field Completeness Checker
+
+| Field | Value |
+|---|---|
+| Why | incomplete forms block scheduling |
+| Data | name, phone, address/ZIP, service type, urgency |
+| Human gate | coordinator approves follow-up |
+| Acceptance | 90% incomplete leads get correct missing-field list |
+| Not included | diagnosis or pricing |
+
+### R2. Service-Area Qualification
+
+| Field | Value |
+|---|---|
+| Why | deterministic ZIP/address check saves dispatcher time |
+| Data | ZIP, address, service radius, branch rules |
+| Human gate | exception review before rejection |
+| Acceptance | 95% match with dispatcher decision on clear cases |
+| Not included | automatic rejection of edge cases |
+
+### R3. Emergency Routing Assistant
+
+| Field | Value |
+|---|---|
+| Why | urgent cases need fast path |
+| Data | issue description, keywords, time, customer contact |
+| Human gate | phone escalation/dispatcher approval |
+| Acceptance | high recall on urgent examples; false positives acceptable |
+| Not included | technical diagnosis |
+
+### R4. CRM/Dispatcher Handoff
+
+| Field | Value |
+|---|---|
+| Why | reduces lost leads and duplicate manual entry |
+| Data | normalized lead, qualification status, notes |
+| Human gate | dispatcher approves schedule/dispatch |
+| Acceptance | lead writeback works with rollback and audit log |
+
+---
+
+## 7. Phase-by-Phase Roadmap
+
+| Phase | Duration | Work | Exit Criteria |
+|---|---:|---|---|
+| 0. Discovery | 1 week | map lead sources, CRM fields, ZIP rules, emergency policy | service manager confirms rules |
+| 1. Data readiness | 1 week | define normalized lead schema and required fields | dispatcher approves schema |
+| 2. Prototype | 2 weeks | field checker + ZIP rules on historical/exported leads | quality measured against dispatcher labels |
+| 3. Pilot | 2-3 weeks | dispatcher queue, CRM writeback, urgent alerts | no unapproved dispatch/rejection |
+| 4. Production-lite | 1 week | monitoring, runbook, backup, SLA dashboard | daily ops handoff complete |
+| 5. Improvement loop | monthly | tune rules, review conversion, add channels | lead metrics reviewed |
+
+---
+
+## 8. Role-Hour Estimate
+
+| Role | Lean | Standard | Strict/Private |
+|---|---:|---:|---:|
+| AI solution architect | 10-18h | 20-34h | 36-60h |
+| AI automation engineer | 45-90h | 110-220h | 220-380h |
+| CRM/integration engineer | 25-60h | 80-160h | 160-300h |
+| QA/eval engineer | 12-30h | 40-80h | 80-140h |
+| Dispatcher/domain reviewer | 20-50h | 60-120h | 120-220h |
+| PM/operator | 10-24h | 30-60h | 60-110h |
+
+---
+
+## 9. Cost Estimate: RF and Europe
+
+| Scenario | One-Time Build | Monthly Run | Best For |
+|---|---:|---:|---|
+| Lean RF | 600k-1.4m RUB | 30k-100k RUB | lead schema + field checker |
+| Standard RF | 1.6m-4m RUB | 100k-300k RUB | CRM/dispatcher pilot |
+| Strict RF | 4m-8m+ RUB | 300k-850k RUB | multi-branch/private setup |
+| Lean Europe | 10k-24k EUR | 250-900 EUR | proof-of-value |
+| Standard Europe | 28k-70k EUR | 900-3.5k EUR | integrated pilot |
+| Strict Europe | 70k-160k+ EUR | 3.5k-10k EUR | multi-location operation |
+
+Cost drivers:
+
+- CRM/service-management system complexity;
+- address validation/provider cost;
+- number of branches/service areas;
+- phone transcript availability;
+- urgency routing requirements;
+- whether lead writeback is enabled.
+
+---
+
+## 10. LLM/API/Infrastructure
+
+| Component | Lean Setup | Standard Setup |
+|---|---|---|
+| Hosting | small VM | app VM + Postgres + monitoring |
+| LLM | small/Sonnet for messy text classification | not used for ZIP truth |
+| Address/ZIP | deterministic rules first | optional geocoding API |
+| CRM | CSV/manual import | API writeback after approval |
+| Alerts | email/Slack/Telegram | CRM task + urgent notification |
+| Storage | lead metadata | metadata + correction/audit logs |
+
+LLM should not own service-area truth. It can summarize messy issue text and
+flag potential urgency, while deterministic rules and dispatcher review control
+actions.
+
+---
+
+## 11. Risk and Do-Not-Automate Register
+
+| Risk | Control |
+|---|---|
+| false emergency miss | conservative escalation and dispatcher review |
+| wrong service-area rejection | exception queue before rejection |
+| pricing/arrival promise | blocked content category |
+| unapproved dispatch | dispatcher gate required |
+| customer data exposure | redact/log only necessary fields |
+
+Stop conditions:
+
+- lead rejected without human review when service-area confidence is low;
+- dispatch scheduled without dispatcher approval;
+- assistant gives diagnosis or price guarantee;
+- urgent lead alert fails without fallback.
+
+---
+
+## 12. Evaluation Plan
+
+Golden set:
+
+- 100 historical leads;
+- 30 incomplete-field examples;
+- 30 service-area edge cases;
+- 20 urgent/emergency examples;
+- 20 non-urgent repair/maintenance/install cases.
+
+Acceptance:
+
+- missing-field detection > 90%;
+- clear service-area match > 95%;
+- urgent recall prioritized over precision;
+- dispatcher correction rate tracked weekly;
+- response-time improvement visible after pilot.
+
+---
+
+## 13. Governance and Proof Layer
+
+Base pilot needs correction and approval logs. Entropy Core Proof Layer is useful
+if buyer has multiple branches, franchise rules, compliance reporting or wants
+auditable “why was this lead routed here?” receipts.
+
+Proof artifacts:
+
+- service-area rule version;
+- urgent keyword/policy version;
+- dispatcher approval receipt;
+- rejected/exception lead log;
+- weekly SLA and conversion baseline.
+
+AI Workflow Playbook is useful if customer wants to repeat this delivery process
+for maintenance reminders, quote follow-up and technician knowledge workflows.
+
+---
+
+## 14. Commercial Recommendation
+
+Sell as `AI Roadmap Sprint + Standard Lead Intake Pilot`.
+
+Proceed when:
+
+- lead volume is high enough that dispatcher time is a bottleneck;
+- CRM rules can be exported;
+- manager accepts human gates for dispatch and rejection.
+
+Postpone when:
+
+- service-area/pricing rules are undocumented;
+- buyer expects autonomous diagnosis;
+- there is no owner for dispatcher corrections.

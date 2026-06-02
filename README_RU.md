@@ -163,11 +163,13 @@ non-exportable до human review.
 ## Клиентский отчет v2
 
 После первых showcase reports стало понятно, что для серьезного клиента нужен
-не короткий список рекомендаций, а сметно-архитектурный decision pack.
+не короткий список рекомендаций, а сметно-архитектурный decision pack. Шесть
+демо-отчетов в `docs/demo/` уже приведены к этому v2-формату.
 
 Новый стандарт описан здесь:
 
 - `docs/demo/CLIENT_REPORT_V2_UPGRADE_STRATEGY_RU.md`
+- `docs/demo/CUSTOMER_REPORT_SHOWCASE_INDEX_RU.md`
 
 Что добавляет v2:
 
@@ -339,8 +341,9 @@ bash scripts/demo_roadmap_ru.sh
    `docs/demo/CUSTOMER_REPORT_SHOWCASE_INDEX_RU.md`.
 5. Открыть polished accelerator пример:
    `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md`.
-6. Объяснить, что showcase reports - это v1 breadth, а v2 standard - будущая
-   глубина клиентского decision pack.
+6. Объяснить, что showcase reports уже приведены к v2 standard: каждый отчет
+   показывает фазы, архитектуру, role-hours, RF/EU cost model, risk gates и proof
+   layer.
 7. Показать n8n mining summary и Opus 4.6 frontier summary.
 8. Провести 10-20 discovery calls.
 9. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.

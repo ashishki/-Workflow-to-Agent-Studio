@@ -1,40 +1,52 @@
-# AI Roadmap Report
+# AI Roadmap Report V2
 
 ## Клиентский пример: салон красоты, запись и reminders
 
 Статус: демонстрационный customer-facing отчет  
-Тип: AI implementation roadmap  
-Граница: synthetic demo; не customer proof и не коммерческая смета.
+Тип: AI Implementation Decision Pack  
+Граница: synthetic demo; не customer proof и не fixed quote. Расчет ниже -
+planning estimate для разговора с buyer/cofounder.
 
 ---
 
-## 1. Коротко для заказчика
+## 1. Executive Decision Summary
 
 Салон получает записи через Instagram, WhatsApp, телефон и Google Calendar.
 Администратор вручную отвечает на повторяющиеся вопросы, проверяет календарь,
 создает запись и отправляет reminders.
 
-Рекомендация: начать не с AI-бота, а с **deterministic booking operations layer**
-с легким AI только для draft replies.
+Рекомендация: начать не с автономного AI-бота, а с **booking operations layer**:
+детерминированные проверки календаря, reminders, weekly analytics и AI только
+для черновиков ответов.
 
-Ожидаемый эффект MVP: меньше пропущенных сообщений, меньше no-shows, меньше
-ручной работы администратора, без автоматических штрафов и спорных решений.
-
----
-
-## 2. Provenance
-
-| Layer | Что дает |
+| Decision Field | Recommendation |
 |---|---|
-| Source workflow | synthetic salon workflow: 70-100 appointments/week |
-| Pattern library | appointment booking, reporting automation, messaging support |
-| Public n8n signals | calendar, WhatsApp/Gmail, Sheets/reporting, reminders |
-| Frontier candidates | source analytics, rebooking follow-up, cancellation-risk queue |
-| Verifier boundary | no medical advice, no penalty decision, no final write without check |
+| First use case | reminders + booking analytics + shadow-mode reply drafts |
+| Не автоматизировать | штрафы, медицинские советы, спорные жалобы, opt-out клиентов |
+| Scenario | Lean RF/EU pilot |
+| Pilot-ready срок | 3-5 недель |
+| Expected effect | меньше no-shows, меньше пропущенных сообщений, меньше ручного follow-up |
+| Proceed decision | proceed with lean pilot after calendar/message access check |
 
 ---
 
-## 3. Workflow Map
+## 2. Evidence Boundary
+
+| Evidence Field | Planning Assumption |
+|---|---|
+| Workflow source | synthetic salon workflow |
+| Weekly volume | 70-100 appointments/week |
+| Channels | Instagram, WhatsApp, phone, Google Calendar |
+| Current pain | missed messages, manual reminders, no channel analytics |
+| Data class | contact details = sensitive; service/date preferences = internal |
+| Missing evidence before quote | real message samples, no-show rate, calendar rules, opt-out policy |
+
+Если реальный салон не даст 2-4 недели сообщений, календарных событий и no-show
+статистики, стоимость остается broad planning range.
+
+---
+
+## 3. Current-State Workflow
 
 ```mermaid
 flowchart LR
@@ -43,66 +55,235 @@ flowchart LR
     C --> D[Confirm slot]
     D --> E[Calendar write]
     E --> F[Reminder]
-    F --> G[Visit / no-show]
+    F --> G[Visit or no-show]
     G --> H[Rebooking follow-up]
 ```
 
-Главная боль: workflow простой, но объемный. AI нужен не везде: reminders,
-availability check и reporting лучше делать deterministic.
+| Step | Actor | System | Pain | Automation Fit |
+|---|---|---|---|---|
+| Intake message | receptionist | WhatsApp/Instagram | repeated questions | high |
+| Service/date уточнение | receptionist | messenger | slow back-and-forth | medium |
+| Calendar check | receptionist | Google Calendar | double-booking risk | high deterministic |
+| Reminder | receptionist | messenger | forgotten manual work | high deterministic |
+| Rebooking | owner/stylist | messenger | inconsistent follow-up | medium |
+| Complaint/medical advice | owner/stylist | messenger | high judgment | do not automate |
 
 ---
 
-## 4. Recommended Initiatives
+## 4. Opportunity Provenance
 
-| Priority | Initiative | Why | Human Gate | Estimate |
-|---:|---|---|---|---:|
-| 1 | Appointment reminders | clear trigger, no AI needed | owner approves template | 3-7 дней / 500-3,000 USD |
-| 2 | Booking slot assistant | drafts replies and suggests slots | final calendar write checked | 2-5 недель / 3,000-15,000 USD |
-| 3 | Booking analytics report | owner lacks channel visibility | owner reviews weekly report | 1-2 недели / 1,000-5,000 USD |
-| 4 | Rebooking follow-up drafts | repeated post-visit workflow | stylist/owner approves message | 1-3 недели / 1,000-6,000 USD |
-
-MVP scope: reminders + booking analytics + assistant in shadow mode.
+| Layer | Что дает | Boundary |
+|---|---|---|
+| Pattern library | appointment booking, reminders, reporting automation | known SMB pattern |
+| Public n8n signals | calendar, WhatsApp/Gmail, Sheets/reporting, reminders | supporting signal only |
+| Frontier candidates | rebooking queue, source analytics, cancellation-risk list | review queue only |
+| Verifier | blocks medical advice, penalties and unapproved live writes | deterministic boundary |
 
 ---
 
-## 5. Do Not Automate
+## 5. Target Architecture
 
-- cancellation penalty decisions;
-- medical or skin-condition advice;
-- customer complaint resolution;
-- final calendar writes without deterministic availability check;
-- messaging customers who opted out.
+```text
+Messaging intake export/webhook
+  -> Intake Normalizer
+  -> Contact and Consent Filter
+  -> Calendar Availability Checker
+  -> Reminder Scheduler
+  -> AI Reply Draft Worker
+  -> Human Approval Queue
+  -> Calendar Write / Message Send after approval
+  -> Weekly Analytics Report
+  -> Evidence Log
+```
 
----
-
-## 6. Cost And Team
-
-| Package | Estimate |
-|---|---:|
-| Quick win | 1-2 недели / 1,500-6,000 USD |
-| Booking MVP | 3-6 недель / 5,000-18,000 USD |
-| Monthly run cost | 50-700 USD |
-
-Minimum team:
-
-- owner;
-- receptionist;
-- AI automation engineer;
-- optional messaging/calendar integration specialist.
-
----
-
-## 7. 30/60/90 Plan
-
-- 30 days: clean service menu, booking fields, reminder templates, opt-out text.
-- 60 days: pilot slot assistant in shadow mode on WhatsApp/Instagram examples.
-- 90 days: add analytics and rebooking follow-up experiments.
+| Component | Needed | Notes |
+|---|---|---|
+| Intake Parser | yes | normalizes messages into service/date/stylist/contact fields |
+| Calendar API | yes | Google Calendar read; write only after approval |
+| Reminder Scheduler | yes | deterministic timing rules |
+| AI Draft Worker | optional | drafts polite replies; does not decide availability |
+| Review Queue | yes | receptionist approves first live messages |
+| DB | SQLite for demo, Postgres for pilot | stores bookings, consent, logs, corrections |
+| Monitoring | lightweight | missed reminders, failed sends, double-booking alerts |
 
 ---
 
-## 8. Proof / Boundary
+## 6. Recommendation Cards
 
-This workflow is a strong first showcase because much of the value comes from
-classic automation, not overbuilt AI. The report proves prioritization logic,
-privacy boundaries and cost reasoning. It does not prove salon buyer demand
-until a real salon pilot measures no-shows and admin time.
+### R1. Reminder Automation
+
+Build deterministic reminders 24h/3h before appointment with opt-out handling.
+
+| Field | Value |
+|---|---|
+| Why | immediate value without AI risk |
+| Data | calendar event, phone/messenger id, opt-out status |
+| Human gate | owner approves templates and timing |
+| Acceptance | 95% reminders sent; zero opt-out violations |
+| Not included | penalty decisions or cancellation disputes |
+
+### R2. Booking Slot Assistant
+
+Assistant suggests available slots and drafts replies. Calendar write stays
+human-approved until conflict checks are proven.
+
+| Field | Value |
+|---|---|
+| Why | reduces back-and-forth and missed leads |
+| Data | service menu, duration rules, calendar, message thread |
+| Human gate | receptionist approves final booking |
+| Acceptance | 80% common requests get correct slot suggestions |
+| Not included | fully autonomous booking for edge cases |
+
+### R3. Weekly Booking Analytics
+
+Weekly report by channel, no-shows, cancellations, service type and rebooking
+opportunities.
+
+| Field | Value |
+|---|---|
+| Why | owner currently lacks channel visibility |
+| Data | booking records, source channel, status |
+| Human gate | owner reviews report before changing policy |
+| Acceptance | report reconciles with calendar within 5% |
+
+---
+
+## 7. Phase-by-Phase Roadmap
+
+| Phase | Duration | Work | Exit Criteria |
+|---|---:|---|---|
+| 0. Discovery | 3-5 days | collect messages, calendar rules, service menu, no-show baseline | owner confirms workflow and metric |
+| 1. Data readiness | 3-5 days | define booking fields, opt-out rules, calendar access, templates | fields and privacy mode approved |
+| 2. Prototype | 1-2 weeks | reminders + analytics from exported data; draft replies in shadow mode | no live sends; owner validates examples |
+| 3. Pilot | 2 weeks | enable approved reminders and receptionist review queue | no missed opt-outs; correction rate tracked |
+| 4. Production-lite | 1 week | monitoring, backup, runbook, handoff | receptionist can operate without developer |
+| 5. Improvement loop | monthly | tune templates, add rebooking experiments | no-show and manual time measured |
+
+---
+
+## 8. Role-Hour Estimate
+
+| Role | Lean | Standard | Strict/Private |
+|---|---:|---:|---:|
+| AI solution architect | 8-14h | 16-24h | 24-40h |
+| AI automation engineer | 32-60h | 80-140h | 140-220h |
+| Integration engineer | 12-30h | 40-80h | 80-140h |
+| QA/eval engineer | 8-16h | 20-40h | 40-70h |
+| Owner/receptionist reviewer | 8-16h | 20-40h | 40-60h |
+| PM/operator | 6-12h | 16-28h | 28-44h |
+
+---
+
+## 9. Cost Estimate: RF and Europe
+
+Расчет использует v2 rate-card logic из
+`docs/demo/CLIENT_REPORT_V2_UPGRADE_STRATEGY_RU.md`.
+
+| Scenario | One-Time Build | Monthly Run | Best For |
+|---|---:|---:|---|
+| Lean RF | 250k-650k RUB | 10k-45k RUB | reminders + analytics + shadow drafts |
+| Standard RF | 700k-1.7m RUB | 40k-120k RUB | approved messaging + calendar integration |
+| Lean Europe | 4k-10k EUR | 80-350 EUR | one-location pilot |
+| Standard Europe | 12k-28k EUR | 300-900 EUR | multi-channel workflow |
+
+Cost drivers:
+
+- official WhatsApp/Instagram API access versus manual/export mode;
+- number of stylists and service duration rules;
+- whether calendar writes are enabled;
+- how much message history is processed;
+- whether the salon needs Russian or EU data residency.
+
+---
+
+## 10. LLM/API/Infrastructure
+
+| Component | Lean Setup | Notes |
+|---|---|---|
+| Hosting | small VM or local server | 5-30 EUR/month in EU-style setup; RF via provider calculator |
+| DB | SQLite/Postgres | Postgres once multiple users or audit log needed |
+| LLM | small/Sonnet-class for draft replies | Opus-class unnecessary for routine booking |
+| Messaging API | provider-specific | often bigger constraint than LLM cost |
+| Calendar API | Google/Microsoft | write permissions delayed until pilot |
+
+LLM cost should be calculated as:
+
+```text
+monthly_messages * avg_tokens_per_reply * model_price
+```
+
+For this use case, LLM cost is usually not the main cost. Integration access and
+operator rollout are.
+
+---
+
+## 11. Risk and Do-Not-Automate Register
+
+| Risk | Control |
+|---|---|
+| double booking | deterministic availability check + human approval |
+| opt-out violation | consent filter before every send |
+| medical/cosmetology advice | blocked content category |
+| wrong cancellation penalty | do not automate penalties |
+| hallucinated availability | LLM never owns calendar truth |
+
+Stop conditions:
+
+- reminder sent to opted-out customer;
+- calendar write happened without approval during pilot;
+- assistant gives medical advice;
+- double-booking caused by automation.
+
+---
+
+## 12. Evaluation Plan
+
+Golden set:
+
+- 50 historical booking messages;
+- 20 cancellation/reschedule cases;
+- 10 opt-out and edge cases;
+- 4 stylist/service duration conflict cases.
+
+Acceptance:
+
+- reminder delivery success > 95%;
+- opt-out violation = 0;
+- slot suggestion correctness > 80% on common cases;
+- owner reports at least 3-5 hours/week manual reduction before expansion.
+
+---
+
+## 13. Governance and Proof Layer
+
+Base pilot can run without Entropy Core. Add Entropy Core Proof Layer if the
+salon group has multiple locations, franchise reporting, sensitive client
+complaints or owner wants audit receipts.
+
+Proof artifacts:
+
+- template approval receipt;
+- calendar write approval log;
+- reminder send log;
+- correction history;
+- no-show metric baseline and monthly comparison.
+
+AI Workflow Playbook is optional here. It becomes useful if this is the first of
+many automation workflows across a salon chain.
+
+---
+
+## 14. Commercial Recommendation
+
+Sell as `AI Roadmap Sprint + Lean Booking Pilot`.
+
+Best first offer:
+
+- 1 week paid diagnostic;
+- 3-5 week pilot;
+- no autonomous bot promise;
+- success measured by no-show rate, missed messages and receptionist time.
+
+Proceed if the buyer has at least 70 appointments/week or multiple channels.
+Postpone if volume is low and manual reminders are already reliable.

@@ -1,107 +1,65 @@
-# AI Roadmap Report
+# AI Roadmap Report V2
 
 ## Клиентский пример: обработка заявок AI-native акселератора
 
-Статус: демонстрационный customer-facing отчет  
-Тип: AI implementation roadmap  
-Версия: demo-v1  
-Граница: пример показывает формат результата, который должен получать заказчик.
-Это не реальный клиентский пилот, не коммерческая смета и не обещание ROI.
+Статус: flagship customer-facing demo report  
+Тип: AI Implementation Decision Pack  
+Версия: report-v2  
+Граница: демонстрационный отчет. Это не реальный клиентский пилот, не fixed
+quote и не обещание ROI. Расчет ниже показывает, как должен выглядеть
+обоснованный roadmap перед коммерческим предложением.
 
 ---
 
-## 1. Коротко для заказчика
+## 1. Executive Decision Summary
 
 У акселератора есть поток заявок, партнерских контактов и звонков с фаундерами.
 Команда тратит время не только на принятие решений, а на повторяемую подготовку:
 прочитать заявку, проверить контекст, найти риски, подготовить вопросы, вспомнить
 почему похожие заявки раньше принимали или отклоняли.
 
-Рекомендация: строить не автономного "AI-отборщика", а **human-in-the-loop
+Рекомендация: строить не автономного “AI-отборщика”, а **human-in-the-loop
 application review operating system**.
 
-Что получит команда после MVP:
+| Decision Field | Recommendation |
+|---|---|
+| First use case | application triage + daily call briefing + basic reviewer memory |
+| Не автоматизировать | final approve/reject, founder honesty judgment, outreach sending, investment decision |
+| Scenario | Standard pilot; strict if applicant data and private notes require audit |
+| Pilot-ready срок | 8-12 недель |
+| Expected effect | 8-15 часов/неделю меньше ручной подготовки при сохранении human decision |
+| Proceed decision | proceed after source access, reviewer taxonomy and privacy mode are approved |
 
-- structured brief по каждой заявке до ручного ревью;
-- список claims, которые нужно проверить;
-- red flags с пометкой "доказано / предположение / требует проверки";
-- ежедневные брифы к звонкам;
-- живую decision memory, которая фиксирует логику прошлых решений;
-- запрет на автоматический approve/reject без человека.
+What the buyer gets after MVP:
 
-Ожидаемый эффект MVP: снять **8-15 часов ручной работы в неделю** при сохранении
-человеческого контроля над решениями, репутационными действиями и коммуникацией.
-
----
-
-## 2. Что мы сделали в продукте
-
-AI Roadmap Studio уже умеет выдавать такой тип артефакта как roadmap, а не просто
-"идею для AI-агента".
-
-В текущей версии продукт умеет:
-
-- читать описание workflow из Markdown/notes/source fixture;
-- выделять actors, systems, inputs, handoffs и risky steps;
-- выбирать подходящие AI-инициативы из pattern pack;
-- использовать public n8n template corpus как источник идей о том, что люди уже
-  автоматизируют в реальных workflow;
-- просить frontier model предложить missed opportunities, но держать их
-  unapproved до verifier и human review;
-- определять privacy mode и do-not-automate границы;
-- считать rough order-of-magnitude по времени, стоимости и ролям;
-- собирать roadmap report с priority, risk, eval plan и implementation handoff;
-- блокировать опасные claims через deterministic evals.
-
-Этот документ показывает, как такой результат должен выглядеть для клиента на
-более сложном use case: акселератор, заявки, CRM, звонки, research и review
-memory.
+- structured brief по каждой заявке;
+- claims to verify;
+- red flags with evidence labels;
+- daily call briefs;
+- reviewer decision memory;
+- post-call feedback capture;
+- no automatic approve/reject.
 
 ---
 
-## 3. Откуда взялись рекомендации
+## 2. Evidence Boundary
 
-Roadmap собирается не из одного prompt. У каждой идеи есть provenance:
+| Evidence Field | Planning Assumption |
+|---|---|
+| Workflow source | user-provided accelerator workflow example + product demo assumptions |
+| Cohort volume | 500-1,500 applications/cohort |
+| Calls | 20-40 founder calls/week during selection |
+| Reviewers | 2-4 reviewers plus senior decision owner |
+| Systems | email, Telegram, application form, CRM/Airtable/Notion, calendar, public web |
+| Data class | founder contact/background/traction = sensitive/confidential depending on source |
+| Missing evidence before quote | real form schema, CRM access, sample applications, review rubric, consent policy |
 
-```mermaid
-flowchart LR
-    A[Workflow заказчика] --> B[Pattern library]
-    C[Public n8n template corpus] --> D[Automation signals]
-    B --> E[Known recommendations]
-    D --> F[Frontier model candidates]
-    F --> G[Deterministic verifier]
-    E --> H[Roadmap]
-    G --> I[Human review queue]
-    I --> H
-```
-
-В этом demo использованы три слоя:
-
-| Layer | Что дает | Граница |
-|---|---|---|
-| Pattern library | проверенные implementation patterns: triage, memory, call briefs, outreach drafts | не доказывает ROI |
-| Public n8n mining | сигналы того, что люди уже автоматизируют: Slack/webhook/Sheets/Gmail/OpenAI/CRM flows | это research corpus, не customer proof |
-| Claude Opus 4.6 | дополнительные candidates, которые базовая библиотека могла пропустить | не утверждает roadmap |
-
-Public n8n corpus после dedupe:
-
-| Metric | Value |
-|---|---:|
-| Scanned JSON files | 8,854 |
-| Parsed n8n workflows | 8,824 |
-| Duplicate workflows collapsed | 3,861 |
-| Deduplicated candidates | 4,963 |
-| Candidates with AI nodes | 1,875 |
-| Candidates with risky action signals | 2,069 |
-| Candidates with sensitivity signals | 3,616 |
-
-Это не значит, что эти шаблоны надо копировать. Это значит: мы видим, какие
-automation patterns уже встречаются в публичной n8n ecosystem, и используем их
-как рынок идей перед human review.
+This report can estimate a pilot, but not a fixed build price, until the buyer
+provides real volumes, sources, permissions and sample review decisions.
 
 ---
 
-## 4. Исходный workflow
+## 3. Current-State Workflow
 
 ```mermaid
 flowchart LR
@@ -119,457 +77,415 @@ flowchart LR
     K --> L[Human decision]
 ```
 
-| Шаг | Кто делает сейчас | Боль | Что можно улучшить |
-|---|---|---|---|
-| Анонс запуска | founder/operator | Долго искать контакты и писать персональные сообщения | Drafts и сегментация, но отправка только после approval |
-| Первичный разбор заявок | reviewer/operator | Много чтения, качество первого прохода нестабильно | Structured brief по каждой заявке |
-| Проверка claims | reviewer/researcher | Трудно быстро понять, где факт, а где непроверенное утверждение | Evidence labels и список проверок |
-| Decision feedback | senior reviewer | Критерии остаются в голове команды | Versioned decision memory |
-| Подготовка к звонкам | partner/operator | Каждый звонок требует повторного research | Daily call dashboard с вопросами и рисками |
-
-Системы, которые обычно участвуют: email, Telegram, application form, CRM,
-Airtable/Notion, calendar, public web sources, internal review notes.
+| Step | Actor | System | Pain | Automation Fit |
+|---|---|---|---|---|
+| Launch amplification | founder/operator | email/Telegram/CRM | contact search and drafts take time | medium HITL |
+| Application intake | applicant/operator | form/CRM | inconsistent fields | high normalization |
+| First pass brief | reviewer | CRM/docs/web | repeated reading and research | high assistant |
+| Claim verification | reviewer/researcher | public sources/internal notes | facts vs claims unclear | medium research assistant |
+| Batch review | reviewer team | dashboard/sheet | hard to compare consistently | medium HITL |
+| 1-by-1 review | senior reviewer | dashboard | judgment-intensive | assistant only |
+| Call prep | partner/operator | calendar/CRM/web | repeated prep work | high assistant |
+| Final decision | partners | CRM | high-impact judgment | do not automate |
 
 ---
 
-## 5. Рекомендованная архитектура
+## 4. Opportunity Provenance
+
+Roadmap is not produced by one prompt. Recommendation provenance:
 
 ```mermaid
-flowchart TB
-    S[Source systems] --> P[Permission and redaction layer]
-    P --> T[Application triage]
-    P --> O[Outbound draft assistant]
-    T --> B[Evidence-backed brief]
-    B --> R[Human reviewer]
-    R --> M[Versioned decision memory]
-    M --> T
-    T --> C[Daily call briefing]
-    C --> R
-    R --> A[Approved action]
+flowchart LR
+    A[Workflow заказчика] --> B[Pattern library]
+    C[Public n8n template corpus] --> D[Automation signals]
+    B --> E[Known recommendations]
+    D --> F[Frontier model candidates]
+    F --> G[Deterministic verifier]
+    E --> H[Roadmap]
+    G --> I[Human review queue]
+    I --> H
 ```
 
-Главный принцип: AI готовит решения, но не принимает решения.
+| Layer | What It Adds | Boundary |
+|---|---|---|
+| Pattern library | triage, knowledge assistant, HITL workflow, reporting automation | not ROI proof |
+| Public n8n mining | common automation signals: Slack/webhook/Sheets/Gmail/OpenAI/CRM flows | idea corpus only |
+| Claude Opus 4.6 | missed opportunities and critique | cannot approve roadmap |
+| Deterministic verifier | privacy, human gates, do-not-automate checks | blocks unsafe candidates |
+| Human review | final accept/reject of recommendation | required before handoff |
 
-Модель может помогать в:
+Public n8n corpus after dedupe:
 
-- summarization;
-- research synthesis;
-- contradiction spotting;
-- question generation;
-- draft writing;
-- feedback compression into memory rules.
+| Metric | Value |
+|---|---:|
+| Scanned JSON files | 8,854 |
+| Parsed n8n workflows | 8,824 |
+| Duplicate workflows collapsed | 3,861 |
+| Deduplicated candidates | 4,963 |
+| Candidates with AI nodes | 1,875 |
+| Candidates with risky action signals | 2,069 |
+| Candidates with sensitivity signals | 3,616 |
 
-Модель не должна:
-
-- принимать финальное решение;
-- отправлять сообщения без approval;
-- утверждать, что человек "лжет";
-- скрывать источники и assumptions;
-- менять criteria без reviewer approval.
+These templates are not copied as solutions. They are used as public automation
+signals before verifier and human review.
 
 ---
 
-## 6. Базовые рекомендации
+## 5. Target Architecture
+
+```text
+Application form / CRM / email / Telegram / calendar
+  -> Source Register and Permission Layer
+  -> Intake Normalizer
+  -> Privacy and Redaction Gate
+  -> Application Triage Worker
+  -> Claim Verification Research Queue
+  -> Reviewer Memory Store
+  -> Daily Call Brief Generator
+  -> Post-Call Feedback Capture
+  -> Human Review Dashboard
+  -> Approved CRM/Notion/Airtable Writeback
+  -> Evidence Receipt and Audit Log
+```
+
+| Component | Needed | Notes |
+|---|---|---|
+| Source Register | mandatory | tracks allowed sources and evidence refs |
+| Intake Normalizer | mandatory | maps form/CRM/email into application schema |
+| Privacy Gate | mandatory | controls cloud/private/local path |
+| Triage Worker | mandatory | creates structured briefs, not decisions |
+| Research Queue | standard | checks claims only against approved source register |
+| Reviewer Memory Store | standard | versioned rules, owner, source, rollback |
+| Call Brief Generator | standard | calendar-driven daily briefs |
+| Feedback Capture | standard/expansion | turns post-call notes into memory candidates |
+| Human Review Dashboard | mandatory | approve/edit/reject briefs, memory rules, outreach drafts |
+| Action Executor | restricted | CRM/status/message writes only after approval |
+| DB | Postgres | applications, reviews, memory, decisions, logs |
+| Object Storage | yes | source snapshots, evidence, exports |
+| Vector Index | optional | only for approved docs/memory/source register |
+
+---
+
+## 6. Recommendation Cards
 
 ### R1. Application Triage Assistant
 
-**Что построить:** assistant, который читает входящую заявку и готовит
-structured brief:
+Structured brief for each application:
 
-- кто founder и какой у него релевантный опыт;
-- что за продукт и кому он нужен;
-- какие traction claims заявлены;
-- что надо проверить;
-- какие есть red flags;
-- почему стоит поговорить;
-- почему это может быть мимо;
-- какие вопросы задать на следующем шаге.
+- founder and relevant background;
+- product/customer/market summary;
+- traction claims;
+- claims to verify;
+- red flags with evidence labels;
+- “why worth a call”;
+- “why likely not a fit”;
+- next-step questions.
 
-**Почему это первая инициатива:** она ближе всего к основной боли и дает быстрый
-feedback loop. Каждый review превращается в данные для улучшения системы.
-
-| Параметр | Оценка |
-|---|---:|
-| Срок MVP | 3-6 недель |
-| One-time implementation | 6,000-22,000 USD |
-| Monthly run cost | 300-2,000 USD |
-| Нужные роли | AI automation engineer, reviewer, ops owner, privacy reviewer |
-| Confidence | Medium |
-
-Human gate: reviewer принимает все решения сам. AI не выдает approve/reject.
-
-Acceptance criteria:
-
-- 90% заявок получают brief в едином формате;
-- каждый red flag имеет evidence label;
-- unsupported claims помечены как "needs verification";
-- reviewer может исправить brief и сохранить feedback;
-- нет автоматических отказов или approval.
-
----
+| Field | Value |
+|---|---|
+| Why first | closest to core pain and best feedback loop |
+| Human gate | reviewer owns all decisions |
+| Acceptance | 90% applications get uniform brief; unsupported claims marked |
+| Not included | approve/reject, honesty judgment |
 
 ### R2. Daily Call Briefing Dashboard
 
-**Что построить:** ежедневную страницу по всем звонкам на сегодня.
+Daily page for today’s founder calls:
 
-Каждый call brief содержит:
-
-- summary заявки;
+- application summary;
 - founder background;
 - market/product notes;
-- claims to verify;
-- contradictions or missing details;
+- contradictions/missing details;
 - personalized questions;
 - red flags to probe;
-- "что может изменить наше мнение";
-- relevant decision memory entries.
+- relevant decision memory.
 
-**Почему это ценно:** подготовка к звонку дорогая, но хорошо структурируется.
-Команда тратит время на разговор, а не на повторный сбор контекста.
+| Field | Value |
+|---|---|
+| Why | saves senior prep time before calls |
+| Human gate | partner decides what to use |
+| Acceptance | briefs ready before 09:00; every claim has source/assumption |
+| Not included | automatic call decision |
 
-| Параметр | Оценка |
-|---|---:|
-| Срок MVP | 2-5 недель |
-| One-time implementation | 4,000-15,000 USD |
-| Monthly run cost | 200-1,500 USD |
-| Нужные роли | AI automation engineer, researcher/analyst, calendar/CRM owner |
-| Confidence | Medium |
+### R3. Reviewer Memory and Decision Support
 
-Human gate: partner/operator читает brief до звонка и сам решает, что
-использовать.
+Versioned memory for review logic.
 
-Acceptance criteria:
+Example entries:
 
-- briefs готовы до 09:00 каждый день;
-- каждый brief показывает источники или assumptions;
-- вопросы не повторяют очевидный form content;
-- private notes не уходят во внешние каналы без permission.
+- solo founder is usually negative, but acceptable under X/Y/Z;
+- revenue claim without payment evidence is unverified;
+- strong technical founder plus weak GTM may still be worth a call if market pull
+  is clear.
 
----
-
-### R3. Reviewer Memory And Decision Support
-
-**Что построить:** versioned memory по логике review.
-
-Примеры memory entries:
-
-- "Solo founder обычно negative signal, но допустим при X/Y/Z."
-- "Revenue claim без payment evidence должен считаться unverified."
-- "Strong technical founder + weak GTM может быть worth a call, если есть clear
-  market pull."
-
-**Почему это важно:** без памяти система будет каждый раз начинать заново.
-Memory превращает опыт reviewer team в reusable operating asset.
-
-| Параметр | Оценка |
-|---|---:|
-| Срок MVP | 3-6 недель |
-| One-time implementation | 5,000-18,000 USD |
-| Monthly run cost | 100-800 USD |
-| Нужные роли | AI engineer, senior reviewer, ops owner |
-| Confidence | Medium-low |
-
-Human gate: новая memory rule начинает влиять на future briefs только после
-approval reviewer.
-
-Acceptance criteria:
-
-- каждая rule имеет owner, source и version;
-- reviewer видит, какая rule повлияла на brief;
-- disagreement между reviewers не скрывается;
-- можно отключить или откатить rule.
-
----
+| Field | Value |
+|---|---|
+| Why | creates compounding operational advantage |
+| Human gate | new memory rule requires senior reviewer approval |
+| Acceptance | every rule has owner/source/version and rollback |
+| Not included | hidden scoring rule that auto-rejects applicants |
 
 ### R4. Outbound Launch Amplification Assistant
 
-**Что построить:** assistant, который помогает подготовить запуск набора:
+Find allowed contacts, deduplicate, segment, draft personal messages and prepare
+approval queue.
 
-- найти релевантные контакты в разрешенных источниках;
-- дедуплицировать людей;
-- сегментировать: close, warm, distant, cold;
-- написать персональные drafts;
-- подготовить approval queue.
-
-**Почему не ставим первым:** ценность высокая, но reputation risk выше. Нельзя
-автоматически писать людям без согласия и человеческого контроля.
-
-| Параметр | Оценка |
-|---|---:|
-| Срок MVP | 1-3 недели |
-| One-time implementation | 2,000-8,000 USD |
-| Monthly run cost | 50-500 USD |
-| Нужные роли | AI automation engineer, founder/operator, sales/marketing owner |
-| Confidence | Medium |
-
-Human gate: founder/operator approve every message before sending.
-
-Acceptance criteria:
-
-- message drafts не отправляются автоматически;
-- relationship context не выдумывается;
-- opt-out и sensitive contacts исключаются;
-- сегменты можно исправлять вручную.
+| Field | Value |
+|---|---|
+| Why | launch amplification can save founder time |
+| Human gate | every message approved before send |
+| Acceptance | relationship context not invented; opt-out respected |
+| Not included | automatic outreach sending |
 
 ---
 
-## 7. Дополнительные frontier candidates
+## 7. Frontier Candidates
 
-После базового roadmap Claude Opus 4.6 получил workflow context и n8n mining
-summary. Он предложил три дополнительные идеи. Все они прошли schema validation,
-но остались **не approved**: verifier ставит `needs_human_review`, а
-`exportable_as_recommendation=false`.
+Claude Opus 4.6 received workflow context and n8n mining summary. It proposed
+additional candidates. All remained non-exportable until human review.
 
-| ID | Candidate | Почему полезно | Риск | Verifier status |
+| ID | Candidate | Why Useful | Risk | Verifier Status |
 |---|---|---|---|---|
-| FOC-001 | Claim verification research assistant | помогает проверять traction/revenue claims через approved public source register | нельзя объявлять founder dishonest или убирать заявку без человека | needs human review |
-| FOC-002 | Post-call structured feedback capture and routing | превращает инсайты после звонка в structured feedback для decision memory | может добавить friction reviewer team | needs human review |
-| FOC-003 | Duplicate and repeat applicant detection | находит повторные заявки, похожие компании и overlap между cohorts | fuzzy matching может давать false positives | needs human review |
+| FOC-001 | Claim verification research assistant | checks traction/revenue claims against approved source register | cannot call founder dishonest or reject automatically | needs human review |
+| FOC-002 | Post-call structured feedback capture | turns call insights into decision memory candidates | can add reviewer friction | needs human review |
+| FOC-003 | Duplicate/repeat applicant detection | finds repeated applications and similar companies | fuzzy false positives | needs human review |
 
-Rejected идеи от модели:
+Rejected ideas:
 
 - autonomous application scoring and auto-reject agent;
 - AI-driven founder honesty detector.
 
-Почему это делает отчёт сильнее:
-
-- появляется секция missed opportunities;
-- идеи связаны с public automation signals, а не только с нашей интуицией;
-- verifier показывает, что модель не может сама превратить идею в approved
-  recommendation;
-- sales conversation становится богаче: можно обсуждать не один MVP, а очередь
-  expansion candidates.
-
-Эти candidates не входят в MVP scope автоматически. Они идут в review queue.
+Recommendation: include FOC-002 in standard pilot after R1/R2, keep FOC-001 as
+controlled expansion, and validate duplicate rate before FOC-003.
 
 ---
 
-## 8. Приоритет
+## 8. Phase-by-Phase Roadmap
 
-| Priority | Initiative | Почему сейчас | Риск | Решение |
-|---:|---|---|---|---|
-| 1 | Application triage | Самая частая боль и лучший feedback loop | Medium-high | Build first |
-| 2 | Daily call briefing | Быстро экономит senior-время | Medium | Build with triage |
-| 3 | Reviewer memory | Дает compounding value | Medium | Start after feedback appears |
-| 4 | Outbound assistant | Полезно перед launch | Medium-high | Build only with clear approval rules |
-| 5 | Claim verification research | Полезно при большом объеме traction claims | Medium-high | Review candidate after triage MVP |
-| 6 | Post-call feedback capture | Усиливает decision memory после звонков | Medium | Add after call briefs |
-| 7 | Duplicate applicant detection | Может экономить reviewer time на больших cohorts | Low-medium | Validate duplicate rate first |
+| Phase | Duration | Work | Exit Criteria |
+|---|---:|---|---|
+| 0. Discovery | 1-2 weeks | map intake/review/calls/outreach, collect 50-100 applications, define reviewer rubric | senior reviewer confirms boundaries |
+| 1. Data readiness | 2 weeks | application schema, source register, privacy mode, CRM/calendar access, red flag taxonomy | data and permission model approved |
+| 2. Prototype | 2-3 weeks | triage briefs and call briefs in shadow mode on historical/current applications | usefulness and correction rate measured |
+| 3. Pilot | 3-4 weeks | review dashboard, feedback capture, basic decision memory, approved CRM writeback | no auto decisions; reviewer adoption measured |
+| 4. Production-lite | 1-2 weeks | monitoring, audit logs, runbook, rollback, prompt/model versioning | operator can run cohort workflow |
+| 5. Governance | monthly | memory rule review, frontier candidate queue, eval refresh, cost review | decision log and proof receipts maintained |
 
-Рекомендуемый MVP scope: **R1 + R2 + базовая R3**.
+Recommended MVP scope:
 
-R4 добавлять после того, как команда явно согласует consent, approval queue и
-границы outreach.
+- R1 Application Triage Assistant;
+- R2 Daily Call Briefing Dashboard;
+- basic R3 Reviewer Memory;
+- FOC-002 post-call feedback capture as optional standard add-on.
 
----
-
-## 9. Расчет времени, стоимости и ресурсов
-
-### Допущения
-
-Расчет ниже не является quote. Это planning range, который строится из:
-
-- количества workflow modules;
-- сложности integrations;
-- глубины research;
-- sensitivity данных;
-- объема human review;
-- требований к audit trail;
-- maturity существующего CRM/application process.
-
-Базовый сценарий для оценки:
-
-- 1,000 заявок за cohort;
-- 20-40 founder calls в неделю;
-- 2-4 reviewers;
-- application database уже существует;
-- outbound contacts доступны только после explicit permission;
-- production actions требуют human approval.
-
-### MVP package
-
-| Scope | Estimate |
-|---|---:|
-| R1 Application triage | 3-6 недель / 6,000-22,000 USD |
-| R2 Daily call briefing | 2-5 недель / 4,000-15,000 USD |
-| R3 Basic reviewer memory | 3-6 недель / 5,000-18,000 USD |
-| Integrated MVP | 6-10 недель / 18,000-55,000 USD |
-| Monthly LLM/API/hosting | 700-4,000 USD |
-| Maintenance | 1-3 дня в месяц |
-
-### Expansion candidates after MVP
-
-| Candidate | When to consider | Extra estimate |
-|---|---|---:|
-| Claim verification research assistant | after source register and triage MVP exist | 2-5 недель / 5,000-18,000 USD |
-| Post-call structured feedback capture | after call briefing dashboard is used weekly | 1-3 недели / 3,000-10,000 USD |
-| Duplicate/repeat applicant detection | only if duplicate/repeat rate is material | 1-3 недели / 2,000-8,000 USD |
-
-Минимальная команда:
-
-- AI automation engineer;
-- accelerator operator as product owner;
-- senior reviewer as decision owner;
-- part-time privacy/data reviewer.
-
-Опционально:
-
-- researcher/analyst;
-- CRM/integration specialist;
-- frontend/dashboard engineer.
-
-Главные cost drivers:
-
-- clean access к CRM/calendar/application data;
-- разрешено ли использовать cloud LLM;
-- сколько external research нужен на одну заявку;
-- нужно ли хранить audit trail по каждой recommendation;
-- насколько polished должен быть dashboard.
+R4 outreach assistant should wait until consent, approval queue and reputational
+rules are explicit.
 
 ---
 
-## 10. Источник истины и роль LLM
+## 9. Role-Hour Estimate
 
-Source of truth:
+| Role | Lean | Standard | Strict/Proof Layer |
+|---|---:|---:|---:|
+| AI solution architect | 20-40h | 50-90h | 100-170h |
+| AI automation engineer | 120-240h | 280-560h | 560-1,000h |
+| CRM/calendar integration engineer | 40-100h | 120-280h | 280-520h |
+| Frontend/dashboard engineer | 40-100h | 120-260h | 260-480h |
+| Research/eval engineer | 30-80h | 100-220h | 220-420h |
+| Privacy/data reviewer | 16-50h | 60-140h | 140-300h |
+| Senior reviewer/domain owner | 40-100h | 120-260h | 260-520h |
+| PM/operator | 30-80h | 90-200h | 200-380h |
 
-- application form/database;
-- CRM status;
-- reviewer decisions;
-- approved decision memory;
-- calendar events;
-- manually approved source register;
-- pricing/rate cards для implementation estimates.
-
-LLM помогает:
-
-- суммаризировать;
-- найти противоречия;
-- подготовить вопросы;
-- сделать draft;
-- сгруппировать feedback;
-- объяснить recommendation простым языком.
-- предложить frontier candidates на основе workflow context и public n8n
-  signals.
-
-LLM не является source of truth для:
-
-- final admission decision;
-- факта "человек солгал";
-- privacy policy;
-- стоимости без estimate model;
-- CRM status;
-- consent и permission.
-- approved roadmap recommendation без verifier и reviewer.
+Lean means local/shadow workflow with limited integrations. Standard means pilot
+dashboard and controlled writeback. Strict means proof receipts, audit bundles,
+stronger data controls and repeatable delivery process.
 
 ---
 
-## 11. Защита от галлюцинаций
+## 10. Cost Estimate: RF and Europe
 
-```mermaid
-flowchart LR
-    A[LLM output] --> B{Has source?}
-    B -- yes --> C[Show citation or field]
-    B -- no --> D[Mark as assumption]
-    D --> E[Needs verification]
-    C --> F{Actionable decision?}
-    F -- yes --> G[Human approval]
-    F -- no --> H[Brief only]
+| Scenario | One-Time Build | Monthly Run | Best For |
+|---|---:|---:|---|
+| Lean RF | 1.8m-4.5m RUB | 120k-350k RUB | triage/call briefs in shadow mode |
+| Standard RF | 5m-12m RUB | 350k-1.2m RUB | integrated cohort pilot |
+| Strict RF + Proof Layer | 12m-28m+ RUB | 1.2m-3.5m+ RUB | sensitive review workflow with audit |
+| Lean Europe | 30k-75k EUR | 1.2k-4k EUR | proof-of-value |
+| Standard Europe | 85k-220k EUR | 4k-15k EUR | dashboard + integrations |
+| Strict Europe + Proof Layer | 220k-520k+ EUR | 15k-45k+ EUR | governed AI review operating system |
+
+Cost drivers:
+
+- number of application sources and formats;
+- CRM/Airtable/Notion/calendar integration complexity;
+- volume of external research per application;
+- whether raw applicant data can use cloud LLM;
+- dashboard polish and collaboration features;
+- evidence/proof/audit requirements;
+- reviewer time required to train decision memory.
+
+---
+
+## 11. LLM/API/Infrastructure
+
+| Component | Lean Setup | Standard/Strict Setup |
+|---|---|---|
+| Hosting | local/private app VM | private cloud app + workers |
+| DB | SQLite/Postgres | Postgres with backups |
+| Object Storage | local folder | encrypted storage for evidence/source snapshots |
+| Queue/Scheduler | simple cron | worker queue for research/call briefs |
+| LLM | Sonnet-class for briefs, Opus-class for strategy/review | model pinned with change control |
+| Search/Research | approved public source register | cached research with source receipts |
+| CRM/Calendar | export/manual import | API sync and approved writeback |
+| Dashboard | generated reports | review UI with corrections and memory approvals |
+
+LLM cost formula:
+
+```text
+monthly_applications * avg_tokens_per_brief * model_price
++ monthly_calls * avg_tokens_per_call_brief * model_price
++ research/tool-call overhead
++ frontier review runs
 ```
 
-Safeguards:
+Opus-class models should be reserved for architecture critique, complex
+opportunity discovery and reviewer-facing synthesis. Routine classification,
+normalization and reminders should use deterministic logic or cheaper model
+tiers.
 
-- каждый claim получает label: evidence-backed, inferred, needs verification;
-- red flags не формулируются как факт без источника;
-- approve/reject отсутствует в AI output;
-- reviewer corrections сохраняются как feedback;
-- memory rules проходят approval;
-- private data не попадает в exports без policy;
-- eval suite проверяет forbidden claims и missing evidence.
-- frontier candidates проходят typed schema validation и deterministic verifier;
-- candidates от модели остаются `exportable_as_recommendation=false`, пока
-  reviewer не примет их вручную.
+---
+
+## 12. Risk and Do-Not-Automate Register
+
+| Risk | Control |
+|---|---|
+| auto-reject/auto-approve | blocked action; human decision required |
+| founder “dishonesty” claim | prohibited framing; use evidence/assumption/needs verification labels |
+| invented relationship context | source register and explicit unknown labels |
+| private notes leaked | privacy gate and export policy |
+| memory rule drifts silently | versioned rules, owner approval, rollback |
+| bad outreach | approval queue, opt-out, sensitive contact exclusions |
 
 Stop conditions:
 
-- AI отправил message без approval;
-- AI отклонил или принял кандидата;
-- unsupported claim показан как факт;
-- private data появилась в логах или export без permission;
-- reviewer trust падает ниже agreed threshold.
+- AI changes CRM decision status without approval;
+- AI sends outreach or applicant message without approval;
+- unsupported claim is shown as fact;
+- private data appears in unauthorized export/log;
+- reviewer trust falls below agreed threshold.
 
 ---
 
-## 12. 30/60/90 Day Plan
+## 13. Evaluation Plan
 
-### Days 0-30
+Golden set:
 
-- Описать workflow: intake, review, calls, decision, outreach.
-- Собрать 30-50 historical applications.
-- Согласовать red flag taxonomy.
-- Согласовать privacy mode и data retention.
-- Построить first triage brief template.
-- Запустить shadow mode: AI briefs создаются, но решения идут по старому
-  процессу.
+- 50-100 historical applications;
+- 20 accepted/rejected decision examples;
+- 20 call briefs with reviewer feedback;
+- 20 red flag/claim verification examples;
+- 10 outreach examples with allowed/blocked contacts.
 
-### Days 31-60
+Acceptance:
 
-- Подключить daily call briefing.
-- Добавить reviewer feedback capture.
-- Начать versioned decision memory.
-- Измерять correction rate, usefulness rating и time saved.
-- Включить privacy/logging controls.
+- 90% applications receive complete structured brief;
+- unsupported claims are labeled `needs verification`;
+- reviewer accepts or edits more than 60% of brief sections as useful;
+- call briefs are ready before daily review time;
+- memory rules always show owner/source/version;
+- auto decision/action count = 0.
 
-### Days 61-90
+Pilot metrics:
 
-- Расширить research depth только для заявок, которые дошли до звонка.
-- Добавить reviewer disagreement tracking.
-- Подготовить implementation handoff для stable modules.
-- Решить: scale, revise или stop.
-- Добавить outbound launch assistant, если approval и consent boundaries готовы.
-- Review frontier candidates: claim verification, post-call feedback capture,
-  duplicate applicant detection.
+- reviewer prep time saved;
+- brief correction rate;
+- red flag precision/recall by reviewer judgment;
+- call brief usefulness score;
+- decision memory adoption;
+- number of blocked unsafe actions.
 
 ---
 
-## 13. Что заказчик получает на выходе
+## 14. Governance and Proof Layer
 
-Deliverables после AI Roadmap Sprint:
+Entropy Core Proof Layer is a strong add-on for accelerator/investment workflows
+because decisions are reputational, subjective and evidence-sensitive.
 
-- workflow map;
-- opportunity map;
-- ranked initiatives;
-- do-not-automate list;
-- privacy mode recommendation;
-- cost/time/team estimate;
-- 30/60/90 day roadmap;
-- eval plan;
-- first implementation handoff;
-- list of data needed for pilot.
-- frontier-suggested opportunity queue with verifier status.
+Proof artifacts:
 
-То есть заказчик получает не "AI demo", а понятный decision artifact: что
-делать, что не делать, почему, сколько это примерно займет, кто нужен и как
-понять, что оно работает.
+- source register with allowed sources;
+- application/source hashes;
+- claim evidence labels;
+- assumption registry;
+- reviewer approval receipts;
+- blocked-surface list;
+- memory rule version receipts;
+- frontier candidate verifier status;
+- decision log and audit bundle.
+
+AI Workflow Playbook is also a strong add-on:
+
+- implementation contract;
+- task graph for each workflow module;
+- eval gates before model/prompt changes;
+- reviewer loop;
+- operator handoff;
+- monthly improvement cadence.
+
+Positioning:
+
+> We are not selling “AI will choose startups”. We are selling a governed review
+> operating system that saves preparation time, improves consistency and keeps
+> final judgment with humans.
 
 ---
 
-## 14. Итоговая рекомендация
+## 15. Commercial Packaging
 
-Proceed with MVP, but keep positioning precise:
+### Package A. AI Roadmap Sprint
 
-> Build a human-in-the-loop application review operating system, not an
-> autonomous accelerator agent.
+- 1-2 weeks;
+- map intake/review/call/outreach workflows;
+- source/evidence boundary;
+- first pilot design;
+- RF/EU implementation estimate;
+- do-not-automate and proof layer recommendation.
 
-Почему это сильный use case:
+### Package B. Standard Accelerator Review Pilot
 
-- процесс повторяемый и high-volume;
-- человеческий judgment остается ценным;
-- AI может экономить время до того, как будет доверено действие;
-- review memory создает накопительный operational advantage;
-- качество можно быстро проверить через reviewer usefulness и time saved.
+- 8-12 weeks;
+- application triage assistant;
+- daily call dashboard;
+- basic reviewer memory;
+- post-call feedback capture;
+- controlled CRM/calendar integration.
 
-Главный вопрос для commercial validation:
+### Package C. Proof Layer and Playbook Add-On
 
-> Готова ли команда акселератора или investment team платить за систему, которая
-> экономит 8-15 часов в неделю и делает review более последовательным, не забирая
-> финальное решение у человека?
+- Entropy Core receipts;
+- evidence bundles;
+- blocked-surface registry;
+- AI Workflow Playbook implementation discipline;
+- monthly eval and governance loop.
+
+---
+
+## 16. Final Recommendation
+
+Proceed with standard pilot if the accelerator has enough application/call
+volume and one senior reviewer is willing to own the decision taxonomy.
+
+Best first implementation:
+
+1. Application Triage Assistant.
+2. Daily Call Briefing Dashboard.
+3. Basic Reviewer Memory.
+4. Post-call Feedback Capture.
+
+Delay outreach automation until consent, reputation boundaries and approval
+workflow are explicit.
+
+Main commercial validation question:
+
+> Will an accelerator, VC platform team or admissions-heavy program pay for a
+> governed system that saves 8-15 hours/week and improves review consistency
+> without taking final decisions away from humans?

@@ -1,14 +1,14 @@
-# AI Roadmap Report
+# AI Roadmap Report V2
 
 ## Клиентский пример: e-commerce support, order status и returns
 
 Статус: демонстрационный customer-facing отчет  
-Тип: AI implementation roadmap  
-Граница: synthetic demo; не customer proof и не коммерческая смета.
+Тип: AI Implementation Decision Pack  
+Граница: synthetic demo; не customer proof, не fixed quote и не обещание ROI.
 
 ---
 
-## 1. Коротко для заказчика
+## 1. Executive Decision Summary
 
 Shopify-магазин получает повторяющиеся вопросы: order status, returns, damaged
 items, product details. Support assistant вручную ищет заказ, копирует ответы из
@@ -17,21 +17,34 @@ Google Doc, а refund требует owner approval.
 Рекомендация: строить **support triage + deterministic order lookup + human
 refund gate**, а не autonomous refund bot.
 
----
-
-## 2. Provenance
-
-| Layer | Что дает |
+| Decision Field | Recommendation |
 |---|---|
-| Source workflow | Shopify/Gmail/Instagram/Google Docs support workflow |
-| Pattern library | customer support triage, ecommerce returns, reporting automation |
-| Public n8n signals | Gmail, Shopify-like API flows, Sheets reporting, OpenAI drafts |
-| Frontier candidates | damaged-item evidence checklist, owner interruption dashboard |
-| Verifier boundary | no automatic refunds, no compensation decisions |
+| First use case | order status lookup + support triage in shadow mode |
+| Не автоматизировать | refunds, compensation, final damaged-item resolution |
+| Scenario | Standard pilot if Shopify/helpdesk API доступен |
+| Pilot-ready срок | 6-8 недель |
+| Expected effect | меньше owner interruptions, быстрее first response, стабильнее returns policy |
+| Proceed decision | proceed after ticket volume and refund policy review |
 
 ---
 
-## 3. Workflow Map
+## 2. Evidence Boundary
+
+| Evidence Field | Planning Assumption |
+|---|---|
+| Workflow source | synthetic Shopify/Gmail/Instagram support workflow |
+| Monthly volume | 800-2,000 support messages/month |
+| Systems | Shopify, Gmail/helpdesk, Instagram, Google Docs FAQ |
+| Data class | customer identity/address/order data = sensitive |
+| Current pain | repetitive status checks, inconsistent return answers, owner bottleneck |
+| Missing evidence before quote | ticket sample, refund policy, SKU taxonomy, order lookup permissions |
+
+Before a real quote, buyer must provide historical ticket labels, refund cases,
+FAQ/SOP and Shopify API constraints.
+
+---
+
+## 3. Current-State Workflow
 
 ```mermaid
 flowchart LR
@@ -47,59 +60,241 @@ flowchart LR
     H --> I
 ```
 
----
-
-## 4. Recommended Initiatives
-
-| Priority | Initiative | Why | Human Gate | Estimate |
-|---:|---|---|---|---:|
-| 1 | Order status lookup | factual API lookup; LLM not needed | identity check before details | 1-3 недели / 2,000-10,000 USD |
-| 2 | Support triage assistant | reduces repetitive categorization | review first 100 classifications | 3-6 недель / 3,000-15,000 USD |
-| 3 | Returns workflow assistant | standardizes policy checks | owner approves refund | 3-6 недель / 4,000-20,000 USD |
-| 4 | Weekly support report | owner sees categories and interruptions | owner reviews metrics | 1-2 недели / 1,000-5,000 USD |
-
-MVP scope: order lookup + triage in shadow mode. Returns assistant after policy
-review.
+| Step | Actor | System | Pain | Automation Fit |
+|---|---|---|---|---|
+| Intent classification | support assistant | helpdesk/Gmail | repetitive labels | high |
+| Order lookup | support assistant | Shopify | factual lookup repeated all day | high deterministic |
+| FAQ answer | support assistant | Google Docs | inconsistent copy/paste | medium AI draft |
+| Return checklist | support + owner | policy doc/Shopify | policy drift | high HITL |
+| Refund approval | owner | Shopify/payment | financial decision | do not automate |
+| Weekly reporting | owner | Sheets/helpdesk | no visibility | high deterministic |
 
 ---
 
-## 5. Do Not Automate
+## 4. Opportunity Provenance
 
-- automatic refunds;
-- compensation decisions;
-- final damaged-item resolution;
-- public product claims without review;
-- exposing order/address details before identity check.
-
----
-
-## 6. Cost And Team
-
-| Package | Estimate |
-|---|---:|
-| Quick win | 2-4 недели / 4,000-12,000 USD |
-| Support + returns MVP | 6-10 недель / 12,000-40,000 USD |
-| Monthly run cost | 200-2,000 USD |
-
-Minimum team:
-
-- owner;
-- support assistant;
-- AI automation engineer;
-- Shopify/integration specialist.
+| Layer | Что дает | Boundary |
+|---|---|---|
+| Pattern library | customer support triage, e-commerce returns, reporting automation | known pattern |
+| Public n8n signals | Gmail, Shopify-like APIs, Sheets reporting, OpenAI drafts | supporting signal |
+| Frontier candidates | damaged-item evidence checklist, owner interruption dashboard | review queue |
+| Verifier | blocks automatic refunds and unsupported policy claims | deterministic gate |
 
 ---
 
-## 7. 30/60/90 Plan
+## 5. Target Architecture
 
-- 30 days: clean FAQ, return policy, canned replies, identity rules.
-- 60 days: pilot triage and order lookup in shadow mode.
-- 90 days: add returns checklist, owner approval queue and weekly support report.
+```text
+Helpdesk/Gmail/Instagram intake
+  -> Ticket Normalizer
+  -> Identity and Order Verification Gate
+  -> Intent Classifier
+  -> Shopify Order Lookup
+  -> FAQ/Policy Retrieval
+  -> LLM Reply Draft Worker
+  -> Returns Checklist Engine
+  -> Owner Approval Queue
+  -> Approved Reply / Tag / Task Writeback
+  -> Evidence Log and Weekly Support Report
+```
+
+| Component | Needed | Notes |
+|---|---|---|
+| Ticket Normalizer | yes | maps channel messages into one schema |
+| Shopify Connector | yes | read orders; refund write disabled in MVP |
+| FAQ/Policy Store | yes | source of truth for answers |
+| AI Draft Worker | yes | drafts answers with citations to policy |
+| Returns Checklist | yes | deterministic policy checklist |
+| Owner Approval Queue | yes | refunds and exceptions |
+| DB | Postgres recommended | tickets, decisions, approvals, audit |
+| Monitoring | yes | wrong lookup, stale policy, approval backlog |
 
 ---
 
-## 8. Proof / Boundary
+## 6. Recommendation Cards
 
-This is a strong SMB workflow because the buyer pain is concrete: repetitive
-support and owner interruptions. The roadmap should not claim refund automation
-ROI until real ticket volume, labels and refund policy are reviewed.
+### R1. Deterministic Order Status Lookup
+
+| Field | Value |
+|---|---|
+| Why | factual lookup; LLM should not invent status |
+| Data | order id/email, fulfillment status, tracking link |
+| Human gate | identity check before exposing details |
+| Acceptance | 95% correct status on verified orders |
+| Not included | address changes, refunds, compensation |
+
+### R2. Support Triage Assistant
+
+| Field | Value |
+|---|---|
+| Why | reduces repetitive manual categorization |
+| Data | ticket text, channel, customer metadata |
+| Human gate | first 100-200 classifications reviewed |
+| Acceptance | 85% label agreement with support lead |
+| Not included | direct public answer without review during pilot |
+
+### R3. Returns Workflow Assistant
+
+| Field | Value |
+|---|---|
+| Why | standardizes policy checks before owner approval |
+| Data | order, product, date, photo/evidence, policy |
+| Human gate | owner approves refund/replacement |
+| Acceptance | checklist complete for 90% return cases |
+| Not included | automatic refund or compensation |
+
+### R4. Weekly Support and Interruption Report
+
+| Field | Value |
+|---|---|
+| Why | owner sees repeated issues and interruption sources |
+| Data | ticket labels, resolution time, owner approvals |
+| Human gate | owner reviews changes to policy |
+| Acceptance | weekly report reconciles with helpdesk labels |
+
+---
+
+## 7. Phase-by-Phase Roadmap
+
+| Phase | Duration | Work | Exit Criteria |
+|---|---:|---|---|
+| 0. Discovery | 1 week | collect ticket samples, FAQ, refund policy, order fields | support lead confirms map |
+| 1. Data readiness | 1-2 weeks | normalize labels, identity rules, API access, policy source | Shopify/helpdesk access approved |
+| 2. Prototype | 2-3 weeks | shadow triage, order lookup sandbox, reply drafts | label accuracy and lookup quality measured |
+| 3. Pilot | 2-3 weeks | approval queue, reviewed replies, returns checklist | owner approval path works |
+| 4. Production-lite | 1-2 weeks | monitoring, backups, runbook, regression tests | support team can operate daily |
+| 5. Improvement loop | monthly | tune labels, report policy gaps, expand FAQ | support metrics reviewed |
+
+---
+
+## 8. Role-Hour Estimate
+
+| Role | Lean | Standard | Strict/Private |
+|---|---:|---:|---:|
+| AI solution architect | 12-20h | 24-40h | 40-70h |
+| AI automation engineer | 60-110h | 130-240h | 240-420h |
+| Shopify/helpdesk integration engineer | 30-70h | 80-160h | 160-300h |
+| QA/eval engineer | 16-36h | 50-100h | 100-180h |
+| Support/domain reviewer | 20-50h | 60-120h | 120-240h |
+| PM/operator | 12-28h | 32-70h | 70-120h |
+
+---
+
+## 9. Cost Estimate: RF and Europe
+
+| Scenario | One-Time Build | Monthly Run | Best For |
+|---|---:|---:|---|
+| Lean RF | 700k-1.6m RUB | 35k-120k RUB | order lookup + triage shadow mode |
+| Standard RF | 1.8m-4.5m RUB | 120k-350k RUB | integrated support pilot |
+| Strict RF | 4.5m-9m+ RUB | 350k-900k RUB | sensitive data + private deployment |
+| Lean Europe | 12k-28k EUR | 300-1.2k EUR | proof-of-value |
+| Standard Europe | 30k-80k EUR | 1.2k-4k EUR | Shopify/helpdesk integration |
+| Strict Europe | 80k-180k+ EUR | 4k-12k EUR | regulated/private support workflow |
+
+Cost drivers:
+
+- helpdesk and Shopify API access;
+- number of channels;
+- return policy complexity;
+- refund approval and finance controls;
+- message volume and required review sample;
+- whether raw customer data can use cloud LLM after redaction.
+
+---
+
+## 10. LLM/API/Infrastructure
+
+| Component | Lean Setup | Standard Setup |
+|---|---|---|
+| Hosting | small VM | app VM + Postgres + object storage |
+| LLM | Sonnet/small tier for drafting | Opus-class only for policy architecture review |
+| Shopify API | read orders | read orders + approved tag/task writeback |
+| Helpdesk/Gmail | export/shadow | API/webhook integration |
+| Storage | ticket metadata only | ticket metadata + approval logs + evidence |
+| Monitoring | basic logs | alert on stale policy, failed lookup, approval backlog |
+
+LLM cost formula:
+
+```text
+monthly_tickets * avg_input_tokens * input_price
++ monthly_tickets * avg_output_tokens * output_price
++ policy retrieval overhead
+```
+
+For 1,000-2,000 tickets/month, LLM cost is usually manageable; integration,
+reviewer time and policy cleanup dominate.
+
+---
+
+## 11. Risk and Do-Not-Automate Register
+
+| Risk | Control |
+|---|---|
+| wrong refund | owner approval required |
+| exposing order/address to wrong person | identity verification gate |
+| hallucinated policy answer | answer must cite approved FAQ/policy |
+| stale return policy | policy version in every draft |
+| channel-specific consent issue | send policy per channel |
+
+Stop conditions:
+
+- refund created without owner approval;
+- private order details sent before identity check;
+- unsupported product claim sent to customer;
+- support lead confidence falls below agreed threshold.
+
+---
+
+## 12. Evaluation Plan
+
+Golden set:
+
+- 100 historical support tickets;
+- 50 order status requests;
+- 30 returns/damaged-item cases;
+- 20 edge cases: angry customer, missing order, international shipping.
+
+Acceptance:
+
+- intent label agreement > 85%;
+- order lookup correctness > 95% after identity check;
+- refund automation = 0;
+- owner interruption reduction visible after 2-4 weeks;
+- support team accepts at least 60% of draft replies after editing.
+
+---
+
+## 13. Governance and Proof Layer
+
+Base pilot needs approval logs. Entropy Core Proof Layer becomes valuable when
+the store has larger volume, marketplace disputes, regulated products or board
+reporting.
+
+Proof artifacts:
+
+- policy version attached to every draft;
+- order lookup source receipt;
+- refund approval receipt;
+- unsupported-claim registry;
+- weekly correction log.
+
+AI Workflow Playbook is useful if the customer wants internal team to continue
+adding workflows: product Q&A, supplier support, inventory alerts, CRM follow-up.
+
+---
+
+## 14. Commercial Recommendation
+
+Sell as `AI Roadmap Sprint + Standard Support Pilot`.
+
+Proceed when:
+
+- support volume is above 500 messages/month;
+- owner is bottleneck for returns/refunds;
+- FAQ and refund policy can be cleaned in week 1.
+
+Postpone when:
+
+- store volume is too low;
+- refund policy is not written;
+- buyer expects autonomous refund bot as the first step.

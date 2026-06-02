@@ -150,10 +150,9 @@ Frontier demo с Claude Opus 4.6:
 18. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
    output после запуска скрипта.
 
-Важно для разговора: шесть showcase reports - это v1-примеры breadth. Новый
-`CLIENT_REPORT_V2_UPGRADE_STRATEGY_RU.md` показывает, какой уровень глубины
-нужен для серьезного клиента: фазы, смета, инфраструктура, proof layer и
-коммерческие пакеты.
+Важно для разговора: шесть showcase reports уже приведены к v2-формату. Теперь
+они показывают не только breadth, но и нужную клиентскую глубину: фазы, смета,
+инфраструктура, proof layer, role-hours и коммерческие пакеты.
 
 ## Proof points
 
@@ -230,7 +229,7 @@ Frontier demo с Claude Opus 4.6:
 
 ## Новый коммерческий стандарт отчета
 
-После критики v1 showcase reports правильная упаковка такая:
+После критики ранних showcase reports правильная упаковка такая:
 
 - `AI Roadmap Sprint` - базовый paid diagnostic;
 - `AI Workflow Playbook Adoption` - допродажа для команд, которые хотят
