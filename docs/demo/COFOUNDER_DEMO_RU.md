@@ -59,19 +59,20 @@ follow-up, back-office operations. Затем превращаем это в roa
 Формулировка: synthetic demos проверяют edge cases, public-source demos
 показывают работу на опубликованных workflow descriptions.
 
-Потом показываем новый opportunity discovery layer:
+Потом объясняем отдельную опцию: анализ публичных automation-паттернов.
 
-1. Мы не копируем n8n templates как готовые решения.
-2. Мы используем их как public signal: что люди уже пытаются автоматизировать.
-3. Corpus run извлек `8,824` public n8n workflows и схлопнул их в `4,963`
-   deduplicated metadata candidates.
-4. Claude Opus 4.6 смотрит на workflow + n8n mining summary и предлагает missed
-   opportunities.
-5. Deterministic verifier не дает модели превратить candidate в approved
-   roadmap без human review.
+1. Мы не копируем n8n-шаблоны как готовые решения.
+2. Мы используем их как reference: какие связки и интеграции люди уже часто
+   автоматизируют.
+3. Для клиента это можно продавать как расширенный research: “посмотрим, какие
+   похожие automation patterns уже встречаются на практике”.
+4. Frontier model смотрит на workflow + краткое описание найденных паттернов и
+   предлагает missed opportunities.
+5. Verifier не дает модели превратить candidate в approved roadmap без human
+   review.
 
-Формулировка: n8n mining насыщает карту идей, frontier model расширяет список
-вариантов, verifier удерживает качество и safety.
+Формулировка: n8n-паттерны помогают не начинать с пустого листа, frontier model
+расширяет список вариантов, verifier удерживает качество и safety.
 
 ## Что показать в терминале
 
@@ -95,7 +96,7 @@ bash scripts/demo_roadmap_ru.sh
 
 Смысл вывода:
 
-- public n8n repos уже склонированы в ignored `.data/n8n_sources`;
+- публичные n8n-репозитории уже склонированы в ignored `.data/n8n_sources`;
 - raw workflow JSON не коммитится;
 - система извлекает metadata, дедуплицирует и пишет summary;
 - summary показывает archetypes, integrations и review queue.
@@ -135,8 +136,8 @@ Frontier demo с Claude Opus 4.6:
    intake.
 9. `docs/demo/INCIDENT_COORDINATION_ROADMAP_RU.md` - internal incident
    coordination и runbook assistant.
-10. `docs/experiments/n8n_template_mining_summary.md` - что извлекли из public
-   n8n templates.
+10. `docs/experiments/n8n_template_mining_summary.md` - техническое приложение
+   по анализу публичных n8n-паттернов.
 11. `docs/experiments/frontier_opportunity_discovery_opus46_summary.md` - что
    Claude Opus 4.6 предложил и как verifier это обработал.
 12. `docs/product/report_contract.md` - контракт итогового roadmap.
@@ -168,8 +169,8 @@ Frontier demo с Claude Opus 4.6:
 - approved handoff blocked unless review approved.
 - public-source workflow demos reuse saved public fixtures, not invented
   customer data.
-- n8n mining extracted `8,824` public workflows into `4,963` deduplicated
-  metadata candidates.
+- анализ публичных n8n-паттернов используется как опциональный research layer для поиска похожих
+  automation-паттернов.
 - Claude Opus 4.6 produced frontier candidates, but verifier kept all of them
   non-exportable until human review.
 
@@ -191,7 +192,7 @@ Frontier demo с Claude Opus 4.6:
 - “мы гарантируем ROI”;
 - “мы certified compliance solution”.
 - “public-source demo доказывает спрос рынка”.
-- “n8n templates доказывают, что рынок хочет именно наш продукт”.
+- “n8n-шаблоны доказывают, что рынок хочет именно наш продукт”.
 - “Claude сам решил, что внедрять”.
 
 Говорить:
@@ -201,9 +202,9 @@ Frontier demo с Claude Opus 4.6:
 - “первый paid package - AI readiness / AI roadmap diagnostic”;
 - “продукт помогает не потратить деньги на неправильную AI-автоматизацию”.
 - “public-source demos доказывают техническую работу на опубликованных workflow,
-  но buyer proof должен прийти через real pilot”.
-- “n8n templates - это источник идей о популярных automation patterns, не proof
-  спроса”.
+  но доказательство спроса должно прийти через real pilot”.
+- “n8n-шаблоны - это отдельная research-опция для поиска похожих
+  automation-паттернов, а не доказательство спроса”.
 - “frontier model расширяет список candidates, но verifier и human review
   решают, что попадет в roadmap”.
 

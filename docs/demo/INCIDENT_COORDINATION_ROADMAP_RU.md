@@ -1,15 +1,15 @@
-# AI Roadmap Report V2
+# Клиентский AI Roadmap отчет V2
 
 ## Клиентский пример: incident coordination и runbook assistant
 
 Статус: public-source customer-facing demo  
-Тип: AI Implementation Decision Pack  
+Тип: пакет решений по AI-внедрению  
 Граница: public incident workflow notes; не production readiness proof и не SRE
 compliance certification.
 
 ---
 
-## 1. Executive Decision Summary
+## 1. Краткое решение для заказчика
 
 Incident response проходит через Slack, PagerDuty, Incident.io, Zoom, Google Docs
 и service runbooks. Боль не в том, что “AI должен тушить инцидент”, а в
@@ -19,20 +19,20 @@ updates, где фиксировать решения.
 Рекомендация: строить **incident runbook and coordination assistant** с cited
 drafts, role checklist, update drafts and strict human-approved actions.
 
-| Decision Field | Recommendation |
+| Поле | Рекомендация |
 |---|---|
-| First use case | runbook retrieval + internal update drafts in shadow mode |
+| Первый use case | поиск runbook + черновики внутренних updates в shadow mode |
 | Не автоматизировать | incident declaration, severity changes, paging, production actions |
 | Scenario | Strict internal pilot |
 | Pilot-ready срок | 7-10 недель |
-| Expected effect | быстрее context gathering, меньше missed roles/artifacts, лучше PIR drafts |
-| Proceed decision | proceed after runbook corpus and incident policy approval |
+| Ожидаемый эффект | быстрее context gathering, меньше missed roles/artifacts, лучше PIR drafts |
+| Решение | начинать после утверждения runbook corpus и incident policy |
 
 ---
 
-## 2. Evidence Boundary
+## 2. Граница данных и доказательности
 
-| Evidence Field | Planning Assumption |
+| Поле | Рабочее допущение |
 |---|---|
 | Workflow source | public GitLab-style incident workflow notes |
 | Monthly volume | 3-20 incidents/drills/month |
@@ -46,7 +46,7 @@ drill data, runbook quality review and incident manager feedback.
 
 ---
 
-## 3. Current-State Workflow
+## 3. Текущий процесс
 
 ```mermaid
 flowchart LR
@@ -59,7 +59,7 @@ flowchart LR
     G --> H[PIR draft]
 ```
 
-| Step | Actor | System | Pain | Automation Fit |
+| Шаг | Участник | Система | Боль | Подходит для автоматизации |
 |---|---|---|---|---|
 | Alert/declaration | on-call/IM | PagerDuty/Incident.io | high-impact action | do not automate |
 | Role checklist | IM | Slack/doc | easy to miss roles | high deterministic |
@@ -70,32 +70,38 @@ flowchart LR
 
 ---
 
-## 4. Opportunity Provenance
+## 4. Откуда взялись рекомендации
 
-| Layer | Что дает | Boundary |
+| Слой | Что дает | Граница |
 |---|---|---|
 | Pattern library | internal knowledge assistant, incident coordination, reporting automation | known pattern |
-| Public n8n signals | Slack/PagerDuty/webhook/OpenAI notification workflows | supporting signal |
+| Опция n8n-паттернов | идеи по связкам Slack/PagerDuty/webhook/LLM notification workflows | источник идей, не готовое решение |
 | Frontier candidates | update-draft assistant, runbook gap detector | review queue |
 | Verifier | blocks paging, severity changes, autonomous incident actions | deterministic gate |
 
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+Для incident workflow эта опция нужна не для автозапуска действий, а чтобы
+быстро увидеть типовые безопасные integration patterns: уведомления, draft
+updates, webhook ingestion, runbook lookup, handoff в Slack. Все actions остаются
+под human approval.
+
 ---
 
-## 5. Target Architecture
+## 5. Целевая архитектура
 
 ```text
 Incident channel / Incident.io / PagerDuty event
-  -> Incident Context Normalizer
-  -> Role and Artifact Checklist
-  -> Approved Runbook Retriever
-  -> Cited Update Draft Worker
-  -> Human Approval Queue
-  -> Approved Slack/Doc Update
-  -> PIR Draft Generator
-  -> Evidence Receipt and Decision Log
+  -> Нормализация incident context
+  -> Checklist ролей и артефактов
+  -> Поиск по утвержденным runbooks
+  -> Черновик update с цитатами
+  -> Очередь human approval
+  -> Slack/Doc update после approval
+  -> Черновик PIR
+  -> Подтверждение доказательности и журнал решений
 ```
 
-| Component | Needed | Notes |
+| Компонент | Нужен | Комментарий |
 |---|---|---|
 | Incident Context Normalizer | yes | reads incident metadata/channel transcript |
 | Runbook Retriever | yes | citation-first, approved corpus only |
@@ -108,11 +114,11 @@ Incident channel / Incident.io / PagerDuty event
 
 ---
 
-## 6. Recommendation Cards
+## 6. Рекомендации
 
-### R1. Runbook Retrieval Assistant
+### R1. Помощник поиска runbook
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | responders need cited context fast |
 | Data | approved runbooks, service map, incident metadata |
@@ -120,9 +126,9 @@ Incident channel / Incident.io / PagerDuty event
 | Acceptance | top cited runbook useful in 80% of drill cases |
 | Not included | executing production commands |
 
-### R2. Incident Update Draft Assistant
+### R2. Помощник для черновиков incident updates
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | updates must stay synchronized and calm |
 | Data | incident timeline, channel facts, approved templates |
@@ -130,18 +136,18 @@ Incident channel / Incident.io / PagerDuty event
 | Acceptance | 70% drafts accepted after edits |
 | Not included | external/customer comms without approval |
 
-### R3. Role and Artifact Checklist
+### R3. Checklist ролей и артефактов
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | reduces coordination misses |
 | Data | incident type, severity, policy checklist |
 | Human gate | IM checks completion |
 | Acceptance | checklist catches missing owner/doc/channel in drills |
 
-### R4. Post-Incident Summary Draft
+### R4. Черновик post-incident summary
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | reduces PIR writeup time |
 | Data | timeline, decisions, updates, owner notes |
@@ -150,9 +156,9 @@ Incident channel / Incident.io / PagerDuty event
 
 ---
 
-## 7. Phase-by-Phase Roadmap
+## 7. План внедрения по этапам
 
-| Phase | Duration | Work | Exit Criteria |
+| Этап | Срок | Что делаем | Критерий завершения |
 |---|---:|---|---|
 | 0. Discovery | 1-2 weeks | map incident workflow, roles, runbooks, policies | IM confirms scope |
 | 1. Data readiness | 2 weeks | approve runbook corpus, templates, access controls | corpus and retention approved |
@@ -163,9 +169,9 @@ Incident channel / Incident.io / PagerDuty event
 
 ---
 
-## 8. Role-Hour Estimate
+## 8. Оценка ролей и часов
 
-| Role | Lean | Standard | Strict/Internal |
+| Роль | Lean | Standard | Strict / internal |
 |---|---:|---:|---:|
 | AI solution architect | 18-32h | 40-70h | 80-130h |
 | AI/backend engineer | 80-160h | 200-380h | 380-700h |
@@ -177,9 +183,9 @@ Incident channel / Incident.io / PagerDuty event
 
 ---
 
-## 9. Cost Estimate: RF and Europe
+## 9. Оценка стоимости: РФ и Европа
 
-| Scenario | One-Time Build | Monthly Run | Best For |
+| Сценарий | Разовая сборка | Ежемесячные расходы | Для чего подходит |
 |---|---:|---:|---|
 | Lean RF | 1.5m-3.5m RUB | 100k-300k RUB | drill-only runbook assistant |
 | Standard RF | 4m-9m RUB | 300k-900k RUB | integrated internal pilot |
@@ -198,9 +204,9 @@ Why expensive:
 
 ---
 
-## 10. LLM/API/Infrastructure
+## 10. LLM, API и инфраструктура
 
-| Component | Lean Setup | Standard/Strict Setup |
+| Компонент | Lean setup | Standard / strict setup |
 |---|---|---|
 | Hosting | internal VM/private cloud | private VPC, backups, secrets manager |
 | DB | Postgres | Postgres + audit storage |
@@ -215,9 +221,9 @@ model tiers.
 
 ---
 
-## 11. Risk and Do-Not-Automate Register
+## 11. Риски и зоны, которые нельзя автоматизировать
 
-| Risk | Control |
+| Риск | Контроль |
 |---|---|
 | autonomous paging | blocked action |
 | wrong severity change | human-only severity control |
@@ -234,7 +240,7 @@ Stop conditions:
 
 ---
 
-## 12. Evaluation Plan
+## 12. План проверки качества
 
 Golden set:
 
@@ -254,7 +260,7 @@ Acceptance:
 
 ---
 
-## 13. Governance and Proof Layer
+## 13. Governance и proof layer
 
 Entropy Core Proof Layer is recommended for this use case.
 
@@ -273,17 +279,18 @@ run before model/prompt updates.
 
 ---
 
-## 14. Commercial Recommendation
+## 14. Коммерческая рекомендация
 
-Sell as `AI Roadmap Sprint + Strict Internal Runbook Pilot + Proof Layer`.
+Продавать как: **AI Roadmap Sprint + Strict Internal Runbook Pilot + Proof
+Layer**.
 
-Proceed when:
+Начинать, если:
 
 - incident manager owns the rollout;
 - runbook corpus can be approved;
 - buyer accepts shadow/drill pilot before live incidents.
 
-Postpone when:
+Откладывать, если:
 
 - buyer wants autonomous incident response;
 - runbooks are not maintained;

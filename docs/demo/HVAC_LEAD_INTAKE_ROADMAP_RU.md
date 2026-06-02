@@ -1,14 +1,15 @@
-# AI Roadmap Report V2
+# Клиентский AI Roadmap отчет V2
 
 ## Клиентский пример: HVAC lead intake и service-area qualification
 
 Статус: public-source customer-facing demo  
-Тип: AI Implementation Decision Pack  
-Граница: public workflow notes; не buyer proof и не commercial pilot evidence.
+Тип: пакет решений по AI-внедрению  
+Граница: public workflow notes; не доказательство спроса и не evidence из
+коммерческого пилота.
 
 ---
 
-## 1. Executive Decision Summary
+## 1. Краткое решение для заказчика
 
 HVAC-компания получает заявки через сайт, форму, телефон и online appointment
 request. Intake должен быстро понять: service-area fit, urgent/emergency,
@@ -18,20 +19,20 @@ residential/commercial, repair/maintenance/install, missing contact details.
 field checks, ZIP/service-area rules, emergency escalation and dispatcher
 approval.
 
-| Decision Field | Recommendation |
+| Поле | Рекомендация |
 |---|---|
-| First use case | field completeness + service-area qualification + dispatcher handoff |
+| Первый use case | проверка полноты заявки + service-area qualification + dispatcher handoff |
 | Не автоматизировать | diagnosis, pricing guarantee, dispatch, edge rejection |
 | Scenario | Standard SMB pilot |
 | Pilot-ready срок | 5-8 недель |
-| Expected effect | меньше потерянных заявок, быстрее urgent routing, меньше ручной сортировки |
-| Proceed decision | proceed after CRM/service-area rule review |
+| Ожидаемый эффект | меньше потерянных заявок, быстрее urgent routing, меньше ручной сортировки |
+| Решение | начинать после проверки CRM и service-area rules |
 
 ---
 
-## 2. Evidence Boundary
+## 2. Граница данных и доказательности
 
-| Evidence Field | Planning Assumption |
+| Поле | Рабочее допущение |
 |---|---|
 | Workflow source | public HVAC service intake notes |
 | Monthly volume | 300-1,000 leads/month |
@@ -45,7 +46,7 @@ lead volume, conversion, dispatcher corrections and response-time baseline.
 
 ---
 
-## 3. Current-State Workflow
+## 3. Текущий процесс
 
 ```mermaid
 flowchart LR
@@ -58,7 +59,7 @@ flowchart LR
     G --> H[Dispatcher review]
 ```
 
-| Step | Actor | System | Pain | Automation Fit |
+| Шаг | Участник | Система | Боль | Подходит для автоматизации |
 |---|---|---|---|---|
 | Lead capture | customer/coordinator | form/phone | incomplete fields | high |
 | Service-area check | coordinator | ZIP rules/map | repetitive | high deterministic |
@@ -68,32 +69,37 @@ flowchart LR
 
 ---
 
-## 4. Opportunity Provenance
+## 4. Откуда взялись рекомендации
 
-| Layer | Что дает | Boundary |
+| Слой | Что дает | Граница |
 |---|---|---|
 | Pattern library | lead qualification, messaging support, appointment booking | known SMB pattern |
-| Public n8n signals | forms/webhooks, Slack/Telegram alerts, CRM routing, Sheets | supporting signal |
+| Опция n8n-паттернов | идеи по связкам forms/webhooks, Slack/Telegram alerts, CRM routing, Sheets | источник идей, не готовое решение |
 | Frontier candidates | emergency checklist, service-area exception queue | review queue |
 | Verifier | blocks diagnosis, pricing guarantee and dispatch without human | deterministic gate |
 
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+Для HVAC это быстрый способ собрать список реалистичных integration options:
+формы, webhook, CRM, alerts для диспетчера, таблицы отчетности. Мы не копируем
+шаблоны, а используем их как reference для дорожной карты и оценки интеграций.
+
 ---
 
-## 5. Target Architecture
+## 5. Целевая архитектура
 
 ```text
-Website form / phone note / email
-  -> Lead Intake Normalizer
-  -> Field Completeness Checker
-  -> ZIP and Service-Area Rules Engine
-  -> Emergency Signal Classifier
-  -> Dispatcher Review Queue
-  -> CRM Task / Lead Writeback after approval
-  -> SLA and Conversion Report
-  -> Evidence Log
+Форма сайта / заметка звонка / email
+  -> Нормализация lead intake
+  -> Проверка полноты полей
+  -> ZIP и service-area rules engine
+  -> Классификатор emergency signals
+  -> Очередь review для диспетчера
+  -> CRM task / lead writeback после approval
+  -> SLA и conversion report
+  -> Журнал действий
 ```
 
-| Component | Needed | Notes |
+| Компонент | Нужен | Комментарий |
 |---|---|---|
 | Intake Normalizer | yes | normalizes web forms, phone notes, emails |
 | Completeness Checker | yes | required contact/address/service fields |
@@ -106,11 +112,11 @@ Website form / phone note / email
 
 ---
 
-## 6. Recommendation Cards
+## 6. Рекомендации
 
-### R1. Intake Field Completeness Checker
+### R1. Проверка полноты lead intake
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | incomplete forms block scheduling |
 | Data | name, phone, address/ZIP, service type, urgency |
@@ -118,9 +124,9 @@ Website form / phone note / email
 | Acceptance | 90% incomplete leads get correct missing-field list |
 | Not included | diagnosis or pricing |
 
-### R2. Service-Area Qualification
+### R2. Проверка service-area fit
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | deterministic ZIP/address check saves dispatcher time |
 | Data | ZIP, address, service radius, branch rules |
@@ -128,9 +134,9 @@ Website form / phone note / email
 | Acceptance | 95% match with dispatcher decision on clear cases |
 | Not included | automatic rejection of edge cases |
 
-### R3. Emergency Routing Assistant
+### R3. Помощник urgent/emergency routing
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | urgent cases need fast path |
 | Data | issue description, keywords, time, customer contact |
@@ -138,9 +144,9 @@ Website form / phone note / email
 | Acceptance | high recall on urgent examples; false positives acceptable |
 | Not included | technical diagnosis |
 
-### R4. CRM/Dispatcher Handoff
+### R4. Handoff в CRM и очередь диспетчера
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | reduces lost leads and duplicate manual entry |
 | Data | normalized lead, qualification status, notes |
@@ -149,9 +155,9 @@ Website form / phone note / email
 
 ---
 
-## 7. Phase-by-Phase Roadmap
+## 7. План внедрения по этапам
 
-| Phase | Duration | Work | Exit Criteria |
+| Этап | Срок | Что делаем | Критерий завершения |
 |---|---:|---|---|
 | 0. Discovery | 1 week | map lead sources, CRM fields, ZIP rules, emergency policy | service manager confirms rules |
 | 1. Data readiness | 1 week | define normalized lead schema and required fields | dispatcher approves schema |
@@ -162,9 +168,9 @@ Website form / phone note / email
 
 ---
 
-## 8. Role-Hour Estimate
+## 8. Оценка ролей и часов
 
-| Role | Lean | Standard | Strict/Private |
+| Роль | Lean | Standard | Strict / private |
 |---|---:|---:|---:|
 | AI solution architect | 10-18h | 20-34h | 36-60h |
 | AI automation engineer | 45-90h | 110-220h | 220-380h |
@@ -175,9 +181,9 @@ Website form / phone note / email
 
 ---
 
-## 9. Cost Estimate: RF and Europe
+## 9. Оценка стоимости: РФ и Европа
 
-| Scenario | One-Time Build | Monthly Run | Best For |
+| Сценарий | Разовая сборка | Ежемесячные расходы | Для чего подходит |
 |---|---:|---:|---|
 | Lean RF | 600k-1.4m RUB | 30k-100k RUB | lead schema + field checker |
 | Standard RF | 1.6m-4m RUB | 100k-300k RUB | CRM/dispatcher pilot |
@@ -197,9 +203,9 @@ Cost drivers:
 
 ---
 
-## 10. LLM/API/Infrastructure
+## 10. LLM, API и инфраструктура
 
-| Component | Lean Setup | Standard Setup |
+| Компонент | Lean setup | Standard setup |
 |---|---|---|
 | Hosting | small VM | app VM + Postgres + monitoring |
 | LLM | small/Sonnet for messy text classification | not used for ZIP truth |
@@ -214,9 +220,9 @@ actions.
 
 ---
 
-## 11. Risk and Do-Not-Automate Register
+## 11. Риски и зоны, которые нельзя автоматизировать
 
-| Risk | Control |
+| Риск | Контроль |
 |---|---|
 | false emergency miss | conservative escalation and dispatcher review |
 | wrong service-area rejection | exception queue before rejection |
@@ -233,7 +239,7 @@ Stop conditions:
 
 ---
 
-## 12. Evaluation Plan
+## 12. План проверки качества
 
 Golden set:
 
@@ -253,7 +259,7 @@ Acceptance:
 
 ---
 
-## 13. Governance and Proof Layer
+## 13. Governance и proof layer
 
 Base pilot needs correction and approval logs. Entropy Core Proof Layer is useful
 if buyer has multiple branches, franchise rules, compliance reporting or wants
@@ -272,17 +278,17 @@ for maintenance reminders, quote follow-up and technician knowledge workflows.
 
 ---
 
-## 14. Commercial Recommendation
+## 14. Коммерческая рекомендация
 
-Sell as `AI Roadmap Sprint + Standard Lead Intake Pilot`.
+Продавать как: **AI Roadmap Sprint + Standard Lead Intake Pilot**.
 
-Proceed when:
+Начинать, если:
 
 - lead volume is high enough that dispatcher time is a bottleneck;
 - CRM rules can be exported;
 - manager accepts human gates for dispatch and rejection.
 
-Postpone when:
+Откладывать, если:
 
 - service-area/pricing rules are undocumented;
 - buyer expects autonomous diagnosis;

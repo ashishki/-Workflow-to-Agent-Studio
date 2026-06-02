@@ -134,24 +134,23 @@ flowchart LR
     D --> E[Review / handoff gates]
 ```
 
-## Public automation signals
+## Опция: анализ публичных automation-паттернов
 
-Отдельный слой - public n8n template mining.
+Отдельный слой - анализ публичных n8n-паттернов.
 
-Мы не берем n8n templates как готовые решения и не копируем их в продукт. Мы
-используем их как карту того, что люди уже пытаются автоматизировать.
+Мы не берем n8n-шаблоны как готовые решения и не копируем их в продукт. Для
+клиента это отдельная опция в roadmap: быстро посмотреть, какие похожие связки
+люди уже автоматизируют, какие API обычно участвуют и какие риски возникают.
 
-Текущий mining run:
+Зачем это нужно:
 
-- `8,854` JSON files scanned;
-- `8,824` n8n workflows parsed;
-- `3,861` duplicate workflows collapsed;
-- `4,963` deduplicated metadata candidates;
-- `1,875` candidates with AI nodes;
-- `2,069` candidates with risky action signals;
-- `3,616` candidates with sensitivity signals.
+- не начинать архитектуру с пустого листа;
+- быстрее предложить несколько реалистичных вариантов workflow;
+- понять, какие интеграции часто встречаются;
+- заранее увидеть risky actions и sensitive data patterns;
+- дать клиенту “опцию расширенного research”, а не перегружать основной отчет.
 
-Смотреть:
+Техническая статистика mining run хранится отдельно, не в клиентском отчете:
 
 - `docs/experiments/n8n_template_mining_summary.md`;
 - `docs/experiments/frontier_opportunity_discovery_opus46_summary.md`.
@@ -238,7 +237,8 @@ flowchart TB
   - single-point cost estimate rejected;
   - recommendation trace содержит pattern/cost/scoring/privacy versions;
 - approved handoff нельзя экспортировать без approved review.
-- public n8n mining дает `4,963` deduplicated metadata candidates;
+- анализ публичных n8n-паттернов используется как опциональный research layer для поиска
+  похожих automation-паттернов;
 - Opus 4.6 frontier run дал 3 useful candidates, но verifier оставил их
   `exportable_as_recommendation=false` до human review.
 
@@ -326,7 +326,7 @@ bash scripts/demo_roadmap_ru.sh
 
 - техническая состоятельность MVP доказана локальными tests/evals;
 - commercial demand еще нужно доказать разговорами и paid pilots;
-- demo fixtures не являются buyer proof;
+- demo fixtures не являются доказательством спроса;
 - реальные commercial claims должны опираться на пилот с настоящим workflow.
 
 ## Следующий правильный шаг
@@ -344,7 +344,8 @@ bash scripts/demo_roadmap_ru.sh
 6. Объяснить, что showcase reports уже приведены к v2 standard: каждый отчет
    показывает фазы, архитектуру, role-hours, RF/EU cost model, risk gates и proof
    layer.
-7. Показать n8n mining summary и Opus 4.6 frontier summary.
+7. Объяснить n8n/opportunity discovery как отдельную опцию расширенного
+   research, а не как главный экран для клиента.
 8. Провести 10-20 discovery calls.
 9. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
 10. Получить 1 paid pilot на 3-5 workflows.

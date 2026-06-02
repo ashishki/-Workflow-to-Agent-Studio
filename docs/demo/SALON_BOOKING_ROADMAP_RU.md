@@ -1,15 +1,15 @@
-# AI Roadmap Report V2
+# Клиентский AI Roadmap отчет V2
 
 ## Клиентский пример: салон красоты, запись и reminders
 
 Статус: демонстрационный customer-facing отчет  
-Тип: AI Implementation Decision Pack  
-Граница: synthetic demo; не customer proof и не fixed quote. Расчет ниже -
-planning estimate для разговора с buyer/cofounder.
+Тип: пакет решений по AI-внедрению  
+Граница: synthetic demo; не доказательство спроса и не фиксированная смета.
+Расчет ниже - planning estimate для разговора с buyer/cofounder.
 
 ---
 
-## 1. Executive Decision Summary
+## 1. Краткое решение для заказчика
 
 Салон получает записи через Instagram, WhatsApp, телефон и Google Calendar.
 Администратор вручную отвечает на повторяющиеся вопросы, проверяет календарь,
@@ -19,20 +19,20 @@ planning estimate для разговора с buyer/cofounder.
 детерминированные проверки календаря, reminders, weekly analytics и AI только
 для черновиков ответов.
 
-| Decision Field | Recommendation |
+| Поле | Рекомендация |
 |---|---|
-| First use case | reminders + booking analytics + shadow-mode reply drafts |
+| Первый use case | reminders + booking analytics + черновики ответов в shadow mode |
 | Не автоматизировать | штрафы, медицинские советы, спорные жалобы, opt-out клиентов |
 | Scenario | Lean RF/EU pilot |
 | Pilot-ready срок | 3-5 недель |
-| Expected effect | меньше no-shows, меньше пропущенных сообщений, меньше ручного follow-up |
-| Proceed decision | proceed with lean pilot after calendar/message access check |
+| Ожидаемый эффект | меньше no-shows, меньше пропущенных сообщений, меньше ручного follow-up |
+| Решение | начинать lean pilot после проверки доступа к календарю и сообщениям |
 
 ---
 
-## 2. Evidence Boundary
+## 2. Граница данных и доказательности
 
-| Evidence Field | Planning Assumption |
+| Поле | Рабочее допущение |
 |---|---|
 | Workflow source | synthetic salon workflow |
 | Weekly volume | 70-100 appointments/week |
@@ -46,7 +46,7 @@ planning estimate для разговора с buyer/cofounder.
 
 ---
 
-## 3. Current-State Workflow
+## 3. Текущий процесс
 
 ```mermaid
 flowchart LR
@@ -59,7 +59,7 @@ flowchart LR
     G --> H[Rebooking follow-up]
 ```
 
-| Step | Actor | System | Pain | Automation Fit |
+| Шаг | Участник | Система | Боль | Подходит для автоматизации |
 |---|---|---|---|---|
 | Intake message | receptionist | WhatsApp/Instagram | repeated questions | high |
 | Service/date уточнение | receptionist | messenger | slow back-and-forth | medium |
@@ -70,33 +70,38 @@ flowchart LR
 
 ---
 
-## 4. Opportunity Provenance
+## 4. Откуда взялись рекомендации
 
-| Layer | Что дает | Boundary |
+| Слой | Что дает | Граница |
 |---|---|---|
 | Pattern library | appointment booking, reminders, reporting automation | known SMB pattern |
-| Public n8n signals | calendar, WhatsApp/Gmail, Sheets/reporting, reminders | supporting signal only |
+| Опция n8n-паттернов | идеи по связкам calendar, WhatsApp/Gmail, Sheets/reporting, reminders | источник идей, не готовое решение |
 | Frontier candidates | rebooking queue, source analytics, cancellation-risk list | review queue only |
 | Verifier | blocks medical advice, penalties and unapproved live writes | deterministic boundary |
 
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+Для салона это не “мы ставим готовый шаблон”, а быстрый способ увидеть, какие
+интеграции уже часто собирают на практике: календарь, сообщения, reminders,
+таблицы и отчеты. Это помогает быстрее выбрать реалистичный pilot scope.
+
 ---
 
-## 5. Target Architecture
+## 5. Целевая архитектура
 
 ```text
-Messaging intake export/webhook
-  -> Intake Normalizer
-  -> Contact and Consent Filter
-  -> Calendar Availability Checker
-  -> Reminder Scheduler
-  -> AI Reply Draft Worker
-  -> Human Approval Queue
-  -> Calendar Write / Message Send after approval
-  -> Weekly Analytics Report
-  -> Evidence Log
+Экспорт или webhook из мессенджеров
+  -> Нормализация входящих сообщений
+  -> Проверка контакта и согласия
+  -> Проверка доступности в календаре
+  -> Планировщик reminders
+  -> Черновики ответов от AI
+  -> Очередь approval для администратора
+  -> Запись в календарь / отправка сообщения после approval
+  -> Еженедельный отчет
+  -> Журнал действий
 ```
 
-| Component | Needed | Notes |
+| Компонент | Нужен | Комментарий |
 |---|---|---|
 | Intake Parser | yes | normalizes messages into service/date/stylist/contact fields |
 | Calendar API | yes | Google Calendar read; write only after approval |
@@ -108,13 +113,13 @@ Messaging intake export/webhook
 
 ---
 
-## 6. Recommendation Cards
+## 6. Рекомендации
 
-### R1. Reminder Automation
+### R1. Автоматизация reminders
 
 Build deterministic reminders 24h/3h before appointment with opt-out handling.
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | immediate value without AI risk |
 | Data | calendar event, phone/messenger id, opt-out status |
@@ -122,12 +127,12 @@ Build deterministic reminders 24h/3h before appointment with opt-out handling.
 | Acceptance | 95% reminders sent; zero opt-out violations |
 | Not included | penalty decisions or cancellation disputes |
 
-### R2. Booking Slot Assistant
+### R2. Помощник подбора времени записи
 
 Assistant suggests available slots and drafts replies. Calendar write stays
 human-approved until conflict checks are proven.
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | reduces back-and-forth and missed leads |
 | Data | service menu, duration rules, calendar, message thread |
@@ -135,12 +140,12 @@ human-approved until conflict checks are proven.
 | Acceptance | 80% common requests get correct slot suggestions |
 | Not included | fully autonomous booking for edge cases |
 
-### R3. Weekly Booking Analytics
+### R3. Еженедельная аналитика записей
 
 Weekly report by channel, no-shows, cancellations, service type and rebooking
 opportunities.
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | owner currently lacks channel visibility |
 | Data | booking records, source channel, status |
@@ -149,9 +154,9 @@ opportunities.
 
 ---
 
-## 7. Phase-by-Phase Roadmap
+## 7. План внедрения по этапам
 
-| Phase | Duration | Work | Exit Criteria |
+| Этап | Срок | Что делаем | Критерий завершения |
 |---|---:|---|---|
 | 0. Discovery | 3-5 days | collect messages, calendar rules, service menu, no-show baseline | owner confirms workflow and metric |
 | 1. Data readiness | 3-5 days | define booking fields, opt-out rules, calendar access, templates | fields and privacy mode approved |
@@ -162,9 +167,9 @@ opportunities.
 
 ---
 
-## 8. Role-Hour Estimate
+## 8. Оценка ролей и часов
 
-| Role | Lean | Standard | Strict/Private |
+| Роль | Lean | Standard | Strict / private |
 |---|---:|---:|---:|
 | AI solution architect | 8-14h | 16-24h | 24-40h |
 | AI automation engineer | 32-60h | 80-140h | 140-220h |
@@ -175,12 +180,12 @@ opportunities.
 
 ---
 
-## 9. Cost Estimate: RF and Europe
+## 9. Оценка стоимости: РФ и Европа
 
 Расчет использует v2 rate-card logic из
 `docs/demo/CLIENT_REPORT_V2_UPGRADE_STRATEGY_RU.md`.
 
-| Scenario | One-Time Build | Monthly Run | Best For |
+| Сценарий | Разовая сборка | Ежемесячные расходы | Для чего подходит |
 |---|---:|---:|---|
 | Lean RF | 250k-650k RUB | 10k-45k RUB | reminders + analytics + shadow drafts |
 | Standard RF | 700k-1.7m RUB | 40k-120k RUB | approved messaging + calendar integration |
@@ -197,9 +202,9 @@ Cost drivers:
 
 ---
 
-## 10. LLM/API/Infrastructure
+## 10. LLM, API и инфраструктура
 
-| Component | Lean Setup | Notes |
+| Компонент | Lean setup | Комментарий |
 |---|---|---|
 | Hosting | small VM or local server | 5-30 EUR/month in EU-style setup; RF via provider calculator |
 | DB | SQLite/Postgres | Postgres once multiple users or audit log needed |
@@ -218,9 +223,9 @@ operator rollout are.
 
 ---
 
-## 11. Risk and Do-Not-Automate Register
+## 11. Риски и зоны, которые нельзя автоматизировать
 
-| Risk | Control |
+| Риск | Контроль |
 |---|---|
 | double booking | deterministic availability check + human approval |
 | opt-out violation | consent filter before every send |
@@ -237,7 +242,7 @@ Stop conditions:
 
 ---
 
-## 12. Evaluation Plan
+## 12. План проверки качества
 
 Golden set:
 
@@ -255,7 +260,7 @@ Acceptance:
 
 ---
 
-## 13. Governance and Proof Layer
+## 13. Governance и proof layer
 
 Base pilot can run without Entropy Core. Add Entropy Core Proof Layer if the
 salon group has multiple locations, franchise reporting, sensitive client
@@ -274,16 +279,25 @@ many automation workflows across a salon chain.
 
 ---
 
-## 14. Commercial Recommendation
+## 14. Коммерческая рекомендация
 
-Sell as `AI Roadmap Sprint + Lean Booking Pilot`.
+Продавать как: **AI Roadmap Sprint + Lean Booking Pilot**.
 
-Best first offer:
+Лучший первый оффер:
 
 - 1 week paid diagnostic;
 - 3-5 week pilot;
 - no autonomous bot promise;
 - success measured by no-show rate, missed messages and receptionist time.
 
-Proceed if the buyer has at least 70 appointments/week or multiple channels.
-Postpone if volume is low and manual reminders are already reliable.
+Начинать, если:
+
+- у салона есть хотя бы 70 записей в неделю или несколько каналов заявок;
+- владелец готов согласовать templates и opt-out правила;
+- календарь можно подключить хотя бы в read-only режиме.
+
+Откладывать, если:
+
+- поток записей низкий;
+- manual reminders уже работают надежно;
+- владелец хочет автономного бота без approval.

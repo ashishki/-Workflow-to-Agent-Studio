@@ -1,15 +1,15 @@
-# AI Roadmap Report V2
+# Клиентский AI Roadmap отчет V2
 
 ## Клиентский пример: legal / immigration intake
 
 Статус: демонстрационный customer-facing отчет  
-Тип: AI Implementation Decision Pack  
+Тип: пакет решений по AI-внедрению  
 Граница: synthetic demo; не legal advice, не compliance certification, не fixed
 quote.
 
 ---
 
-## 1. Executive Decision Summary
+## 1. Краткое решение для заказчика
 
 Immigration consultancy тратит много времени на intake, missing documents и
 status questions. При этом данные restricted: passport, legal status, family
@@ -18,20 +18,20 @@ details, employment history.
 Рекомендация: строить **private checklist and case-prep assistant**, а не cloud
 legal advisor и не autonomous eligibility engine.
 
-| Decision Field | Recommendation |
+| Поле | Рекомендация |
 |---|---|
-| First use case | missing-document tracker + private checklist assistant |
+| Первый use case | missing-document tracker + private checklist assistant |
 | Не автоматизировать | legal eligibility, legal strategy, final advice, authority submissions |
 | Scenario | Strict/private pilot |
 | Pilot-ready срок | 7-10 недель |
-| Expected effect | меньше back-and-forth, лучше подготовка консультанта, меньше forgotten documents |
-| Proceed decision | proceed only after data retention and private mode are approved |
+| Ожидаемый эффект | меньше back-and-forth, лучше подготовка консультанта, меньше forgotten documents |
+| Решение | начинать только после согласования data retention и private mode |
 
 ---
 
-## 2. Evidence Boundary
+## 2. Граница данных и доказательности
 
-| Evidence Field | Planning Assumption |
+| Поле | Рабочее допущение |
 |---|---|
 | Workflow source | synthetic immigration/legal intake workflow |
 | Monthly volume | 50-200 active cases/month |
@@ -45,7 +45,7 @@ privacy and liability drive architecture and cost.
 
 ---
 
-## 3. Current-State Workflow
+## 3. Текущий процесс
 
 ```mermaid
 flowchart LR
@@ -58,7 +58,7 @@ flowchart LR
     G --> H[Client status updates]
 ```
 
-| Step | Actor | System | Pain | Automation Fit |
+| Шаг | Участник | Система | Боль | Подходит для автоматизации |
 |---|---|---|---|---|
 | Intake questions | coordinator | form/email | repeated data collection | medium |
 | Checklist generation | consultant | templates | manual selection | medium HITL |
@@ -69,32 +69,38 @@ flowchart LR
 
 ---
 
-## 4. Opportunity Provenance
+## 4. Откуда взялись рекомендации
 
-| Layer | Что дает | Boundary |
+| Слой | Что дает | Граница |
 |---|---|---|
 | Pattern library | legal checklist assistant, document extraction, internal knowledge | known pattern |
-| Public n8n signals | Drive/Notion/Sheets workflows, document processing, AI summaries | supporting signal |
+| Опция n8n-паттернов | идеи по связкам Drive/Notion/Sheets, document processing, AI summaries | источник идей, не готовое решение |
 | Frontier candidates | missing-doc prioritization, internal case brief, status FAQ | human review required |
 | Verifier | blocks legal advice, eligibility decisions and unrestricted cloud | deterministic gate |
 
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+Для legal/intake это полезно только как research layer: посмотреть, какие
+административные связки обычно автоматизируют вокруг документов, drive, таблиц и
+статусов. Это не значит, что можно копировать шаблон или отправлять restricted
+data в публичный cloud.
+
 ---
 
-## 5. Target Architecture
+## 5. Целевая архитектура
 
 ```text
 Client intake / upload portal
-  -> Permission and Data Classification Gate
-  -> Private Document Metadata Extractor
-  -> Checklist Rules Engine
-  -> Missing Document Tracker
-  -> Internal Case Brief Draft Worker
-  -> Consultant Review Queue
-  -> Approved Client Status Draft
-  -> Evidence Receipt and Audit Log
+  -> Проверка доступа и класса данных
+  -> Private extractor метаданных документов
+  -> Checklist rules engine
+  -> Missing document tracker
+  -> Черновик внутреннего case brief
+  -> Очередь review для консультанта
+  -> Черновик статуса клиенту после approval
+  -> Подтверждение доказательности и журнал аудита
 ```
 
-| Component | Needed | Notes |
+| Компонент | Нужен | Комментарий |
 |---|---|---|
 | Private intake store | yes | raw identity docs should not go to unrestricted cloud |
 | Checklist Rules Engine | yes | deterministic jurisdiction/case-type mapping where possible |
@@ -107,11 +113,11 @@ Client intake / upload portal
 
 ---
 
-## 6. Recommendation Cards
+## 6. Рекомендации
 
-### R1. Missing-Document Tracker
+### R1. Трекер недостающих документов
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | high-volume admin pain with low legal judgment |
 | Data | checklist, uploaded files, due dates |
@@ -119,9 +125,9 @@ Client intake / upload portal
 | Acceptance | 90% checklist statuses correct on sample cases |
 | Not included | legal interpretation of documents |
 
-### R2. Private Checklist Assistant
+### R2. Приватный помощник по checklist
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | reduces repeated checklist assembly |
 | Data | case type, jurisdiction, approved template library |
@@ -129,9 +135,9 @@ Client intake / upload portal
 | Acceptance | consultant accepts 70%+ checklist drafts after edits |
 | Not included | eligibility decision or legal strategy |
 
-### R3. Internal Case Brief
+### R3. Внутренний case brief
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | consultant prepares faster before call/review |
 | Data | intake answers, uploaded document status, notes |
@@ -139,9 +145,9 @@ Client intake / upload portal
 | Acceptance | brief cites source fields and flags missing evidence |
 | Not included | final advice to client |
 
-### R4. Client Status FAQ Drafts
+### R4. Черновики ответов по статусу дела
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | reduces repeated “what is happening?” questions |
 | Data | case status, checklist status, approved generic FAQ |
@@ -150,9 +156,9 @@ Client intake / upload portal
 
 ---
 
-## 7. Phase-by-Phase Roadmap
+## 7. План внедрения по этапам
 
-| Phase | Duration | Work | Exit Criteria |
+| Этап | Срок | Что делаем | Критерий завершения |
 |---|---:|---|---|
 | 0. Discovery | 1-2 weeks | map case types, documents, data retention, roles | consultant confirms boundaries |
 | 1. Data readiness | 2 weeks | checklist taxonomy, private storage, access controls | privacy mode approved |
@@ -163,9 +169,9 @@ Client intake / upload portal
 
 ---
 
-## 8. Role-Hour Estimate
+## 8. Оценка ролей и часов
 
-| Role | Lean | Standard | Strict/Private |
+| Роль | Lean | Standard | Strict / private |
 |---|---:|---:|---:|
 | AI solution architect | 16-28h | 32-56h | 60-100h |
 | AI automation engineer | 80-150h | 180-320h | 320-560h |
@@ -177,9 +183,9 @@ Client intake / upload portal
 
 ---
 
-## 9. Cost Estimate: RF and Europe
+## 9. Оценка стоимости: РФ и Европа
 
-| Scenario | One-Time Build | Monthly Run | Best For |
+| Сценарий | Разовая сборка | Ежемесячные расходы | Для чего подходит |
 |---|---:|---:|---|
 | Lean RF | 1.2m-2.8m RUB | 80k-220k RUB | checklist tracker with private handling |
 | Standard RF | 3m-7m RUB | 220k-650k RUB | private pilot with upload/status workflow |
@@ -198,9 +204,9 @@ Why higher than salon/support:
 
 ---
 
-## 10. LLM/API/Infrastructure
+## 10. LLM, API и инфраструктура
 
-| Component | Recommended Mode | Notes |
+| Компонент | Рекомендованный режим | Комментарий |
 |---|---|---|
 | Hosting | private cloud or client-approved environment | public cloud only after legal/privacy review |
 | Storage | encrypted object storage | raw docs require retention controls |
@@ -215,9 +221,9 @@ mode approval.
 
 ---
 
-## 11. Risk and Do-Not-Automate Register
+## 11. Риски и зоны, которые нельзя автоматизировать
 
-| Risk | Control |
+| Риск | Контроль |
 |---|---|
 | AI gives legal advice | blocked category + consultant review |
 | unrestricted cloud exposure | private/local mode for restricted docs |
@@ -234,7 +240,7 @@ Stop conditions:
 
 ---
 
-## 12. Evaluation Plan
+## 12. План проверки качества
 
 Golden set:
 
@@ -253,7 +259,7 @@ Acceptance:
 
 ---
 
-## 13. Governance and Proof Layer
+## 13. Governance и proof layer
 
 Entropy Core Proof Layer is recommended here, not optional polish.
 
@@ -270,17 +276,18 @@ AI delivery process for multiple legal/admin workflows.
 
 ---
 
-## 14. Commercial Recommendation
+## 14. Коммерческая рекомендация
 
-Sell as `AI Roadmap Sprint + Strict Private Intake Pilot + Proof Layer`.
+Продавать как: **AI Roadmap Sprint + Strict Private Intake Pilot + Proof
+Layer**.
 
-Proceed when:
+Начинать, если:
 
 - consultancy has enough case volume;
 - consultant is willing to define checklist boundaries;
 - buyer understands this is admin acceleration, not legal automation.
 
-Postpone when:
+Откладывать, если:
 
 - firm wants autonomous legal advice;
 - data governance is undefined;

@@ -1,14 +1,15 @@
-# AI Roadmap Report V2
+# Клиентский AI Roadmap отчет V2
 
 ## Клиентский пример: e-commerce support, order status и returns
 
 Статус: демонстрационный customer-facing отчет  
-Тип: AI Implementation Decision Pack  
-Граница: synthetic demo; не customer proof, не fixed quote и не обещание ROI.
+Тип: пакет решений по AI-внедрению  
+Граница: synthetic demo; не доказательство спроса, не фиксированная смета и не
+обещание ROI.
 
 ---
 
-## 1. Executive Decision Summary
+## 1. Краткое решение для заказчика
 
 Shopify-магазин получает повторяющиеся вопросы: order status, returns, damaged
 items, product details. Support assistant вручную ищет заказ, копирует ответы из
@@ -17,20 +18,20 @@ Google Doc, а refund требует owner approval.
 Рекомендация: строить **support triage + deterministic order lookup + human
 refund gate**, а не autonomous refund bot.
 
-| Decision Field | Recommendation |
+| Поле | Рекомендация |
 |---|---|
-| First use case | order status lookup + support triage in shadow mode |
+| Первый use case | order status lookup + support triage в shadow mode |
 | Не автоматизировать | refunds, compensation, final damaged-item resolution |
 | Scenario | Standard pilot if Shopify/helpdesk API доступен |
 | Pilot-ready срок | 6-8 недель |
-| Expected effect | меньше owner interruptions, быстрее first response, стабильнее returns policy |
-| Proceed decision | proceed after ticket volume and refund policy review |
+| Ожидаемый эффект | меньше owner interruptions, быстрее first response, стабильнее returns policy |
+| Решение | начинать после проверки ticket volume и refund policy |
 
 ---
 
-## 2. Evidence Boundary
+## 2. Граница данных и доказательности
 
-| Evidence Field | Planning Assumption |
+| Поле | Рабочее допущение |
 |---|---|
 | Workflow source | synthetic Shopify/Gmail/Instagram support workflow |
 | Monthly volume | 800-2,000 support messages/month |
@@ -44,7 +45,7 @@ FAQ/SOP and Shopify API constraints.
 
 ---
 
-## 3. Current-State Workflow
+## 3. Текущий процесс
 
 ```mermaid
 flowchart LR
@@ -60,7 +61,7 @@ flowchart LR
     H --> I
 ```
 
-| Step | Actor | System | Pain | Automation Fit |
+| Шаг | Участник | Система | Боль | Подходит для автоматизации |
 |---|---|---|---|---|
 | Intent classification | support assistant | helpdesk/Gmail | repetitive labels | high |
 | Order lookup | support assistant | Shopify | factual lookup repeated all day | high deterministic |
@@ -71,34 +72,40 @@ flowchart LR
 
 ---
 
-## 4. Opportunity Provenance
+## 4. Откуда взялись рекомендации
 
-| Layer | Что дает | Boundary |
+| Слой | Что дает | Граница |
 |---|---|---|
 | Pattern library | customer support triage, e-commerce returns, reporting automation | known pattern |
-| Public n8n signals | Gmail, Shopify-like APIs, Sheets reporting, OpenAI drafts | supporting signal |
+| Опция n8n-паттернов | идеи по связкам Gmail/helpdesk, Shopify-like API, Sheets reporting, LLM drafts | источник идей, не готовое решение |
 | Frontier candidates | damaged-item evidence checklist, owner interruption dashboard | review queue |
 | Verifier | blocks automatic refunds and unsupported policy claims | deterministic gate |
 
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+Для e-commerce это помогает быстро увидеть типовые связки, которые уже часто
+автоматизируют: support inbox, order lookup, таблицы отчетности, LLM drafts и
+approval queue. Это не доказывает ROI, но помогает выбрать реалистичную
+архитектуру пилота.
+
 ---
 
-## 5. Target Architecture
+## 5. Целевая архитектура
 
 ```text
 Helpdesk/Gmail/Instagram intake
-  -> Ticket Normalizer
-  -> Identity and Order Verification Gate
-  -> Intent Classifier
-  -> Shopify Order Lookup
-  -> FAQ/Policy Retrieval
-  -> LLM Reply Draft Worker
-  -> Returns Checklist Engine
-  -> Owner Approval Queue
-  -> Approved Reply / Tag / Task Writeback
-  -> Evidence Log and Weekly Support Report
+  -> Нормализация тикетов
+  -> Проверка личности и заказа
+  -> Классификация intent
+  -> Поиск заказа в Shopify
+  -> Поиск FAQ/policy
+  -> Черновик ответа от LLM
+  -> Checklist для returns
+  -> Очередь approval для владельца
+  -> Запись ответа/tag/task после approval
+  -> Журнал действий и еженедельный отчет
 ```
 
-| Component | Needed | Notes |
+| Компонент | Нужен | Комментарий |
 |---|---|---|
 | Ticket Normalizer | yes | maps channel messages into one schema |
 | Shopify Connector | yes | read orders; refund write disabled in MVP |
@@ -111,11 +118,11 @@ Helpdesk/Gmail/Instagram intake
 
 ---
 
-## 6. Recommendation Cards
+## 6. Рекомендации
 
-### R1. Deterministic Order Status Lookup
+### R1. Детерминированный поиск статуса заказа
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | factual lookup; LLM should not invent status |
 | Data | order id/email, fulfillment status, tracking link |
@@ -123,9 +130,9 @@ Helpdesk/Gmail/Instagram intake
 | Acceptance | 95% correct status on verified orders |
 | Not included | address changes, refunds, compensation |
 
-### R2. Support Triage Assistant
+### R2. Помощник для triage поддержки
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | reduces repetitive manual categorization |
 | Data | ticket text, channel, customer metadata |
@@ -133,9 +140,9 @@ Helpdesk/Gmail/Instagram intake
 | Acceptance | 85% label agreement with support lead |
 | Not included | direct public answer without review during pilot |
 
-### R3. Returns Workflow Assistant
+### R3. Помощник по returns workflow
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | standardizes policy checks before owner approval |
 | Data | order, product, date, photo/evidence, policy |
@@ -143,9 +150,9 @@ Helpdesk/Gmail/Instagram intake
 | Acceptance | checklist complete for 90% return cases |
 | Not included | automatic refund or compensation |
 
-### R4. Weekly Support and Interruption Report
+### R4. Еженедельный отчет по support и owner interruptions
 
-| Field | Value |
+| Поле | Значение |
 |---|---|
 | Why | owner sees repeated issues and interruption sources |
 | Data | ticket labels, resolution time, owner approvals |
@@ -154,9 +161,9 @@ Helpdesk/Gmail/Instagram intake
 
 ---
 
-## 7. Phase-by-Phase Roadmap
+## 7. План внедрения по этапам
 
-| Phase | Duration | Work | Exit Criteria |
+| Этап | Срок | Что делаем | Критерий завершения |
 |---|---:|---|---|
 | 0. Discovery | 1 week | collect ticket samples, FAQ, refund policy, order fields | support lead confirms map |
 | 1. Data readiness | 1-2 weeks | normalize labels, identity rules, API access, policy source | Shopify/helpdesk access approved |
@@ -167,9 +174,9 @@ Helpdesk/Gmail/Instagram intake
 
 ---
 
-## 8. Role-Hour Estimate
+## 8. Оценка ролей и часов
 
-| Role | Lean | Standard | Strict/Private |
+| Роль | Lean | Standard | Strict / private |
 |---|---:|---:|---:|
 | AI solution architect | 12-20h | 24-40h | 40-70h |
 | AI automation engineer | 60-110h | 130-240h | 240-420h |
@@ -180,9 +187,9 @@ Helpdesk/Gmail/Instagram intake
 
 ---
 
-## 9. Cost Estimate: RF and Europe
+## 9. Оценка стоимости: РФ и Европа
 
-| Scenario | One-Time Build | Monthly Run | Best For |
+| Сценарий | Разовая сборка | Ежемесячные расходы | Для чего подходит |
 |---|---:|---:|---|
 | Lean RF | 700k-1.6m RUB | 35k-120k RUB | order lookup + triage shadow mode |
 | Standard RF | 1.8m-4.5m RUB | 120k-350k RUB | integrated support pilot |
@@ -202,9 +209,9 @@ Cost drivers:
 
 ---
 
-## 10. LLM/API/Infrastructure
+## 10. LLM, API и инфраструктура
 
-| Component | Lean Setup | Standard Setup |
+| Компонент | Lean setup | Standard setup |
 |---|---|---|
 | Hosting | small VM | app VM + Postgres + object storage |
 | LLM | Sonnet/small tier for drafting | Opus-class only for policy architecture review |
@@ -226,9 +233,9 @@ reviewer time and policy cleanup dominate.
 
 ---
 
-## 11. Risk and Do-Not-Automate Register
+## 11. Риски и зоны, которые нельзя автоматизировать
 
-| Risk | Control |
+| Риск | Контроль |
 |---|---|
 | wrong refund | owner approval required |
 | exposing order/address to wrong person | identity verification gate |
@@ -245,7 +252,7 @@ Stop conditions:
 
 ---
 
-## 12. Evaluation Plan
+## 12. План проверки качества
 
 Golden set:
 
@@ -264,7 +271,7 @@ Acceptance:
 
 ---
 
-## 13. Governance and Proof Layer
+## 13. Governance и proof layer
 
 Base pilot needs approval logs. Entropy Core Proof Layer becomes valuable when
 the store has larger volume, marketplace disputes, regulated products or board
@@ -283,17 +290,17 @@ adding workflows: product Q&A, supplier support, inventory alerts, CRM follow-up
 
 ---
 
-## 14. Commercial Recommendation
+## 14. Коммерческая рекомендация
 
-Sell as `AI Roadmap Sprint + Standard Support Pilot`.
+Продавать как: **AI Roadmap Sprint + Standard Support Pilot**.
 
-Proceed when:
+Начинать, если:
 
 - support volume is above 500 messages/month;
 - owner is bottleneck for returns/refunds;
 - FAQ and refund policy can be cleaned in week 1.
 
-Postpone when:
+Откладывать, если:
 
 - store volume is too low;
 - refund policy is not written;
