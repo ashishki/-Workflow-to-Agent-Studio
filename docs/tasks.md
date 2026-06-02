@@ -1739,3 +1739,95 @@ Context-Refs:
 - `docs/evals/recommendation_verification_eval.md`
 - `docs/prompts/ORCHESTRATOR.md`
 - `docs/CODEX_PROMPT.md`
+
+---
+
+# Phase 15 - Pattern Library Expansion And Frontier Discovery
+
+Goal: expand the roadmap pattern library from public automation-template
+corpora without copying third-party workflows into product logic, then add a
+frontier-model discovery layer that proposes additional opportunity candidates
+under deterministic verification and human review.
+
+Guardrails:
+
+- public n8n templates are research inputs, not customer proof;
+- raw third-party workflow JSON should not be committed unless license review
+  explicitly allows it;
+- extracted patterns must be deduplicated and normalized before review;
+- frontier-model output can create candidates only, not approved roadmap
+  recommendations;
+- privacy, cost, forbidden-claim, and approval gates remain deterministic.
+
+## T83: Public n8n Pattern Mining Foundation
+
+Owner: codex
+Phase: 15
+Type: rag:ingestion plan:schema
+Depends-On: T82
+
+Objective: add a reproducible foundation for mining public n8n workflow
+templates into deduplicated pattern candidates.
+
+Acceptance-Criteria:
+
+- source register documents public n8n repositories, licenses, limitations, and
+  demo-only claim boundaries;
+- parser extracts node integrations, triggers, actions, AI nodes, risk signals,
+  data sensitivity hints, and stable fingerprints from n8n workflow JSON;
+- duplicate candidates are collapsed by fingerprint while preserving source
+  locators;
+- tests cover parser extraction, fingerprint stability, and dedupe behavior;
+- docs explain that extracted candidates require human review before becoming
+  SMB implementation patterns.
+
+Files:
+
+- `workflow_agent_studio/patterns/n8n.py`
+- `tests/unit/test_n8n_pattern_mining.py`
+- `docs/experiments/n8n_template_source_register.md`
+- `docs/methodology/N8N_PATTERN_MINING_RU.md`
+- `docs/tasks.md`
+- `docs/CODEX_PROMPT.md`
+
+Context-Refs:
+
+- `docs/open_source_research_protocol.md`
+- `docs/methodology/implementation_patterns.md`
+- `workflow_agent_studio/patterns/smb.py`
+
+## T84: Frontier Opportunity Discovery Layer
+
+Owner: codex
+Phase: 15
+Type: plan:validation eval
+Depends-On: T83
+
+Objective: add a prompt contract and candidate schema for frontier models to
+suggest additional roadmap opportunities without becoming the source of truth.
+
+Acceptance-Criteria:
+
+- prompt contract asks the model for missed opportunities, alternatives,
+  do-not-automate candidates, assumptions, and confidence;
+- model outputs are represented as unapproved opportunity candidates;
+- deterministic verifier rejects candidates missing evidence/assumptions,
+  human gates, privacy compatibility, or cost assumptions;
+- tests prove frontier candidates cannot be exported as approved roadmap
+  recommendations without review;
+- docs clearly separate pattern-library matches from frontier-suggested
+  candidates.
+
+Files:
+
+- `docs/prompts/frontier_opportunity_discovery.md`
+- `workflow_agent_studio/roadmap/`
+- `tests/eval/`
+- `docs/methodology/ROADMAP_CALCULATION_RU.md`
+- `docs/CODEX_PROMPT.md`
+
+Context-Refs:
+
+- `docs/prompts/roadmap_prompt_contracts.md`
+- `docs/product/report_contract.md`
+- `tests/eval/test_recommendation_verification_eval.py`
