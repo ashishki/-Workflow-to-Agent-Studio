@@ -117,34 +117,43 @@ Frontier demo с Claude Opus 4.6:
 ## Что показать в репозитории
 
 1. `README_RU.md` - понятное описание продукта.
-2. `docs/demo/CUSTOMER_REPORT_SHOWCASE_INDEX_RU.md` - индекс 6 красивых
+2. `docs/demo/CLIENT_REPORT_V2_UPGRADE_STRATEGY_RU.md` - новый стандарт
+   клиентского отчета v2: фазы внедрения, агенты/API/БД/инфраструктура,
+   role-hours, региональные ставки РФ/Европа, LLM/API cost model, proof layer и
+   commercial packaging.
+3. `docs/demo/CUSTOMER_REPORT_SHOWCASE_INDEX_RU.md` - индекс 6 красивых
    customer-facing отчетов.
-3. `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md` - сложный workflow:
+4. `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md` - сложный workflow:
    заявки акселератора, CRM, звонки, review memory, cost/time/team estimates,
    n8n public signals и frontier candidates.
-4. `docs/demo/SALON_BOOKING_ROADMAP_RU.md` - SMB quick-win: booking, reminders,
+5. `docs/demo/SALON_BOOKING_ROADMAP_RU.md` - SMB quick-win: booking, reminders,
    analytics.
-5. `docs/demo/ECOMMERCE_SUPPORT_RETURNS_ROADMAP_RU.md` - support, order status,
+6. `docs/demo/ECOMMERCE_SUPPORT_RETURNS_ROADMAP_RU.md` - support, order status,
    returns и refund approval.
-6. `docs/demo/LEGAL_INTAKE_ROADMAP_RU.md` - restricted legal/immigration intake.
-7. `docs/demo/HVAC_LEAD_INTAKE_ROADMAP_RU.md` - public-source service lead
+7. `docs/demo/LEGAL_INTAKE_ROADMAP_RU.md` - restricted legal/immigration intake.
+8. `docs/demo/HVAC_LEAD_INTAKE_ROADMAP_RU.md` - public-source service lead
    intake.
-8. `docs/demo/INCIDENT_COORDINATION_ROADMAP_RU.md` - internal incident
+9. `docs/demo/INCIDENT_COORDINATION_ROADMAP_RU.md` - internal incident
    coordination и runbook assistant.
-9. `docs/experiments/n8n_template_mining_summary.md` - что извлекли из public
+10. `docs/experiments/n8n_template_mining_summary.md` - что извлекли из public
    n8n templates.
-10. `docs/experiments/frontier_opportunity_discovery_opus46_summary.md` - что
+11. `docs/experiments/frontier_opportunity_discovery_opus46_summary.md` - что
    Claude Opus 4.6 предложил и как verifier это обработал.
-11. `docs/product/report_contract.md` - контракт итогового roadmap.
-12. `docs/security/privacy_modes.md` - логика cloud/private/local.
-13. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
-14. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
+12. `docs/product/report_contract.md` - контракт итогового roadmap.
+13. `docs/security/privacy_modes.md` - логика cloud/private/local.
+14. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
+15. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
    source of truth, LLM boundaries и hallucination safeguards.
-15. `tests/eval/` - автоматические проверки.
-16. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
+16. `tests/eval/` - автоматические проверки.
+17. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
    запуска скрипта.
-17. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
+18. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
    output после запуска скрипта.
+
+Важно для разговора: шесть showcase reports - это v1-примеры breadth. Новый
+`CLIENT_REPORT_V2_UPGRADE_STRATEGY_RU.md` показывает, какой уровень глубины
+нужен для серьезного клиента: фазы, смета, инфраструктура, proof layer и
+коммерческие пакеты.
 
 ## Proof points
 
@@ -218,6 +227,24 @@ Frontier demo с Claude Opus 4.6:
 
 Покупатель получает не “AI demo”, а decision artifact: что делать, что не делать
 и почему.
+
+## Новый коммерческий стандарт отчета
+
+После критики v1 showcase reports правильная упаковка такая:
+
+- `AI Roadmap Sprint` - базовый paid diagnostic;
+- `AI Workflow Playbook Adoption` - допродажа для команд, которые хотят
+  повторяемый процесс AI delivery;
+- `Entropy Core Proof Layer` - допродажа для evidence receipts, assumptions,
+  blocked surfaces и audit bundle;
+- `Implementation Pilot` - сборка первого workflow;
+- `Managed AI Ops` - ежемесячные evals, cost monitoring и improvement loop.
+
+Формулировка для кофаундера:
+
+> Мы продаем не “агента”, а первый уверенный шаг в AI: что строить, что не
+> строить, почему, сколько это стоит в РФ/Европе, какие люди и системы нужны, и
+> как доказать, что пилот сработал.
 
 ## Главная гипотеза
 

@@ -160,6 +160,30 @@ Claude Opus 4.6 используется как frontier candidate generator: о
 missed opportunities, но deterministic verifier держит все candidates
 non-exportable до human review.
 
+## Клиентский отчет v2
+
+После первых showcase reports стало понятно, что для серьезного клиента нужен
+не короткий список рекомендаций, а сметно-архитектурный decision pack.
+
+Новый стандарт описан здесь:
+
+- `docs/demo/CLIENT_REPORT_V2_UPGRADE_STRATEGY_RU.md`
+
+Что добавляет v2:
+
+- детальный roadmap по фазам implementation;
+- role-hours по фазам и ролям;
+- региональная смета для РФ и Европы, без US-first экономики;
+- bill of materials: agents, APIs, DB, storage, queues, monitoring;
+- LLM/API usage formula вместо оценки “на глаз”;
+- proof layer через Entropy Core как отдельный paid add-on;
+- AI Workflow Playbook как paid add-on для внутренней команды клиента;
+- acceptance criteria, stop conditions, eval plan и human gates.
+
+Смысл: продавать не “AI agent”, а первый уверенный шаг в AI adoption - что
+строить, что не строить, почему, сколько это стоит и как доказать, что пилот
+сработал.
+
 ## Архитектура простыми словами
 
 ```mermaid
@@ -309,11 +333,15 @@ bash scripts/demo_roadmap_ru.sh
 
 1. Показать terminal demo.
 2. Показать generated Markdown roadmap.
-3. Показать showcase index из 6 customer-facing отчетов:
+3. Показать новый стандарт клиентского отчета v2:
+   `docs/demo/CLIENT_REPORT_V2_UPGRADE_STRATEGY_RU.md`.
+4. Показать showcase index из 6 customer-facing отчетов:
    `docs/demo/CUSTOMER_REPORT_SHOWCASE_INDEX_RU.md`.
-4. Открыть polished accelerator пример:
+5. Открыть polished accelerator пример:
    `docs/demo/ACCELERATOR_APPLICATION_REVIEW_ROADMAP_RU.md`.
-5. Показать n8n mining summary и Opus 4.6 frontier summary.
-6. Провести 10-20 discovery calls.
-7. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
-8. Получить 1 paid pilot на 3-5 workflows.
+6. Объяснить, что showcase reports - это v1 breadth, а v2 standard - будущая
+   глубина клиентского decision pack.
+7. Показать n8n mining summary и Opus 4.6 frontier summary.
+8. Провести 10-20 discovery calls.
+9. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
+10. Получить 1 paid pilot на 3-5 workflows.

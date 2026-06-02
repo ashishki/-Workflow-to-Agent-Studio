@@ -12,14 +12,14 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 15 - Pattern Library Expansion And Frontier Discovery
-- Next task: none - active task graph complete through T84
-- Verified baseline: post T84 frontier opportunity discovery baseline is 364 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T84
+- Current phase: Phase 16 - Client Report V2 Commercialization
+- Next task: implement detailed report v2 schemas and regenerate one full accelerator exemplar
+- Verified baseline: client report v2 strategy docs baseline is 364 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after report v2 strategy docs
 - Last updated: 2026-06-02
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete; T80 roadmap CLI command complete; T81 roadmap eval suite complete; T82 roadmap review and handoff export complete; public-source roadmap demos added for HVAC lead intake, NetBox issue triage, and GitLab incident workflow; Russian accelerator application-review showcase report added for cofounder/customer demo; T83 public n8n pattern mining foundation complete with 8,824 parsed public n8n workflows and 4,963 deduplicated metadata candidates; T84 frontier opportunity discovery layer complete with validated Opus 4.6 demo run; cofounder/customer demo docs enriched with n8n provenance and frontier candidate sections; six-report Russian customer showcase pack added
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete; T80 roadmap CLI command complete; T81 roadmap eval suite complete; T82 roadmap review and handoff export complete; public-source roadmap demos added for HVAC lead intake, NetBox issue triage, and GitLab incident workflow; Russian accelerator application-review showcase report added for cofounder/customer demo; T83 public n8n pattern mining foundation complete with 8,824 parsed public n8n workflows and 4,963 deduplicated metadata candidates; T84 frontier opportunity discovery layer complete with validated Opus 4.6 demo run; cofounder/customer demo docs enriched with n8n provenance and frontier candidate sections; six-report Russian customer showcase pack added; client report v2 upgrade strategy added with phase-by-phase roadmap, role-hour model, RF/EU rate cards, infrastructure/LLM cost model, Entropy Core proof layer packaging and AI Workflow Playbook add-on packaging
 
 ## Active References
 
@@ -36,24 +36,25 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Next Task Digest
 
-Task: T84 - Frontier Opportunity Discovery Layer
+Task: Client Report V2 Commercialization
 
-Status: complete.
+Status: strategy artifact complete; implementation schemas/renderers pending.
 
-T83 added a public n8n source register, n8n workflow metadata parser,
-fingerprint/dedupe foundation, Russian methodology, mining script, and public
-metadata summary. Latest mining run scanned 8,854 JSON files, parsed 8,824 n8n
-workflows, collapsed 3,861 duplicates, and produced 4,963 deduplicated metadata
-candidate layer and deterministic verifier boundary. Opus 4.6 demo run produced
-three unapproved candidates: claim verification research assistant, post-call
-structured feedback capture, and duplicate/repeat applicant detection. All
-remain non-exportable until human review.
+The current six Russian showcase reports demonstrate breadth but are not deep
+enough for a serious buyer. `docs/demo/CLIENT_REPORT_V2_UPGRADE_STRATEGY_RU.md`
+defines the new standard: evidence boundary, target architecture, agents/API/DB
+bill of materials, phase-by-phase implementation plan, role-hour estimates,
+RF/EU rate cards, LLM/API infrastructure cost formulas, proof layer packaging
+via Entropy Core, and AI Workflow Playbook as a repeatable delivery add-on.
+Next implementation work should add v2 schemas, price/rate cards, renderer
+support, evals, and one full accelerator v2 exemplar before regenerating the
+remaining five reports.
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T84
+- Task: Client Report V2 Strategy
 - Date: 2026-06-02
 - Eval Source: `.venv/bin/python -m pytest -q`
 - Result: 364 passed; `ruff check .` and `ruff format --check .` passed
