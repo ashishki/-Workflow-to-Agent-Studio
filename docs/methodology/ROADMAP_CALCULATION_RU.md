@@ -152,6 +152,31 @@ human_review = volume_based_review_range
 - мутировать CRM/GitHub/Slack;
 - принимать legal/medical/financial/HR decisions.
 
+## Frontier model layer
+
+После T84 frontier model используется только как generator дополнительных
+`FrontierOpportunityCandidate`.
+
+Разделение ролей:
+
+| Layer | Что делает | Может ли утверждать roadmap |
+|---|---|---|
+| Pattern library | дает known implementation patterns | нет, это input |
+| n8n mining | дает public metadata signals and clusters | нет, это research corpus |
+| Frontier model | предлагает missed opportunities, alternatives, risks | нет, только candidates |
+| Deterministic verifier | проверяет evidence/assumptions, privacy, human gates, autonomy | нет, только blocks/allows review |
+| Human reviewer | принимает, отклоняет или просит изменения | да, после review |
+
+Frontier candidate не может стать approved recommendation, если:
+
+- нет evidence refs или explicit assumptions;
+- нет required human gate;
+- candidate privacy class слабее detected source privacy class;
+- предложен high-autonomy agent;
+- нет do-not-automate boundaries;
+- нет cost drivers;
+- candidate пытается автоматизировать high-impact decision.
+
 ## Как страхуемся от галлюцинаций
 
 Защиты:
@@ -203,4 +228,3 @@ human_review = volume_based_review_range
 
 Для коммерческого proof нужен real pilot: реальный workflow, реальный reviewer,
 реальные объемы, реальные интеграции и recorded measurement row.
-

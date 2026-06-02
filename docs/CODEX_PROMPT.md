@@ -13,13 +13,13 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 ## Current State
 
 - Current phase: Phase 15 - Pattern Library Expansion And Frontier Discovery
-- Next task: T84 - Frontier Opportunity Discovery Layer
-- Verified baseline: post public n8n extraction summary baseline is 357 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after public n8n extraction summary
+- Next task: none - active task graph complete through T84
+- Verified baseline: post T84 frontier opportunity discovery baseline is 364 passing tests, 0 skipped, 0 failed
+- Ruff: `ruff check` and `ruff format --check` pass for the full repository after T84
 - Last updated: 2026-06-02
 - Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete; T80 roadmap CLI command complete; T81 roadmap eval suite complete; T82 roadmap review and handoff export complete; public-source roadmap demos added for HVAC lead intake, NetBox issue triage, and GitLab incident workflow; Russian accelerator application-review showcase report added for cofounder/customer demo; T83 public n8n pattern mining foundation complete with 8,824 parsed public n8n workflows and 4,963 deduplicated metadata candidates
+- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete; T80 roadmap CLI command complete; T81 roadmap eval suite complete; T82 roadmap review and handoff export complete; public-source roadmap demos added for HVAC lead intake, NetBox issue triage, and GitLab incident workflow; Russian accelerator application-review showcase report added for cofounder/customer demo; T83 public n8n pattern mining foundation complete with 8,824 parsed public n8n workflows and 4,963 deduplicated metadata candidates; T84 frontier opportunity discovery layer complete with validated Opus 4.6 demo run
 
 ## Active References
 
@@ -38,36 +38,38 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 Task: T84 - Frontier Opportunity Discovery Layer
 
-Status: pending.
+Status: complete.
 
 T83 added a public n8n source register, n8n workflow metadata parser,
 fingerprint/dedupe foundation, Russian methodology, mining script, and public
 metadata summary. Latest mining run scanned 8,854 JSON files, parsed 8,824 n8n
 workflows, collapsed 3,861 duplicates, and produced 4,963 deduplicated metadata
-candidates. T84 should add the frontier model candidate layer and deterministic
-verifier boundary.
+candidate layer and deterministic verifier boundary. Opus 4.6 demo run produced
+three unapproved candidates: claim verification research assistant, post-call
+structured feedback capture, and duplicate/repeat applicant detection. All
+remain non-exportable until human review.
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: T83
+- Task: T84
 - Date: 2026-06-02
 - Eval Source: `.venv/bin/python -m pytest -q`
-- Result: 357 passed; `ruff check .` and `ruff format --check .` passed
+- Result: 364 passed; `ruff check .` and `ruff format --check .` passed
 
 ## Profile State
 
 RAG: ON
 
-- Current mode: public-source metadata mining
-- Next work: implement frontier opportunity candidate verifier
+- Current mode: public-source metadata mining plus frontier candidate generation
+- Next work: blocked until next task graph or human direction
 - Open retrieval findings: none
 
 Planning: ON
 
-- Current schema: blueprint v1 plus design-candidate-v1 plus n8n metadata candidates
-- Next work: T84 frontier opportunity discovery layer
+- Current schema: blueprint v1 plus design-candidate-v1 plus n8n metadata candidates plus frontier opportunity candidates
+- Next work: active task graph complete through T84
 - Open planning findings: none
 
 Tool-Use: OFF

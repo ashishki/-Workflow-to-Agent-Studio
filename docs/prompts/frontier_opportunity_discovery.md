@@ -37,12 +37,15 @@ required_data:
   - reviewer feedback
 human_gate:
   required: true
+  reviewer: senior reviewer
   approval_event: reviewer accepts or rejects recommendation
+  rationale: admission decisions remain human-owned
 do_not_automate:
   - final accept/reject decision
   - unsupported claims about founder honesty
 critical_assumptions:
   - historical applications are available for shadow review
+privacy_class: sensitive
 privacy_notes:
   - founder personal data requires approved handling
 cost_drivers:
@@ -81,8 +84,16 @@ For every candidate, include:
 - confidence;
 - reject conditions.
 
-Also include at least two candidates that should be rejected if they appear
-tempting but unsafe.
+Return at most four candidates. Keep each list to at most three items.
+Use only `low`, `medium`, or `high` for confidence.
+Use only these `candidate_solution_type` values:
+`do_not_automate_yet`, `classic_script`, `api_integration`, `rpa`,
+`llm_assistant`, `rag_knowledge_assistant`, `human_in_the_loop_workflow`,
+`bounded_ai_agent`, `high_autonomy_agent_future_only`.
+Do not invent new solution type labels.
+
+Also include at least two tempting but unsafe rejected ideas in
+`rejected_candidate_titles`.
 ```
 
 ## Verifier Rules
