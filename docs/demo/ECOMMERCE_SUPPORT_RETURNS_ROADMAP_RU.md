@@ -16,7 +16,7 @@ items, product details. Support assistant вручную ищет заказ, к
 Google Doc, а refund требует owner approval.
 
 Рекомендация: строить **support triage + deterministic order lookup + human
-refund gate**, а не autonomous refund bot.
+refund gate**, а не автономного refund-бота.
 
 | Поле | Рекомендация |
 |---|---|
@@ -38,10 +38,10 @@ refund gate**, а не autonomous refund bot.
 | Systems | Shopify, Gmail/helpdesk, Instagram, Google Docs FAQ |
 | Data class | customer identity/address/order data = sensitive |
 | Current pain | repetitive status checks, inconsistent return answers, owner bottleneck |
-| Missing evidence before quote | ticket sample, refund policy, SKU taxonomy, order lookup permissions |
+| Чего не хватает перед сметой | примеры тикетов, refund policy, SKU taxonomy, order lookup permissions |
 
-Before a real quote, buyer must provide historical ticket labels, refund cases,
-FAQ/SOP and Shopify API constraints.
+Перед реальной сметой заказчик должен дать исторические ticket labels, примеры
+refund cases, FAQ/SOP и ограничения Shopify API.
 
 ---
 
@@ -254,54 +254,57 @@ Stop conditions:
 
 ## 12. План проверки качества
 
-Golden set:
+Тестовый набор:
 
-- 100 historical support tickets;
-- 50 order status requests;
+- 100 исторических support tickets;
+- 50 запросов по статусу заказа;
 - 30 returns/damaged-item cases;
 - 20 edge cases: angry customer, missing order, international shipping.
 
-Acceptance:
+Критерии приемки:
 
-- intent label agreement > 85%;
-- order lookup correctness > 95% after identity check;
-- refund automation = 0;
-- owner interruption reduction visible after 2-4 weeks;
-- support team accepts at least 60% of draft replies after editing.
+- совпадение intent labels с оценкой support lead выше 85%;
+- корректность order lookup выше 95% после проверки личности;
+- автоматических refunds = 0;
+- снижение owner interruptions видно через 2-4 недели;
+- support team принимает хотя бы 60% черновиков ответов после редактирования.
 
 ---
 
-## 13. Governance и proof layer
+## 13. Контроль и доказательность
 
-Base pilot needs approval logs. Entropy Core Proof Layer becomes valuable when
-the store has larger volume, marketplace disputes, regulated products or board
-reporting.
+В e-commerce главный риск - не сам AI, а неправильное действие: вернуть деньги
+без approval, отправить неверный статус заказа или сослаться на устаревшую
+политику возврата.
 
-Proof artifacts:
+Что получает заказчик:
 
-- policy version attached to every draft;
-- order lookup source receipt;
-- refund approval receipt;
-- unsupported-claim registry;
-- weekly correction log.
+- версию refund/return policy, на которую ссылается помощник;
+- журнал поиска заказа и проверки личности клиента;
+- подтверждение, кто утвердил refund или replacement;
+- список claims, которые нельзя отправлять клиенту без проверки;
+- еженедельный отчет по исправлениям support-команды.
 
-AI Workflow Playbook is useful if the customer wants internal team to continue
-adding workflows: product Q&A, supplier support, inventory alerts, CRM follow-up.
+Слой доказательности на базе Entropy Core нужен, если магазин растет, есть
+marketplace disputes, спорные возвраты или товары с повышенной ответственностью.
+AI Workflow Playbook полезен, если команда хочет дальше автоматизировать product
+Q&A, supplier support, inventory alerts и CRM follow-up по той же дисциплине.
 
 ---
 
 ## 14. Коммерческая рекомендация
 
-Продавать как: **AI Roadmap Sprint + Standard Support Pilot**.
+Рекомендованный оффер: **диагностика support workflow + standard pilot для order
+status, triage и returns checklist**.
 
 Начинать, если:
 
-- support volume is above 500 messages/month;
-- owner is bottleneck for returns/refunds;
-- FAQ and refund policy can be cleaned in week 1.
+- support volume выше 500 сообщений в месяц;
+- владелец является bottleneck по returns/refunds;
+- FAQ и refund policy можно привести в порядок в первую неделю.
 
 Откладывать, если:
 
-- store volume is too low;
-- refund policy is not written;
-- buyer expects autonomous refund bot as the first step.
+- поток обращений слишком низкий;
+- refund policy не написана;
+- заказчик хочет начать с автономного refund-бота.

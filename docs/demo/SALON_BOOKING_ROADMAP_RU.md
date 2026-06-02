@@ -244,51 +244,55 @@ Stop conditions:
 
 ## 12. План проверки качества
 
-Golden set:
+Тестовый набор:
 
-- 50 historical booking messages;
-- 20 cancellation/reschedule cases;
-- 10 opt-out and edge cases;
-- 4 stylist/service duration conflict cases.
+- 50 исторических сообщений о записи;
+- 20 случаев отмены или переноса записи;
+- 10 opt-out и edge cases;
+- 4 конфликта по stylist/service duration.
 
-Acceptance:
+Критерии приемки:
 
-- reminder delivery success > 95%;
-- opt-out violation = 0;
-- slot suggestion correctness > 80% on common cases;
-- owner reports at least 3-5 hours/week manual reduction before expansion.
+- reminders доставляются успешно в 95%+ случаев;
+- opt-out violations = 0;
+- корректность предложенных слотов выше 80% на типовых запросах;
+- владелец подтверждает экономию хотя бы 3-5 часов в неделю перед расширением.
 
 ---
 
-## 13. Governance и proof layer
+## 13. Контроль и доказательность
 
-Base pilot can run without Entropy Core. Add Entropy Core Proof Layer if the
-salon group has multiple locations, franchise reporting, sensitive client
-complaints or owner wants audit receipts.
+Для одного салона сложный proof layer обычно не нужен. Достаточно простого
+журнала: кто утвердил шаблоны, какие reminders ушли, были ли ошибки и как
+изменился no-show rate.
 
-Proof artifacts:
+Что получает заказчик:
 
-- template approval receipt;
-- calendar write approval log;
-- reminder send log;
-- correction history;
-- no-show metric baseline and monthly comparison.
+- утвержденные шаблоны сообщений;
+- журнал отправленных reminders;
+- журнал записей в календарь;
+- историю исправлений администратором;
+- сравнение no-show rate до и после пилота.
 
-AI Workflow Playbook is optional here. It becomes useful if this is the first of
-many automation workflows across a salon chain.
+Слой доказательности на базе Entropy Core имеет смысл только если это сеть
+салонов, франшиза или workflow затрагивает спорные клиентские жалобы. AI
+Workflow Playbook здесь тоже опционален: он нужен, если владелец хочет
+масштабировать автоматизацию на несколько процессов, а не сделать один pilot.
 
 ---
 
 ## 14. Коммерческая рекомендация
 
-Продавать как: **AI Roadmap Sprint + Lean Booking Pilot**.
+Рекомендованный оффер: **короткая диагностика записи + lean pilot по reminders и
+черновикам ответов**.
 
 Лучший первый оффер:
 
-- 1 week paid diagnostic;
-- 3-5 week pilot;
-- no autonomous bot promise;
-- success measured by no-show rate, missed messages and receptionist time.
+- 1 неделя диагностики;
+- 3-5 недель пилота;
+- без обещания автономного бота;
+- успех измеряется no-show rate, пропущенными сообщениями и временем
+  администратора.
 
 Начинать, если:
 

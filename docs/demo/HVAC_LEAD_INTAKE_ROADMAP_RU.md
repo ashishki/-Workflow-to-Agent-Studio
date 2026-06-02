@@ -241,55 +241,58 @@ Stop conditions:
 
 ## 12. План проверки качества
 
-Golden set:
+Тестовый набор:
 
-- 100 historical leads;
-- 30 incomplete-field examples;
+- 100 исторических leads;
+- 30 примеров с неполными полями;
 - 30 service-area edge cases;
 - 20 urgent/emergency examples;
-- 20 non-urgent repair/maintenance/install cases.
+- 20 не срочных repair/maintenance/install cases.
 
-Acceptance:
+Критерии приемки:
 
-- missing-field detection > 90%;
-- clear service-area match > 95%;
-- urgent recall prioritized over precision;
-- dispatcher correction rate tracked weekly;
-- response-time improvement visible after pilot.
+- missing-field detection выше 90%;
+- clear service-area match выше 95%;
+- для urgent cases recall важнее precision;
+- dispatcher correction rate отслеживается каждую неделю;
+- improvement по response time виден после пилота.
 
 ---
 
-## 13. Governance и proof layer
+## 13. Контроль и доказательность
 
-Base pilot needs correction and approval logs. Entropy Core Proof Layer is useful
-if buyer has multiple branches, franchise rules, compliance reporting or wants
-auditable “why was this lead routed here?” receipts.
+Для HVAC важно объяснить, почему заявка попала в очередь диспетчера, почему она
+считается urgent и почему edge case не был автоматически отклонен.
 
-Proof artifacts:
+Что получает заказчик:
 
-- service-area rule version;
-- urgent keyword/policy version;
-- dispatcher approval receipt;
-- rejected/exception lead log;
-- weekly SLA and conversion baseline.
+- версию service-area правил;
+- версию urgent/emergency policy;
+- журнал approval от диспетчера;
+- список заявок, отправленных в exception queue;
+- weekly baseline по response time, SLA и conversion.
 
-AI Workflow Playbook is useful if customer wants to repeat this delivery process
-for maintenance reminders, quote follow-up and technician knowledge workflows.
+Слой доказательности на базе Entropy Core полезен, если у компании несколько
+филиалов, франшизные правила или нужно объяснять маршрутизацию заявок. AI
+Workflow Playbook имеет смысл, если после lead intake команда хочет по той же
+схеме внедрять maintenance reminders, quote follow-up и knowledge workflow для
+техников.
 
 ---
 
 ## 14. Коммерческая рекомендация
 
-Продавать как: **AI Roadmap Sprint + Standard Lead Intake Pilot**.
+Рекомендованный оффер: **диагностика lead intake + pilot для service-area,
+urgent routing и handoff диспетчеру**.
 
 Начинать, если:
 
-- lead volume is high enough that dispatcher time is a bottleneck;
-- CRM rules can be exported;
-- manager accepts human gates for dispatch and rejection.
+- поток заявок уже создает bottleneck для диспетчера;
+- CRM rules можно экспортировать или описать;
+- менеджер согласен оставить dispatch и rejection за человеком.
 
 Откладывать, если:
 
-- service-area/pricing rules are undocumented;
-- buyer expects autonomous diagnosis;
-- there is no owner for dispatcher corrections.
+- service-area или pricing rules не описаны;
+- заказчик ожидает автономную диагностику HVAC-проблем;
+- нет владельца, который будет смотреть исправления диспетчера.

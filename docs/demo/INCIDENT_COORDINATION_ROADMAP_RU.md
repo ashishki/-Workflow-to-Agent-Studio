@@ -233,65 +233,74 @@ model tiers.
 
 Stop conditions:
 
-- system posts to incident channel without approval;
-- assistant triggers paging or changes severity;
-- output cites non-approved runbook;
-- incident manager says drafts reduce clarity/trust.
+- система публикует сообщение в incident channel без approval;
+- помощник запускает paging или меняет severity;
+- output ссылается на неутвержденный runbook;
+- incident manager говорит, что drafts ухудшают ясность или доверие.
 
 ---
 
 ## 12. План проверки качества
 
-Golden set:
+Тестовый набор:
 
-- 10 historical incident timelines;
-- 5 internal drills;
-- 30 runbook retrieval questions;
-- 20 status update examples;
-- 10 edge cases with ambiguous severity/customer impact.
+- 10 исторических incident timelines;
+- 5 внутренних drills;
+- 30 вопросов на поиск runbook;
+- 20 примеров status update;
+- 10 edge cases с неоднозначной severity/customer impact.
 
-Acceptance:
+Критерии приемки:
 
-- cited runbook usefulness > 80% in drills;
-- unapproved operational action = 0;
-- status drafts accepted after edits > 70%;
-- PIR draft covers timeline/decisions/open questions;
-- incident manager trust score measured after every drill.
+- полезность найденного runbook выше 80% на drills;
+- неутвержденных operational actions = 0;
+- status drafts принимаются после правок в 70%+ случаев;
+- PIR draft покрывает timeline, decisions и open questions;
+- доверие incident manager измеряется после каждого drill.
 
 ---
 
-## 13. Governance и proof layer
+## 13. Контроль и доказательность
 
-Entropy Core Proof Layer is recommended for this use case.
+Для incident workflow важна не “красивая AI-функция”, а управляемость. Если
+помощник предлагает update, runbook или summary, команда должна видеть, на чем
+это основано и кто это утвердил.
 
-Proof artifacts:
+Что получает заказчик:
 
-- runbook source hash and version;
-- incident timeline source refs;
-- draft approval receipt;
-- blocked action register;
-- PIR evidence bundle;
-- model/prompt/version receipt.
+- список runbooks, которые разрешено использовать;
+- версию runbook, на которую ссылается помощник;
+- журнал, кто утвердил черновик update;
+- список действий, которые AI не имеет права выполнять;
+- evidence bundle для post-incident review;
+- журнал изменений prompt/model/runbook.
 
-AI Workflow Playbook is valuable because incident assistant requires ongoing
-change control: runbooks change, teams change, services change, and evals must
-run before model/prompt updates.
+Опционально можно подключить слой доказательности на базе Entropy Core. Он нужен
+не всем, но полезен там, где incident process чувствителен: customer impact,
+security, board reporting, SLA или публичные коммуникации.
+
+AI Workflow Playbook здесь полезен как операционная дисциплина: runbooks
+меняются, команды меняются, и перед изменением prompt/model нужно прогонять
+проверки, а не менять систему “на глаз”.
 
 ---
 
 ## 14. Коммерческая рекомендация
 
-Продавать как: **AI Roadmap Sprint + Strict Internal Runbook Pilot + Proof
-Layer**.
+Рекомендованный оффер: **диагностика incident workflow + внутренний пилот
+runbook assistant + опциональный слой доказательности**.
 
 Начинать, если:
 
-- incident manager owns the rollout;
-- runbook corpus can be approved;
-- buyer accepts shadow/drill pilot before live incidents.
+- incident manager готов быть владельцем внедрения;
+- команда может утвердить список runbooks, которые разрешено использовать;
+- заказчик согласен сначала проверить помощника на drills или low-severity
+  incidents;
+- Slack/PagerDuty доступы можно ограничить безопасными scopes.
 
 Откладывать, если:
 
-- buyer wants autonomous incident response;
-- runbooks are not maintained;
-- Slack/PagerDuty scopes cannot be constrained.
+- заказчик хочет автономный incident response;
+- runbooks не поддерживаются и не имеют владельцев;
+- нельзя ограничить доступы к Slack/PagerDuty;
+- команда не готова утверждать черновики перед публикацией.

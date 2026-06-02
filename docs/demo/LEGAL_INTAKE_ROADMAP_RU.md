@@ -38,10 +38,10 @@ legal advisor и не autonomous eligibility engine.
 | Systems | intake form, shared drive, checklist, case tracker, email |
 | Data class | restricted identity/legal/family/employment data |
 | Current pain | incomplete docs, repeated status questions, manual case prep |
-| Missing evidence before quote | checklist taxonomy, document types, retention policy, access model |
+| Чего не хватает перед сметой | checklist taxonomy, document types, retention policy, access model |
 
-This report is intentionally more conservative than SMB booking/support reports:
-privacy and liability drive architecture and cost.
+Этот отчет намеренно консервативнее, чем SMB booking/support отчеты: privacy и
+liability сильно влияют на архитектуру и стоимость.
 
 ---
 
@@ -242,53 +242,60 @@ Stop conditions:
 
 ## 12. План проверки качества
 
-Golden set:
+Тестовый набор:
 
-- 30 historical cases with checklist status;
-- 20 missing-document examples;
-- 10 status questions;
-- 10 edge cases with ambiguous documents.
+- 30 исторических кейсов со статусом checklist;
+- 20 примеров недостающих документов;
+- 10 вопросов клиента по статусу;
+- 10 edge cases с неоднозначными документами.
 
-Acceptance:
+Критерии приемки:
 
-- document status accuracy > 90%;
-- consultant accepts checklist drafts > 70% after edits;
-- legal advice in AI output = 0;
-- raw restricted data boundary violations = 0;
-- coordinator saves measurable follow-up time in pilot.
+- точность статуса документов выше 90%;
+- consultant принимает больше 70% checklist drafts после правок;
+- legal advice в AI output = 0;
+- нарушений boundary для raw restricted data = 0;
+- coordinator экономит измеримое follow-up time в пилоте.
 
 ---
 
-## 13. Governance и proof layer
+## 13. Контроль и доказательность
 
-Entropy Core Proof Layer is recommended here, not optional polish.
+В legal/intake workflow контроль обязателен. Здесь нельзя, чтобы AI сам решал
+eligibility, давал legal advice или отправлял документы в органы. Польза AI -
+ускорить административную часть и подготовку, а не заменить консультанта.
 
-Proof artifacts:
+Что получает заказчик:
 
-- source hash for each checklist recommendation;
-- assumption registry for uncertain document status;
-- consultant approval receipt;
-- blocked-surface list: eligibility, strategy, submission, final advice;
-- audit bundle for template/model/version changes.
+- ссылку на источник для каждой checklist-рекомендации;
+- список спорных или неполных документов;
+- подтверждение, что консультант утвердил checklist или сообщение клиенту;
+- список зон, которые AI не имеет права автоматизировать: eligibility,
+  strategy, submission, final advice;
+- журнал изменений шаблонов, model и prompt.
 
-AI Workflow Playbook is valuable if the firm wants to build a repeatable internal
-AI delivery process for multiple legal/admin workflows.
+Слой доказательности на базе Entropy Core здесь рекомендуется: он помогает
+показать, почему рекомендация была разрешена, какие assumptions остались и где
+система остановилась. AI Workflow Playbook полезен, если фирма хочет выстроить
+повторяемый внутренний процесс внедрения AI для нескольких legal/admin
+workflows.
 
 ---
 
 ## 14. Коммерческая рекомендация
 
-Продавать как: **AI Roadmap Sprint + Strict Private Intake Pilot + Proof
-Layer**.
+Рекомендованный оффер: **диагностика legal intake + private pilot по документам
+и checklist + слой доказательности**.
 
 Начинать, если:
 
-- consultancy has enough case volume;
-- consultant is willing to define checklist boundaries;
-- buyer understands this is admin acceleration, not legal automation.
+- у consultancy достаточно кейсов, чтобы экономия времени была заметна;
+- консультант готов определить границы checklist;
+- заказчик понимает: это ускорение admin workflow, а не автоматизация legal
+  advice.
 
 Откладывать, если:
 
-- firm wants autonomous legal advice;
-- data governance is undefined;
-- there is no owner for template/version approval.
+- фирма хочет автономный legal advice;
+- data governance не определен;
+- нет владельца, который будет утверждать templates и версии.

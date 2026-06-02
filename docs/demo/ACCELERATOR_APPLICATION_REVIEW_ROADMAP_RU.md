@@ -30,15 +30,15 @@ application review operating system**.
 | Ожидаемый эффект | 8-15 часов/неделю меньше ручной подготовки при сохранении решения за человеком |
 | Решение | начинать после согласования доступов, таксономии review и privacy mode |
 
-What the buyer gets after MVP:
+Что заказчик получает после MVP:
 
 - structured brief по каждой заявке;
 - claims to verify;
-- red flags with evidence labels;
+- red flags с evidence labels;
 - daily call briefs;
 - reviewer decision memory;
 - post-call feedback capture;
-- no automatic approve/reject.
+- без автоматического approve/reject.
 
 ---
 
@@ -52,10 +52,11 @@ What the buyer gets after MVP:
 | Reviewers | 2-4 reviewers plus senior decision owner |
 | Systems | email, Telegram, application form, CRM/Airtable/Notion, calendar, public web |
 | Data class | founder contact/background/traction = sensitive/confidential depending on source |
-| Missing evidence before quote | real form schema, CRM access, sample applications, review rubric, consent policy |
+| Чего не хватает перед сметой | real form schema, CRM access, sample applications, review rubric, consent policy |
 
-This report can estimate a pilot, but not a fixed build price, until the buyer
-provides real volumes, sources, permissions and sample review decisions.
+Этот отчет может оценить pilot, но не фиксированную стоимость build, пока
+заказчик не даст реальные volumes, sources, permissions и sample review
+decisions.
 
 ---
 
@@ -257,22 +258,22 @@ automation-паттернов. Он предложил дополнительн�
 
 | Этап | Срок | Что делаем | Критерий завершения |
 |---|---:|---|---|
-| 0. Discovery | 1-2 weeks | map intake/review/calls/outreach, collect 50-100 applications, define reviewer rubric | senior reviewer confirms boundaries |
-| 1. Data readiness | 2 weeks | application schema, source register, privacy mode, CRM/calendar access, red flag taxonomy | data and permission model approved |
-| 2. Prototype | 2-3 weeks | triage briefs and call briefs in shadow mode on historical/current applications | usefulness and correction rate measured |
-| 3. Pilot | 3-4 weeks | review dashboard, feedback capture, basic decision memory, approved CRM writeback | no auto decisions; reviewer adoption measured |
-| 4. Production-lite | 1-2 weeks | monitoring, audit logs, runbook, rollback, prompt/model versioning | operator can run cohort workflow |
-| 5. Governance | monthly | memory rule review, frontier candidate queue, eval refresh, cost review | decision log and proof receipts maintained |
+| 0. Discovery | 1-2 недели | описать intake/review/calls/outreach, собрать 50-100 заявок, определить reviewer rubric | senior reviewer подтверждает границы |
+| 1. Data readiness | 2 недели | schema заявки, source register, privacy mode, CRM/calendar access, red flag taxonomy | data и permission model утверждены |
+| 2. Prototype | 2-3 недели | triage briefs и call briefs в shadow mode на historical/current applications | измерены usefulness и correction rate |
+| 3. Pilot | 3-4 недели | review dashboard, feedback capture, basic decision memory, approved CRM writeback | нет auto decisions, измерен reviewer adoption |
+| 4. Production-lite | 1-2 недели | monitoring, audit logs, runbook, rollback, prompt/model versioning | operator может вести cohort workflow |
+| 5. Governance | ежемесячно | memory rule review, frontier candidate queue, eval refresh, cost review | decision log и proof receipts поддерживаются |
 
-Recommended MVP scope:
+Рекомендуемый MVP scope:
 
-- R1 Application Triage Assistant;
-- R2 Daily Call Briefing Dashboard;
+- R1 помощник первичного разбора заявок;
+- R2 ежедневный дашборд подготовки к звонкам;
 - basic R3 Reviewer Memory;
 - FOC-002 post-call feedback capture as optional standard add-on.
 
-R4 outreach assistant should wait until consent, approval queue and reputational
-rules are explicit.
+R4 outreach assistant лучше отложить, пока явно не согласованы consent, approval
+queue и reputational rules.
 
 ---
 
@@ -370,102 +371,97 @@ Stop conditions:
 
 ## 13. План проверки качества
 
-Golden set:
+Тестовый набор:
 
-- 50-100 historical applications;
-- 20 accepted/rejected decision examples;
-- 20 call briefs with reviewer feedback;
-- 20 red flag/claim verification examples;
-- 10 outreach examples with allowed/blocked contacts.
+- 50-100 исторических заявок;
+- 20 примеров принятых и отклоненных решений;
+- 20 брифов к звонкам с feedback от reviewers;
+- 20 примеров red flags и claims, которые нужно проверять;
+- 10 outreach-примеров с разрешенными и заблокированными контактами.
 
-Acceptance:
+Критерии приемки:
 
-- 90% applications receive complete structured brief;
-- unsupported claims are labeled `needs verification`;
-- reviewer accepts or edits more than 60% of brief sections as useful;
-- call briefs are ready before daily review time;
-- memory rules always show owner/source/version;
-- auto decision/action count = 0.
+- 90% заявок получают полный structured brief;
+- неподтвержденные claims помечаются как `needs verification`;
+- reviewer принимает или редактирует больше 60% секций brief как полезные;
+- call briefs готовы до ежедневного review;
+- memory rules всегда показывают owner, source и version;
+- количество автоматических решений или действий = 0.
 
-Pilot metrics:
+Метрики пилота:
 
-- reviewer prep time saved;
-- brief correction rate;
-- red flag precision/recall by reviewer judgment;
-- call brief usefulness score;
-- decision memory adoption;
-- number of blocked unsafe actions.
+- сколько времени reviewer экономит на подготовке;
+- как часто brief нужно исправлять;
+- точность red flags по оценке reviewer;
+- usefulness score для call briefs;
+- adoption decision memory;
+- количество заблокированных небезопасных действий.
 
 ---
 
-## 14. Governance и proof layer
+## 14. Контроль и доказательность
 
-Entropy Core Proof Layer is a strong add-on for accelerator/investment workflows
-because decisions are reputational, subjective and evidence-sensitive.
+В акселераторе решение субъективное и репутационно чувствительное. Поэтому
+важно не только “сгенерировать brief”, но и показать, на каких источниках он
+основан, какие assumptions остались и кто утвердил изменения в decision memory.
 
-Proof artifacts:
+Что получает заказчик:
 
-- source register with allowed sources;
-- application/source hashes;
-- claim evidence labels;
-- assumption registry;
-- reviewer approval receipts;
-- blocked-surface list;
-- memory rule version receipts;
-- frontier candidate verifier status;
-- decision log and audit bundle.
+- список разрешенных источников;
+- evidence labels для claims в заявке;
+- список assumptions и пунктов “нужно проверить”;
+- подтверждение, кто утвердил decision memory rule;
+- список зон, которые AI не имеет права автоматизировать: approve/reject,
+  honesty judgment, outreach sending, investment decision;
+- журнал решений и изменений.
 
-AI Workflow Playbook is also a strong add-on:
+Слой доказательности на базе Entropy Core можно продавать как add-on для команд,
+которым важно объяснять, почему рекомендация была допустима. AI Workflow
+Playbook можно продавать как add-on для повторяемого внедрения: task graph,
+eval gates, reviewer loop, operator handoff и monthly improvement cadence.
 
-- implementation contract;
-- task graph for each workflow module;
-- eval gates before model/prompt changes;
-- reviewer loop;
-- operator handoff;
-- monthly improvement cadence.
+Позиционирование:
 
-Positioning:
-
-> We are not selling “AI will choose startups”. We are selling a governed review
-> operating system that saves preparation time, improves consistency and keeps
-> final judgment with humans.
+> Мы не продаем “AI выбирает стартапы”. Мы продаем управляемую систему review,
+> которая экономит подготовительное время, делает процесс последовательнее и
+> оставляет финальное решение людям.
 
 ---
 
 ## 15. Коммерческая упаковка
 
-### Package A. AI Roadmap Sprint
+### Пакет A. AI Roadmap Sprint
 
-- 1-2 weeks;
-- map intake/review/call/outreach workflows;
-- source/evidence boundary;
-- first pilot design;
-- RF/EU implementation estimate;
-- do-not-automate and proof layer recommendation.
+- 1-2 недели;
+- карта intake/review/call/outreach workflows;
+- граница данных и источников;
+- дизайн первого pilot;
+- смета для РФ/Европы;
+- список do-not-automate и рекомендация по proof layer.
 
-### Package B. Standard Accelerator Review Pilot
+### Пакет B. Пилот системы review
 
-- 8-12 weeks;
-- application triage assistant;
-- daily call dashboard;
-- basic reviewer memory;
-- post-call feedback capture;
-- controlled CRM/calendar integration.
+- 8-12 недель;
+- помощник первичного разбора заявок;
+- ежедневный dashboard к звонкам;
+- базовая память ревьюеров;
+- сбор feedback после звонков;
+- контролируемая интеграция с CRM/calendar.
 
-### Package C. Proof Layer and Playbook Add-On
+### Пакет C. Слой доказательности и playbook внедрения
 
-- Entropy Core receipts;
+- receipts на базе Entropy Core;
 - evidence bundles;
-- blocked-surface registry;
-- AI Workflow Playbook implementation discipline;
-- monthly eval and governance loop.
+- список blocked surfaces;
+- implementation discipline на базе AI Workflow Playbook;
+- monthly eval и governance loop.
 
 ---
 
 ## 16. Коммерческая рекомендация
 
-Продавать как: **AI Roadmap Sprint + Standard Accelerator Review Pilot + Proof
-Layer option**.
+Рекомендованный оффер: **диагностика review workflow + standard pilot системы
+review + опциональный слой доказательности**.
 
 Начинать, если:
 
@@ -481,12 +477,12 @@ Layer option**.
 - нельзя согласовать источники данных и permission boundary;
 - команда не готова давать feedback в decision memory.
 
-Лучший первый implementation scope:
+Лучший первый scope внедрения:
 
-1. Application Triage Assistant.
-2. Daily Call Briefing Dashboard.
-3. Basic Reviewer Memory.
-4. Post-call Feedback Capture.
+1. Помощник первичного разбора заявок.
+2. Ежедневный дашборд подготовки к звонкам.
+3. Базовая память ревьюеров.
+4. Сбор feedback после звонков.
 
 Автоматизацию outreach лучше отложить, пока явно не согласованы consent,
 reputation boundaries и approval workflow.
