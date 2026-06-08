@@ -61,6 +61,8 @@ flowchart LR
 - считать честные cost/time/team диапазоны, а не одну магическую цифру;
 - определять приоритет инициативы;
 - экспортировать roadmap в Markdown;
+- показывать realistic autonomy level и что агент не заменит в конкретном
+  workflow;
 - запускаться через CLI;
 - проверять roadmap через eval suite;
 - делать reviewer checklist;
@@ -180,6 +182,8 @@ non-exportable до human review.
 - proof layer через Entropy Core как отдельный paid add-on;
 - AI Workflow Playbook как paid add-on для внутренней команды клиента;
 - acceptance criteria, stop conditions, eval plan и human gates.
+- agent expectation check: что агент не заменит, какие мифы опасны и какие
+  proof gates нужны до rollout.
 
 Смысл: продавать не “AI agent”, а первый уверенный шаг в AI adoption - что
 строить, что не строить, почему, сколько это стоит и как доказать, что пилот
@@ -220,7 +224,7 @@ flowchart TB
 
 Текущий engineering proof:
 
-- полный test suite: `364 passed`;
+- полный test suite: `365 passed`;
 - ruff lint и format clean;
 - 3 synthetic demo domains:
   - hair salon;
@@ -251,7 +255,7 @@ flowchart TB
 Ожидаемый результат:
 
 ```text
-364 passed
+365 passed
 ```
 
 ## Демо в терминале
@@ -349,3 +353,25 @@ bash scripts/demo_roadmap_ru.sh
 8. Провести 10-20 discovery calls.
 9. Проверить, готовы ли компании заплатить за AI readiness / AI roadmap package.
 10. Получить 1 paid pilot на 3-5 workflows.
+
+## Куда это может вырасти
+
+Стратегическая траектория описана здесь:
+
+- `docs/product/PRODUCT_EVOLUTION_RU.md`;
+- `docs/research/CODOS_COMPETITOR_REVIEW_RU.md`.
+
+Коротко: мы не начинаем как "AI layer для всей компании". Мы начинаем с более
+простого paid wedge - AI Roadmap Sprint для 3-5 workflow. Но каждый paid sprint
+может пополнять anonymized pattern library: что предложили, что внедрили,
+сколько заняло, какие API/БД/роли понадобились, какие gates сработали и какой
+outcome получили.
+
+Так продукт может эволюционировать:
+
+1. AI Roadmap Studio.
+2. Workflow Pattern Library.
+3. Workflow Intelligence Platform.
+4. Company Workflow Memory.
+5. Agent Operating Layer поверх проверенных workflow, а не поверх хаотичного
+   промпта.

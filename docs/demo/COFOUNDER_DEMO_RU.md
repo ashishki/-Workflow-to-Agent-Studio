@@ -145,10 +145,16 @@ Frontier demo с Claude Opus 4.6:
 14. `docs/evals/roadmap_quality_eval.md` - как проверяем качество roadmap.
 15. `docs/methodology/ROADMAP_CALCULATION_RU.md` - как считаются cost/time,
    source of truth, LLM boundaries и hallucination safeguards.
-16. `tests/eval/` - автоматические проверки.
-17. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
+16. `docs/methodology/AGENT_EXPECTATION_CHECK_RU.md` - почему в отчете есть
+   блок "что агент не заменит" и как считается realistic autonomy level.
+17. `docs/research/CODOS_COMPETITOR_REVIEW_RU.md` - конкурентный контекст:
+   почему рынок AI-transformation реален и чем наш wedge отличается.
+18. `docs/product/PRODUCT_EVOLUTION_RU.md` - как продукт может вырасти от
+   roadmap sprint к workflow intelligence platform и company AI operating layer.
+19. `tests/eval/` - автоматические проверки.
+20. `.data/demo/exports/hair_salon_roadmap.md` - generated demo output после
    запуска скрипта.
-18. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
+21. `.data/demo/exports/public_hvac_roadmap.md` - public-source generated demo
    output после запуска скрипта.
 
 Важно для разговора: шесть showcase reports уже приведены к v2-формату. Теперь
@@ -159,7 +165,7 @@ Frontier demo с Claude Opus 4.6:
 
 Технические доказательства:
 
-- full suite: `364 passed`;
+- full suite: `365 passed`;
 - локальный CLI без внешних credentials;
 - typed schemas через Pydantic;
 - deterministic evals;
@@ -169,8 +175,10 @@ Frontier demo с Claude Opus 4.6:
 - approved handoff blocked unless review approved.
 - public-source workflow demos reuse saved public fixtures, not invented
   customer data.
-- анализ публичных n8n-паттернов используется как опциональный research layer для поиска похожих
-  automation-паттернов.
+- roadmap report теперь явно показывает realistic autonomy level, что агент не
+  заменит, human-owned responsibilities, myths и proof gates до rollout.
+- анализ публичных n8n-паттернов используется как опциональный research layer
+  для поиска похожих automation-паттернов.
 - Claude Opus 4.6 produced frontier candidates, but verifier kept all of them
   non-exportable until human review.
 
@@ -245,6 +253,119 @@ Frontier demo с Claude Opus 4.6:
 > Мы продаем не “агента”, а первый уверенный шаг в AI: что строить, что не
 > строить, почему, сколько это стоит в РФ/Европе, какие люди и системы нужны, и
 > как доказать, что пилот сработал.
+
+## Точки роста продукта
+
+Главная стратегическая мысль:
+
+> Мы не начинаем как Codos-клон. Мы начинаем как более приземленный wedge:
+> evidence-linked AI roadmap для конкретных workflow. Но из этого может вырасти
+> похожий большой слой - workflow intelligence и company AI operating layer.
+
+### 1. От roadmap к pattern library
+
+После каждого paid sprint мы можем сохранять не сырые данные клиента, а
+структурированный опыт:
+
+- какой workflow был на входе;
+- что предложили;
+- что клиент выбрал;
+- что реально внедрили;
+- сколько заняло;
+- сколько стоило;
+- какие API, БД, роли и gates понадобились;
+- какие ошибки были;
+- какой outcome получили.
+
+Почему это важно:
+
+- оценки стоимости и сроков становятся точнее;
+- появляются повторяемые implementation patterns;
+- sales получает реальные кейсы;
+- продукт начинает учиться на внедрениях, а не только на промптах.
+
+### 2. От pattern library к Workflow Intelligence Platform
+
+Следующий продуктовый слой: не один отчет, а постоянная карта workflow компании.
+
+Что это может дать клиенту:
+
+- backlog AI/automation initiatives;
+- владельцы процессов и approval gates;
+- история decisions/assumptions;
+- evals и proof receipts;
+- регулярный refresh roadmap;
+- понимание, какие процессы уже готовы к автоматизации, а какие еще нет.
+
+Почему это продаваемо:
+
+- компании не внедряют AI один раз;
+- процессы, CRM, команды и политики постоянно меняются;
+- им нужен не только pilot, а change-control loop.
+
+### 3. От workflow memory к агентам
+
+Агенты должны появляться не с пустого листа, а поверх проверенной workflow
+memory:
+
+- sales follow-up assistant;
+- CRM hygiene agent;
+- support triage assistant;
+- application review assistant;
+- incident/runbook assistant;
+- reporting analyst.
+
+Почему это безопаснее:
+
+- у агента есть boundaries;
+- есть human gates;
+- есть logs/evals;
+- есть rollback;
+- есть список действий, которые агент не имеет права делать.
+
+### 4. Как продукт будет "дообучаться"
+
+Сначала не через fine-tuning большой модели.
+
+Правильный порядок:
+
+1. Копим структурированные кейсы.
+2. Улучшаем pattern matching.
+3. Улучшаем retrieval/RAG.
+4. Улучшаем scoring и cost estimates.
+5. Улучшаем evals.
+6. Только потом рассматриваем fine-tuning узких моделей.
+
+Почему это сильнее:
+
+- не нарушаем privacy клиентов;
+- учимся на фактических внедрениях;
+- создаем собственный workflow corpus;
+- можем объяснить каждую рекомендацию.
+
+### 5. Чем это отличается от Codos
+
+Codos продает большой vision: AI-transformation layer, company brain, agents
+across functions.
+
+Наш вход проще:
+
+- один sprint;
+- конкретные workflow;
+- понятный отчет;
+- понятные риски;
+- понятная смета;
+- понятные gates;
+- следующий шаг к pilot.
+
+Почему это может быть сильнее на ранней стадии:
+
+- легче продать первому клиенту;
+- меньше delivery risk;
+- проще доказать value;
+- проще накопить кейсы;
+- можно постепенно прийти к company AI operating layer без завышенного обещания
+  на первом разговоре.
 
 ## Главная гипотеза
 
