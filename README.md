@@ -24,6 +24,8 @@ Russian cofounder/demo package:
 - `README_RU.md`
 - `docs/demo/COFOUNDER_DEMO_RU.md`
 - `docs/methodology/ROADMAP_CALCULATION_RU.md`
+- `docs/methodology/AGENT_EXPECTATION_CHECK_RU.md`
+- `docs/research/CODOS_COMPETITOR_REVIEW_RU.md`
 - `scripts/demo_roadmap_ru.sh`
 
 Reference integration: `docs/entropy_core_gensyn_integration.md`.
@@ -104,6 +106,8 @@ The SMB AI roadmap layer adds:
 - recommendation cards;
 - privacy classification and cloud/private/local policy gates;
 - cost/time/team ranges;
+- agent expectation check: what the agent will not replace, realistic autonomy
+  level, and proof gates before rollout;
 - priority scoring;
 - SMB implementation patterns;
 - verification receipts and roadmap evals;

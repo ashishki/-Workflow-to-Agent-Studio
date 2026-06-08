@@ -14,6 +14,7 @@ def test_roadmap_markdown_uses_stable_contract_section_order() -> None:
 
     headings = [
         "## Executive Summary",
+        "## What The Agent Will Not Replace",
         "## Evidence Packet",
         "## Workflow Map",
         "## Process Inventory",
@@ -31,6 +32,8 @@ def test_roadmap_markdown_uses_stable_contract_section_order() -> None:
     assert positions == sorted(positions)
     assert "Status: Draft" in markdown
     assert "Appointment booking and reminder automation" in markdown
+    assert "Realistic Autonomy Level" in markdown
+    assert "Workflow-Specific Agent Myths" in markdown
 
 
 def test_roadmap_markdown_includes_claims_and_assumptions() -> None:

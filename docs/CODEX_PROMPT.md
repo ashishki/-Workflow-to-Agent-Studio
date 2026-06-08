@@ -57,10 +57,10 @@ structured data rather than maintained manually.
 
 Last Evaluation:
 
-- Task: Russian Cofounder-Friendly Six-Report V2 Pack
-- Date: 2026-06-02
+- Task: Agent Expectation Check And Codos Competitive Review
+- Date: 2026-06-08
 - Eval Source: `.venv/bin/python -m pytest -q`
-- Result: 364 passed; `ruff check .` and `ruff format --check .` passed
+- Result: 365 passed; `ruff check .` and `ruff format --check .` passed
 
 ## Profile State
 
@@ -73,7 +73,7 @@ RAG: ON
 Planning: ON
 
 - Current schema: blueprint v1 plus design-candidate-v1 plus n8n metadata candidates plus frontier opportunity candidates
-- Next work: active task graph complete through T84
+- Next work: active task graph complete through T84; roadmap reports now include agent expectation checks
 - Open planning findings: none
 
 Tool-Use: OFF

@@ -22,6 +22,27 @@
       }
     ]
   },
+  "agent_expectation_check": {
+    "realistic_autonomy_level": "human_in_the_loop",
+    "autonomy_rationale": "AI can draft triage labels, but customer-facing decisions remain owned by the support lead.",
+    "what_agent_will_not_replace": [
+      "Support lead approves production rollout.",
+      "Refund and compensation policy decisions"
+    ],
+    "workflow_specific_myths": [
+      "AI removes the need for a process owner.",
+      "A demo result is enough to launch without shadow mode, logs, and regression tests."
+    ],
+    "required_human_capabilities": [
+      "Support lead owns policy boundaries and exceptions.",
+      "Operator reviews logs and rejected cases during pilot."
+    ],
+    "proof_gates_before_rollout": [
+      "Run suggested labels without sending customer replies.",
+      "Refund policy routing cases",
+      "Policy answer hallucination"
+    ]
+  },
   "workflow_map": [
     {
       "workflow_id": "WF-001",

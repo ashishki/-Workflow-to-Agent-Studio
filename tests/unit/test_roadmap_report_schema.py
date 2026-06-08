@@ -21,6 +21,8 @@ def test_minimal_valid_roadmap_report_fixture_round_trips() -> None:
     assert report.schema_version == "roadmap-report-v1"
     assert reparsed == report
     assert report.executive_summary.company_context
+    assert report.agent_expectation_check.realistic_autonomy_level == "human_in_the_loop"
+    assert report.agent_expectation_check.what_agent_will_not_replace
     assert report.evidence_packet.source_documents[0].source_hash == "sha256:source-001"
     assert report.workflow_map[0].workflow_name == "Support triage"
     assert report.process_inventory[0].recommended_solution_type == "llm_assistant"
@@ -35,6 +37,7 @@ def test_minimal_valid_roadmap_report_fixture_round_trips() -> None:
     "field",
     [
         "executive_summary",
+        "agent_expectation_check",
         "evidence_packet",
         "workflow_map",
         "process_inventory",

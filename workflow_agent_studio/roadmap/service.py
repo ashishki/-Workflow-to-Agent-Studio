@@ -8,6 +8,7 @@ from pathlib import Path
 from workflow_agent_studio.costing.engine import estimate_pattern_cost
 from workflow_agent_studio.domain.recommendation import RecommendationCard
 from workflow_agent_studio.domain.roadmap import (
+    AgentExpectationCheck,
     EvaluationPlan,
     EvidencePacket,
     EvidenceSourceSummary,
@@ -144,6 +145,7 @@ def generate_roadmap_report(input_path: str | Path) -> RoadmapReport:
             overall_confidence_level=profile["confidence"],
             critical_assumptions=profile["assumptions"],
         ),
+        agent_expectation_check=_build_agent_expectation_check(profile),
         evidence_packet=EvidencePacket(
             source_documents=[
                 EvidenceSourceSummary(
@@ -249,6 +251,69 @@ def generate_roadmap_report(input_path: str | Path) -> RoadmapReport:
                 recommendation_traces=[trace],
             ),
         ),
+    )
+
+
+def _build_agent_expectation_check(profile: dict) -> AgentExpectationCheck:
+    human_gate = profile["human_gate"]
+    do_not_automate = profile["do_not_automate"]
+    high_risk = (
+        profile["privacy_class"] in {"restricted", "confidential"}
+        or profile["risk_penalty"] >= 80
+        or any(
+            marker in " ".join([*do_not_automate, *profile["risks"]]).lower()
+            for marker in ("legal", "incident", "paging", "refund", "diagnosis", "advice")
+        )
+    )
+    if high_risk:
+        autonomy_level = "human_in_the_loop"
+        autonomy_rationale = (
+            "The workflow has high-impact decisions or sensitive data, so AI may draft, "
+            "summarize, and retrieve evidence, but accountable actions stay with a human."
+        )
+    elif human_gate["required"]:
+        autonomy_level = "bounded_agent_with_human_gate"
+        autonomy_rationale = (
+            "The workflow can use bounded tool execution only after approval gates, "
+            "shadow testing, and rollback are in place."
+        )
+    else:
+        autonomy_level = "assistive"
+        autonomy_rationale = (
+            "The current evidence supports assistance and deterministic automation, not "
+            "unsupervised end-to-end ownership."
+        )
+
+    human_owned = [
+        f"{human_gate['reviewer']} owns approval: {human_gate['approval_event']}",
+        *do_not_automate[:3],
+    ]
+    myths = [
+        "AI removes the need for a process owner.",
+        "A demo result is enough to launch without shadow mode, logs, and regression tests.",
+        "More agents automatically means a more reliable workflow.",
+    ]
+    if high_risk:
+        myths.append("Sensitive or high-impact decisions can be delegated after one good run.")
+
+    capabilities = [
+        f"{profile['business_owner']} must own policy boundaries and exceptions.",
+        "Operator must read logs, review rejected cases, and stop the rollout when gates fail.",
+        "Implementation engineer must maintain integrations, tests, prompts, and rollback.",
+    ]
+    proof_gates = [
+        profile["shadow_mode"],
+        *profile["regression_tests"][:2],
+        *profile["stop_conditions"][:2],
+    ]
+
+    return AgentExpectationCheck(
+        realistic_autonomy_level=autonomy_level,
+        autonomy_rationale=autonomy_rationale,
+        what_agent_will_not_replace=human_owned,
+        workflow_specific_myths=myths,
+        required_human_capabilities=capabilities,
+        proof_gates_before_rollout=proof_gates,
     )
 
 
@@ -390,6 +455,12 @@ def _ecommerce_profile() -> dict:
             "risks": ["automatic refund", "wrong policy answer", "customer data exposure"],
             "validation_method": ["golden return tickets", "owner review"],
             "success_metrics": ["return handling time", "approval accuracy", "first response time"],
+            "human_gate": {
+                "required": True,
+                "reviewer": "Store owner",
+                "approval_event": "Approve returns assistant before customer-facing use.",
+                "rationale": "Refunds and customer compensation require accountable review.",
+            },
             "fallback_option": "Manual policy lookup and owner approval queue.",
             "do_not_automate": ["Automatic refunds", "customer compensation decisions"],
             "roadmap_30_60_90": [
@@ -460,6 +531,12 @@ def _legal_profile() -> dict:
             "risks": ["legal advice automation", "restricted data exposure", "outdated checklist"],
             "validation_method": ["golden checklist cases", "consultant review"],
             "success_metrics": ["checklist coverage", "consultant correction rate"],
+            "human_gate": {
+                "required": True,
+                "reviewer": "Consultant",
+                "approval_event": "Approve checklist assistant before any client-facing draft.",
+                "rationale": "Legal boundaries and final advice remain consultant-owned.",
+            },
             "fallback_option": "Manual checklist review by coordinator and consultant.",
             "do_not_automate": ["Legal eligibility decisions", "legal strategy", "final advice"],
             "roadmap_30_60_90": [
@@ -581,6 +658,12 @@ def _hvac_lead_intake_profile() -> dict:
             "risks": ["wrong lead rejection", "missing consent", "bad emergency routing"],
             "validation_method": ["golden intake requests", "dispatcher override review"],
             "success_metrics": ["routing accuracy", "missing-field rate", "dispatcher overrides"],
+            "human_gate": {
+                "required": True,
+                "reviewer": "Dispatcher",
+                "approval_event": "Approve first live lead-routing workflow.",
+                "rationale": "Lead rejection, emergency routing, and scheduling affect customers.",
+            },
             "fallback_option": "Manual intake checklist and dispatcher follow-up.",
             "assumptions": ["CRM or service-management integration is available."],
             "assumption_impact": (
@@ -710,6 +793,12 @@ def _netbox_issue_triage_profile() -> dict:
                 "clarification accuracy",
                 "override rate",
             ],
+            "human_gate": {
+                "required": True,
+                "reviewer": "Maintainer",
+                "approval_event": "Approve triage assistant before posting public comments.",
+                "rationale": "Public repository actions and maintainer commitments require review.",
+            },
             "fallback_option": "Canned maintainer responses and manual issue review.",
             "assumptions": ["Maintainers can export or review representative issue examples."],
             "assumption_impact": "Without examples, triage quality remains public-demo only.",
@@ -835,6 +924,12 @@ def _gitlab_incident_profile() -> dict:
                 "manager correction rate",
                 "coordination delay",
             ],
+            "human_gate": {
+                "required": True,
+                "reviewer": "Incident manager",
+                "approval_event": "Approve runbook assistant before live incident use.",
+                "rationale": "Incident declarations, paging, and updates remain human-owned.",
+            },
             "fallback_option": "Manual runbook lookup and incident manager coordination.",
             "assumptions": ["Runbooks are current and accessible to the assistant."],
             "assumption_impact": "Stale runbooks can produce unsafe coordination drafts.",

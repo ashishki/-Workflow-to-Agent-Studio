@@ -19,6 +19,12 @@ from workflow_agent_studio.domain.verification import (
 from workflow_agent_studio.domain.workflow import EvidenceReference
 
 ReportConfidence = Literal["low", "medium", "high"]
+AutonomyLevel = Literal[
+    "assistive",
+    "human_in_the_loop",
+    "bounded_agent_with_human_gate",
+    "high_autonomy_not_recommended",
+]
 
 
 class ExecutiveSummary(StrictModel):
@@ -43,6 +49,15 @@ class EvidenceSourceSummary(StrictModel):
 
 class EvidencePacket(StrictModel):
     source_documents: list[EvidenceSourceSummary] = Field(min_length=1)
+
+
+class AgentExpectationCheck(StrictModel):
+    realistic_autonomy_level: AutonomyLevel
+    autonomy_rationale: str = Field(min_length=1)
+    what_agent_will_not_replace: list[str] = Field(min_length=1)
+    workflow_specific_myths: list[str] = Field(min_length=1)
+    required_human_capabilities: list[str] = Field(min_length=1)
+    proof_gates_before_rollout: list[str] = Field(min_length=1)
 
 
 class RoadmapWorkflowMap(StrictModel):
@@ -115,6 +130,7 @@ class RoadmapReport(StrictModel):
     schema_version: Literal["roadmap-report-v1"] = "roadmap-report-v1"
     report_id: str = Field(min_length=1)
     executive_summary: ExecutiveSummary
+    agent_expectation_check: AgentExpectationCheck
     evidence_packet: EvidencePacket
     workflow_map: list[RoadmapWorkflowMap] = Field(min_length=1)
     process_inventory: list[ProcessInventoryItem] = Field(min_length=1)

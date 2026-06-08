@@ -40,6 +40,9 @@ def render_roadmap_markdown(report: RoadmapReport, *, status: str = "Draft") -> 
         "Critical Assumptions:",
         *_bullet(report.executive_summary.critical_assumptions),
         "",
+        "## What The Agent Will Not Replace",
+        *_agent_expectation_check(report),
+        "",
         "## Evidence Packet",
         *_evidence_packet(report),
         "",
@@ -87,6 +90,26 @@ def render_roadmap_markdown(report: RoadmapReport, *, status: str = "Draft") -> 
         "",
     ]
     return "\n".join(lines)
+
+
+def _agent_expectation_check(report: RoadmapReport) -> list[str]:
+    check = report.agent_expectation_check
+    return [
+        f"Realistic Autonomy Level: {check.realistic_autonomy_level}",
+        f"Autonomy Rationale: {check.autonomy_rationale}",
+        "",
+        "Human-Owned Responsibilities:",
+        *_bullet(check.what_agent_will_not_replace),
+        "",
+        "Workflow-Specific Agent Myths:",
+        *_bullet(check.workflow_specific_myths),
+        "",
+        "Required Human Capabilities:",
+        *_bullet(check.required_human_capabilities),
+        "",
+        "Proof Gates Before Rollout:",
+        *_bullet(check.proof_gates_before_rollout),
+    ]
 
 
 def _evidence_packet(report: RoadmapReport) -> list[str]:

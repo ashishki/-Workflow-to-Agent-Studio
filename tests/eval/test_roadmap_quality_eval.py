@@ -32,6 +32,7 @@ def test_demo_roadmaps_have_no_forbidden_claims() -> None:
             *(card.recommendation for card in report.recommendations),
             *(card.expected_value.qualitative for card in report.recommendations),
             *(claim.claim_text for claim in report.verification_appendix.claims_registry),
+            report.agent_expectation_check.autonomy_rationale,
         ]
         report_claim_text = " ".join(claim_surfaces).lower()
 
@@ -46,6 +47,13 @@ def test_demo_roadmaps_include_quality_gate_sections() -> None:
         assert report.do_not_automate_rationale
         assert report.executive_summary.overall_privacy_mode_recommendation
         assert report.evaluation_plan.golden_test_cases
+        assert report.agent_expectation_check.realistic_autonomy_level in {
+            "human_in_the_loop",
+            "bounded_agent_with_human_gate",
+        }
+        assert report.agent_expectation_check.what_agent_will_not_replace
+        assert report.agent_expectation_check.workflow_specific_myths
+        assert report.agent_expectation_check.proof_gates_before_rollout
         assert report.verification_appendix.claims_registry
         assert report.verification_appendix.assumptions_registry
         assert report.verification_appendix.recommendation_trace

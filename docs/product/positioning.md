@@ -23,6 +23,7 @@ Workflow-to-Agent Studio should win by being:
 - local-first by default;
 - privacy-aware;
 - deterministic where safety matters;
+- explicit about what an agent will not replace;
 - honest about assumptions and uncertainty;
 - useful before implementation starts;
 - exportable as an implementation handoff.
@@ -95,4 +96,5 @@ Prefer:
 - "assumption-backed estimate";
 - "human-reviewed handoff";
 - "privacy mode recommendation";
+- "realistic autonomy level";
 - "bounded pilot".

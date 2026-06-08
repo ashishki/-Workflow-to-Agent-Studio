@@ -21,7 +21,22 @@ Required fields:
 - overall confidence level;
 - critical assumptions.
 
-### 2. Evidence Packet
+### 2. What The Agent Will Not Replace
+
+Required fields:
+
+- realistic autonomy level;
+- autonomy rationale;
+- human-owned responsibilities;
+- workflow-specific agent myths;
+- required human capabilities;
+- proof gates before rollout.
+
+Purpose: make the report useful in presales by showing where AI is only a lever,
+where a human remains accountable, and what must be proven with logs, tests,
+shadow mode, and review before production.
+
+### 3. Evidence Packet
 
 Required fields:
 
@@ -33,7 +48,7 @@ Required fields:
 - redaction status;
 - source privacy class.
 
-### 3. Workflow Map
+### 4. Workflow Map
 
 For each workflow:
 
@@ -53,7 +68,7 @@ For each workflow:
 - current manual effort;
 - evidence references.
 
-### 4. Process Inventory
+### 5. Process Inventory
 
 For each process:
 
@@ -78,7 +93,7 @@ Allowed solution types:
 - bounded AI agent;
 - high-autonomy agent - future only.
 
-### 5. AI Opportunity Map
+### 6. AI Opportunity Map
 
 Each opportunity must include:
 
@@ -92,7 +107,7 @@ Each opportunity must include:
 - confidence;
 - fallback option.
 
-### 6. Recommendation Cards
+### 7. Recommendation Cards
 
 Each recommendation card must include:
 
@@ -156,7 +171,7 @@ evidence:
 fallback_option: Deterministic canned replies and manual routing
 ```
 
-### 7. Cloud Vs Local/Private Recommendation
+### 8. Cloud Vs Local/Private Recommendation
 
 For each initiative:
 
@@ -168,7 +183,7 @@ For each initiative:
 - data classes involved;
 - quality/cost tradeoff.
 
-### 8. Build Vs Buy
+### 9. Build Vs Buy
 
 Allowed outputs:
 
@@ -178,7 +193,7 @@ Allowed outputs:
 - build custom AI workflow;
 - do not build yet.
 
-### 9. Cost, Time, And Team Plan
+### 10. Cost, Time, And Team Plan
 
 Required fields:
 
@@ -190,7 +205,7 @@ Required fields:
 - roles and estimated involvement;
 - assumptions and confidence.
 
-### 10. Rollout Plan
+### 11. Rollout Plan
 
 Required stages:
 
@@ -200,7 +215,7 @@ Required stages:
 - Phase 3: integration or bounded-agent pilot;
 - Phase 4: scale, revise, or stop.
 
-### 11. Evaluation Plan
+### 12. Evaluation Plan
 
 Required fields:
 
@@ -211,7 +226,7 @@ Required fields:
 - regression tests;
 - stop conditions.
 
-### 12. Governance And Maintenance
+### 13. Governance And Maintenance
 
 Required fields:
 
@@ -223,7 +238,7 @@ Required fields:
 - data retention;
 - audit logs.
 
-### 13. Verification Appendix
+### 14. Verification Appendix
 
 Required files or sections:
 
@@ -247,3 +262,4 @@ The report must fail validation when:
 - "guaranteed ROI" or similar unsupported claims appear;
 - autonomous legal, medical, financial, or HR decisions are recommended;
 - a high-autonomy agent is recommended for a high-risk workflow.
+- a report lacks explicit autonomy limits and proof gates.

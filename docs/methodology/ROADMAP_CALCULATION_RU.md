@@ -23,6 +23,7 @@ LLM может помогать в будущем на этапах извлеч
 | Privacy class | deterministic privacy classifier + policy gate | cloud/private/local решается правилами, не вкусом модели |
 | Cost/time/team | deterministic cost engine + assumptions | это planning range, не quote |
 | Priority | deterministic scoring model | оценка воспроизводима и объяснима |
+| Реальный уровень автономии | agent expectation check | показывает, что агент не заменит и какие gates нужны |
 | Claims/evidence | verification appendix | важные claims связаны с source refs или assumptions |
 | Approved handoff | reviewer checklist | без human approval handoff блокируется |
 
@@ -203,10 +204,14 @@ Frontier candidate не может стать approved recommendation, если:
 7. Do-not-automate list  
    Отдельно фиксирует зоны, где automation unsafe.
 
-8. Human review  
+8. Agent expectation check  
+   Отдельно фиксирует realistic autonomy level, human-owned responsibilities,
+   workflow-specific myths и proof gates before rollout.
+
+9. Human review  
    Approved handoff невозможен без approved reviewer checklist.
 
-9. Eval suite  
+10. Eval suite  
    Tests ловят forbidden claims, unsafe privacy, missing evidence/assumptions,
    single-point costs и broken traces.
 

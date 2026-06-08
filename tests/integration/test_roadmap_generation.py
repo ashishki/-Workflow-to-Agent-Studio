@@ -29,6 +29,8 @@ def test_roadmap_service_creates_valid_report_for_demo_inputs(input_path: Path) 
     assert report.executive_summary.top_do_not_automate_yet_items
     assert report.do_not_automate_rationale
     assert report.executive_summary.overall_privacy_mode_recommendation
+    assert report.agent_expectation_check.what_agent_will_not_replace
+    assert report.agent_expectation_check.workflow_specific_myths
     assert report.verification_appendix.receipt.source_hashes
     assert report.verification_appendix.recommendation_trace
     assert report.verification_appendix.claims_registry
@@ -40,6 +42,10 @@ def test_legal_demo_report_requires_local_or_private_privacy_mode() -> None:
     assert "Local/on-prem" in report.executive_summary.overall_privacy_mode_recommendation
     assert report.recommendations[0].privacy_class == "restricted"
     assert "Legal eligibility decisions" in report.do_not_automate_rationale
+    assert report.agent_expectation_check.realistic_autonomy_level == "human_in_the_loop"
+    assert "Sensitive or high-impact decisions" in " ".join(
+        report.agent_expectation_check.workflow_specific_myths
+    )
 
 
 @pytest.mark.parametrize("input_path", PUBLIC_SOURCE_INPUTS)
@@ -52,6 +58,7 @@ def test_roadmap_service_creates_valid_report_for_public_source_inputs(
 
     assert reparsed == report
     assert report.evidence_packet.source_documents[0].source_type == "public_source_markdown"
+    assert report.agent_expectation_check.proof_gates_before_rollout
     assert report.recommendations
     assert report.do_not_automate_rationale
     assert report.verification_appendix.recommendation_trace
@@ -75,3 +82,7 @@ def test_public_incident_report_keeps_incident_actions_human_approved() -> None:
     assert "Private analysis" in report.executive_summary.overall_privacy_mode_recommendation
     assert "paging responders" in report.do_not_automate_rationale
     assert report.recommendations[0].human_gate.required
+    assert report.recommendations[0].human_gate.reviewer == "Incident manager"
+    assert "live incident" in report.recommendations[0].human_gate.approval_event
+    assert report.agent_expectation_check.realistic_autonomy_level == "human_in_the_loop"
+    assert "autonomous paging blocker" in report.agent_expectation_check.proof_gates_before_rollout
