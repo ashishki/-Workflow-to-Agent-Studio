@@ -81,6 +81,27 @@ For each process:
 - evaluation clarity score;
 - recommended solution type.
 
+### 5.5 Readiness And Deployment Fit
+
+For each candidate:
+
+- feasibility, data readiness, and eval readiness scored from 1 to 5;
+- risk level: low, medium, high, or regulated;
+- TCO complexity: low, medium, or high;
+- ROI proxy with evidence basis and caveats, never guaranteed ROI;
+- autonomy fit across deterministic, workflow, bounded-agent, and autonomous
+  routine modes;
+- deployment fit: local, GitHub Action, hosted sandbox, self-hosted worker,
+  cloud function, or not recommended;
+- data readiness report with source blockers and next questions;
+- eval readiness report with golden cases, acceptance criteria, and missing
+  proof questions;
+- autonomous deployment recommendation with trigger, idempotency key, secret
+  boundary, fallback policy, and blockers.
+
+Purpose: make the roadmap reject premature automation when data, eval, cost,
+or runtime controls are not ready.
+
 Allowed solution types:
 
 - do not automate yet;
@@ -170,6 +191,18 @@ evidence:
     chunk_id: CH-004
 fallback_option: Deterministic canned replies and manual routing
 ```
+
+Each generated roadmap must also include a harness candidate card for agentic or
+LLM-owned recommendations:
+
+- model/prompt/harness boundary;
+- tools;
+- memory policy;
+- retry and recovery policy;
+- permission policy;
+- human handoff;
+- trace requirements;
+- eval required before deployment.
 
 ### 8. Cloud Vs Local/Private Recommendation
 

@@ -9,16 +9,24 @@ from workflow_agent_studio.costing.engine import estimate_pattern_cost
 from workflow_agent_studio.domain.recommendation import RecommendationCard
 from workflow_agent_studio.domain.roadmap import (
     AgentExpectationCheck,
+    AutonomousDeploymentRecommendation,
+    AutonomyFit,
+    DataReadinessReport,
+    EvalReadinessReport,
     EvaluationPlan,
     EvidencePacket,
     EvidenceSourceSummary,
     ExecutiveSummary,
     GovernancePlan,
+    HarnessCandidateCard,
     ProcessInventoryItem,
     RoadmapReport,
     RoadmapWorkflowMap,
+    RoiProxy,
     RolloutPlan,
+    UseCaseCardExport,
     VerificationAppendix,
+    WorkflowCandidateScore,
 )
 from workflow_agent_studio.domain.verification import (
     ModelMetadata,
@@ -63,8 +71,10 @@ def generate_roadmap_report(input_path: str | Path) -> RoadmapReport:
         uncertainty_notes=profile["uncertainty_notes"],
     )
     recommendation_id = f"REC-{profile['domain_id'].upper()}-001"
+    process_id = f"PROC-{profile['domain_id'].upper()}-001"
     claim_id = f"CLM-{profile['domain_id'].upper()}-001"
     assumption_id = f"ASM-{profile['domain_id'].upper()}-001"
+    evidence_refs = [{"source_id": profile["source_id"], "chunk_id": "CH-001"}]
 
     recommendation = RecommendationCard.model_validate(
         {
@@ -97,7 +107,7 @@ def generate_roadmap_report(input_path: str | Path) -> RoadmapReport:
             "success_metrics": profile["success_metrics"],
             "confidence_level": profile["confidence"],
             "assumptions": profile["assumptions"],
-            "evidence": [{"source_id": profile["source_id"], "chunk_id": "CH-001"}],
+            "evidence": evidence_refs,
             "fallback_option": profile["fallback_option"],
             "human_gate": profile["human_gate"],
         }
@@ -181,7 +191,7 @@ def generate_roadmap_report(input_path: str | Path) -> RoadmapReport:
         ],
         process_inventory=[
             ProcessInventoryItem(
-                process_id=f"PROC-{profile['domain_id'].upper()}-001",
+                process_id=process_id,
                 process_name=profile["workflow_name"],
                 automation_feasibility_score=profile["delivery_readiness"],
                 business_impact_score=profile["business_value"],
@@ -191,6 +201,41 @@ def generate_roadmap_report(input_path: str | Path) -> RoadmapReport:
                 implementation_complexity_score=profile["implementation_complexity_score"],
                 evaluation_clarity_score=profile["evaluation_clarity"],
                 recommended_solution_type=match.recommended_solution_type,
+            )
+        ],
+        workflow_candidate_scores=[
+            _build_workflow_candidate_score(
+                profile=profile,
+                process_id=process_id,
+                recommendation_id=recommendation_id,
+                evidence_refs=evidence_refs,
+            )
+        ],
+        data_readiness_report=_build_data_readiness_report(
+            profile=profile,
+            evidence_refs=evidence_refs,
+        ),
+        eval_readiness_report=_build_eval_readiness_report(
+            profile=profile,
+            evidence_refs=evidence_refs,
+        ),
+        harness_candidate_cards=[
+            _build_harness_candidate_card(
+                profile=profile,
+                recommendation_id=recommendation_id,
+            )
+        ],
+        autonomous_deployment_recommendations=[
+            _build_autonomous_deployment_recommendation(
+                profile=profile,
+                recommendation_id=recommendation_id,
+            )
+        ],
+        use_case_card_exports=[
+            _build_use_case_card_export(
+                profile=profile,
+                recommendation_id=recommendation_id,
+                evidence_refs=evidence_refs,
             )
         ],
         recommendations=[recommendation],
@@ -314,6 +359,262 @@ def _build_agent_expectation_check(profile: dict) -> AgentExpectationCheck:
         workflow_specific_myths=myths,
         required_human_capabilities=capabilities,
         proof_gates_before_rollout=proof_gates,
+    )
+
+
+def _build_workflow_candidate_score(
+    *,
+    profile: dict,
+    process_id: str,
+    recommendation_id: str,
+    evidence_refs: list[dict[str, str]],
+) -> WorkflowCandidateScore:
+    return WorkflowCandidateScore(
+        process_id=process_id,
+        recommendation_id=recommendation_id,
+        feasibility=_score_1_to_5(profile["delivery_readiness"]),
+        data_readiness=_score_1_to_5(profile["data_readiness_score"]),
+        eval_readiness=_score_1_to_5(profile["evaluation_clarity"]),
+        risk_level=_risk_level(profile),
+        tco_complexity=_tco_complexity(profile),
+        roi_proxy=RoiProxy(
+            fte_minutes_saved=profile["quantitative_assumption"],
+            cycle_time_delta="Expected to improve cycle time only after baseline measurement.",
+            error_rate_delta="not estimated from demo evidence",
+            throughput_delta="not estimated from demo evidence",
+            service_delta=profile["expected_value"],
+            evidence_basis=[
+                "Roadmap value is pattern-based and must be checked against pilot metrics.",
+                *profile["evidence_snippets"],
+            ],
+        ),
+        autonomy_fit=AutonomyFit(
+            deterministic=", ".join(profile["deterministic_components"]),
+            workflow="Useful as a reviewed workflow before any production automation.",
+            bounded_agent=(
+                "Candidate only after trace, retry, permission, and human-gate checks exist."
+            ),
+            autonomous_routine=_autonomous_routine_fit(profile),
+            recommended_mode=_recommended_autonomy_mode(profile),
+        ),
+        deployment_fit=_deployment_target(profile),
+        evidence=evidence_refs,
+        caveats=[
+            *profile["missing_evidence"],
+            *profile["uncertainty_notes"],
+            "Scores are planning aids, not ROI proof.",
+        ],
+    )
+
+
+def _build_data_readiness_report(
+    *,
+    profile: dict,
+    evidence_refs: list[dict[str, str]],
+) -> DataReadinessReport:
+    blockers = list(profile["missing_evidence"]) if profile["data_readiness_score"] < 70 else []
+    return DataReadinessReport(
+        status=_readiness_status(profile["data_readiness_score"]),
+        score=profile["data_readiness_score"],
+        ready_sources=profile["required_data"],
+        blockers=blockers,
+        required_next_questions=[
+            "Which source is authoritative for each required data field?",
+            "How fresh must the source be before a recommendation is shown?",
+            "Which fields require redaction, retention limits, or local-only handling?",
+        ],
+        evidence=evidence_refs,
+    )
+
+
+def _build_eval_readiness_report(
+    *,
+    profile: dict,
+    evidence_refs: list[dict[str, str]],
+) -> EvalReadinessReport:
+    blockers = (
+        [] if profile["evaluation_clarity"] >= 70 else ["Eval acceptance is not specific enough."]
+    )
+    return EvalReadinessReport(
+        status=_readiness_status(profile["evaluation_clarity"]),
+        score=profile["evaluation_clarity"],
+        golden_cases=profile["golden_test_cases"],
+        acceptance_criteria=profile["acceptance_criteria"],
+        blockers=blockers,
+        required_next_questions=[
+            "Which real cases become the golden set?",
+            "What is the human-review sample size before launch?",
+            "What cost, latency, and stop-condition budget blocks rollout?",
+        ],
+        evidence=evidence_refs,
+    )
+
+
+def _build_harness_candidate_card(
+    *,
+    profile: dict,
+    recommendation_id: str,
+) -> HarnessCandidateCard:
+    return HarnessCandidateCard(
+        recommendation_id=recommendation_id,
+        harness_boundary=profile["architecture_model"],
+        tools=profile["systems"],
+        memory_policy="No autonomous long-term memory; use scoped workflow evidence only.",
+        retry_recovery_policy="Retry bounded integrations, then fall back to manual handling.",
+        permission_policy=(
+            "Read/draft by default; writes and customer-facing actions require approval."
+        ),
+        human_handoff=profile["human_gate"]["approval_event"],
+        trace_requirements=[
+            "source hash",
+            "matched pattern",
+            "model or deterministic component version",
+            "tool calls and approval decisions",
+            "cost and latency per recommendation",
+        ],
+        eval_required=[
+            *profile["golden_test_cases"],
+            *profile["regression_tests"],
+            *profile["stop_conditions"],
+        ],
+    )
+
+
+def _build_autonomous_deployment_recommendation(
+    *,
+    profile: dict,
+    recommendation_id: str,
+) -> AutonomousDeploymentRecommendation:
+    runtime_target = _deployment_target(profile)
+    blockers = []
+    if runtime_target == "not_recommended":
+        blockers = [
+            "Keep as reviewed workflow until data, eval, permission, and fallback gates pass.",
+            *profile["do_not_automate"][:2],
+        ]
+    return AutonomousDeploymentRecommendation(
+        recommendation_id=recommendation_id,
+        fit=_deployment_fit(profile),
+        trigger_contract="manual or event-triggered draft creation only during pilot",
+        runtime_target=runtime_target,
+        idempotency_key=f"{profile['workflow_id']}:source_hash:business_key",
+        secrets_boundary="Reference secret names only; never store source credentials in reports.",
+        fallback_policy=profile["fallback_option"],
+        rationale=_deployment_rationale(profile),
+        blockers=blockers,
+    )
+
+
+def _build_use_case_card_export(
+    *,
+    profile: dict,
+    recommendation_id: str,
+    evidence_refs: list[dict[str, str]],
+) -> UseCaseCardExport:
+    return UseCaseCardExport(
+        use_case_id=recommendation_id,
+        title=profile["recommendation"],
+        problem=", ".join(profile["pain_points"]),
+        current_workflow=profile["current_manual_effort"],
+        ai_opportunity=profile["expected_value"],
+        data_required=profile["required_data"],
+        risk_privacy=[*profile["risks"], profile["privacy_mode_recommendation"]],
+        human_in_loop=profile["human_gate"]["approval_event"],
+        eval_plan=[*profile["golden_test_cases"], *profile["acceptance_criteria"]],
+        tco_complexity=_tco_complexity(profile),
+        mvp_scope=profile["shadow_mode"],
+        production_hardening=[
+            "trace every recommendation",
+            "monitor cost and latency",
+            "keep rollback/manual fallback ready",
+            *profile["regression_tests"],
+        ],
+        evidence=evidence_refs,
+    )
+
+
+def _score_1_to_5(score: int) -> int:
+    if score >= 85:
+        return 5
+    if score >= 70:
+        return 4
+    if score >= 50:
+        return 3
+    if score >= 30:
+        return 2
+    return 1
+
+
+def _readiness_status(score: int):
+    if score >= 70:
+        return "ready"
+    if score >= 45:
+        return "prepare_first"
+    return "blocked"
+
+
+def _risk_level(profile: dict):
+    if profile["privacy_class"] == "restricted" or profile["risk_penalty"] >= 80:
+        return "regulated"
+    if profile["risk_penalty"] >= 60:
+        return "high"
+    if profile["risk_penalty"] >= 30:
+        return "medium"
+    return "low"
+
+
+def _tco_complexity(profile: dict):
+    if profile["implementation_complexity_score"] >= 70 or profile["privacy_class"] == "restricted":
+        return "high"
+    if profile["implementation_complexity_score"] >= 45:
+        return "medium"
+    return "low"
+
+
+def _recommended_autonomy_mode(profile: dict):
+    if _risk_level(profile) in {"high", "regulated"}:
+        return "workflow"
+    if profile["llm_components"] and profile["human_gate"]["required"]:
+        return "bounded_agent"
+    return "deterministic"
+
+
+def _autonomous_routine_fit(profile: dict) -> str:
+    if _deployment_target(profile) == "not_recommended":
+        return "Not ready for autonomous routine deployment."
+    return "Possible only as a bounded routine with idempotency, fallback, and monitoring."
+
+
+def _deployment_target(profile: dict):
+    if (
+        _risk_level(profile) in {"high", "regulated"}
+        or profile["data_readiness_score"] < 60
+        or profile["evaluation_clarity"] < 60
+    ):
+        return "not_recommended"
+    if profile["privacy_class"] in {"public", "internal"}:
+        return "github_action"
+    if profile["risk_penalty"] <= 45:
+        return "hosted_sandbox"
+    return "self_hosted_worker"
+
+
+def _deployment_fit(profile: dict):
+    target = _deployment_target(profile)
+    if target == "not_recommended":
+        return "manual_only"
+    if profile["llm_components"]:
+        return "event_driven_candidate"
+    return "scheduled_routine_candidate"
+
+
+def _deployment_rationale(profile: dict) -> str:
+    if _deployment_target(profile) == "not_recommended":
+        return (
+            "Automation should wait for stronger data readiness, eval clarity, and risk controls."
+        )
+    return (
+        "A bounded deployment can be considered after shadow mode and human approval checks pass."
     )
 
 

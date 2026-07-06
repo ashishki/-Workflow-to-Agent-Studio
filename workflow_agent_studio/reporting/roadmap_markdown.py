@@ -52,11 +52,20 @@ def render_roadmap_markdown(report: RoadmapReport, *, status: str = "Draft") -> 
         "## Process Inventory",
         *_process_inventory(report.process_inventory),
         "",
+        "## Readiness And Deployment Fit",
+        *_readiness_and_deployment_fit(report),
+        "",
         "## AI Opportunity Map",
         *_ai_opportunity_map(report),
         "",
         "## Recommendation Cards",
         *_recommendation_cards(report.recommendations),
+        "",
+        "## Harness Candidate Cards",
+        *_harness_candidate_cards(report),
+        "",
+        "## Use Case Card Exports",
+        *_use_case_card_exports(report),
         "",
         "## Cloud Vs Local/Private Recommendation",
         *_cloud_private_recommendations(report),
@@ -188,6 +197,85 @@ def _process_inventory(items: list[ProcessInventoryItem]) -> list[str]:
     return lines
 
 
+def _readiness_and_deployment_fit(report: RoadmapReport) -> list[str]:
+    lines: list[str] = []
+    if report.data_readiness_report is not None:
+        data = report.data_readiness_report
+        lines.extend(
+            [
+                "### Data Readiness",
+                f"- Status: {data.status}",
+                f"- Score: {data.score}",
+                "- Ready Sources:",
+                *_bullet(data.ready_sources),
+                "- Blockers:",
+                *_bullet(data.blockers),
+                "- Required Next Questions:",
+                *_bullet(data.required_next_questions),
+                "",
+            ]
+        )
+    if report.eval_readiness_report is not None:
+        eval_report = report.eval_readiness_report
+        lines.extend(
+            [
+                "### Eval Readiness",
+                f"- Status: {eval_report.status}",
+                f"- Score: {eval_report.score}",
+                "- Golden Cases:",
+                *_bullet(eval_report.golden_cases),
+                "- Acceptance Criteria:",
+                *_bullet(eval_report.acceptance_criteria),
+                "- Blockers:",
+                *_bullet(eval_report.blockers),
+                "- Required Next Questions:",
+                *_bullet(eval_report.required_next_questions),
+                "",
+            ]
+        )
+    for score in report.workflow_candidate_scores:
+        lines.extend(
+            [
+                f"### Candidate Score {score.recommendation_id}",
+                f"- Feasibility: {score.feasibility}/5",
+                f"- Data Readiness: {score.data_readiness}/5",
+                f"- Eval Readiness: {score.eval_readiness}/5",
+                f"- Risk Level: {score.risk_level}",
+                f"- TCO Complexity: {score.tco_complexity}",
+                f"- Deployment Fit: {score.deployment_fit}",
+                f"- Recommended Autonomy Mode: {score.autonomy_fit.recommended_mode}",
+                "- ROI Proxy:",
+                f"  - FTE Minutes Saved: {score.roi_proxy.fte_minutes_saved}",
+                f"  - Cycle Time Delta: {score.roi_proxy.cycle_time_delta}",
+                f"  - Error Rate Delta: {score.roi_proxy.error_rate_delta}",
+                f"  - Throughput Delta: {score.roi_proxy.throughput_delta}",
+                f"  - Service Delta: {score.roi_proxy.service_delta}",
+                "  - Evidence Basis:",
+                *_indented_bullet(score.roi_proxy.evidence_basis),
+                "- Caveats:",
+                *_bullet(score.caveats),
+                "",
+            ]
+        )
+    for deployment in report.autonomous_deployment_recommendations:
+        lines.extend(
+            [
+                f"### Deployment Recommendation {deployment.recommendation_id}",
+                f"- Fit: {deployment.fit}",
+                f"- Runtime Target: {deployment.runtime_target}",
+                f"- Trigger Contract: {deployment.trigger_contract}",
+                f"- Idempotency Key: {deployment.idempotency_key}",
+                f"- Secrets Boundary: {deployment.secrets_boundary}",
+                f"- Fallback Policy: {deployment.fallback_policy}",
+                f"- Rationale: {deployment.rationale}",
+                "- Blockers:",
+                *_bullet(deployment.blockers),
+                "",
+            ]
+        )
+    return lines or ["- none"]
+
+
 def _ai_opportunity_map(report: RoadmapReport) -> list[str]:
     pain_points = _flatten(workflow.pain_points for workflow in report.workflow_map)
     lines: list[str] = []
@@ -244,6 +332,55 @@ def _recommendation_cards(cards: list[RecommendationCard]) -> list[str]:
                 f"  - Reviewer: {card.human_gate.reviewer}",
                 f"  - Approval Event: {card.human_gate.approval_event}",
                 f"  - Rationale: {card.human_gate.rationale}",
+                "",
+            ]
+        )
+    return lines or ["- none"]
+
+
+def _harness_candidate_cards(report: RoadmapReport) -> list[str]:
+    lines: list[str] = []
+    for card in report.harness_candidate_cards:
+        lines.extend(
+            [
+                f"### {card.recommendation_id}",
+                f"- Harness Boundary: {card.harness_boundary}",
+                f"- Memory Policy: {card.memory_policy}",
+                f"- Retry/Recovery Policy: {card.retry_recovery_policy}",
+                f"- Permission Policy: {card.permission_policy}",
+                f"- Human Handoff: {card.human_handoff}",
+                "- Tools:",
+                *_bullet(card.tools),
+                "- Trace Requirements:",
+                *_bullet(card.trace_requirements),
+                "- Eval Required:",
+                *_bullet(card.eval_required),
+                "",
+            ]
+        )
+    return lines or ["- none"]
+
+
+def _use_case_card_exports(report: RoadmapReport) -> list[str]:
+    lines: list[str] = []
+    for card in report.use_case_card_exports:
+        lines.extend(
+            [
+                f"### {card.use_case_id}: {card.title}",
+                f"- Problem: {card.problem}",
+                f"- Current Workflow: {card.current_workflow}",
+                f"- AI Opportunity: {card.ai_opportunity}",
+                f"- Human In Loop: {card.human_in_loop}",
+                f"- TCO Complexity: {card.tco_complexity}",
+                f"- MVP Scope: {card.mvp_scope}",
+                "- Data Required:",
+                *_bullet(card.data_required),
+                "- Risk/Privacy:",
+                *_bullet(card.risk_privacy),
+                "- Eval Plan:",
+                *_bullet(card.eval_plan),
+                "- Production Hardening:",
+                *_bullet(card.production_hardening),
                 "",
             ]
         )
@@ -409,6 +546,11 @@ def _verification_appendix(report: RoadmapReport) -> list[str]:
 def _bullet(items: Iterable[str]) -> list[str]:
     values = [str(item) for item in items]
     return [f"- {item}" for item in values] if values else ["- none"]
+
+
+def _indented_bullet(items: Iterable[str]) -> list[str]:
+    values = [str(item) for item in items]
+    return [f"    - {item}" for item in values] if values else ["    - none"]
 
 
 def _format_evidence_ref(ref) -> str:

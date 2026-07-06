@@ -97,6 +97,10 @@ artifacts:
   boundaries;
 - design candidates such as deterministic-first, human-in-the-loop,
   bounded-agent, compliance-heavy, and low-cost MVP;
+- candidate scoring for feasibility, data readiness, eval readiness, TCO,
+  risk, ROI proxy, autonomy fit, and deployment fit;
+- data/eval readiness reports, harness candidate cards, autonomous deployment
+  recommendations, and use-case card exports;
 - evaluation cases, risks, observability notes, implementation tasks, and
   Markdown exports.
 
@@ -109,6 +113,7 @@ The SMB AI roadmap layer adds:
 - agent expectation check: what the agent will not replace, realistic autonomy
   level, and proof gates before rollout;
 - priority scoring;
+- readiness scoring for data, eval, harness, TCO, and deployment fit;
 - SMB implementation patterns;
 - verification receipts and roadmap evals;
 - reviewer checklists;

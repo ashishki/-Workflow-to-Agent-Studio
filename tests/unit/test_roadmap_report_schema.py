@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from workflow_agent_studio.domain.roadmap import RoadmapReport
+from workflow_agent_studio.domain.roadmap import RoadmapReport, RoiProxy
 
 FIXTURE_PATH = Path("tests/fixtures/roadmaps/minimal_valid_roadmap.json")
 
@@ -26,6 +26,9 @@ def test_minimal_valid_roadmap_report_fixture_round_trips() -> None:
     assert report.evidence_packet.source_documents[0].source_hash == "sha256:source-001"
     assert report.workflow_map[0].workflow_name == "Support triage"
     assert report.process_inventory[0].recommended_solution_type == "llm_assistant"
+    assert report.workflow_candidate_scores == []
+    assert report.data_readiness_report is None
+    assert report.eval_readiness_report is None
     assert report.recommendations[0].recommendation_id == "REC-001"
     assert report.rollout_plan.stages
     assert report.evaluation_plan.stop_conditions
@@ -74,3 +77,31 @@ def test_roadmap_report_allows_empty_recommendations_with_stop_rationale() -> No
 
     assert report.recommendations == []
     assert report.do_not_automate_rationale == ["Evidence is insufficient for automation."]
+
+
+def test_roi_proxy_rejects_specific_claims_without_evidence_basis() -> None:
+    with pytest.raises(ValidationError, match="evidence_basis"):
+        RoiProxy.model_validate(
+            {
+                "fte_minutes_saved": "Save 200 minutes per week.",
+                "cycle_time_delta": "not estimated",
+                "error_rate_delta": "not estimated",
+                "throughput_delta": "not estimated",
+                "service_delta": "not estimated",
+                "evidence_basis": [],
+            }
+        )
+
+
+def test_roi_proxy_rejects_guaranteed_roi_language() -> None:
+    with pytest.raises(ValidationError, match="guaranteed"):
+        RoiProxy.model_validate(
+            {
+                "fte_minutes_saved": "guaranteed ROI in one month",
+                "cycle_time_delta": "not estimated",
+                "error_rate_delta": "not estimated",
+                "throughput_delta": "not estimated",
+                "service_delta": "not estimated",
+                "evidence_basis": ["pilot data"],
+            }
+        )

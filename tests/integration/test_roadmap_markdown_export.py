@@ -18,8 +18,11 @@ def test_roadmap_markdown_uses_stable_contract_section_order() -> None:
         "## Evidence Packet",
         "## Workflow Map",
         "## Process Inventory",
+        "## Readiness And Deployment Fit",
         "## AI Opportunity Map",
         "## Recommendation Cards",
+        "## Harness Candidate Cards",
+        "## Use Case Card Exports",
         "## Cloud Vs Local/Private Recommendation",
         "## Build Vs Buy",
         "## Cost, Time, And Team Plan",
@@ -34,6 +37,10 @@ def test_roadmap_markdown_uses_stable_contract_section_order() -> None:
     assert "Appointment booking and reminder automation" in markdown
     assert "Realistic Autonomy Level" in markdown
     assert "Workflow-Specific Agent Myths" in markdown
+    assert "Data Readiness" in markdown
+    assert "Eval Readiness" in markdown
+    assert "Deployment Recommendation" in markdown
+    assert "ROI Proxy" in markdown
 
 
 def test_roadmap_markdown_includes_claims_and_assumptions() -> None:

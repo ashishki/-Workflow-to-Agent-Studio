@@ -45,6 +45,15 @@ def test_demo_roadmaps_include_quality_gate_sections() -> None:
 
         assert report.recommendations
         assert report.do_not_automate_rationale
+        assert report.workflow_candidate_scores
+        assert report.workflow_candidate_scores[0].evidence
+        assert report.data_readiness_report is not None
+        assert report.data_readiness_report.required_next_questions
+        assert report.eval_readiness_report is not None
+        assert report.eval_readiness_report.required_next_questions
+        assert report.harness_candidate_cards
+        assert report.autonomous_deployment_recommendations
+        assert report.use_case_card_exports
         assert report.executive_summary.overall_privacy_mode_recommendation
         assert report.evaluation_plan.golden_test_cases
         assert report.agent_expectation_check.realistic_autonomy_level in {

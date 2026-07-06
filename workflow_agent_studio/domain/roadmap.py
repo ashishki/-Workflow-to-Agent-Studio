@@ -25,6 +25,25 @@ AutonomyLevel = Literal[
     "bounded_agent_with_human_gate",
     "high_autonomy_not_recommended",
 ]
+RiskLevel = Literal["low", "medium", "high", "regulated"]
+ReadinessStatus = Literal["ready", "prepare_first", "blocked"]
+TcoComplexity = Literal["low", "medium", "high"]
+AutonomyFitMode = Literal["deterministic", "workflow", "bounded_agent", "autonomous_routine"]
+DeploymentTarget = Literal[
+    "local",
+    "github_action",
+    "hosted_sandbox",
+    "self_hosted_worker",
+    "cloud_function",
+    "not_recommended",
+]
+DeploymentFit = Literal[
+    "not_recommended",
+    "manual_only",
+    "scheduled_routine_candidate",
+    "event_driven_candidate",
+    "bounded_worker_candidate",
+]
 
 
 class ExecutiveSummary(StrictModel):
@@ -92,6 +111,130 @@ class ProcessInventoryItem(StrictModel):
     recommended_solution_type: SolutionType
 
 
+class RoiProxy(StrictModel):
+    fte_minutes_saved: str = Field(default="not estimated", min_length=1)
+    cycle_time_delta: str = Field(default="not estimated", min_length=1)
+    error_rate_delta: str = Field(default="not estimated", min_length=1)
+    throughput_delta: str = Field(default="not estimated", min_length=1)
+    service_delta: str = Field(default="not estimated", min_length=1)
+    evidence_basis: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def reject_unsupported_roi_claims(self) -> RoiProxy:
+        values = [
+            self.fte_minutes_saved,
+            self.cycle_time_delta,
+            self.error_rate_delta,
+            self.throughput_delta,
+            self.service_delta,
+        ]
+        text = " ".join(values).casefold()
+        forbidden = ("guaranteed", "guarantee", "proven roi", "certain payback")
+        if any(term in text for term in forbidden):
+            raise ValueError("roi_proxy cannot contain guaranteed or proven ROI claims")
+        estimated_values = {
+            "not estimated",
+            "unknown",
+            "tbd",
+            "not estimated from demo evidence",
+        }
+        if not self.evidence_basis and any(
+            value.casefold() not in estimated_values for value in values
+        ):
+            raise ValueError("roi_proxy requires evidence_basis for specific value claims")
+        return self
+
+
+class AutonomyFit(StrictModel):
+    deterministic: str = Field(min_length=1)
+    workflow: str = Field(min_length=1)
+    bounded_agent: str = Field(min_length=1)
+    autonomous_routine: str = Field(min_length=1)
+    recommended_mode: AutonomyFitMode
+
+
+class WorkflowCandidateScore(StrictModel):
+    schema_version: Literal["workflow-candidate-score-v1"] = "workflow-candidate-score-v1"
+    process_id: str = Field(min_length=1)
+    recommendation_id: str = Field(min_length=1)
+    feasibility: int = Field(ge=1, le=5)
+    data_readiness: int = Field(ge=1, le=5)
+    eval_readiness: int = Field(ge=1, le=5)
+    risk_level: RiskLevel
+    tco_complexity: TcoComplexity
+    roi_proxy: RoiProxy
+    autonomy_fit: AutonomyFit
+    deployment_fit: DeploymentTarget
+    evidence: list[EvidenceReference] = Field(default_factory=list)
+    caveats: list[str] = Field(min_length=1)
+
+
+class DataReadinessReport(StrictModel):
+    schema_version: Literal["data-readiness-report-v1"] = "data-readiness-report-v1"
+    status: ReadinessStatus
+    score: int = Field(ge=0, le=100)
+    ready_sources: list[str] = Field(default_factory=list)
+    blockers: list[str] = Field(default_factory=list)
+    required_next_questions: list[str] = Field(min_length=1)
+    evidence: list[EvidenceReference] = Field(default_factory=list)
+
+
+class EvalReadinessReport(StrictModel):
+    schema_version: Literal["eval-readiness-report-v1"] = "eval-readiness-report-v1"
+    status: ReadinessStatus
+    score: int = Field(ge=0, le=100)
+    golden_cases: list[str] = Field(default_factory=list)
+    acceptance_criteria: list[str] = Field(default_factory=list)
+    blockers: list[str] = Field(default_factory=list)
+    required_next_questions: list[str] = Field(min_length=1)
+    evidence: list[EvidenceReference] = Field(default_factory=list)
+
+
+class HarnessCandidateCard(StrictModel):
+    schema_version: Literal["harness-candidate-card-v1"] = "harness-candidate-card-v1"
+    recommendation_id: str = Field(min_length=1)
+    harness_boundary: str = Field(min_length=1)
+    tools: list[str] = Field(default_factory=list)
+    memory_policy: str = Field(min_length=1)
+    retry_recovery_policy: str = Field(min_length=1)
+    permission_policy: str = Field(min_length=1)
+    human_handoff: str = Field(min_length=1)
+    trace_requirements: list[str] = Field(min_length=1)
+    eval_required: list[str] = Field(min_length=1)
+
+
+class AutonomousDeploymentRecommendation(StrictModel):
+    schema_version: Literal["autonomous-deployment-recommendation-v1"] = (
+        "autonomous-deployment-recommendation-v1"
+    )
+    recommendation_id: str = Field(min_length=1)
+    fit: DeploymentFit
+    trigger_contract: str = Field(min_length=1)
+    runtime_target: DeploymentTarget
+    idempotency_key: str = Field(min_length=1)
+    secrets_boundary: str = Field(min_length=1)
+    fallback_policy: str = Field(min_length=1)
+    rationale: str = Field(min_length=1)
+    blockers: list[str] = Field(default_factory=list)
+
+
+class UseCaseCardExport(StrictModel):
+    schema_version: Literal["use-case-card-export-v1"] = "use-case-card-export-v1"
+    use_case_id: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    problem: str = Field(min_length=1)
+    current_workflow: str = Field(min_length=1)
+    ai_opportunity: str = Field(min_length=1)
+    data_required: list[str] = Field(min_length=1)
+    risk_privacy: list[str] = Field(min_length=1)
+    human_in_loop: str = Field(min_length=1)
+    eval_plan: list[str] = Field(min_length=1)
+    tco_complexity: TcoComplexity
+    mvp_scope: str = Field(min_length=1)
+    production_hardening: list[str] = Field(min_length=1)
+    evidence: list[EvidenceReference] = Field(default_factory=list)
+
+
 class RolloutPlan(StrictModel):
     stages: list[str] = Field(min_length=1)
 
@@ -134,6 +277,14 @@ class RoadmapReport(StrictModel):
     evidence_packet: EvidencePacket
     workflow_map: list[RoadmapWorkflowMap] = Field(min_length=1)
     process_inventory: list[ProcessInventoryItem] = Field(min_length=1)
+    workflow_candidate_scores: list[WorkflowCandidateScore] = Field(default_factory=list)
+    data_readiness_report: DataReadinessReport | None = None
+    eval_readiness_report: EvalReadinessReport | None = None
+    harness_candidate_cards: list[HarnessCandidateCard] = Field(default_factory=list)
+    autonomous_deployment_recommendations: list[AutonomousDeploymentRecommendation] = Field(
+        default_factory=list
+    )
+    use_case_card_exports: list[UseCaseCardExport] = Field(default_factory=list)
     recommendations: list[RecommendationCard] = Field(default_factory=list)
     do_not_automate_rationale: list[str] = Field(default_factory=list)
     rollout_plan: RolloutPlan
