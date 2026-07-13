@@ -16,8 +16,22 @@ implementation tasks.
 > **Current maturity: local prototype.** Repository tests exercise the
 > deterministic workflow, fixture, and public-source demo paths.
 > No external user, observed workflow outcome, or production deployment is claimed.
-> A public `v0.1.0` release remains blocked until remote CI is green and one
+> Remote CI is green. A public `v0.1.0` release remains blocked until one
 > consented, sanitized workflow is reviewed by its real owner.
+
+## Public Evidence-Mapping Intake
+
+Public reports are limited to unsupported evidence mappings that can be
+reproduced with authored-from-scratch synthetic fixtures. Read the
+[sanitized interview fixture guide](docs/SANITIZED_INTERVIEW_FIXTURES.md), then
+use the
+[bounded issue form](https://github.com/ashishki/-Workflow-to-Agent-Studio/issues/new?template=unsupported-evidence-mapping.yml).
+Do not attach a real interview, SOP, customer process, credentials, private
+system output, or a redacted derivative of one. A synthetic mapping test proves
+only the local mechanism; it is not an observed case, pilot, or owner review.
+Suspected vulnerabilities or source-data exposure follow
+[SECURITY.md](SECURITY.md), not the public form.
+
 
 Russian cofounder/demo package:
 
@@ -164,16 +178,21 @@ python -m pytest tests/eval/test_real_world_corpus_eval.py -q
 python -m pytest tests/eval/test_real_world_corpus_eval.py tests/eval/test_retrieval_eval.py tests/eval/test_plan_eval.py -q
 ```
 
-Real-world corpus fixtures:
+Authored-synthetic corpus fixtures:
 
 - `tests/fixtures/sources/discovery_call.transcript.txt`
 - `tests/fixtures/sources/discovery_notes.notes.txt`
 - `tests/fixtures/sources/intake_form.form.md`
 - `tests/fixtures/sources/crm_integration.integration.txt`
 
-Real-world corpus eval:
+Authored-synthetic corpus eval (historical test filename):
 
 - `tests/eval/test_real_world_corpus_eval.py`
+
+The fixture bytes and their authored-synthetic declarations are bound in
+`tests/fixtures/sources/manifest.json`. The historical test filename does not
+mean the checked-in inputs came from a real person, customer, or observed
+workflow.
 
 Primary metrics:
 
@@ -196,6 +215,8 @@ Primary metrics:
 - Architecture: `docs/ARCHITECTURE.md`
 - Specification: `docs/spec.md`
 - Operator guide: `docs/operator_guide.md`
+- Public fixture and unsupported-mapping intake:
+  `docs/SANITIZED_INTERVIEW_FIXTURES.md`
 - Retrieval eval: `docs/retrieval_eval.md`
 - Planning eval: `docs/plan_eval.md`
 - Original long phase draft: `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
@@ -205,8 +226,10 @@ Primary metrics:
 - Completed: Phase 0 local evidence-linked MVP; Phase 11/12 public workflow
   showcase; Phase 13 workflow-to-agent framework upgrade; Phase 14 SMB AI
   Roadmap Product Layer through `T82`.
-- Active: repair the non-parsing remote CI workflow and prepare the verified
-  repository-only rename to `workflow-to-agent-studio`.
+- Completed: the non-parsing remote CI workflow was repaired and verified on
+  the current repository slug.
+- Blocked on repository settings: the repository-only rename to
+  `workflow-to-agent-studio`; the Python package and CLI names do not change.
 - Next evidence target: one consented, sanitized workflow reviewed by its real
   owner; until then the repository remains a local prototype.
 - Open commercial proof boundary: T34/T40 remain blocked until

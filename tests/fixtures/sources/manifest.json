@@ -1,0 +1,45 @@
+{
+  "schema_version": "workflow-studio-fixture-provenance-v1",
+  "fixtures": [
+    {
+      "path": "tests/fixtures/sources/crm_integration.integration.txt",
+      "fixture_id": "workflow-studio-synthetic-crm-integration-v1",
+      "fixture_origin": "authored-synthetic",
+      "source_kind": "integration",
+      "contract_revision": "workflow-studio-source-v1",
+      "sha256": "08f01f673fe89c36f7e10aae0780693473fecabe6c0fe98c6af2aeaf6fd3e2ff"
+    },
+    {
+      "path": "tests/fixtures/sources/discovery_call.transcript.txt",
+      "fixture_id": "workflow-studio-synthetic-discovery-call-v1",
+      "fixture_origin": "authored-synthetic",
+      "source_kind": "transcript",
+      "contract_revision": "workflow-studio-source-v1",
+      "sha256": "d5c08d0812ed7970876affb5569a63c5f7d4e72a2de3d8355f86d8d38b5b4382"
+    },
+    {
+      "path": "tests/fixtures/sources/discovery_notes.notes.txt",
+      "fixture_id": "workflow-studio-synthetic-discovery-notes-v1",
+      "fixture_origin": "authored-synthetic",
+      "source_kind": "notes",
+      "contract_revision": "workflow-studio-source-v1",
+      "sha256": "e6414f4395e3579d7fbcc13d2e9c4fa7fc2cba31585966d3d35d28573a26b137"
+    },
+    {
+      "path": "tests/fixtures/sources/intake_form.form.md",
+      "fixture_id": "workflow-studio-synthetic-intake-form-v1",
+      "fixture_origin": "authored-synthetic",
+      "source_kind": "form",
+      "contract_revision": "workflow-studio-source-v1",
+      "sha256": "3da7044b36acce9025f17f7f8dae835324e70274905bc974fc33a71b30162b83"
+    },
+    {
+      "path": "tests/fixtures/sources/sample_sop.md",
+      "fixture_id": "workflow-studio-synthetic-sample-sop-v1",
+      "fixture_origin": "authored-synthetic",
+      "source_kind": "sop",
+      "contract_revision": "workflow-studio-source-v1",
+      "sha256": "34ddba2f24f7b7edae9209fd819a1855c64c010a68130a3fb0f9cb9cd0e6abff"
+    }
+  ]
+}

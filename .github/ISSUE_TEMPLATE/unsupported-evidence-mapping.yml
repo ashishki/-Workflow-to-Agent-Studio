@@ -1,0 +1,90 @@
+name: Unsupported evidence mapping
+description: Report one reproducible mapping defect using an authored-synthetic fixture.
+title: "[evidence-mapping] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read `docs/SANITIZED_INTERVIEW_FIXTURES.md` first. Do not paste a real interview, SOP, customer workflow, private system output, credential, local path, or a redacted/paraphrased derivative. This intake is for one bounded synthetic mapping defect, not a feature roadmap.
+  - type: input
+    id: revision
+    attributes:
+      label: Exact repository revision
+      description: Full 40-character commit SHA.
+    validations:
+      required: true
+  - type: dropdown
+    id: defect_kind
+    attributes:
+      label: Defect kind
+      options:
+        - Supported source span was not mapped
+        - Source span was mapped to the wrong field
+        - Citation or character span is incorrect
+        - Unsupported evidence was accepted instead of rejected
+        - Missing evidence did not create a question or abstention
+        - Evidence mapping changed nondeterministically
+    validations:
+      required: true
+  - type: textarea
+    id: fixture
+    attributes:
+      label: Authored-synthetic fixture
+      description: Give the repository path, its fixture_origin header or checked-in provenance-manifest entry, source kind, SHA-256, and smallest invented span. Do not attach private or source-derived text.
+    validations:
+      required: true
+  - type: textarea
+    id: expected_mapping
+    attributes:
+      label: Expected evidence mapping
+      description: Name the source span, destination field, expected citation, and expected map/reject/abstain behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: observed_mapping
+    attributes:
+      label: Observed mapping
+      description: State the actual destination/citation or rejection and why it violates the existing documented contract.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Credential-free reproduction
+      description: Include exact commands and exit codes. Disable network/providers or use fake transport.
+      render: shell
+    validations:
+      required: true
+  - type: dropdown
+    id: execution_boundary
+    attributes:
+      label: Furthest boundary exercised
+      options:
+        - Static schema or documentation
+        - Unit test with authored-synthetic fixture
+        - Local CLI with authored-synthetic fixture
+        - Local disposable storage integration
+    validations:
+      required: true
+  - type: textarea
+    id: regression
+    attributes:
+      label: Failing-then-passing regression
+      description: Name the proposed test, pre-fix failure, post-fix expectation, and hashes that bind the fixture/output.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Privacy, scope, and claim checks
+      options:
+        - label: The fixture was authored from scratch and is not redacted, paraphrased, translated, or transformed from a real/private source.
+          required: true
+        - label: No interview, SOP, customer data, private system output, identifier, credential, private URL, or local absolute path is included.
+          required: true
+        - label: No live provider or production system ran; any transport is disabled or fake.
+          required: true
+        - label: The report concerns an existing supported evidence-mapping contract, not a generic feature, deployment, or hosted-product request.
+          required: true
+        - label: I will not describe a synthetic pass as an observed case, owner review, pilot, adoption, ROI, or production evidence.
+          required: true
