@@ -16,8 +16,19 @@ implementation tasks.
 > **Current maturity: local prototype.** Repository tests exercise the
 > deterministic workflow, fixture, and public-source demo paths.
 > No external user, observed workflow outcome, or production deployment is claimed.
-> A public `v0.1.0` release remains blocked until remote CI is green and one
+> Remote CI is green. A public `v0.1.0` release remains blocked until one
 > consented, sanitized workflow is reviewed by its real owner.
+
+## Public Evidence-Mapping Intake
+
+Public reports are limited to unsupported evidence mappings that can be
+reproduced with authored-from-scratch synthetic fixtures. Read the
+[sanitized interview fixture guide](docs/SANITIZED_INTERVIEW_FIXTURES.md), then
+use the
+[bounded issue form](https://github.com/ashishki/-Workflow-to-Agent-Studio/issues/new?template=unsupported-evidence-mapping.yml).
+Do not attach a real interview, SOP, customer process, credentials, private
+system output, or a redacted derivative of one. A synthetic mapping test proves
+only the local mechanism; it is not an observed case, pilot, or owner review.
 
 Russian cofounder/demo package:
 
@@ -196,6 +207,8 @@ Primary metrics:
 - Architecture: `docs/ARCHITECTURE.md`
 - Specification: `docs/spec.md`
 - Operator guide: `docs/operator_guide.md`
+- Public fixture and unsupported-mapping intake:
+  `docs/SANITIZED_INTERVIEW_FIXTURES.md`
 - Retrieval eval: `docs/retrieval_eval.md`
 - Planning eval: `docs/plan_eval.md`
 - Original long phase draft: `docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md`
@@ -205,8 +218,10 @@ Primary metrics:
 - Completed: Phase 0 local evidence-linked MVP; Phase 11/12 public workflow
   showcase; Phase 13 workflow-to-agent framework upgrade; Phase 14 SMB AI
   Roadmap Product Layer through `T82`.
-- Active: repair the non-parsing remote CI workflow and prepare the verified
-  repository-only rename to `workflow-to-agent-studio`.
+- Completed: the non-parsing remote CI workflow was repaired and verified on
+  the current repository slug.
+- Blocked on repository settings: the repository-only rename to
+  `workflow-to-agent-studio`; the Python package and CLI names do not change.
 - Next evidence target: one consented, sanitized workflow reviewed by its real
   owner; until then the repository remains a local prototype.
 - Open commercial proof boundary: T34/T40 remain blocked until

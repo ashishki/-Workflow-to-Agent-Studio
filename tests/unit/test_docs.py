@@ -259,6 +259,41 @@ def test_readme_links_active_product_strategy_and_task_graph() -> None:
     assert "passing tests" not in readme
 
 
+def test_public_evidence_mapping_intake_is_bounded() -> None:
+    readme = Path("README.md").read_text(encoding="utf-8")
+    guide = Path("docs/SANITIZED_INTERVIEW_FIXTURES.md").read_text(encoding="utf-8")
+    form = Path(".github/ISSUE_TEMPLATE/unsupported-evidence-mapping.yml").read_text(
+        encoding="utf-8"
+    )
+    config = Path(".github/ISSUE_TEMPLATE/config.yml").read_text(encoding="utf-8")
+    normalized_guide = " ".join(guide.split()).casefold()
+
+    assert "template=unsupported-evidence-mapping.yml" in readme
+    assert "authored-from-scratch synthetic fixtures" in readme
+    for marker in (
+        "do not start with private material and redact or paraphrase it",
+        "sanitization is not a promise of anonymity",
+        "failing-then-passing deterministic regression",
+        "does not establish an observed case",
+        "opening an issue does not grant a license",
+    ):
+        assert marker in normalized_guide
+    for field_id in (
+        "revision",
+        "defect_kind",
+        "fixture",
+        "expected_mapping",
+        "observed_mapping",
+        "reproduction",
+        "execution_boundary",
+        "regression",
+        "confirmations",
+    ):
+        assert f"id: {field_id}" in form
+    assert "not redacted, paraphrased, translated, or transformed" in form
+    assert "blank_issues_enabled: false" in config
+
+
 def test_product_strategy_documents_commercial_pilot_package() -> None:
     strategy = Path("docs/product_strategy.md").read_text(encoding="utf-8")
 
