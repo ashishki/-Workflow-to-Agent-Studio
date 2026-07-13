@@ -33,9 +33,11 @@ evidence pack:
   authored-synthetic provenance.
 
 If a secret or private record is exposed, stop publication, remove it from the
-change, rotate or revoke credentials where applicable, and use the private
-security-advisory route. Deleting a later Git commit does not retract copies
-that were already fetched.
+change, rotate or revoke credentials where applicable, and follow the
+email-first private route in [SECURITY.md](../SECURITY.md). Use a GitHub private
+advisory only if the repository Security page visibly offers **Report a
+vulnerability**. Deleting a later Git commit does not retract copies already
+fetched.
 
 ## Authoring an allowed fixture
 

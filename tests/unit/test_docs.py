@@ -303,6 +303,8 @@ def test_public_evidence_mapping_intake_is_bounded() -> None:
     assert "security/advisories/new" not in config
     assert "GitHub private vulnerability reporting is not assumed" in security
     assert "cannot promise a response or remediation deadline" in " ".join(security.split())
+    assert "email-first private route" in guide
+    assert "private security-advisory route" not in guide
     assert "Real-world corpus fixtures:" not in readme
     assert "Authored-synthetic corpus fixtures:" in readme
     assert fixture_manifest["schema_version"] == "workflow-studio-fixture-provenance-v1"
