@@ -44,8 +44,9 @@ that were already fetched.
 2. Write a new fictional source using generic actors such as `operator` and
    `reviewer`, generic systems such as `queue` and `record system`, and invented
    IDs that cannot map to runtime data.
-3. Add a provenance header with `fixture_origin: authored-synthetic`, a stable
-   fixture ID, the supported source kind, and the schema or contract revision.
+3. Add a provenance header, or a checked-in manifest entry bound to the file's
+   SHA-256, with `fixture_origin: authored-synthetic`, a stable fixture ID, the
+   supported source kind, and the schema or contract revision.
 4. State the exact expected source span and destination field. Include an
    explicit no-map or missing-question case so the test does not reward only
    extraction.
@@ -58,9 +59,13 @@ that were already fetched.
 8. Record the exact repository revision, command, exit code, fixture hash, and
    tested limitation.
 
-The existing files under `tests/fixtures/sources/` are small repository-owned
-fixtures for local mechanics. They are not customer records, observed workflow
-evidence, or proof that a mapping generalizes to a real interview.
+The existing files under `tests/fixtures/sources/` are small repository-authored
+fixtures for local mechanics. Their paths, SHA-256 values, supported source
+kinds, and `fixture_origin: authored-synthetic` declarations are bound in
+`tests/fixtures/sources/manifest.json`. This attests the repository's declared
+origin and detects byte drift; it cannot independently prove non-derivation.
+These files are not presented as customer records, observed workflow evidence,
+or proof that a mapping generalizes to a real interview.
 
 ## Unsupported evidence-mapping report
 
@@ -69,7 +74,8 @@ source span is missing, mapped to the wrong blueprint field, cited
 incorrectly, or accepted when it should abstain. A complete report provides:
 
 - the full 40-character repository revision;
-- a repository path to an authored-synthetic fixture and its SHA-256;
+- a repository path to an authored-synthetic fixture, its SHA-256, and either
+  its provenance header or checked-in manifest entry;
 - source kind, exact synthetic span, expected destination field, and observed
   destination or abstention;
 - a credential-free command and exit code;

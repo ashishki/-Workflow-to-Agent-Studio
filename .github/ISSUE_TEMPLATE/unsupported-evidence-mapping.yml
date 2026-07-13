@@ -30,7 +30,7 @@ body:
     id: fixture
     attributes:
       label: Authored-synthetic fixture
-      description: Give the repository path, fixture_origin header, source kind, SHA-256, and smallest invented span. Do not attach private or source-derived text.
+      description: Give the repository path, its fixture_origin header or checked-in provenance-manifest entry, source kind, SHA-256, and smallest invented span. Do not attach private or source-derived text.
     validations:
       required: true
   - type: textarea

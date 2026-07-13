@@ -1,3 +1,5 @@
+import hashlib
+import json
 from pathlib import Path
 
 from workflow_agent_studio.blueprint.prompts import (
@@ -267,6 +269,9 @@ def test_public_evidence_mapping_intake_is_bounded() -> None:
     )
     config = Path(".github/ISSUE_TEMPLATE/config.yml").read_text(encoding="utf-8")
     security = Path("SECURITY.md").read_text(encoding="utf-8")
+    fixture_manifest = json.loads(
+        Path("tests/fixtures/sources/manifest.json").read_text(encoding="utf-8")
+    )
     normalized_guide = " ".join(guide.split()).casefold()
 
     assert "template=unsupported-evidence-mapping.yml" in readme
@@ -292,11 +297,29 @@ def test_public_evidence_mapping_intake_is_bounded() -> None:
     ):
         assert f"id: {field_id}" in form
     assert "not redacted, paraphrased, translated, or transformed" in form
+    assert "provenance-manifest entry" in form
     assert "blank_issues_enabled: false" in config
     assert "security/policy" in config
     assert "security/advisories/new" not in config
     assert "GitHub private vulnerability reporting is not assumed" in security
     assert "cannot promise a response or remediation deadline" in " ".join(security.split())
+    assert "Real-world corpus fixtures:" not in readme
+    assert "Authored-synthetic corpus fixtures:" in readme
+    assert fixture_manifest["schema_version"] == "workflow-studio-fixture-provenance-v1"
+    fixtures = fixture_manifest["fixtures"]
+    assert len(fixtures) == 5
+    assert {entry["path"] for entry in fixtures} == {
+        str(path.as_posix())
+        for path in Path("tests/fixtures/sources").iterdir()
+        if path.is_file() and path.name != "manifest.json"
+    }
+    for entry in fixtures:
+        fixture_path = Path(entry["path"])
+        assert entry["fixture_origin"] == "authored-synthetic"
+        assert entry["fixture_id"].startswith("workflow-studio-synthetic-")
+        assert entry["source_kind"] in {"transcript", "notes", "form", "integration", "sop"}
+        assert entry["contract_revision"] == "workflow-studio-source-v1"
+        assert entry["sha256"] == hashlib.sha256(fixture_path.read_bytes()).hexdigest()
 
 
 def test_product_strategy_documents_commercial_pilot_package() -> None:
