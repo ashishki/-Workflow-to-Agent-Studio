@@ -266,6 +266,7 @@ def test_public_evidence_mapping_intake_is_bounded() -> None:
         encoding="utf-8"
     )
     config = Path(".github/ISSUE_TEMPLATE/config.yml").read_text(encoding="utf-8")
+    security = Path("SECURITY.md").read_text(encoding="utf-8")
     normalized_guide = " ".join(guide.split()).casefold()
 
     assert "template=unsupported-evidence-mapping.yml" in readme
@@ -292,6 +293,10 @@ def test_public_evidence_mapping_intake_is_bounded() -> None:
         assert f"id: {field_id}" in form
     assert "not redacted, paraphrased, translated, or transformed" in form
     assert "blank_issues_enabled: false" in config
+    assert "security/policy" in config
+    assert "security/advisories/new" not in config
+    assert "GitHub private vulnerability reporting is not assumed" in security
+    assert "cannot promise a response or remediation deadline" in " ".join(security.split())
 
 
 def test_product_strategy_documents_commercial_pilot_package() -> None:

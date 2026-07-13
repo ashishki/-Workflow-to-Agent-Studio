@@ -29,6 +29,9 @@ use the
 Do not attach a real interview, SOP, customer process, credentials, private
 system output, or a redacted derivative of one. A synthetic mapping test proves
 only the local mechanism; it is not an observed case, pilot, or owner review.
+Suspected vulnerabilities or source-data exposure follow
+[SECURITY.md](SECURITY.md), not the public form.
+
 
 Russian cofounder/demo package:
 
