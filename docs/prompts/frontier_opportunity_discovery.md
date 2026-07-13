@@ -1,6 +1,6 @@
 # Frontier Opportunity Discovery Prompt Contract
 
-Status: prompt contract; not wired into runtime yet  
+Status: prompt contract; not wired into runtime yet
 Purpose: let a frontier model propose additional roadmap opportunity candidates
 after deterministic workflow extraction and pattern matching.
 

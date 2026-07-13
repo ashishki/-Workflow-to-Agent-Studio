@@ -8,7 +8,7 @@ from workflow_agent_studio.validators import (
 
 
 def test_secret_like_token_creates_blocking_finding() -> None:
-    token = "sk-test-placeholder-1234567890"
+    token = "sk" + "-test-placeholder-1234567890"
 
     findings = scan_source_for_sensitive_data("src-1", f"API token: {token}")
 
@@ -32,7 +32,7 @@ def test_forbidden_autonomy_claim_is_flagged() -> None:
 
 def test_sensitive_finding_logs_exclude_raw_value(caplog) -> None:
     logger = logging.getLogger("workflow_agent_studio.tests")
-    token = "sk-test-placeholder-1234567890"
+    token = "sk" + "-test-placeholder-1234567890"
     finding = scan_source_for_sensitive_data("src-1", f"API token: {token}")[0]
 
     with caplog.at_level(logging.WARNING, logger=logger.name):

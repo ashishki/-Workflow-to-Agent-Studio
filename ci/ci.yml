@@ -8,10 +8,18 @@ on:
   pull_request:
     branches: ["master", "main"]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Tests + Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     # -------------------------------------------------------------------------
     # SERVICES
@@ -49,9 +57,11 @@ jobs:
     steps:
       # -----------------------------------------------------------------------
       # CHECKOUT
-      # Standard checkout. Always use actions/checkout@v4 or later.
+      # Standard checkout. Keep the pinned SHA and version comment current.
       # -----------------------------------------------------------------------
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
 
       # -----------------------------------------------------------------------
       # PYTHON SETUP
@@ -60,7 +70,7 @@ jobs:
       # which significantly speeds up CI on cache hits.
       # -----------------------------------------------------------------------
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: "{{PYTHON_VERSION}}"
           cache: "pip"
@@ -124,8 +134,8 @@ jobs:
           # ---- Placeholder test values (not real secrets) ----
           # Replace with real secret references for values that must be secret:
           # SOME_API_KEY: ${{ secrets.SOME_API_KEY }}
-          {{ENV_VAR_1}}: "{{TEST_VALUE_1}}"
-          {{ENV_VAR_2}}: "{{TEST_VALUE_2}}"
+          "{{ENV_VAR_1}}": "{{TEST_VALUE_1}}"
+          "{{ENV_VAR_2}}": "{{TEST_VALUE_2}}"
           # ---- Uncomment if using services above ----
           # DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
           # REDIS_URL: redis://localhost:6379/0

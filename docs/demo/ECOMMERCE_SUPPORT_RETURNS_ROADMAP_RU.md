@@ -2,8 +2,8 @@
 
 ## Клиентский пример: e-commerce support, order status и returns
 
-Статус: демонстрационный customer-facing отчет  
-Тип: пакет решений по AI-внедрению  
+Статус: демонстрационный customer-facing отчет
+Тип: пакет решений по AI-внедрению
 Граница: synthetic demo; не доказательство спроса, не фиксированная смета и не
 обещание ROI.
 
@@ -81,7 +81,7 @@ flowchart LR
 | Frontier candidates | damaged-item evidence checklist, owner interruption dashboard | review queue |
 | Verifier | blocks automatic refunds and unsupported policy claims | deterministic gate |
 
-**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**
 Для e-commerce это помогает быстро увидеть типовые связки, которые уже часто
 автоматизируют: support inbox, order lookup, таблицы отчетности, LLM drafts и
 approval queue. Это не доказывает ROI, но помогает выбрать реалистичную

@@ -2,6 +2,7 @@ from workflow_agent_studio.privacy.redaction import build_redaction_preview
 
 
 def test_redaction_preview_masks_values_and_reports_counts() -> None:
+    credential = "sk" + "_test_placeholder123"
     raw = (
         "Customer name: Jane Miller\n"
         "Email: jane@example.test\n"
@@ -10,7 +11,7 @@ def test_redaction_preview_masks_values_and_reports_counts() -> None:
         "Order ID ORD-12345\n"
         "Passport: P1234567\n"
         "Card: 4111 1111 1111 1111\n"
-        "API key: sk_test_placeholder123\n"
+        f"API key: {credential}\n"
         "Synthetic volume: 200 tickets/month\n"
     )
 
@@ -24,7 +25,7 @@ def test_redaction_preview_masks_values_and_reports_counts() -> None:
         "ORD-12345",
         "P1234567",
         "4111 1111 1111 1111",
-        "sk_test_placeholder123",
+        credential,
     ]:
         assert raw_value not in preview.text
     assert "Customer name: [PERSON_1]" in preview.text

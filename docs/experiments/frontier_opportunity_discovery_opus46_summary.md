@@ -1,9 +1,9 @@
 # Frontier Opportunity Discovery Run
 
-Status: public-source/demo frontier run; not buyer proof  
-Date: 2026-06-02  
-Model: `claude-opus-4-6`  
-Prompt version: `frontier-opportunity-discovery-v1`  
+Status: public-source/demo frontier run; not buyer proof
+Date: 2026-06-02
+Model: `claude-opus-4-6`
+Prompt version: `frontier-opportunity-discovery-v1`
 Runtime output: `.data/frontier/frontier_opportunity_candidates.json` (ignored)
 
 ## Inputs

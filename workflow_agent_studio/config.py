@@ -6,8 +6,9 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-CONNECTOR_TOKEN_PREFIX = "WORKFLOW_STUDIO_CONNECTOR_"
-CONNECTOR_TOKEN_SUFFIX = "_TOKEN"
+# These are environment-variable name fragments, never credential values.
+CONNECTOR_TOKEN_PREFIX = "WORKFLOW_STUDIO_CONNECTOR_"  # nosec B105
+CONNECTOR_TOKEN_SUFFIX = "_TOKEN"  # nosec B105
 
 
 @dataclass(frozen=True)

@@ -229,7 +229,9 @@ def _call_anthropic(
         method="POST",
     )
     try:
-        with urllib.request.urlopen(request, timeout=120) as response:
+        # The Request URL is the module-owned, fixed HTTPS Anthropic endpoint;
+        # callers cannot supply a file or custom scheme.
+        with urllib.request.urlopen(request, timeout=120) as response:  # nosec B310
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")

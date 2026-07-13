@@ -2,8 +2,8 @@
 
 ## Клиентский пример: салон красоты, запись и reminders
 
-Статус: демонстрационный customer-facing отчет  
-Тип: пакет решений по AI-внедрению  
+Статус: демонстрационный customer-facing отчет
+Тип: пакет решений по AI-внедрению
 Граница: synthetic demo; не доказательство спроса и не фиксированная смета.
 Расчет ниже - planning estimate для разговора с buyer/cofounder.
 
@@ -79,7 +79,7 @@ flowchart LR
 | Frontier candidates | rebooking queue, source analytics, cancellation-risk list | review queue only |
 | Verifier | blocks medical advice, penalties and unapproved live writes | deterministic boundary |
 
-**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**
 Для салона это не “мы ставим готовый шаблон”, а быстрый способ увидеть, какие
 интеграции уже часто собирают на практике: календарь, сообщения, reminders,
 таблицы и отчеты. Это помогает быстрее выбрать реалистичный pilot scope.

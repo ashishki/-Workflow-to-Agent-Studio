@@ -1,0 +1,10 @@
+# Historical synthetic credential-shaped values used by redaction tests.
+# Each allow entry is commit-, path-, rule-, and line-specific; future matches
+# remain visible.
+506575d1ad4c4dd33e427fd9d7a9b73ad8ef9461:tests/unit/test_redaction_preview.py:stripe-access-token:13
+506575d1ad4c4dd33e427fd9d7a9b73ad8ef9461:tests/unit/test_redaction_preview.py:stripe-access-token:27
+84d0e532b1b777d8086aae55d6d307481154c268:tests/unit/test_privacy_classifier.py:stripe-access-token:18
+84d0e532b1b777d8086aae55d6d307481154c268:tests/unit/test_privacy_classifier.py:stripe-access-token:44
+2e81d269019ae7fe82ef389d5da7e6d300940681:tests/unit/test_sanitization.py:generic-api-key:10
+b4a92373a8a89341fd9eebdd332aea087bdd4b17:tests/unit/test_safety_guards.py:generic-api-key:11
+b4a92373a8a89341fd9eebdd332aea087bdd4b17:tests/unit/test_safety_guards.py:generic-api-key:35
