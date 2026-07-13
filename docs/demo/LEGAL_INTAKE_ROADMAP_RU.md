@@ -2,8 +2,8 @@
 
 ## Клиентский пример: legal / immigration intake
 
-Статус: демонстрационный customer-facing отчет  
-Тип: пакет решений по AI-внедрению  
+Статус: демонстрационный customer-facing отчет
+Тип: пакет решений по AI-внедрению
 Граница: synthetic demo; не legal advice, не compliance certification, не fixed
 quote.
 
@@ -78,7 +78,7 @@ flowchart LR
 | Frontier candidates | missing-doc prioritization, internal case brief, status FAQ | human review required |
 | Verifier | blocks legal advice, eligibility decisions and unrestricted cloud | deterministic gate |
 
-**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**
 Для legal/intake это полезно только как research layer: посмотреть, какие
 административные связки обычно автоматизируют вокруг документов, drive, таблиц и
 статусов. Это не значит, что можно копировать шаблон или отправлять restricted

@@ -245,12 +245,18 @@ def test_active_ai_roadmap_cover_strategy_and_engineering() -> None:
 
 def test_readme_links_active_product_strategy_and_task_graph() -> None:
     readme = Path("README.md").read_text(encoding="utf-8")
+    normalized = " ".join(readme.split())
 
     assert "docs/product_strategy.md" in readme
     assert "docs/product_strategy.md#commercial-pilot-package" in readme
     assert "docs/tasks.md" in readme
     assert "docs/archive/AI_PRODUCT_DEVELOPMENT_PHASES_DRAFT.md" in readme
-    assert "Verified local baseline: 127 passing tests" in readme
+    assert (
+        "No external user, observed workflow outcome, or production deployment is claimed"
+        in normalized
+    )
+    assert "This repository currently has no open-source license" in normalized
+    assert "passing tests" not in readme
 
 
 def test_product_strategy_documents_commercial_pilot_package() -> None:

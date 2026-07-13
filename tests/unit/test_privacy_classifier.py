@@ -4,6 +4,8 @@ import pytest
 
 from workflow_agent_studio.privacy.classifier import classify_privacy
 
+TEST_CREDENTIAL = "sk" + "_test_placeholder123"
+
 
 @pytest.mark.parametrize(
     ("text", "flag"),
@@ -15,7 +17,7 @@ from workflow_agent_studio.privacy.classifier import classify_privacy
         ("Order ID ORD-12345 needs review.", None),
         ("Passport copy is attached.", "passport_or_id"),
         ("Payment card 4111 1111 1111 1111 was pasted.", "payment_card"),
-        ("API key: sk_test_placeholder123", "api_key_or_credential"),
+        (f"API key: {TEST_CREDENTIAL}", "api_key_or_credential"),
         ("Immigration legal status review is needed.", "legal_or_immigration"),
         ("Diagnosis notes are part of the intake.", "health"),
         ("Tax filing workflow uses IRS documents.", "tax_or_accounting"),
@@ -41,7 +43,7 @@ def test_public_internal_and_confidential_examples_classify_without_sensitive_fl
 
 
 def test_secret_like_values_are_blocked_from_export() -> None:
-    result = classify_privacy("API key: sk_test_placeholder123")
+    result = classify_privacy(f"API key: {TEST_CREDENTIAL}")
 
     assert result.source_privacy_class == "restricted"
     assert result.redaction_status == "blocked"

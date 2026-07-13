@@ -182,36 +182,36 @@ Frontier candidate не может стать approved recommendation, если:
 
 Защиты:
 
-1. Typed schemas  
+1. Typed schemas
    Все важные outputs проходят Pydantic validation.
 
-2. Evidence-or-assumption rule  
+2. Evidence-or-assumption rule
    Рекомендация должна иметь evidence или explicit assumption.
 
-3. Deterministic validators  
+3. Deterministic validators
    Privacy gates, forbidden claims, path constraints, single-point cost checks и
    approval gates не делегируются LLM.
 
-4. Source hashes  
+4. Source hashes
    Roadmap receipt хранит source hashes.
 
-5. Model metadata  
+5. Model metadata
    Receipt хранит provider/model/prompt/generation mode.
 
-6. Versioned model references  
+6. Versioned model references
    Recommendation trace хранит pattern/cost/scoring/privacy model versions.
 
-7. Do-not-automate list  
+7. Do-not-automate list
    Отдельно фиксирует зоны, где automation unsafe.
 
-8. Agent expectation check  
+8. Agent expectation check
    Отдельно фиксирует realistic autonomy level, human-owned responsibilities,
    workflow-specific myths и proof gates before rollout.
 
-9. Human review  
+9. Human review
    Approved handoff невозможен без approved reviewer checklist.
 
-10. Eval suite  
+10. Eval suite
    Tests ловят forbidden claims, unsafe privacy, missing evidence/assumptions,
    single-point costs и broken traces.
 

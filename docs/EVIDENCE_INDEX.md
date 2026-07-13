@@ -2,6 +2,7 @@
 
 Status: active
 Date: 2026-05-19
+Last verified: 2026-07-13
 
 This file indexes proof artifacts. It does not replace the artifacts themselves.
 
@@ -18,6 +19,7 @@ This file indexes proof artifacts. It does not replace the artifacts themselves.
 | E-009 | 2026-05-19 | `docs/archive/TASK_GRAPH_V1_T01_T20.md#t20-pilot-proof-metric-measurement` | Adoption proof metric | Pilot measurement target | Current |
 | E-010 | 2026-05-19 | `docs/IMPLEMENTATION_REFERENCE_MAP.md` | RAG implementation reference | Reference map for retrieval/eval patterns | Current |
 | E-011 | 2026-05-19 | `docs/tasks.md#t21-transcript-ingestion` | Transcript ingestion | Next evidence target | Planned |
+| E-012 | 2026-07-13 | `docs/evidence/WORKFLOW_P0_RENAME_PREP_2026-07-13.md` | CI truth repair and rename inventory | Reproducible local verification with explicit remote blockers | Current |
 
 ## Evidence Rules
 

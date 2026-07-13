@@ -2,8 +2,8 @@
 
 ## Клиентский пример: incident coordination и runbook assistant
 
-Статус: public-source customer-facing demo  
-Тип: пакет решений по AI-внедрению  
+Статус: public-source customer-facing demo
+Тип: пакет решений по AI-внедрению
 Граница: public incident workflow notes; не production readiness proof и не SRE
 compliance certification.
 
@@ -79,7 +79,7 @@ flowchart LR
 | Frontier candidates | update-draft assistant, runbook gap detector | review queue |
 | Verifier | blocks paging, severity changes, autonomous incident actions | deterministic gate |
 
-**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**
 Для incident workflow эта опция нужна не для автозапуска действий, а чтобы
 быстро увидеть типовые безопасные integration patterns: уведомления, draft
 updates, webhook ingestion, runbook lookup, handoff в Slack. Все actions остаются

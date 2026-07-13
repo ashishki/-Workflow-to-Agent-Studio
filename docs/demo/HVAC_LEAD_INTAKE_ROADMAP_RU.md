@@ -2,8 +2,8 @@
 
 ## Клиентский пример: HVAC lead intake и service-area qualification
 
-Статус: public-source customer-facing demo  
-Тип: пакет решений по AI-внедрению  
+Статус: public-source customer-facing demo
+Тип: пакет решений по AI-внедрению
 Граница: public workflow notes; не доказательство спроса и не evidence из
 коммерческого пилота.
 
@@ -78,7 +78,7 @@ flowchart LR
 | Frontier candidates | emergency checklist, service-area exception queue | review queue |
 | Verifier | blocks diagnosis, pricing guarantee and dispatch without human | deterministic gate |
 
-**Отдельная опция для клиента: анализ публичных n8n-паттернов.**  
+**Отдельная опция для клиента: анализ публичных n8n-паттернов.**
 Для HVAC это быстрый способ собрать список реалистичных integration options:
 формы, webhook, CRM, alerts для диспетчера, таблицы отчетности. Мы не копируем
 шаблоны, а используем их как reference для дорожной карты и оценки интеграций.

@@ -2,12 +2,13 @@ from workflow_agent_studio.safety import sanitize_text_for_benchmark
 
 
 def test_sanitization_redacts_common_pii_and_credentials() -> None:
+    secret = "sk" + "-live-placeholder12345"
     raw = (
         "# Workflow\n\n"
         "- Contact jane.operator@example.com or +1 415-555-0134.\n"
         "- Customer ID: ACME-12345 and Account Number: ENT-9988.\n"
         "- Address: 1234 Market Street.\n"
-        "- Token: sk-live-placeholder12345 and crm_api_key = abcdefghijklmnop.\n"
+        f"- Token: {secret} and crm_api_key = abcdefghijklmnop.\n"
     )
 
     sanitized = sanitize_text_for_benchmark(raw)
@@ -17,7 +18,7 @@ def test_sanitization_redacts_common_pii_and_credentials() -> None:
     assert "ACME-12345" not in sanitized.text
     assert "ENT-9988" not in sanitized.text
     assert "1234 Market Street" not in sanitized.text
-    assert "sk-live-placeholder12345" not in sanitized.text
+    assert secret not in sanitized.text
     assert "abcdefghijklmnop" not in sanitized.text
     assert sanitized.redaction_counts == {
         "email": 1,

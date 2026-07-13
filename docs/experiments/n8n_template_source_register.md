@@ -1,7 +1,7 @@
 # Public n8n Template Source Register
 
-Status: public-source research register; not buyer proof  
-Captured at: 2026-06-02  
+Status: public-source research register; not buyer proof
+Captured at: 2026-06-02
 Purpose: identify public n8n template corpora that can be mined for workflow
 signals and pattern candidates.
 
