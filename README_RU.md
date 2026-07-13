@@ -1,8 +1,14 @@
-# AI Roadmap Studio
+# workflow-to-agent-studio
 
-Локальный продукт для компаний, которые хотят понять, **нужно ли им внедрять AI,
+Локальный прототип для разбора того, **нужно ли внедрять AI,
 где именно начинать, где AI опасен, сколько это может стоить и какой следующий
 шаг безопасен**.
+
+> **Текущая зрелость: local prototype.** Tests проверяют deterministic mechanics,
+> synthetic fixtures и сохранённые public-source demos. Внешних пользователей,
+> наблюдаемого результата на workflow реального владельца, production deployment
+> и опубликованного release пока нет. `v0.1.0` заблокирован до green remote CI и
+> одного consented, sanitized observed case.
 
 Это не агент, который сразу подключается к CRM и начинает что-то делать. Это
 предварительный слой перед внедрением: он превращает описание рабочих процессов
@@ -124,9 +130,9 @@ flowchart LR
 - NetBox issue triage;
 - GitLab incident workflow.
 
-Они доказывают другой слой: продукт работает не только на выдуманных fixtures,
-но и на сохраненных публичных описаниях реальных workflows. Это все еще не buyer
-proof, но это сильный technical proof для demo.
+Они проверяют механику не только на synthetic fixtures, но и на сохранённых
+публичных описаниях workflows. Это не buyer proof, не observed use и не
+доказательство полезности для команды.
 
 ```mermaid
 flowchart LR
@@ -222,10 +228,11 @@ flowchart TB
 
 ## Доказательства рабочести
 
-Текущий engineering proof:
+Текущая локально проверяемая поверхность:
 
-- полный test suite: `365 passed`;
-- ruff lint и format clean;
+- полный test suite запускается командой ниже; статический test count намеренно
+  не публикуется, потому что он быстро устаревает;
+- ruff lint и format входят в authoritative verification commands;
 - 3 synthetic demo domains:
   - hair salon;
   - e-commerce returns/support;
@@ -249,13 +256,9 @@ flowchart TB
 Команда для проверки:
 
 ```bash
-.venv/bin/python -m pytest -q
-```
-
-Ожидаемый результат:
-
-```text
-365 passed
+.venv/bin/ruff check workflow_agent_studio tests/ scripts/
+.venv/bin/ruff format --check workflow_agent_studio tests/ scripts/
+.venv/bin/python -m pytest tests/ -q
 ```
 
 ## Демо в терминале
@@ -292,9 +295,10 @@ bash scripts/demo_roadmap_ru.sh
 - hallucination risk снижается через schemas, evidence-or-assumption rule,
   source hashes, model metadata, evals и human review.
 
-## Как это можно продавать
+## Непроверенная гипотеза коммерческого позиционирования
 
-Не как “мы поставим вам AI agent”.
+Этот раздел описывает будущую гипотезу, а не подтверждённый спрос или offer.
+Позиционировать стоит не как “мы поставим вам AI agent”.
 
 Лучше:
 
@@ -303,7 +307,7 @@ bash scripts/demo_roadmap_ru.sh
 > какие данные, privacy mode, бюджетный диапазон, этапы внедрения и human review
 > gates.
 
-Потенциальный paid package:
+Гипотеза потенциального paid package:
 
 - 3-5 workflow компании;
 - короткий intake;
@@ -313,7 +317,7 @@ bash scripts/demo_roadmap_ru.sh
 - do-not-automate список;
 - implementation handoff для первой инициативы.
 
-## Кому это может быть нужно
+## Непроверенные ICP hypotheses
 
 Первичные ICP:
 
@@ -328,10 +332,18 @@ bash scripts/demo_roadmap_ru.sh
 
 Честная граница:
 
-- техническая состоятельность MVP доказана локальными tests/evals;
+- локальная механика prototype проверяется tests/evals;
 - commercial demand еще нужно доказать разговорами и paid pilots;
 - demo fixtures не являются доказательством спроса;
 - реальные commercial claims должны опираться на пилот с настоящим workflow.
+
+## Роль в портфолио и граница reuse
+
+Это самостоятельный secondary workflow-discovery tool, а не flagship, agent
+runtime или dependency Eval Ground Truth Lab. Репозиторий публичен для
+инспекции, но сейчас не содержит open-source license. Разрешение копировать,
+изменять или распространять код не предоставлено; внешний reuse и широкий
+contribution surface требуют отдельного license/dependency review.
 
 ## Следующий правильный шаг
 

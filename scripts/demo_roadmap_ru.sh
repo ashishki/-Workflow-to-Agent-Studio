@@ -98,7 +98,7 @@ for item in highlights:
     print(f"- {item}: {'present' if item in text else 'missing'}")
 PY
 
-section "5. Быстрая proof-команда"
+section "5. Быстрая verification-команда"
 cat <<CMD
 $PYTHON_BIN -m pytest \\
   tests/integration/test_roadmap_generation.py \\
@@ -136,5 +136,5 @@ PUBLIC_RESULT="$(
 )"
 ok "Public-source roadmap generated"
 printf '%s\n' "$PUBLIC_RESULT"
-muted "Важно: public-source demo доказывает работу на публичном workflow, но не buyer demand."
+muted "Важно: public-source demo проверяет локальный кодовый путь на сохранённом публичном описании; это не observed use и не buyer demand."
 ok "Demo complete"

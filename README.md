@@ -1,6 +1,6 @@
-# Workflow-to-Agent Studio
+# workflow-to-agent-studio
 
-Workflow-to-Agent Studio is a local-first framework for converting workflow
+Workflow-to-Agent Studio is a local-first workflow-discovery tool for converting workflow
 evidence into bounded, reviewable agent system blueprints. It is for the design
 step before implementation: understanding the workflow, deciding which parts can
 be deterministic, where LLMs or tools may help, what needs human approval, and
@@ -13,11 +13,11 @@ readiness decisions, candidate agent designs, deterministic and LLM-owned step
 boundaries, approval gates, risks, eval cases, observability needs, and
 implementation tasks.
 
-Status: active framework candidate with the Phase 14 SMB AI Roadmap Product
-Layer completed through the current task graph. The local evidence-linked MVP,
-public workflow showcase, design candidate portfolio, Playbook export, roadmap
-assembly, Markdown export, CLI command, eval suite, reviewer checklist, and
-approved handoff export are built.
+> **Current maturity: local prototype.** Repository tests exercise the
+> deterministic workflow, fixture, and public-source demo paths.
+> No external user, observed workflow outcome, or production deployment is claimed.
+> A public `v0.1.0` release remains blocked until remote CI is green and one
+> consented, sanitized workflow is reviewed by its real owner.
 
 Russian cofounder/demo package:
 
@@ -41,6 +41,8 @@ python3.12 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements-dev.txt
 python -m pip install -e .
+ruff check workflow_agent_studio tests/ scripts/
+ruff format --check workflow_agent_studio tests/ scripts/
 python -m pytest tests/ -q
 ```
 
@@ -89,7 +91,7 @@ bash scripts/demo_roadmap_ru.sh
 
 ## What This Produces
 
-The current framework produces evidence-linked workflow-to-agent design
+The current tool produces evidence-linked workflow-to-agent design
 artifacts:
 
 - workflow maps with actors, systems, data fields, decisions, and exceptions;
@@ -203,15 +205,27 @@ Primary metrics:
 - Completed: Phase 0 local evidence-linked MVP; Phase 11/12 public workflow
   showcase; Phase 13 workflow-to-agent framework upgrade; Phase 14 SMB AI
   Roadmap Product Layer through `T82`.
-- Active: no remaining tasks are listed after `T82` in `docs/tasks.md`.
-- Next task: waiting for the next task graph or human direction.
+- Active: repair the non-parsing remote CI workflow and prepare the verified
+  repository-only rename to `workflow-to-agent-studio`.
+- Next evidence target: one consented, sanitized workflow reviewed by its real
+  owner; until then the repository remains a local prototype.
 - Open commercial proof boundary: T34/T40 remain blocked until
   human-reviewed real workflow data is recorded in `docs/pilot_measurement.md`.
-- Latest full baseline after public-source roadmap demo package: 350 passing tests, 0 skipped, 0 failed.
-- Documentation prep check: `.venv/bin/python -m pytest tests/unit/test_docs.py -q`
-  passed with 24 tests.
-- Historical checkpoint: Verified local baseline: 127 passing tests before the
-  later public-proof phases.
+- Authoritative verification is the current clean-checkout command output, not
+  a static test count in this README. Run the quickstart checks above and review
+  `docs/evidence/WORKFLOW_P0_RENAME_PREP_2026-07-13.md` for the dated P0 result.
+
+## Portfolio Role And Reuse Boundary
+
+This is a standalone workflow-discovery tool in the secondary Workflow and
+Adoption Tools category. It is not the portfolio flagship, an agent runtime, or
+a dependency of Eval Ground Truth Lab. Its evaluated surface is limited to
+local blueprint generation and review mechanics.
+
+This repository currently has no open-source license. Public visibility permits
+inspection, but does not grant permission to copy, modify, or redistribute the
+code. External reuse and a broad contribution surface remain out of scope unless
+a separate license and dependency review is completed.
 
 ## Development Loop
 

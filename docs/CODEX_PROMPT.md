@@ -1,8 +1,8 @@
 # CODEX_PROMPT.md
 
-Version: 2.0
-Date: 2026-06-01
-Phase: 14
+Version: 2.1
+Date: 2026-07-13
+Phase: portfolio truth and CI repair
 
 This file is the compact implementation-session state. It should stay short. Completed V1 history is archived at `docs/archive/CODEX_PROMPT_V1_T01_T20_COMPLETE.md`.
 
@@ -12,14 +12,23 @@ Execution policy: continue the Codex-only loop until blocked, all active tasks a
 
 ## Current State
 
-- Current phase: Phase 16 - Client Report V2 Commercialization
-- Next task: implement report v2 schemas/renderers/evals so the six-report v2 pack can be generated from structured data instead of hand-authored Markdown
-- Verified baseline: Russian cofounder-friendly six-report v2 pack baseline is 364 passing tests, 0 skipped, 0 failed
-- Ruff: `ruff check` and `ruff format --check` pass for the full repository after Russian cofounder-friendly report refresh
-- Last updated: 2026-06-02
-- Open findings: T34/T40 remain blocked until real pilot evidence exists; Phase 12 may use public sources for solo showcase artifacts only.
+- Current phase: repair CI and prepare the repository-only rename to
+  `workflow-to-agent-studio`.
+- Next task: obtain green remote CI on the current slug, perform the verified
+  rename, and request one consented sanitized workflow for owner review.
+- Verification source: run the commands in `README.md`; do not copy a static
+  passing-test count into this session state.
+- Last updated: 2026-07-13.
+- Open findings: remote CI is red at the unmodified source revision; T34/T40 and
+  `v0.1.0` remain blocked until real observed workflow evidence exists.
+- Portfolio role: standalone secondary workflow-discovery prototype, not the
+  flagship, an agent runtime, or an Eval Ground Truth Lab dependency.
 - Latest domain contract: `WorkflowKind` lives in `workflow_agent_studio/domain/workflow.py`.
-- Completed product baseline: public-data working product proof for 8 public workflow fixtures; Phase 0 / local evidence-linked MVP; T58 framework positioning refresh complete; T59 design candidate schema complete; T60 diverse generation flow complete; T61 Playbook export complete; T62 permission/runtime boundary pack complete; T63 framework readiness review complete; SMB AI roadmap documentation package created and indexed at `docs/AI_ROADMAP_STUDIO_INDEX.md`; T64 privacy classification schema complete; T65 recommendation card schema complete; T66 costing schema complete; T67 scoring schema complete; T68 verification schema complete; T69 roadmap report aggregate schema complete; T70 deterministic privacy classifier complete; T71 redaction preview complete; T72 privacy policy gate complete; T73 SMB pattern schema complete; T74 MVP SMB pattern pack complete; T75 pattern matching baseline complete; T76 cost engine complete; T77 priority scoring engine complete; T78 roadmap assembly service complete; T79 roadmap Markdown export complete; T80 roadmap CLI command complete; T81 roadmap eval suite complete; T82 roadmap review and handoff export complete; public-source roadmap demos added for HVAC lead intake, NetBox issue triage, and GitLab incident workflow; Russian accelerator application-review showcase report added for cofounder/customer demo; T83 public n8n pattern mining foundation complete with 8,824 parsed public n8n workflows and 4,963 deduplicated metadata candidates; T84 frontier opportunity discovery layer complete with validated Opus 4.6 demo run; cofounder/customer demo docs enriched with n8n provenance and frontier candidate sections; six-report Russian customer showcase pack added; client report v2 upgrade strategy added with phase-by-phase roadmap, role-hour model, RF/EU rate cards, infrastructure/LLM cost model, Entropy Core proof layer packaging and AI Workflow Playbook add-on packaging; all six Russian showcase reports upgraded to report-v2 decision-pack format with evidence boundaries, target architecture, agents/API/DB bill of materials, phase roadmaps, role-hour estimates, RF/EU cost estimates, risk registers, eval plans, proof layer and commercial recommendations; reports refreshed for cofounder readability with Russian headings/commercial sections, no client-facing n8n corpus counts, and n8n positioned as an optional public automation-pattern research add-on
+- Implemented local mechanics include eight saved public-source fixtures,
+  evidence-linked blueprints, candidate comparisons, permission/runtime
+  boundaries, roadmap generation, review gates, exports, and deterministic evals.
+  These artifacts prove only the exercised local paths; they do not prove user
+  value, buyer demand, implementation outcomes, or production readiness.
 
 ## Active References
 
@@ -46,35 +55,34 @@ evidence boundary, target architecture, agents/API/DB bill of materials,
 phase-by-phase implementation plan, role-hour estimates, RF/EU rate cards,
 LLM/API infrastructure cost formulas, proof layer packaging via Entropy Core,
 and AI Workflow Playbook as a repeatable delivery add-on. The six Russian demo
-reports now follow that v2 structure, including the accelerator flagship. The
-client-facing reports no longer show n8n corpus counts; n8n is framed as an
-optional public automation-pattern research add-on inside the roadmap offer.
-Next implementation work should add v2 schemas, price/rate cards, renderer
-support and evals so these reports can be generated and validated from
-structured data rather than maintained manually.
+reports are retained as local showcase artifacts, not client evidence. Further
+commercialization work stays in the backlog until the CI/rename migration is
+complete and a real workflow owner supplies consented, sanitized evidence.
 
 ## Evaluation State
 
 Last Evaluation:
 
-- Task: Agent Expectation Check And Codos Competitive Review
-- Date: 2026-06-08
-- Eval Source: `.venv/bin/python -m pytest -q`
-- Result: 365 passed; `ruff check .` and `ruff format --check .` passed
+- Task: P0 CI, security, truth, link, and rename preparation
+- Date: 2026-07-13
+- Eval Source: `docs/evidence/WORKFLOW_P0_RENAME_PREP_2026-07-13.md`
+- Result: local gates pass; the evidence packet records exact commands, scope,
+  counts, and the still-red remote boundary.
 
 ## Profile State
 
 RAG: ON
 
-- Current mode: public-source metadata mining plus frontier candidate generation
-- Next work: blocked until next task graph or human direction
-- Open retrieval findings: none
+- Current mode: saved public-source and synthetic local evaluation only
+- Next work: one consented, sanitized observed workflow case
+- Open retrieval findings: external usefulness is unverified
 
 Planning: ON
 
-- Current schema: blueprint v1 plus design-candidate-v1 plus n8n metadata candidates plus frontier opportunity candidates
-- Next work: active task graph complete through T84; roadmap reports now include agent expectation checks
-- Open planning findings: none
+- Current schema: blueprint v1 plus design-candidate-v1, roadmap, review, and
+  deterministic evaluation contracts
+- Next work: validate a before/after blueprint with the workflow's real owner
+- Open planning findings: no observed owner-review result exists
 
 Tool-Use: OFF
 
